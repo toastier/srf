@@ -1,0 +1,119 @@
+// A few custom mixins
+
+@mixin pastelize($color) {
+  color: lighten(desaturate($color, 60%),30%);
+}
+
+@mixin pastelize-background($color) {
+  background-color: lighten(desaturate($color, 60%),30%);
+}
+
+/**----- FONT-AWESOME-ICON-BEFORE
+--------------------------------*/
+
+@mixin font-awesome-icon-before () {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  text-decoration: inherit;
+  margin-right: 4px;
+}
+
+/**----- FONT-AWESOME-ICON-AFTER
+--------------------------------*/
+
+@mixin font-awesome-icon-after() {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  text-decoration: inherit;
+  margin-left: 4px;
+}
+
+@mixin spin () {
+  -webkit-animation: spin 2s infinite linear;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+
+//
+// Placeholders
+// -----------------------------------------------------
+
+@mixin duson-placeholder {
+  ::-webkit-input-placeholder {@content}
+  :-moz-placeholder           {@content}
+  ::-moz-placeholder          {@content}
+  :-ms-input-placeholder      {@content}
+}
+
+@mixin sheet-metal {
+  @include gradient-vertical($duke-whisp, lighten($duke-whisp, 5%));
+}
+
+@mixin sheet-metal-locked {
+  @include gradient-vertical(darken($duke-whisp,5%), darken($duke-whisp, 5%));
+}
+
+@mixin sheet-metal-blue {
+  @include gradient-vertical(#cadce5, lighten(#cadce5, 5%));
+}
+
+@mixin sheet-metal-green {
+  @include gradient-vertical(#d0e5da, lighten(#d0e5da, 5%));
+}
+
+@mixin sheet-metal-gold {
+  @include gradient-vertical(#e3e5ce, lighten(#e5e2cd, 5%));
+}
+
+//
+// Flexbox
+// -----------------------------------------------------
+
+@mixin flex-container () {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flex($values) {
+  -webkit-box-flex: $values;
+  -moz-box-flex:  $values;
+  -webkit-flex:  $values;
+  -ms-flex:  $values;
+  flex:  $values;
+}
+
+@mixin order($val) {
+  -webkit-box-ordinal-group: $val;
+  -moz-box-ordinal-group: $val;
+  -ms-flex-order: $val;
+  -webkit-order: $val;
+  order: $val;
+}
+
+//
+// Borders
+// -----------------------------------------------------
+
+@mixin light-rounded-border() {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+

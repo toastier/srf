@@ -1,0 +1,17 @@
+@import "duson/duke-pallete";
+// not importing the default bootstrap variables file - use our own instead
+//@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "duson/variables";
+@import "duson/duson-mixins";
+
+// Transpile bootstrap
+@import "../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Dashboard styles
+@import "duson/dashboard";
+
+// Duson styles
+@import "duson/components";
+
+//Semantic styles
+//@import "../../../../webroot/scss/semantic-styles";
