@@ -1,8 +1,8 @@
 'use strict';
 
 var gulp = require('gulp');
-var csslint = require('gulp-csslint');
-var jshint = require('gulp-jshint');
+// var csslint = require('gulp-csslint');
+// var jshint = require('gulp-jshint');
 var nodemon = require('gulp-nodemon');
 var livereload = require('gulp-livereload');
 var uglify = require('gulp-uglifyjs');
@@ -12,7 +12,7 @@ var rename = require('gulp-rename');
 var mocha = require('gulp-mocha');
 var karma = require('gulp-karma');
 
-var applicationJavaScriptFiles, 
+var applicationJavaScriptFiles,
     applicationCSSFiles,
     applicationTestFiles;
 
@@ -48,7 +48,7 @@ gulp.task('cssmin', function () {
      .pipe(concat('application.css'))
      .pipe(minifyCSS())
      .pipe(rename('application.min.css'))
-     .pipe(gulp.dest('public/dist')); 
+     .pipe(gulp.dest('public/dist'));
 });
 
 gulp.task('mochaTest', function () {
@@ -88,13 +88,13 @@ gulp.task('watch', function() {
 });
 
 // Default task(s).
-gulp.task('default', ['jshint', 'csslint','nodemon', 'watch']);
+gulp.task('default', ['nodemon', 'watch']);  //remove lint tasks
 
 // Lint task(s).
 gulp.task('lint', ['jshint', 'csslint']);
 
 // Build task(s).
-gulp.task('build', ['jshint', 'csslint', 'loadConfig', 'uglify', 'cssmin']);
+gulp.task('build', ['loadConfig', 'uglify', 'cssmin']); // remove lint
 
 // Test task.
 gulp.task('test', ['loadConfig', 'mochaTest', 'karma']);

@@ -5865,7 +5865,7 @@ div.radio-switch {
     padding-right: 8px; }
 
 .navbar-default.navbar-primary {
-  background-color: #43496c; }
+  background: #43496c; }
   .navbar-default.navbar-primary .info-text {
     line-height: 48px;
     color: #eeeeee; }
@@ -5988,7 +5988,7 @@ div.radio-switch {
     box-shadow: none;
     -webkit-box-shadow: none; }
   .sidebar > .nav > li.open > a {
-    background-color: #43496c;
+    background: #43496c;
     color: #dedfea; }
   .sidebar > .nav > li > ul.dropdown-menu {
     background-color: #30344d; }
