@@ -117,3 +117,25 @@
   border-radius: 4px;
 }
 
+//
+// Clearfix
+// -----------------------------------------------------
+//
+// CLEARFIX
+// -------------------
+
+//@mixin clearfix () {
+//  &:after {
+//    visibility: hidden;
+//    display: block;
+//    font-size: 0;
+//    content: " ";
+//    clear: both;
+//    height: 0;
+//  }
+//  display: inline-block;
+//}
+/* start commented backslash hack \*/
+//* html .clearfix { height: 1%; }
+//.clearfix { display: block; }
+/* close commented backslash hack */

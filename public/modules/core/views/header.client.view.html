@@ -1,50 +1,75 @@
-<div class="container" data-ng-controller="HeaderController">
-	<div class="navbar-header">
-		<button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-		<a href="/#!/" class="navbar-brand">Faculty Recruitment System</a>
+<!--ORIGINAL HEADER THAT COMES WITH BUILD
+<div class="container" data-ng-controller="HeaderController">-->
+	<!--<div class="navbar-header">-->
+		<!--<button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()">-->
+			<!--<span class="sr-only">Toggle navigation</span>-->
+			<!--<span class="icon-bar"></span>-->
+			<!--<span class="icon-bar"></span>-->
+			<!--<span class="icon-bar"></span>-->
+		<!--</button>-->
+		<!--<a href="/#!/" class="navbar-brand">Faculty Recruitment System</a>-->
+	<!--</div>-->
+	<!--<nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">-->
+		<!--<ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">-->
+			<!--<li data-ng-repeat="item in menu.items" data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.uiRoute}}" ng-class="{active: $uiRoute}">-->
+				<!--<a href="/#!/{{item.link}}">{{item.title}}</a>-->
+			<!--</li>-->
+		<!--</ul>-->
+		<!--<ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">-->
+			<!--<li ui-route="/signup" ng-class="{active: $uiRoute}">-->
+				<!--<a href="/#!/signup">Signup</a>-->
+			<!--</li>-->
+			<!--<li class="divider-vertical"></li>-->
+			<!--<li ui-route="/signin" ng-class="{active: $uiRoute}">-->
+				<!--<a href="/#!/signin">Signin</a>-->
+			<!--</li>-->
+		<!--</ul>-->
+		<!--<ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">-->
+			<!--<li class="dropdown">-->
+				<!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
+                    <!--{{authentication.user.displayName}} <b class="caret"></b>-->
+                <!--</a>-->
+				<!--<ul class="dropdown-menu">-->
+					<!--<li>-->
+						<!--<a href="/#!/settings/profile">Edit Profile</a>-->
+					<!--</li>-->
+					<!--<li>-->
+						<!--<a href="/#!/settings/accounts">Manage Social Accounts</a>-->
+					<!--</li>-->
+					<!--<li data-ng-show="authentication.user.provider === 'local'">-->
+						<!--<a href="/#!/settings/password">Change Password</a>-->
+					<!--</li>-->
+					<!--<li class="divider"></li>-->
+					<!--<li>>-->
+						<!--<a href="/auth/signout">Signout</a>-->
+					<!--</li>-->
+				<!--</ul>-->
+			<!--</li>-->
+		<!--</ul>-->
+	<!--</nav>-->
+<!--</div>-->
+<!--<div class="glyphicon glyphicon-volume-up"></div>-->
+
+<div class="navbar navbar-default navbar-fixed-top navbar-primary" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header text-center">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">DUSON CPS</a>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/dashboard"><i class="fa fa-dashboard"></i>&nbsp;Dashboard</a></li>
+				<li><a href="/dashboard/styles"><i class="fa fa-paint-brush"></i>&nbsp;Styles</a></li>
+				<li><a href="/admin/administration"><i class="fa fa-cog"></i>&nbsp;Settings</a></li>
+				<li><a href="/admin/duson_authentication/users"><i class="fa fa-user"></i>&nbsp;Users</a></li>
+				<li><a href="/admin/duson_authentication/permissions"><i class="fa fa-toggle-on"></i>&nbsp;Permissions</a></li>
+				<li><a href="/help"><i class="fa fa-question"></i>&nbsp;Help</a></li>
+			</ul>
+		</div>
 	</div>
-	<nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
-		<ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">
-			<li data-ng-repeat="item in menu.items" data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.uiRoute}}" ng-class="{active: $uiRoute}">
-				<a href="/#!/{{item.link}}">{{item.title}}</a>
-			</li>
-		</ul>
-		<ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
-			<li ui-route="/signup" ng-class="{active: $uiRoute}">
-				<a href="/#!/signup">Signup</a>
-			</li>
-			<li class="divider-vertical"></li>
-			<li ui-route="/signin" ng-class="{active: $uiRoute}">
-				<a href="/#!/signin">Signin</a>
-			</li>
-		</ul>
-		<ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    {{authentication.user.displayName}} <b class="caret"></b>
-                </a>
-				<ul class="dropdown-menu">
-					<li>
-						<a href="/#!/settings/profile">Edit Profile</a>
-					</li>
-					<li>
-						<a href="/#!/settings/accounts">Manage Social Accounts</a>
-					</li>
-					<li data-ng-show="authentication.user.provider === 'local'">
-						<a href="/#!/settings/password">Change Password</a>
-					</li>
-					<li class="divider"></li>
-					<li>>
-						<a href="/auth/signout">Signout</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</nav>
 </div>
-<div class="glyphicon glyphicon-volume-up"></div>
