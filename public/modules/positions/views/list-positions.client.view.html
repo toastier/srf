@@ -5,8 +5,8 @@
     <div class="list-group">
         <a data-ng-repeat="position in positions" data-ng-href="#!/positions/{{position._id}}" class="list-group-item">
             <small class="list-group-item-text">{{position.created | date:'medium'}} / {{position.user.displayName}}</small>
-            <h4 class="list-group-item-heading">{{position.name}}</h4>
-            <p class="list-group-item-text">{{position.details}}</p>
+            <h4 class="list-group-item-heading">{{position.Position}}</h4>
+            <p class="list-group-item-text">{{position.PositionDetails}}</p>
         </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!positions.$resolved || positions.length">
