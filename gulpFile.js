@@ -1,8 +1,8 @@
 'use strict';
 
 var gulp = require('gulp');
-// var csslint = require('gulp-csslint');
-// var jshint = require('gulp-jshint');
+ var csslint = require('gulp-csslint');
+ var jshint = require('gulp-jshint');
 var nodemon = require('gulp-nodemon');
 var livereload = require('gulp-livereload');
 var uglify = require('gulp-uglifyjs');
@@ -17,13 +17,13 @@ var applicationJavaScriptFiles,
     applicationTestFiles;
 
 gulp.task('jshint', function() {
-  gulp.src(['gulpFile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', 'public/js/**/*.js', 'public/modules/**/*.js'])
+  gulp.src(['gulpFile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', 'public/js/**/*.js', 'public/modules/**/*.js', '!app/bower_components/**/*.js','!config/data/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
 gulp.task('csslint', function() {
-  gulp.src(['public/modules/**/css/*.css'])
+  gulp.src(['public/modules/**/css/*.css','!app/bower_components/**/*.css'])
     .pipe(csslint('.csslintrc'))
     .pipe(csslint.reporter());
 });
