@@ -61,5 +61,15 @@ angular.module('positions').controller('PositionsController', ['$scope', '$state
 				positionId: $stateParams.positionId
 			});
 		};
+
+		$scope.filtering = function() {
+			$scope.statusCodes =
+			[	{id:1, positionStatus:'Pending Approval'},
+				{id:2, positionStatus:'Open'},
+				{id:3, positionStatus:'On Hold'}
+			];
+			console.log('statusCodes: ' + $scope.statusCodes);
+			return statusCodes;
+		};
 	}
 ]);

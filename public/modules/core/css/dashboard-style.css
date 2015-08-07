@@ -7333,6 +7333,10 @@ div.radio-switch {
     display: inline-block;
     text-decoration: inherit;
     margin-right: 4px; }
+  .sidebar > .nav > li.positions > a:before {
+    content: '\f0b1'; }
+  .sidebar > .nav > li.applicants > a:before {
+    content: '\f0c0'; }
   .sidebar > .nav > li.placements > a:before {
     content: '\f0fa'; }
   .sidebar > .nav > li.packages > a:before {

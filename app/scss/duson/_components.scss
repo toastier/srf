@@ -204,6 +204,11 @@ div.radio-switch {
         }
       }
       // specify icons
+      //FRS
+      &.positions > a:before { content: '\f0b1';}
+
+      &.applicants > a:before { content: '\f0c0';}
+
       //CPS
       &.placements > a:before { content: '\f0fa';}
       &.packages > a:before { content: '\f07c';}
