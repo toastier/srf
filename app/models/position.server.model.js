@@ -1,17 +1,29 @@
-/**
- * Created by toastie on 7/27/15.
- */
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var positionModel = new Schema({
-    name: {type: String },
-    details: {type: String },
-    postDate: {type: Date},
-    closeDate: {type: Date},
-    docLink: {type: String}
-});
+        jobCode: String, // FUTURE? if there is a related HR code
+        positionName: String,
+        details: String,
+        dateRequest: Date,
+        datePost: {type: Date, default: Date.now},
+        dateStart: Date,
+        dateClose: Date,
+        positionLink: [{
+            source: {
+                type: String, enum: ['DUSON', 'Other']
+            },
+            url: {
+                type: String
+            }
+        }],
+        searchLead: {
+            firstName: String,
+            lastName: String
+        }
+    }
+);
 
 var modelName = 'Position';
 
