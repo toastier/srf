@@ -51,7 +51,7 @@
 
 <!--Code style of CPS-->
 
-    <!-- TODO convert to bootstrap row syntax-->
+    <!-- TODO convert to bootstrap row syntax; consider ngGrid-->
     <table class="table table-striped ng-scope">
         <thead>
         <tr>
@@ -62,8 +62,8 @@
             <th></th>
             <th>Edit</th>
             <th class="col-md-3 sort-control" ng-click="vm.reverse= !vm.reverse;vm.sortRecords('position.name', vm.reverse)" ng-class="{sorted:(vm.filtering.predicate == 'position.name'), reverse:vm.reverse}">Position</th>
-            <th class="col-md-2 sort-control" ng-click="vm.reverse= !vm.reverse;vm.sortRecords('position.openDate', vm.reverse)" ng-class="{sorted:(vm.filtering.predicate == 'position.openDate'), reverse:vm.reverse}">Date Opened</th>
-            <th class="col-md-2 sort-control" ng-click="vm.reverse= !vm.reverse;vm.sortRecords('position.requester', vm.reverse)" ng-class="{sorted:(vm.filtering.predicate == 'position.requester'), reverse:vm.reverse}">Requester</th>
+            <th class="col-md-2 sort-control" ng-click="vm.reverse= !vm.reverse;vm.sortRecords('position.datePost', vm.reverse)" ng-class="{sorted:(vm.filtering.predicate == 'position.dateOpen'), reverse:vm.reverse}">Date Opened</th>
+            <th class="col-md-2 sort-control" ng-click="vm.reverse= !vm.reverse;vm.sortRecords('position.requester', vm.reverse)" ng-class="{sorted:(vm.filtering.predicate == 'position.searchLead.lastName'), reverse:vm.reverse}">Requester</th>
             <th class="col-md-4">Notes/Description</th>
         </tr>
         </thead>
@@ -74,9 +74,9 @@
                 <h4 class="list-group-item-heading">{{position.name}}</h4>
             </td>
             <td>
-                <small class="list-group-item-text">{{position.postDate | date:'shortDate'}}</small>
+                <span class="list-group-item-text">{{position.datePost | date:'shortDate'}}</span>
             </td>
-            <td>{{position.user.displayName || "TBD"}}
+            <td class="list-group-item-text">{{position.searchLead.firstName || "TBD"}} {{position.searchLead.lastName}}
             </td>
             <td>
                 <p class="list-group-item-text">{{position.details}}</p>
