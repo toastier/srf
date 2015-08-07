@@ -1,8 +1,8 @@
 'use strict';
 
 var gulp = require('gulp');
- var csslint = require('gulp-csslint');
- var jshint = require('gulp-jshint');
+var csslint = require('gulp-csslint');
+var jshint = require('gulp-jshint');
 var nodemon = require('gulp-nodemon');
 var livereload = require('gulp-livereload');
 var uglify = require('gulp-uglifyjs');
@@ -11,6 +11,8 @@ var minifyCSS = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var mocha = require('gulp-mocha');
 var karma = require('gulp-karma');
+var argv = require('yargs').argv;
+var gulpif = require('gulp-if');
 
 var applicationJavaScriptFiles,
     applicationCSSFiles,
@@ -98,3 +100,23 @@ gulp.task('build', ['loadConfig', 'uglify', 'cssmin']); // remove lint
 
 // Test task.
 gulp.task('test', ['loadConfig', 'mochaTest', 'karma']);
+
+//
+//gulp.task('reseed', function() {
+//    mongo db.positions.remove({});
+//})
+//gulp.task('reseed', function() {
+//    var exec = require('child_process').exec, child;
+//
+//    child = exec('mongo db.positions.remove({})'),
+//        function (error, stdout, stderr) {
+//            console.log('stdout: ' + stdout);
+//            console.log('stderr: ' + stderr);
+//            if (error !== null) {
+//                console.log('exec error: ' + error);
+//            };
+//        };
+//    child();
+//});
+
+

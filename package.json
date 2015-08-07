@@ -59,6 +59,7 @@
     "karma-jasmine": "~0.2.1",
     "karma-phantomjs-launcher": "~0.1.2",
     "should": "~3.2.0",
-    "supertest": "~0.10.0"
+    "supertest": "~0.10.0",
+    "yargs": "^3.18.0"
   }
 }

@@ -4,10 +4,18 @@ var mongoose = require('mongoose'),
 
 var positionModel = new Schema({
         jobCode: String, // FUTURE? if there is a related HR code
-        positionName: String,
-        details: String,
+        name: {
+            type: String,
+            required: true
+        },
+        details: {
+            type: String
+        },
         dateRequest: Date,
-        datePost: {type: Date, default: Date.now},
+        datePost: {
+            type: Date,
+            default: Date.now
+        },
         dateStart: Date,
         dateClose: Date,
         positionLink: [{
