@@ -1,23 +1,18 @@
 'use strict';
 
 var passport = require('passport'),
-	User = require('mongoose').model('User'),
 	path = require('path'),
 	config = require('./config');
 
 module.exports = function() {
 	// Serialize sessions
 	passport.serializeUser(function(user, done) {
-		done(null, user.id);
+		done(null, user);
 	});
 
 	// Deserialize sessions
-	passport.deserializeUser(function(id, done) {
-		User.findOne({
-			_id: id
-		}, '-salt -password', function(err, user) {
-			done(err, user);
-		});
+	passport.deserializeUser(function(user, done) {
+		done(null, user);
 	});
 
 	// Initialize strategies
