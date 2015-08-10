@@ -8,7 +8,6 @@ var mongoose = require('mongoose'),
 	errorHandler = 	require('./errors.server.controller'),
 	_ = require('lodash');
 
-
 /**
  * Create a position
  */
