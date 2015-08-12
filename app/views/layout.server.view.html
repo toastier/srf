@@ -14,21 +14,6 @@
 	<meta name="keywords" content="{{keywords}}">
 	<meta name="description" content="{{description}}">
 
-	<!-- Facebook META -->
-	<meta property="fb:app_id" content="{{facebookAppId}}">
-	<meta property="og:site_name" content="{{title}}">
-	<meta property="og:title" content="{{title}}">
-	<meta property="og:description" content="{{description}}">
-	<meta property="og:url" content="{{url}}">
-	<meta property="og:image" content="/img/brand/logo.png">
-	<meta property="og:type" content="website">
-
-	<!-- Twitter META -->
-	<meta name="twitter:title" content="{{title}}">
-	<meta name="twitter:description" content="{{description}}">
-	<meta name="twitter:url" content="{{url}}">
-	<meta name="twitter:image" content="/img/brand/logo.png">
-
 	<!-- Fav Icon -->
 	<link href="/modules/core/img/brand/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
@@ -43,6 +28,7 @@
 </head>
 
 <body class="ng-cloak">
+	<div data-ng-include="'/modules/core/views/footer.client.view.html'" class="navbar navbar-default navbar-fixed-bottom navbar-bottom navbar-secondary"></div>
 	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
 	<section class="content">
 		<div class="container">
@@ -54,7 +40,7 @@
 					</div>
 					<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 						<div class="crumbs-actions">
-							<div class="col-xs-12">
+							<div class="col-xs-12 ui-view-container">
 								{% block content %}{% endblock %}
 							</div>
 						</div>
