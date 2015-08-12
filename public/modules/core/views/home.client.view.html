@@ -1,6 +1,6 @@
-<section data-ng-controller="HomeController">
+<section data-ng-controller="HomeController as home">
     <h1 class="text-center">THANK YOU FOR DOWNLOADING MEAN.JS</h1>
-    <section>
+    <section ng-if="home.authentication.user">
         <p>
         	Before you begin we recommend you read about the basic building blocks that assemble a MEAN.JS application:
         </p>
@@ -28,5 +28,8 @@
         <br>
         <br>Enjoy &amp; Keep Us Updated,
         <br>The MEAN.JS Team.
+    </section>
+    <section ng-if="!home.authentication.user">
+        <a class="btn btn-default btn-primary" ng-href="/#!/signin">Login</a>
     </section>
 </section>
