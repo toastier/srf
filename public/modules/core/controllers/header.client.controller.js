@@ -2,9 +2,11 @@
 
 angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus',
 	function($scope, Authentication, Menus) {
-		$scope.authentication = Authentication;
+		var header = this;
+		header.menu = Menus.getMenu('topbar');
+		header.authentication = Authentication;
+		//$scope.authentication = Authentication;
 		$scope.isCollapsed = false;
-		$scope.menu = Menus.getMenu('topbar');
 
 		$scope.toggleCollapsibleMenu = function() {
 			$scope.isCollapsed = !$scope.isCollapsed;
