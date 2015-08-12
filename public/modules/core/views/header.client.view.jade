@@ -1,0 +1,15 @@
+.navbar.navbar-default.navbar-fixed-top.navbar-primary(ng-controller="HeaderController as header", role="navigation")
+    .container-fluid
+        .navbar-header.text-center
+            button.navbar-toggle(type="button", data-toggle="collapse", data-target=".navbar-collapse")
+                .sr-only Toggle Navigation
+                .icon-bar
+                .icon-bar
+                .icon-bar
+            a.navbar-brand(ng-href="/#!/") DUSON Faculty Recruitment System
+        .navbar-collapse
+            ul.nav.navbar-nav.navbar-right(ng-if="header.authentication.user")
+                li(ng-repeat="item in header.menu.items")
+                    a(ng-href="/#\!{{item.uiRoute}}") {{ item.title }}
+            .nav.navbar-nav.navbar-right(ng-if="!header.authentication.user")
+                a.btn.btn-primary(ng-href="/#!/signin") Login

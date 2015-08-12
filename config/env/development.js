@@ -24,5 +24,9 @@ module.exports = {
 		clientID: process.env.LINKEDIN_ID || 'APP_ID',
 		clientSecret: process.env.LINKEDIN_SECRET || 'APP_SECRET',
 		callbackURL: 'http://localhost:3000/auth/linkedin/callback'
+	},
+	saml: {
+		path: '/auth/saml/callback',
+		callbackURL: 'http://localhost:3000/auth/saml/callback'
 	}
 };
