@@ -29,8 +29,10 @@
     "method-override": "~1.0.0",
     "mongoose": "~3.8.8",
     "morgan": "~1.0.0",
+    "mongoose-crud-tools": "^0.2.3",
     "passport": "~0.2.0",
     "passport-saml": "^0.10.0",
+    "passport-local": "~1.0.0",
     "swig": "~1.3.2"
   },
   "devDependencies": {
