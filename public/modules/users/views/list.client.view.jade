@@ -1,0 +1,47 @@
+h1 Users
+div(ng-init="vm.activate()")
+  .list-group.collapsible
+    form(name="vm.forms.userForms.{{ user._id }}", ng-repeat="user in vm.paginatedUsers")
+      .list-group-item
+        .list-group-item-heading(ng-click="user.isCollapsed = !user.isCollapsed")
+          .row
+            .col-md-9
+              h4
+                button.btn.btn-xs.no-text.btn-save(ng-click="vm.saveUser(user)", ng-show="vm.forms.userForms[user._id].$dirty")
+                | &nbsp;
+                button.btn.btn-xs.no-text.btn-undo(ng-click="vm.undoUser(user)", ng-show="vm.forms.userForms[user._id].$dirty")
+                | &nbsp; {{ user.lastName + ', ' + user.firstName }}
+                span(ng-repeat="role in user.roles") &nbsp;
+                  .btn.btn-default.btn-xs {{ role }}
+            .col-md-3.text-right
+              h5 Added: {{ user.created | standardDate }}
+        .list-group-item-text(collapse="user.isCollapsed")
+          .row
+            .col-md-12
+              .row
+                .col-md-4
+                  .input-group.form-group
+                    .input-group-addon First Name
+                    input.form-control(ng-model="user.firstName")
+                .col-md-4
+                  .input-group.form-group
+                    .input-group-addon Last Name
+                    input.form-control(ng-model="user.lastName")
+                .col-md-4
+                  .input-group.form-group
+                    .input-group-addon Username
+                    input.form-control(ng-model="user.username")
+              .row
+                .col-md-4
+                  .input-group.form-group
+                    .input-group-addon Email
+                    input.form-control(ng-model="user.email")
+                .col-md-8
+                  .input-group.form-group
+                    .input-group-addon Roles
+                    ui-select(multiple, ng-model="user.roles")
+                      ui-select-match(placeholder="choose roles") {{$item}}
+                      ui-select-choices(repeat="role in vm.options.roles") {{ role }}
+  .row(ng-show="!!vm.paginatedUsers.length")
+    .col-xs-12
+      pagination(boundary-links="true", page="vm.paginator.currentPage", items-per-page="vm.paginator.itemsPerPage", max-size="vm.paginator.maxSize", total-items="vm.matchedUsers.length", num-pages="vm.paginator.totalPages")

@@ -1,0 +1,108 @@
+@media (min-width: 992px) {
+  .nav-users {
+    position: fixed;
+  }
+}
+
+.remove-account-container {
+  display: inline-block;
+  position: relative;
+}
+
+.btn-remove-account {
+  top: 10px;
+  right: 10px;
+  position: absolute;
+}
+
+
+/** @todo move to global */
+input.form-control.toggle-edit:not(:focus),
+div.form-control.ui-select-container.toggle-edit:not(.open){
+  width: auto;
+  height: auto;
+  color: inherit;
+  display: inline;
+  padding: 0;
+  font-size: inherit;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  transition: none;
+}
+
+input.form-control.toggle-edit:after,
+div.form-control.ui-select-container.toggle-edit:not(.open):after{
+  content: '';
+}
+
+input.form-control.toggle-edit:focus:after {
+  content: '';
+}
+
+div.ui-select-container.ui-select-multiple.ui-select-bootstrap {
+  min-height: 34px;
+}
+
+.collapsible .list-group-item {
+  cursor: pointer;
+  &:hover {
+    text-decoration: none;
+    color: #555;
+    background-color: #f5f5f5;
+  }
+}
+
+.list-group-item {
+  .list-group-item-heading {
+    h2, h3, h4, h5, h6 {
+      margin: 0;
+    }
+  }
+}
+
+/* Have to set height explicitly on ui-view
+to prevent collapsing during animation*/
+.ui-view-container {
+  position: relative;
+  height: 65px;
+}
+
+[ui-view].ng-enter, [ui-view].ng-leave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  -webkit-transition:all .25s ease-in-out;
+  -moz-transition:all .25s ease-in-out;
+  -o-transition:all .25s ease-in-out;
+  transition:all .25s ease-in-out;
+}
+
+[ui-view].ng-enter {
+  opacity: 0;
+  -webkit-transform:scale3d(0.5, 0.5, 0.5);
+  -moz-transform:scale3d(0.5, 0.5, 0.5);
+  transform:scale3d(0.5, 0.5, 0.5);
+}
+
+[ui-view].ng-enter-active {
+  opacity: 1;
+  -webkit-transform:scale3d(1, 1, 1);
+  -moz-transform:scale3d(1, 1, 1);
+  transform:scale3d(1, 1, 1);
+}
+
+[ui-view].ng-leave {
+  opacity: 1;
+  -webkit-transform:translate3d(0, 0, 0);
+  -moz-transform:translate3d(0, 0, 0);
+  transform:translate3d(0, 0, 0);
+}
+
+[ui-view].ng-leave-active {
+  opacity: 0;
+  -webkit-transform:translate3d(100px, 0, 0);
+  -moz-transform:translate3d(100px, 0, 0);
+  transform:translate3d(100px, 0, 0);
+}
