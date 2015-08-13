@@ -22,6 +22,7 @@ module.exports = function (app) {
   // Setting up the users api
   app.route('/auth/signin').post(users.signin);
   app.route('/auth/signout').get(users.signout);
+  app.route('/auth/me').get(users.jsonMe);
 
   // Setting the Saml routes
   app.route('/auth/saml').get(

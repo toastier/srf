@@ -8,7 +8,7 @@
                 .icon-bar
             a.navbar-brand(ng-href="/#!/") DUSON Faculty Recruitment System
         .navbar-collapse
-            ul.nav.navbar-nav.navbar-right(ng-if="header.authentication.user")
+            ul.nav.navbar-nav.navbar-right(ng-if="header.authentication.user._id")
                 li(ng-repeat="item in header.menu.items")
                     a(ng-href="/#\!{{item.uiRoute}}") {{ item.title }}
             .nav.navbar-nav.navbar-right(ng-if="!header.authentication.user")

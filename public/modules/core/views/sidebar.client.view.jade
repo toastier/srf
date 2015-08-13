@@ -1,4 +1,4 @@
 .col-sm-3.col-md-2.sidebar#main_menu-menu(ng-controller="SidebarController as sidebar")
     ul.nav.nav-sidebar
-        li(ng-repeat="item in sidebar.menu.items")
-            a(ng-href="/#\!{{item.uiRoute}}") {{ item.title }}
+        li(ng-repeat="item in sidebar.menu.items", ng-if="item.shouldRender(sidebar.authentication.user)")
+            a(ng-href="{{item.uiRoute}}") {{ item.title }}

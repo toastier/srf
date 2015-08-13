@@ -235,6 +235,13 @@ exports.me = function (req, res) {
 };
 
 /**
+ * Json User
+ */
+exports.jsonMe = function (req, res) {
+  res.jsonp(req.user || {id: false});
+};
+
+/**
  * OAuth callback
  */
 exports.oauthCallback = function (strategy) {

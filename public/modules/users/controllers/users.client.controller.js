@@ -96,7 +96,8 @@ function UsersController($scope, $state, toastr, Users, Roles, Authentication, M
 
   vm.masquerade = function(user) {
     Masquerade.do(user).$promise.then(function(response) {
-      $state.go('list');
+      vm.authentication.refresh();
+      $state.go('home');
     });
   };
 
