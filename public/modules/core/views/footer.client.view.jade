@@ -2,5 +2,5 @@
     .navbar-left
         .application-name 4.5.0
     .navbar-right
-        .account-tools Logged in as {{ footer.authentication.user.displayName }}
+        .account-tools(ng-if="footer.authentication.user._id") Logged in as {{ footer.authentication.user.displayName }}
             a.btn.btn-sm.btn-logout(ng-href="/auth/signout") logout

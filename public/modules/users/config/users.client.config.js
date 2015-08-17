@@ -5,14 +5,12 @@ angular.module('users')
   .config(['$httpProvider',
     function ($httpProvider) {
       // Set the httpProvider "not authorized" interceptor
-      $httpProvider.interceptors.push(['$q', '$location', 'Authentication', 'Messages',
-        function ($q, $location, Authentication, Messages) {
+      $httpProvider.interceptors.push(['$q', '$location', 'Messages',
+        function ($q, $location, Messages) {
           return {
             responseError: function (rejection) {
               switch (rejection.status) {
                 case 401:
-                  // Deauthenticate the global user
-                  Authentication.user = null;
                   // Redirect to signin page
                   $location.path('signin');
                   break;
@@ -33,6 +31,6 @@ angular.module('users')
   .run(['Menus',
     function (Menus) {
       // Set sidebar menu items
-      Menus.addMenuItem('sidebar', 'Users', 'users/list');
-      Menus.addMenuItem('sidebar', 'Add User', 'users/create');
+      Menus.addMenuItem('sidebar', 'Users', 'users/list', '#!/users/list', false, ['admin']);
+      Menus.addMenuItem('sidebar', 'Add User', 'users/create', '#!/users/create', false, ['admin']);
     }]);

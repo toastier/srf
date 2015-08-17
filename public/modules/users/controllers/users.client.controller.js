@@ -1,6 +1,6 @@
 'use strict';
 
-function UsersController($scope, $state, toastr, Users, Roles, Authentication, Matching, Sorting, Pagination) {
+function UsersController($scope, $state, toastr, Users, Roles, Authentication, Masquerade, Matching, Sorting, Pagination) {
 
   var vm = this;
   vm.options = {};
@@ -92,6 +92,13 @@ function UsersController($scope, $state, toastr, Users, Roles, Authentication, M
     var index = vm.users.indexOf(user);
     vm.users[index] = angular.copy(backupUser);
     vm.users[index].isCollapsed = false;
+  };
+
+  vm.masquerade = function(user) {
+    Masquerade.do(user).$promise.then(function(response) {
+      vm.authentication.refresh();
+      $state.go('home');
+    });
   };
 
   $scope.$watch('vm.paginator.currentPage', function() {

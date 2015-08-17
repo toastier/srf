@@ -17,10 +17,12 @@ module.exports = function (app) {
   app.route('/users/password').post(users.changePassword);
   app.route('/users/accounts').delete(users.removeOAuthProvider);
   app.route('/roles').get(users.requiresLogin, users.hasAuthorization(['admin']), users.roles);
+  app.route('/users/masquerade').post(users.requiresLogin, users.hasAuthorization(['admin']), users.masquerade);
 
   // Setting up the users api
   app.route('/auth/signin').post(users.signin);
   app.route('/auth/signout').get(users.signout);
+  app.route('/auth/me').get(users.jsonMe);
 
   // Setting the Saml routes
   app.route('/auth/saml').get(

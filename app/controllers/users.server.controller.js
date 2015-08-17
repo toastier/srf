@@ -235,6 +235,13 @@ exports.me = function (req, res) {
 };
 
 /**
+ * Json User
+ */
+exports.jsonMe = function (req, res) {
+  res.jsonp(req.user || {id: false});
+};
+
+/**
  * OAuth callback
  */
 exports.oauthCallback = function (strategy) {
@@ -451,13 +458,7 @@ exports.adminUpdate = function (req, res) {
               message: getErrorMessage(err)
             });
           } else {
-            req.login(user, function (err) {
-              if (err) {
-                res.send(400, err);
-              } else {
-                res.jsonp(user);
-              }
-            });
+            res.jsonp(user);
           }
         });
       } else {
@@ -467,7 +468,34 @@ exports.adminUpdate = function (req, res) {
       }
     }
   });
+};
 
+/**
+ * Masquerade as another user
+ * @param req
+ * @param res
+ */
+exports.masquerade = function(req, res) {
+  // Init Variables
+  User.findById(req.body._id, function (err, user) {
+    if (err) {
+      return err;
+    } else {
+      if (user) {
+        req.login(user, function (err) {
+          if (err) {
+            res.send(400, err);
+          } else {
+            res.jsonp(user);
+          }
+        });
+      } else {
+        res.send(400, {
+          message: 'User not found'
+        });
+      }
+    }
+  });
 };
 
 exports.roles = function (req, res) {
