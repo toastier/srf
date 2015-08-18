@@ -23,6 +23,12 @@ var applicantModel = new Schema({
         dateCreated: {
             type: Date,
             default: Date.now
+        },
+        user: {
+            displayName: {
+                type: String,
+                default: 'Doris DuSon'
+            }
         }
     }
 );
