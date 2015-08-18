@@ -16,6 +16,10 @@ var applicantModel = new Schema({
             honorific:      { type: String},
             suffix:         { type: String}
         },
+        // this will be a pointer to the Positions schema TODO
+        positionAppliedFor: {
+            positionName:   { type: String}
+        },
         dateCreated: {
             type: Date,
             default: Date.now

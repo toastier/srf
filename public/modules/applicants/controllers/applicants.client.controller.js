@@ -11,6 +11,7 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 				middleName: this.name.middleName,
 				honorific: this.name.honorific,
 				suffix: this.name.suffix,
+				positionAppliedFor: this.positionAppliedFor.name,
 				positions: this.positions,
 				focalAreas: this.focalAreas
 			});

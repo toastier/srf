@@ -16,19 +16,22 @@
             <!--<th class="sort-control numeric" ng-click="vm.reverse= !vm.reverse;vm.sortRecords('Placement.id', vm.reverse)" ng-class="{sorted:(filtering.predicate == 'Placement.id'), reverse:vm.reverse}">ID</th>-->
             <th></th>
             <th>Edit</th>
-            <th class="col-md-3 sort-control" ng-click="vm.reverse= !vm.reverse;vm.sortRecords('applicant.lastName', vm.reverse)" ng-class="{sorted:(vm.filtering.predicate == 'applicant.lastName'), reverse:vm.reverse}">Last Name</th>
-            <th class="col-md-3 sort-control" ng-click="vm.reverse= !vm.reverse;vm.sortRecords('applicant.firstName', vm.reverse)" ng-class="{sorted:(vm.filtering.predicate == 'applicant.firstName'), reverse:vm.reverse}">First Name</th>
-            <th class="col-md-4">Notes/Description</th>
+            <th class="col-md-3 sort-control" ng-click="vm.reverse= !vm.reverse;vm.sortRecords('applicant.lastName', vm.reverse)" ng-class="{sorted:(vm.filtering.predicate == 'applicant.lastName'), reverse:vm.reverse}">Last</th>
+            <th class="col-md-3 sort-control" ng-click="vm.reverse= !vm.reverse;vm.sortRecords('applicant.firstName', vm.reverse)" ng-class="{sorted:(vm.filtering.predicate == 'applicant.firstName'), reverse:vm.reverse}">First/Middle</th>
+            <th class="col-md-2">Position</th>
         </tr>
         </thead>
         <tr data-ng-repeat="applicant in applicants" class="ng-scope">
             <td><input type="checkbox" ng-model="placement.Placement.selected" class="ng-pristine ng-untouched ng-valid"></td>
             <td class="ng-binding"><a data-ng-href="#!/applicants/{{applicant._id}}"><i class="fa fa-edit"></i></a></td>
             <td>
-                <h4 class="list-group-item-heading">{{applicant.lastName}}</h4>
+                <h4 class="list-group-item-heading">{{applicant.name.lastName}} {{applicant.name.suffix}}</h4>
             </td>
             <td>
-                <h4 class="list-group-item-heading">{{applicant.firstName}}</h4>
+                <h4 class="list-group-item-heading">{{applicant.name.firstName}} {{applicant.name.middleName}}</h4>
+            </td>
+            <td>
+                <h4 class="list-group-item-heading">{{applicant.applicantPositions[0].positionName}}</h4>
             </td>
         </tr>
 
