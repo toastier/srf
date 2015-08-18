@@ -4,103 +4,103 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Position = mongoose.model('Position'),
+	Applicant = mongoose.model('Applicant'),
 	errorHandler = 	require('./errors.server.controller'),
 	_ = require('lodash');
 
 /**
- * Create a position
+ * Create a applicant
  */
 exports.create = function(req, res) {
-	var position = new Position(req.body);
-	position.user = req.user;
+	var applicant = new Applicant(req.body);
+	applicant.user = req.user;
 
-	position.save(function(err) {
+	applicant.save(function(err) {
 		if (err) {
 			return res.send(400, {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(position);
+			res.jsonp(applicant);
 		}
 	});
 };
 
 /**
- * Show the current position
+ * Show the current applicant
  */
 exports.read = function(req, res) {
-	res.jsonp(req.position);
+	res.jsonp(req.applicant);
 };
 
 /**
- * Update a position
+ * Update a applicant
  */
 exports.update = function(req, res) {
-	var position = req.position;
+	var applicant = req.applicant;
 
-	position = _.extend(position, req.body);
+	applicant = _.extend(applicant, req.body);
 
-	position.save(function(err) {
+	applicant.save(function(err) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(position);
+			res.jsonp(applicant);
 		}
 	});
 };
 
 /**
- * Delete an position
+ * Delete an applicant
  */
 exports.delete = function(req, res) {
-	var position = req.position;
+	var applicant = req.applicant;
 
-	position.remove(function(err) {
+	applicant.remove(function(err) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(position);
+			res.jsonp(applicant);
 		}
 	});
 };
 
 /**
- * List of Positions
+ * List of Applicants
  */
 exports.list = function(req, res) {
-	Position.find().sort('-postDate').populate('user', 'displayName').exec(function(err, positions) {
+	Applicant.find().sort('-postDate').populate('user', 'displayName').exec(function(err, applicants) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(positions);
+			res.jsonp(applicants);
 		}
 	});
 };
 
 /**
- * Position middleware
+ * Applicant middleware
  */
-exports.positionByID = function(req, res, next, id) {
-	Position.findById(id).populate('user', 'displayName').exec(function(err, position) {
+exports.applicantByID = function(req, res, next, id) {
+	Applicant.findById(id).populate('user', 'displayName').exec(function(err, applicant) {
 		if (err) return next(err);
-		if (!position) return next(new Error('Failed to load position ' + id));
-		req.position = position;
+		if (!applicant) return next(new Error('Failed to load applicant ' + id));
+		req.applicant = applicant;
 		next();
 	});
 };
 
 /**
- * Position authorization middleware
+ * Applicant authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.position.user.id !== req.user.id) {
+	if (req.applicant.user.id !== req.user.id) {
 		return res.send(403, {
 			message: 'User is not authorized'
 		});
