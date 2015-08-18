@@ -6,11 +6,13 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 
 		$scope.create = function() {
 			var applicant = new Applicants({
-				name: this.name,
-				details: this.details,
-				postDate: this.postDate,
-				closeDate: this.closeDate,
-				docLink: this.docLink
+				firstName: this.name.firstName,
+				lastName: this.name.lastName,
+				middleName: this.name.middleName,
+				honorific: this.name.honorific,
+				suffix: this.name.suffix,
+				positions: this.positions,
+				focalAreas: this.focalAreas
 			});
 
 			applicant.$save(function(response) {
@@ -19,11 +21,7 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 				$scope.error = errorResponse.data.message;
 			});
 
-			this.name = '';
-			this.details = '';
-			this.postDate = '';
-			this.closeDate = '';
-			this.docLink = '';
+
 		};
 
 		$scope.remove = function(applicant) {
@@ -62,14 +60,14 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 			});
 		};
 
-		$scope.filtering = function() {
-			$scope.statusCodes =
-			[	{id:1, applicantStatus:'Pending Approval'},
-				{id:2, applicantStatus:'Open'},
-				{id:3, applicantStatus:'On Hold'}
-			];
-			console.log('statusCodes: ' + $scope.statusCodes);
-			return statusCodes;
-		};
+		//$scope.filtering = function() {
+		//	$scope.statusCodes =
+		//	[	{id:1, applicantStatus:'Pending Approval'},
+		//		{id:2, applicantStatus:'Open'},
+		//		{id:3, applicantStatus:'On Hold'}
+		//	];
+		//	console.log('statusCodes: ' + $scope.statusCodes);
+		//	return statusCodes;
+		//};
 	}
 ]);
