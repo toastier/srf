@@ -15,9 +15,23 @@
 			<i class="glyphicon glyphicon-trash"></i>
 		</a>
 	</div>
-	<small>
+	<small class="pull-right">
 		<em class="text-muted">Added on {{applicant.dateCreated | date:'mediumDate'}} by {{applicant.user.displayName}}</em>
 	</small>
 	<!--<applicant-name></applicant-name>-->
-
+	<div class="pull-left container">
+		<div class="row">Current
+			<ng-pluralize count="applicant.applicantPositions.length"
+						  when="{'1': ' Position',
+						 '2': ' Positions'
+						 }">
+			</ng-pluralize>
+		</div>
+		<div class="row" data-ng-repeat="position in applicant.applicantPositions">
+			<div class="position-name strong span3"><strong>{{position.positionName}}</strong></div>
+			<div class="position-name  span3">{{position.dateExpectedCompletion !== null ? position.dateExpectedCompletion : '12/31/2015'}}
+			</div>
+			<div class="position-name  span3">{{position.note}}</div>
+		</div>
+	</div>
 </section>
