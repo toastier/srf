@@ -20,6 +20,22 @@ var applicantModel = new Schema({
         positionAppliedFor: {
             positionName:   { type: String}
         },
+    //TODO rename this
+        applicantPositions: [{
+            positionName:           { type: String },
+            dateExpectedCompletion: { type: Date },
+            note:                   { type: String },
+            //TODO unnecessary layer; fix
+            positions: [{
+                //TODO institutions will lookup in another schema
+                institutions: [{
+                    institutionName: { type: String },
+                    city: { type: String },
+                    state: { type: String },
+                    country: { type: String }
+                }]
+            }]
+        }],
         dateCreated: {
             type: Date,
             default: Date.now

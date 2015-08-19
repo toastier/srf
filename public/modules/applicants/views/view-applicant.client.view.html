@@ -28,8 +28,13 @@
 			</ng-pluralize>
 		</div>
 		<div class="row" data-ng-repeat="position in applicant.applicantPositions">
-			<div class="position-name strong span3"><strong>{{position.positionName}}</strong></div>
-			<div class="position-name  span3">{{position.dateExpectedCompletion !== null ? position.dateExpectedCompletion : '12/31/2015'}}
+			<div data-ng-repeat="position2 in position.positions" class="position-name strong row">
+				<span><strong>{{position2.positionName}}</strong></span>
+				<div data-ng-repeat="institution in position2.institutions"
+					<span>{{institution.name}}</span>
+				</div>
+			</div>
+			<div class="position-name  span3">{{position.dateExpectedCompletion !== null ? position.dateExpectedCompletion : date('12/31/2015') | date:shortDate}}
 			</div>
 			<div class="position-name  span3">{{position.note}}</div>
 		</div>
