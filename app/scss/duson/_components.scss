@@ -2042,6 +2042,16 @@ p.no-records {
 }
 
 
+//
+// Bubble list
+// -----------------------------------------------------
+
+ul.bubble-list li {
+  @include bubble-list;
+}
+
+
+
 
 
 

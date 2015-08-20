@@ -1179,7 +1179,7 @@ h3, .h3 {
 h4, .h4,
 h5, .h5,
 h6, .h6 {
-  /* margin-top: 10px; */
+  margin-top: 10px;
   margin-bottom: 10px; }
   h4 small,
   h4 .small, .h4 small,
@@ -8879,5 +8879,14 @@ p.no-records {
   .collapse-trigger.not-collapsed:before {
     transition: all 0.5s;
     transform: rotate(90deg); }
+
+ul.bubble-list li {
+  list-style: none;
+  display: inline-block;
+  float: left;
+  padding: 5px;
+  border: 2px solid #111111;
+  margin: 5px;
+  background-color: #9fa4c3; }
 
 /*# sourceMappingURL=dashboard-style.css.map */

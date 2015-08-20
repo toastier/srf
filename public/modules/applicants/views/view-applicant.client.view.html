@@ -44,4 +44,18 @@
 			</div>
 		</div>
 	</div>
+	<div class="pull-left container">
+		<div class="row">
+			<strong>Focal
+				<ng-pluralize count="applicant.focalAreas.length"
+							  when="{'0': ' Areas - none specified', '1': ' Area', 'other': ' Areas'}">
+				</ng-pluralize>
+			</strong>
+		</div>
+		<div>
+			<ul class="bubble-list">
+				<li data-ng-repeat="focalArea in applicant.focalAreas" >{{focalArea.focalArea}}</li>
+			</ul>
+		</div>
+	</div>
 </div>

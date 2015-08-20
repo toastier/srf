@@ -117,6 +117,17 @@
   border-radius: 4px;
 }
 
+@mixin bubble-list() {
+  list-style: none;
+  display: inline-block;
+  float: left;
+  padding: 5px;
+  border: 2px solid #111111;
+  margin: 5px;
+  //border-radius: 20px;
+  background-color: rgb(159, 164, 195);
+}
+
 //
 // Clearfix
 // -----------------------------------------------------
