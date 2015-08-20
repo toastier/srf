@@ -27,16 +27,17 @@
 						 }"></strong>
 			</ng-pluralize>
 		</div>
-		<div class="row" data-ng-repeat="position in applicant.applicantPositions">
+		<div class="row" data-ng-repeat="position in applicant.applicantPositions" ng-init="i=position.institution[0]">
 			<span>{{position.positionName}}, </span>
-			<a href="" ng-click="showme=true"><span>{{position.institution[0].institutionName}}</span></a>
+			<a href="" ng-click="showme=true"><span>{{i.institutionName}}</span></a>
 			<!--TODO directive-->
-			<div ng-show="showme">
+			<div ng-show="showme" >
 				<strong>Institution Info</strong>
 				<span ng-click="showme=false"><i class="fa fa-times"></i></span>
+				<p>{{i.city}}, {{i.state}} {{i.country}}</p>
 			</div>
 			<div class="position-name  span3">
-				<span>Expected Completion Date: {{position.dateExpectedCompletion != null ? position.dateExpectedCompletion : date('12/31/2015') | date:shortDate}}</span>
+				<span>Expected Completion Date: {{position.dateExpectedCompletion != null ? position.dateExpectedCompletion : date('12/31/2015') | date: 'shortDate'}}</span>
 			</div>
 			<div class="position-name  span3">
 				<em>{{position.note}}</em>
