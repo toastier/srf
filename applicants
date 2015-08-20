@@ -1,0 +1,6 @@
+MongoDB shell version: 3.0.3
+connecting to: FRS_Applicants_v1.3.json/test
+2015-08-20T13:11:18.874-0400 I NETWORK  getaddrinfo("FRS_Applicants_v1.3.json") failed: nodename nor servname provided, or not known
+2015-08-20T13:11:18.877-0400 E QUERY    Error: couldn't initialize connection to host FRS_Applicants_v1.3.json, address is invalid
+    at connect (src/mongo/shell/mongo.js:181:14)
+    at (connect):1:6 at src/mongo/shell/mongo.js:181

@@ -1,9 +1,9 @@
-<section data-ng-controller="ApplicantsController" data-ng-init="findOne()">
+<div data-ng-controller="ApplicantsController" data-ng-init="findOne()">
 	<div class="page-header">
 		<h1>{{applicant.name.honorific}} {{applicant.name.firstName}} {{applicant.name.middleName}} {{applicant.name.lastName}} {{applicant.name.suffix}}
 		</h1>
 		<h2>
-		<span class="text-muted">for</span> {{applicant.applicantPositions[0].positionName}}
+			<span class="text-muted">for</span> {{applicant.applicantPositions[0].positionName}}
 		</h2>
 	</div>
 
@@ -20,23 +20,27 @@
 	</small>
 	<!--<applicant-name></applicant-name>-->
 	<div class="pull-left container">
-		<div class="row">Current
+		<div class="row"><strong>Current
 			<ng-pluralize count="applicant.applicantPositions.length"
 						  when="{'1': ' Position',
 						 '2': ' Positions'
-						 }">
+						 }"></strong>
 			</ng-pluralize>
 		</div>
 		<div class="row" data-ng-repeat="position in applicant.applicantPositions">
-			<div data-ng-repeat="position2 in position.positions" class="position-name strong row">
-				<span><strong>{{position2.positionName}}</strong></span>
-				<div data-ng-repeat="institution in position2.institutions"
-					<span>{{institution.name}}</span>
-				</div>
+			<span>{{position.positionName}}, </span>
+			<a href="" ng-click="showme=true"><span>{{position.institution[0].institutionName}}</span></a>
+			<!--TODO directive-->
+			<div ng-show="showme">
+				<strong>Institution Info</strong>
+				<span ng-click="showme=false"><i class="fa fa-times"></i></span>
 			</div>
-			<div class="position-name  span3">{{position.dateExpectedCompletion !== null ? position.dateExpectedCompletion : date('12/31/2015') | date:shortDate}}
+			<div class="position-name  span3">
+				<span>Expected Completion Date: {{position.dateExpectedCompletion != null ? position.dateExpectedCompletion : date('12/31/2015') | date:shortDate}}</span>
 			</div>
-			<div class="position-name  span3">{{position.note}}</div>
+			<div class="position-name  span3">
+				<em>{{position.note}}</em>
+			</div>
 		</div>
 	</div>
-</section>
+</div>
