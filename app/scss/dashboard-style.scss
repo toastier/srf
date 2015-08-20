@@ -6,15 +6,6 @@
 @import "duson/duson-mixins";
 
 
-
-
-
-
-
-
-
-
-
 // Font Awesome bootstrap
 @import "../bower_components/fontawesome/scss/font-awesome";
 
@@ -23,6 +14,9 @@
 
 // Duson styles
 @import "duson/components";
+
+// FRS overrides + additional styles
+@import "duson/frs";
 
 //Semantic styles
 //@import "../../../../webroot/scss/semantic-styles";

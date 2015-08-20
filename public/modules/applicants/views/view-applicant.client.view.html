@@ -19,19 +19,19 @@
 		<em class="text-muted">Added on {{applicant.dateCreated | date:'mediumDate'}} by {{applicant.user.displayName}}</em>
 	</small>
 	<!--<applicant-name></applicant-name>-->
-	<div class="pull-left container">
-		<div class="row"><strong>Current
+	<div class="display-group ">
+		<div><strong>Current
 			<ng-pluralize count="applicant.applicantPositions.length"
 						  when="{'1': ' Position',
 						 '2': ' Positions'
 						 }"></strong>
 			</ng-pluralize>
 		</div>
-		<div class="row" data-ng-repeat="position in applicant.applicantPositions" ng-init="i=position.institution[0]">
+		<div  data-ng-repeat="position in applicant.applicantPositions" ng-init="i=position.institution[0]">
 			<span>{{position.positionName}}, </span>
 			<a href="" ng-click="showme=true"><span>{{i.institutionName}}</span></a>
 			<!--TODO directive-->
-			<div ng-show="showme" >
+			<div ng-show="showme" class="display-group"  >
 				<strong>Institution Info</strong>
 				<span ng-click="showme=false"><i class="fa fa-times"></i></span>
 				<p>{{i.city}}, {{i.state}} {{i.country}}</p>
@@ -44,8 +44,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="pull-left container">
-		<div class="row">
+	<div class="display-group">
+		<div >
 			<strong>Focal
 				<ng-pluralize count="applicant.focalAreas.length"
 							  when="{'0': ' Areas - none specified', '1': ' Area', 'other': ' Areas'}">

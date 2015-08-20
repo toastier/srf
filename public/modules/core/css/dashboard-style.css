@@ -8889,4 +8889,15 @@ ul.bubble-list li {
   margin: 5px;
   background-color: #9fa4c3; }
 
+div[data-ng-repeat] {
+  margin-bottom: 10px; }
+
+.display-group .display_group {
+  margin: 20px;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  width: 60%; }
+
 /*# sourceMappingURL=dashboard-style.css.map */
