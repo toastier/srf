@@ -53,9 +53,23 @@
 			</strong>
 		</div>
 		<div>
-			<ul class="bubble-list">
-				<li data-ng-repeat="focalArea in applicant.focalAreas" >{{focalArea.focalArea}}</li>
-			</ul>
+			<!--<ul class="bubble-list">-->
+				<!--<li data-ng-repeat="focalArea in applicant.focalAreas" >{{focalArea.focalArea}}</li>-->
+			<!--</ul>-->
+			<div class="btn btn-default btn-xs" data-ng-repeat="focalArea in applicant.focalAreas">{{focalArea.focalArea}}</div>
+		</div>
+	</div>
+	<div class="display-group">
+		<div>
+			<strong>Resume/CV</strong>
+		</div>
+		<!-- TODO dont need an array for this-->
+		<div data-ng-repeat="resume in applicant.resume">
+			<span><a ng-href="{{resume.link}}">View</a></span></div><span>{{resume.link}}</span>
+			<p>
+				<span>Upload Date: {{resume.dateUploaded | date: 'shortDate'}}</span>
+			</p>
+			<span><em>{{resume.note}}</em></span>
 		</div>
 	</div>
 </div>
