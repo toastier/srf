@@ -36,6 +36,9 @@ var applicantModel = new Schema({
                 }]
             }]
         }],
+        referralSource: {
+            primary: {type: String, default: 'Not specified'}
+        },
         dateCreated: {
             type: Date,
             default: Date.now

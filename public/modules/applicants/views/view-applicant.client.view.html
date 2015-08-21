@@ -22,13 +22,28 @@
 	<div class="display-group ">
 		<div>
 			<strong>Contact Information</strong>
-			<p>Email</p>
-			<div  data-ng-repeat="email in applicant.emailAddresses">
-				<span>{{email.emailAddress}}</span> <span ng-show="email.primary === true">(primary)</span>
-				<span ng-show="email.note != null"><a href="" ng-click="showemailnote=true">Note</a></span>
-				<div ng-show="showemailnote" class="display-group">
-					<span ng-click="showemailnote=false"><i class="fa fa-times"></i></span>
-					<p>{{email.note}}</p>
+			<div class=" ">
+				<p>Email</p>
+				<div  data-ng-repeat="email in applicant.emailAddresses">
+					<span>{{email.emailAddress}}</span> <span ng-show="email.primary === true">(primary)</span>
+					<span ng-show="email.note != null"><a href="" ng-click="showemailnote=true">Note</a></span>
+					<div ng-show="showemailnote" class="display-group">
+						<span ng-click="showemailnote=false"><i class="fa fa-times"></i></span>
+						<p>{{email.note}}</p>
+					</div>
+				</div>
+			</div>
+			<div class=" ">
+				<p>Phone</p>
+				<div data-ng-repeat="phone in applicant.phoneNumbers">
+					<span>{{phone.phoneNumber}}</span>
+					<span ng-show="phone.type != null">- {{phone.type}}</span>
+					<span ng-show="phone.primary === true"> (primary)</span>
+					<span ng-show="phone.note != null"><a href="" ng-click="showphonenote=true">Note</a></span>
+					<div ng-show="showphonenote" class="display-group">
+						<span ng-click="showphonenote=false"><i class="fa fa-times"></i></span>
+						<p>{{phone.note}}</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -79,7 +94,8 @@
 		</div>
 		<!-- TODO dont need an array for this-->
 		<div>
-			<span><a ng-href="{{applicant.resume.link}}">View</a></span></div><span>{{applicant.resume.link}}</span>
+			<span><a ng-href="{{applicant.resume.link}}">View</a></span>
+			<span>[ {{applicant.resume.link}} ]</span>
 			<p>
 				<span>Upload Date: {{applicant.resume.dateUploaded | date: 'shortDate'}}</span>
 			</p>
@@ -90,6 +106,16 @@
 				<span ng-click="showresumenote=false"><i class="fa fa-times"></i></span>
 				<p>{{applicant.resume.note}}</p>
 			</div>
+		</div>
+	</div>
+	<div class="display-group">
+		<div>
+			<strong>Referral Source</strong>
+		</div>
+		<div>
+			<p><span>{{applicant.referralSource.primary}}</span>
+				<span ng-show="applicant.referralSource.specific != null"> - {{applicant.referralSource.specific}}</span>
+			</p>
 		</div>
 	</div>
 </div>
