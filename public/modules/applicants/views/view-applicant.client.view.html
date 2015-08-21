@@ -5,7 +5,10 @@
 		<h2>
 			<span class="text-muted">for</span> {{applicant.applicantPositions[0].positionName}}
 		</h2>
-	</div>
+        <p ng-show="applicant.status.rejectionStatus.rejected === false">{{applicant.status.hiringStatus.stage}}, {{applicant.status.hiringStatus.dateStage | date:'shortDate'}}</p>
+        <p ng-show="applicant.status.rejectionStatus.rejected === true">Rejected following {{applicant.status.rejectionStatus.followingStage}}, {{applicant.status.hiringStatus.dateRejection | date:'shortDate'}} </p>
+        <p ng-show="applicant.status.confidential === true" class="confidential">Confidential</p>
+    </div>
 
 	<div class="pull-right" data-ng-show="authentication.user._id == applicant.user._id">
 		<a class="btn btn-primary" href="/#!/applicants/{{applicant._id}}/edit">
@@ -20,40 +23,62 @@
 	</small>
 	<!--<applicant-name></applicant-name>-->
 	<div class="display-group ">
-		<div>
-			<strong>Contact Information</strong>
-			<div class=" ">
-				<p>Email</p>
-				<div  data-ng-repeat="email in applicant.emailAddresses">
-					<span>{{email.emailAddress}}</span> <span ng-show="email.primary === true">(primary)</span>
-					<span ng-show="email.note != null"><a href="" ng-click="showemailnote=true">Note</a></span>
-					<div ng-show="showemailnote" class="display-group">
-						<span ng-click="showemailnote=false"><i class="fa fa-times"></i></span>
-						<p>{{email.note}}</p>
-					</div>
-				</div>
-			</div>
-			<div class=" ">
-				<p>Phone</p>
-				<div data-ng-repeat="phone in applicant.phoneNumbers">
-					<span>{{phone.phoneNumber}}</span>
-					<span ng-show="phone.type != null">- {{phone.type}}</span>
-					<span ng-show="phone.primary === true"> (primary)</span>
-					<span ng-show="phone.note != null"><a href="" ng-click="showphonenote=true">Note</a></span>
-					<div ng-show="showphonenote" class="display-group">
-						<span ng-click="showphonenote=false"><i class="fa fa-times"></i></span>
-						<p>{{phone.note}}</p>
-					</div>
-				</div>
-			</div>
-		</div>
+        <h2>Contact Information</h2>
+        <div class=" ">
+            <h3>Email</h3>
+            <div  data-ng-repeat="email in applicant.emailAddresses">
+                <span>{{email.emailAddress}}</span> <span ng-show="email.primary === true">(primary)</span>
+                <span ng-show="email.note != null"><a href="" ng-click="showemailnote=true">Note</a></span>
+                <div ng-show="showemailnote" class="display-group">
+                    <span ng-click="showemailnote=false"><i class="fa fa-times"></i></span>
+                    <p>{{email.note}}</p>
+                </div>
+            </div>
+        </div>
+        <div class=" ">
+            <h3>Phone</h3>
+            <div data-ng-repeat="phone in applicant.phoneNumbers">
+                <span>{{phone.phoneNumber}}</span>
+                <span ng-show="phone.type != null">- {{phone.type}}</span>
+                <span ng-show="phone.primary === true"> (primary)</span>
+                <span ng-show="phone.note != null"><a href="" ng-click="showphonenote=true">Note</a></span>
+                <div ng-show="showphonenote" class="display-group">
+                    <span ng-click="showphonenote=false"><i class="fa fa-times"></i></span>
+                    <p>{{phone.note}}</p>
+                </div>
+            </div>
+        </div>
+        <div class=" ">
+            <h3>Mailing Address<span><ng-pluralize count="applicant.addresses.length"
+                                                  when="{'1': '',
+						 '2': 'es'
+						 }">
+            </ng-pluralize></span></h3>
+            <div data-ng-repeat="address in applicant.addresses">
+
+                <span>{{address.address1}}</span><br/>
+                <span>{{address.address2}}</span><br/>
+                <span>{{address.city}},</span>
+                <span> {{address.state}}</span>
+                <span> {{address.postal_code}}</span><br/>
+                <span>{{address.country}}</span><br/>
+                <span ng-show="address.primary === true"> (primary)</span>
+                <span ng-show="address.note != null">
+				    <a href="" ng-click="showaddressnote=true">Note</a>
+			    </span>
+                <div ng-show="showaddressnote" class="display-group">
+                    <span ng-click="showaddressnote=false"><i class="fa fa-times"></i></span>
+                    <p>{{address.note}}</p>
+                </div>
+            </div>
+        </div>
 	</div>
 	<div class="display-group ">
-		<div><strong>Current
+		<div><h2>Current
 			<ng-pluralize count="applicant.applicantPositions.length"
 						  when="{'1': ' Position',
 						 '2': ' Positions'
-						 }"></strong>
+						 }"></h2>
 			</ng-pluralize>
 		</div>
 		<div  data-ng-repeat="position in applicant.applicantPositions" ng-init="i=position.institution">
@@ -75,11 +100,11 @@
 	</div>
 	<div class="display-group">
 		<div >
-			<strong>Focal
+			<h2>Focal
 				<ng-pluralize count="applicant.focalAreas.length"
 							  when="{'0': ' Areas - none specified', '1': ' Area', 'other': ' Areas'}">
 				</ng-pluralize>
-			</strong>
+			</h2>
 		</div>
 		<div>
 			<!--<ul class="bubble-list">-->
@@ -90,7 +115,7 @@
 	</div>
 	<div class="display-group">
 		<div>
-			<strong>Resume/CV</strong>
+			<h2>Resume/CV</h2>
 		</div>
 		<!-- TODO dont need an array for this-->
 		<div>
@@ -110,7 +135,7 @@
 	</div>
 	<div class="display-group">
 		<div>
-			<strong>Referral Source</strong>
+			<h2>Referral Source</h2>
 		</div>
 		<div>
 			<p><span>{{applicant.referralSource.primary}}</span>
