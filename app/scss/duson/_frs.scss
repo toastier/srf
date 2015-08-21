@@ -3,13 +3,12 @@ div[data-ng-repeat] {
 }
 
 .display-group {
-  .display_group {
-    margin: 20px;
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    margin-left: 20px;
+  .display-group {
     width: 60%;
+    margin-left: 20%;
+    position: absolute;
+    padding: 10px;
+    border-width: 10px;
   }
 }
 

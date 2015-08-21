@@ -27,7 +27,7 @@
 						 }"></strong>
 			</ng-pluralize>
 		</div>
-		<div  data-ng-repeat="position in applicant.applicantPositions" ng-init="i=position.institution[0]">
+		<div  data-ng-repeat="position in applicant.applicantPositions" ng-init="i=position.institution">
 			<span>{{position.positionName}}, </span>
 			<a href="" ng-click="showme=true"><span>{{i.institutionName}}</span></a>
 			<!--TODO directive-->
@@ -64,12 +64,12 @@
 			<strong>Resume/CV</strong>
 		</div>
 		<!-- TODO dont need an array for this-->
-		<div data-ng-repeat="resume in applicant.resume">
-			<span><a ng-href="{{resume.link}}">View</a></span></div><span>{{resume.link}}</span>
+		<div>
+			<span><a ng-href="{{applicant.resume.link}}">View</a></span></div><span>{{applicant.resume.link}}</span>
 			<p>
-				<span>Upload Date: {{resume.dateUploaded | date: 'shortDate'}}</span>
+				<span>Upload Date: {{applicant.resume.dateUploaded | date: 'shortDate'}}</span>
 			</p>
-			<span><em>{{resume.note}}</em></span>
+			<span><em>{{applicant.resume.note}}</em></span>
 		</div>
 	</div>
 </div>
