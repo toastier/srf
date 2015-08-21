@@ -20,6 +20,20 @@
 	</small>
 	<!--<applicant-name></applicant-name>-->
 	<div class="display-group ">
+		<div>
+			<strong>Contact Information</strong>
+			<p>Email</p>
+			<div  data-ng-repeat="email in applicant.emailAddresses">
+				<span>{{email.emailAddress}}</span> <span ng-show="email.primary === true">(primary)</span>
+				<span ng-show="email.note != null"><a href="" ng-click="showemailnote=true">Note</a></span>
+				<div ng-show="showemailnote" class="display-group">
+					<span ng-click="showemailnote=false"><i class="fa fa-times"></i></span>
+					<p>{{email.note}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="display-group ">
 		<div><strong>Current
 			<ng-pluralize count="applicant.applicantPositions.length"
 						  when="{'1': ' Position',
@@ -69,7 +83,13 @@
 			<p>
 				<span>Upload Date: {{applicant.resume.dateUploaded | date: 'shortDate'}}</span>
 			</p>
-			<span><em>{{applicant.resume.note}}</em></span>
+			<span ng-show="applicant.resume.note != null">
+				<a href="" ng-click="showresumenote=true">Note</a>
+			</span>
+			<div ng-show="showresumenote" class="display-group">
+				<span ng-click="showresumenote=false"><i class="fa fa-times"></i></span>
+				<p>{{applicant.resume.note}}</p>
+			</div>
 		</div>
 	</div>
 </div>
