@@ -98,6 +98,23 @@
 			</div>
 		</div>
 	</div>
+	<div class="display-group ">
+		<div><h2>Credentials</h2>
+		</div>
+		<div  data-ng-repeat="credential in applicant.credentials">
+			<span>{{credential.credential}}, </span>
+			<a href="" ng-click="showme=true"><span>{{credential.institution}}</span></a>, <span>{{credential.year}}</span>
+			<!--TODO directive-->
+			<!--<div ng-show="showme" class="display-group"  >-->
+				<!--<strong>Institution Info</strong>-->
+				<!--<span ng-click="showme=false"><i class="fa fa-times"></i></span>-->
+				<!--<p>{{i.city}}, {{i.state}} {{i.country}}</p>-->
+			<!--</div>-->
+			<div class="position-name  span3">
+				<em>{{credential.note}}</em>
+			</div>
+		</div>
+	</div>
 	<div class="display-group">
 		<div >
 			<h2>Focal
