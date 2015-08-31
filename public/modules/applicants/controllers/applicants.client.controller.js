@@ -6,14 +6,16 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 
 		$scope.create = function() {
 			var applicant = new Applicants({
-				firstName: this.name.firstName,
-				lastName: this.name.lastName,
-				middleName: this.name.middleName,
-				honorific: this.name.honorific,
-				suffix: this.name.suffix,
-				positionAppliedFor: this.positionAppliedFor.name,
-				positions: this.positions,
-				focalAreas: this.focalAreas
+				name: {
+					firstName: this.firstName,
+					lastName: this.lastName
+				}
+				//middleName: this.name.middleName,
+				//honorific: this.name.honorific,
+				//suffix: this.name.suffix,
+				//positionAppliedFor: this.positionAppliedFor.name,
+				//positions: this.positions,
+				//focalAreas: this.focalAreas
 			});
 
 			applicant.$save(function(response) {
