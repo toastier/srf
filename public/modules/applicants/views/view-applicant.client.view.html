@@ -5,10 +5,32 @@
 		<h2>
 			<span class="text-muted">for</span> {{applicant.applicantPositions[0].positionName}}
 		</h2>
-        <p ng-show="applicant.status.rejectionStatus.rejected === false">{{applicant.status.hiringStatus.stage}}, {{applicant.status.hiringStatus.dateStage | date:'shortDate'}}</p>
-        <p ng-show="applicant.status.rejectionStatus.rejected === true">Rejected following {{applicant.status.rejectionStatus.followingStage}}, {{applicant.status.hiringStatus.dateRejection | date:'shortDate'}} </p>
         <p ng-show="applicant.status.confidential === true" class="confidential">Confidential</p>
-    </div>
+		<p ng-show="applicant.status.current !== true" class="not-current">Not current applicant</p>
+		<p ng-show="applicant.status.rejectionStatus.rejected === false">{{applicant.status.hiringStatus.stage}}, {{applicant.status.hiringStatus.dateStage | date:'shortDate'}}</p>
+		<p ng-show="applicant.status.rejectionStatus.rejected === true">Rejected following {{applicant.status.rejectionStatus.followingStage}}, {{applicant.status.hiringStatus.dateRejection | date:'shortDate'}} </p>
+		<!--<div ng-init="hStatus = applicant.status.hiringStatus">-->
+			<!--<p data-ng-repeat="(key, value) in applicant.status.hiringStatus">-->
+				<!--<p><span>{{key}}</span>: <span> {{ value.date }} </span></p>-->
+			<!--</p>-->
+		<!--</div>  //TODO I didn't figure out how to simplify and not explicitly call statuses
+-->
+
+		<!--//TODO this seems so inefficient but haven't found better way..-->
+		<div ng-init="hiringStatus=applicant.status.hiringStatus">
+			<p ng-show="applicant.status.hiringStatus.submitted.date"><span>Submitted</span>: <span> {{applicant.status.hiringStatus.submitted.date}} </span></p>
+			<p ng-show="applicant.status.hiringStatus.submitted.note"><span>Note</span>: <span><em>{{applicant.status.hiringStatus.submitted.note}}</em></span></p>
+			<p ng-show="applicant.status.hiringStatus.offered.date"><span>Offered</span>: <span> {{applicant.status.hiringStatus.offered.date}} </span></p>
+			<p ng-show="applicant.status.hiringStatus.offered.note"><span>Note</span>: <span><em>{{applicant.status.hiringStatus.offered.note}}</em></span></p>
+			<p ng-show="applicant.status.hiringStatus.accepted.date"><span>Accepted</span>: <span> {{applicant.status.hiringStatus.accepted.date}} </span></p>
+			<p ng-show="applicant.status.hiringStatus.accepted.note"><span>Note</span>: <span><em>{{applicant.status.hiringStatus.accepted.note}}</em></span></p>
+			<p ng-show="applicant.status.hiringStatus.rejected.date"><span>Rejected</span>: <span> {{applicant.status.hiringStatus.rejected.date}} </span></p>
+			<p ng-show="applicant.status.hiringStatus.rejected.note"><span>Note>: <span><em>{{applicant.status.hiringStatus.rejected.note}}</em></span></p>
+			<p ng-show="applicant.status.hiringStatus.start.date"><span>Start</span>: <span> {{applicant.status.hiringStatus.start.date}} </span></p>
+			<p ng-show="applicant.status.hiringStatus.start.note"><span>Note</span>: <span><em>{{applicant.status.hiringStatus.start.note}}</em></span></p>
+		</div>
+
+		<!--</div>-->
 
 	<div class="pull-right" data-ng-show="authentication.user._id == applicant.user._id">
 		<a class="btn btn-primary" href="/#!/applicants/{{applicant._id}}/edit">
