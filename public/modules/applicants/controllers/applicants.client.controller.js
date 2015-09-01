@@ -63,16 +63,5 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 			});
 		};
 
-
-
-		//$scope.filtering = function() {
-		//	$scope.statusCodes =
-		//	[	{id:1, applicantStatus:'Pending Approval'},
-		//		{id:2, applicantStatus:'Open'},
-		//		{id:3, applicantStatus:'On Hold'}
-		//	];
-		//	console.log('statusCodes: ' + $scope.statusCodes);
-		//	return statusCodes;
-		//};
 	}
 ]);

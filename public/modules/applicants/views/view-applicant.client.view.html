@@ -18,15 +18,15 @@
 
 		<!--//TODO this seems so inefficient but haven't found better way..-->
 		<div ng-init="hiringStatus=applicant.status.hiringStatus">
-			<p ng-show="applicant.status.hiringStatus.submitted.date"><span>Submitted</span>: <span> {{applicant.status.hiringStatus.submitted.date}} </span></p>
+			<p ng-show="applicant.status.hiringStatus.submitted.date"><span>Submitted</span>: <span> {{applicant.status.hiringStatus.submitted.date  | date:'shortDate'}}  </span></p>
 			<p ng-show="applicant.status.hiringStatus.submitted.note"><span>Note</span>: <span><em>{{applicant.status.hiringStatus.submitted.note}}</em></span></p>
-			<p ng-show="applicant.status.hiringStatus.offered.date"><span>Offered</span>: <span> {{applicant.status.hiringStatus.offered.date}} </span></p>
+			<p ng-show="applicant.status.hiringStatus.offered.date"><span>Offered</span>: <span> {{applicant.status.hiringStatus.offered.date | date:'shortDate'}} </span></p>
 			<p ng-show="applicant.status.hiringStatus.offered.note"><span>Note</span>: <span><em>{{applicant.status.hiringStatus.offered.note}}</em></span></p>
-			<p ng-show="applicant.status.hiringStatus.accepted.date"><span>Accepted</span>: <span> {{applicant.status.hiringStatus.accepted.date}} </span></p>
+			<p ng-show="applicant.status.hiringStatus.accepted.date"><span>Accepted</span>: <span> {{applicant.status.hiringStatus.accepted.date | date:'shortDate'}} </span></p>
 			<p ng-show="applicant.status.hiringStatus.accepted.note"><span>Note</span>: <span><em>{{applicant.status.hiringStatus.accepted.note}}</em></span></p>
-			<p ng-show="applicant.status.hiringStatus.rejected.date"><span>Rejected</span>: <span> {{applicant.status.hiringStatus.rejected.date}} </span></p>
+			<p ng-show="applicant.status.hiringStatus.rejected.date"><span>Rejected</span>: <span> {{applicant.status.hiringStatus.rejected.date | date:'shortDate'}} </span></p>
 			<p ng-show="applicant.status.hiringStatus.rejected.note"><span>Note>: <span><em>{{applicant.status.hiringStatus.rejected.note}}</em></span></p>
-			<p ng-show="applicant.status.hiringStatus.start.date"><span>Start</span>: <span> {{applicant.status.hiringStatus.start.date}} </span></p>
+			<p ng-show="applicant.status.hiringStatus.start.date"><span>Start</span>: <span> {{applicant.status.hiringStatus.start.date | date:'shortDate'}} </span></p>
 			<p ng-show="applicant.status.hiringStatus.start.note"><span>Note</span>: <span><em>{{applicant.status.hiringStatus.start.note}}</em></span></p>
 		</div>
 
