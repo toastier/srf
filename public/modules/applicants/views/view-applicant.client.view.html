@@ -77,7 +77,7 @@
 						 }">
             </ng-pluralize></span></h3>
             <div data-ng-repeat="address in applicant.addresses">
-
+                <span ng-show="address.type != null">({{address.type}})</span><br/>
                 <span>{{address.address1}}</span><br/>
                 <span>{{address.address2}}</span><br/>
                 <span>{{address.city}},</span>
@@ -156,19 +156,19 @@
 		<div>
 			<h2>Resume/CV</h2>
 		</div>
-		<!-- TODO dont need an array for this-->
 		<div>
-			<span><a ng-href="{{applicant.resume.link}}">View</a></span>
-			<span>[ {{applicant.resume.link}} ]</span>
+			<!--TODO something odd with sample data, treating resume as if it's in an array, but it's not.-->
+			<span><a ng-href="{{applicant.resume[0].link}}">View</a></span>
+			<span> {{applicant.resume[0].link}} </span>
 			<p>
-				<span>Upload Date: {{applicant.resume.dateUploaded | date: 'shortDate'}}</span>
+				<span>Upload Date: {{applicant.resume[0].dateUploaded | date: 'shortDate'}}</span>
 			</p>
-			<span ng-show="applicant.resume.note != null">
+			<span ng-show="applicant.resume[0].note != null">
 				<a href="" ng-click="showresumenote=true">Note</a>
 			</span>
 			<div ng-show="showresumenote" class="display-group">
 				<span ng-click="showresumenote=false"><i class="fa fa-times"></i></span>
-				<p>{{applicant.resume.note}}</p>
+				<p>{{applicant.resume[0].note}}</p>
 			</div>
 		</div>
 	</div>
@@ -177,8 +177,8 @@
 			<h2>Referral Source</h2>
 		</div>
 		<div>
-			<p><span>{{applicant.referralSource.primary}}</span>
-				<span ng-show="applicant.referralSource.specific != null"> - {{applicant.referralSource.specific}}</span>
+			<p><span>{{applicant.source.primary}}</span>
+				<span ng-show="applicant.source.specific != null"> - {{applicant.source.specific}}</span>
 			</p>
 		</div>
 	</div>
