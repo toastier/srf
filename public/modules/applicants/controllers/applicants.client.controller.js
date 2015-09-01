@@ -17,8 +17,8 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 				//positions: this.positions,
 				//focalAreas: this.focalAreas
 			});
-
 			applicant.$save(function(response) {
+				alert(response._id);
 				$location.path('applicants/' + response._id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;

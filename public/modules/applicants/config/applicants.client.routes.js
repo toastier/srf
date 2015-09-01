@@ -11,9 +11,7 @@ angular.module('applicants').config(['$stateProvider',
       }).
       state('createApplicant', {
         url: '/applicants/create',
-        templateUrl: 'modules/applicants/views/create-applicant.client.view.html',
-        controller: 'ApplicantsController',
-        controllerAs: 'vm'
+        templateUrl: 'modules/applicants/views/create-applicant.client.view.html'
       }).
       state('viewApplicant', {
         url: '/applicants/:applicantId',
