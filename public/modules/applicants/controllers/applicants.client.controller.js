@@ -8,12 +8,17 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 			var applicant = new Applicants({
 				name: {
 					firstName: this.firstName,
-					lastName: this.lastName
-				}
-				//middleName: this.name.middleName,
-				//honorific: this.name.honorific,
-				//suffix: this.name.suffix,
-				//positionAppliedFor: this.positionAppliedFor.name,
+					lastName: this.lastName,
+					middleName: this.middleName,
+					honorific: this.honorific,
+					suffix: this.suffix
+				},
+				applicantPositions: [
+					{
+						//positionName: (this.position !== undefined ? this.position : 'TBD')
+						positionName: this.position
+					}
+				]
 				//positions: this.positions,
 				//focalAreas: this.focalAreas
 			});

@@ -31,7 +31,7 @@
                 <h4 class="list-group-item-heading">{{applicant.name.firstName}} {{applicant.name.middleName}}</h4>
             </td>
             <td>
-                <h4 class="list-group-item-heading">{{applicant.applicantPositions[0].positionName}}</h4>
+                <h4 class="list-group-item-heading">{{applicant.applicantPositions[0].positionName || 'TBD' }}</h4>
             </td>
         </tr>
 

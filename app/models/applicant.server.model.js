@@ -20,7 +20,7 @@ var applicantModel = new Schema({
         positionAppliedFor: {
             positionName:   { type: String}
         },
-        currentPositions: [{
+        applicantPositions: [{
             positionName:           { type: String },
             dateExpectedCompletion: { type: Date },
             note:                   { type: String },
