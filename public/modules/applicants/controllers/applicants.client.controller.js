@@ -5,6 +5,11 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 		$scope.authentication = Authentication;
 
 		$scope.create = function() {
+
+			var addressArray = [{address1:this.address1}];
+
+			console.log(addressArray);
+
 			var applicant = new Applicants({
 				name: {
 					firstName: this.firstName,
@@ -12,13 +17,21 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 					middleName: this.middleName,
 					honorific: this.honorific,
 					suffix: this.suffix
-				},
-				applicantPositions: [
-					{
-						//positionName: (this.position !== undefined ? this.position : 'TBD')
-						positionName: this.position
-					}
-				]
+				}
+				//addresses: [
+				//	{
+				//		address1: this.address1
+				//	}
+				//]
+				//	[{
+				//	address1: this.address1
+				//}]
+				//applicantPositions: [
+				//	{
+				//		//positionName: (this.position !== undefined ? this.position : 'TBD')
+				//		positionName: this.position
+				//	}
+				//]
 				//positions: this.positions,
 				//focalAreas: this.focalAreas
 			});

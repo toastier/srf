@@ -29,7 +29,13 @@ var positionModel = new Schema({
         searchLead: {
             firstName: String,
             lastName: String
-        }
+        },
+        testArray: [
+        {
+            name: {type: String},
+            note: {type: String},
+            _id: false
+        }]
     }
 );
 

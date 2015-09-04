@@ -52,6 +52,7 @@ var applicantModel = new Schema({
             primary:        { type: Boolean },
         }],
         addresses: [{
+            _id : false,
             type:           { type: String }, //TODO enumList
             address1:       { type: String },
             address2:       { type: String },
@@ -59,8 +60,9 @@ var applicantModel = new Schema({
             state:          { type: String }, //TODO enumlist
             postalCode:     { type: String },
             country:        { type: String }, //TODO enumlist
-            primary:        { type: Boolean },
+            primary:        { type: Boolean }
         }],
+        //addresses:  [Schema.Types.Mixed],
         referralSource: {
             primary: {type: String, default: 'Not specified'},
             specific: { type: String }
