@@ -18,28 +18,29 @@ var applicantModel = new Schema({
         },
         // this will be a pointer to the Positions schema TODO
         positionAppliedFor: {
-            positionName:   { type: String}
+            positionName: {type: String}
         },
+        //},
         applicantPositions: [{
             positionName:           { type: String },
             dateExpectedCompletion: { type: Date },
             note:                   { type: String },
             //TODO institutions will lookup in another schema
-            institution: [{
+            institution: {
                 institutionName: { type: String },
                 city: { type: String },
                 state: { type: String },
                 country: { type: String }
-            }]
+            }
         }],
         focalAreas: [{
             focalArea: { type: String }
         }],
-        resume: [{
+        resume: {
             dateUploaded:   { type: Date },
             link:           { type: String },
             note:           { type: String }
-        }],
+        },
         emailAddresses: [{
             emailAddress:   { type: String },
             primary:        { type: Boolean },
@@ -52,7 +53,6 @@ var applicantModel = new Schema({
             primary:        { type: Boolean },
         }],
         addresses: [{
-            _id : false,
             type:           { type: String }, //TODO enumList
             address1:       { type: String },
             address2:       { type: String },
@@ -62,7 +62,6 @@ var applicantModel = new Schema({
             country:        { type: String }, //TODO enumlist
             primary:        { type: Boolean }
         }],
-        //addresses:  [Schema.Types.Mixed],
         referralSource: {
             primary: {type: String, default: 'Not specified'},
             specific: { type: String }
@@ -101,13 +100,14 @@ var applicantModel = new Schema({
         dateCreated: {
             type: Date,
             default: Date.now
-        },
-        user: {
-            displayName: {
-                type: String,
-                default: 'Doris DuSon'
-            }
         }
+        // User is what has been causing the ObjectId cast error on create (2015-09-04)
+        //user: {
+        //    displayName: {
+        //        type: String,
+        //        default: 'Doris DuSon'
+        //    }
+        //}
     }
 );
 

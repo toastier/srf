@@ -10,8 +10,7 @@ angular.module('positions').controller('PositionsController', ['$scope', '$state
 				details: this.details,
 				postDate: this.postDate,
 				closeDate: this.closeDate,
-				docLink: this.docLink,
-				testArray: [ { name : this.name, note: this.name} ]
+				docLink: this.docLink
 			});
 
 			position.$save(function(response) {
