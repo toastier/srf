@@ -19,7 +19,7 @@ var getErrorMessage = function(err) {
 		switch (err.code) {
 			case 11000:
 			case 11001:
-				message = 'Position already exists';
+				message = 'Applicant already exists';
 				break;
 			default:
 				message = 'Something went wrong';
@@ -44,13 +44,15 @@ exports.create = function(req, res) {
 		if (err) {
 			return res.send(400, {
 				// this doesn't work, dumping errorHandler into its own controller
-				message: errorHandler.getErrorMessage(err)
+				message: getErrorMessage(err)
 			});
 		} else {
 			res.jsonp(applicant);
 		}
 	});
 };
+
+
 
 /**
  * Show the current applicant

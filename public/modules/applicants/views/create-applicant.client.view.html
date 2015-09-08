@@ -97,9 +97,40 @@
                 <div class="form-group col-xs-12 col-md-12">
                     <label class="control-label" for="country">Country</label>
                     <div class="controls">
-                        <input type="text" data-ng-model="country" id="country" class="form-control" text="United States" required>
+                        <input type="text" data-ng-model="country" id="country" class="form-control" value="United States" required>
                     </div>
                 </div>
+            </fieldset>
+            <fieldset>
+                <h2>Credentials</h2>
+                <label class="control-label" for="credential">Credential</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="credential" id="credential" class="form-control" required>
+                </div>
+                <label class="control-label" for="institution">Institution</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="institution" id="institution" class="form-control" required>
+                </div>
+                <label class="control-label" for="year">Year</label>
+                <div class="controls">
+                    <input type="number" data-ng-model="year" id="year" class="form-control" required>
+                </div>
+            </fieldset>
+            <fieldset>
+                <h2>Current Position</h2>
+                <label class="control-label" for="position-name">Position Name</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="positionName" id="position-name" class="form-control" required>
+                </div>
+                <label class="control-label" for="institution-name">Institution</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="institutionName" id="institution-name" class="form-control" required>
+                </div>
+                <label class="control-label" for="expected-completion-date">Expected Completion Date</label>
+                <div class="controls">
+                    <input type="date" data-ng-model="dateExpectedCompletion" id="expected-completion-date" class="form-control" required>
+                </div>
+             </fieldset>
             </fieldset>
             <div class="form-group col-xs-12 ">
                 <input type="submit" class="btn btn-default">

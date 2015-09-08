@@ -33,6 +33,12 @@ var applicantModel = new Schema({
                 country: { type: String }
             }
         }],
+        credentials: [{
+            credential: {type: String },
+            note:       {type: String },
+            institution:{type: String },
+            year:       {type: Number, min: 1920, max: 2030}
+        }],
         focalAreas: [{
             focalArea: { type: String }
         }],

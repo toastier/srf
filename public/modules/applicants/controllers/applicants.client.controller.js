@@ -18,18 +18,16 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 					honorific: this.honorific,
 					suffix: this.suffix
 				},
-				//addresses: [
-				//	{
-				//		address1: this.address1
-				//	}
-				//]
-				//	[{
-				//	address1: this.address1
-				//}]
 				applicantPositions: [
 					{
 						//positionName: (this.position !== undefined ? this.position : 'TBD')
-						positionName: this.position
+						positionName: this.positionName,
+						institution: {
+							institutionName: this.institutionName
+						},
+						dateExpectedCompletion: this.dateExpectedCompletion
+
+
 					}
 				],
 				emailAddresses: [
@@ -51,6 +49,14 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 						country: this.country,
 						postalCode: this.postalCode,
 						primary: this.primary
+					}
+				],
+				credentials: [
+					{
+						credential: this.credential,
+						year:	this.year,
+						institution: this.institution,
+						note: this.note
 					}
 				]
 				//positions: this.positions,
