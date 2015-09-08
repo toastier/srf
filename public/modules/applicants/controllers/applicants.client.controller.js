@@ -31,6 +31,27 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 						//positionName: (this.position !== undefined ? this.position : 'TBD')
 						positionName: this.position
 					}
+				],
+				emailAddresses: [
+					{
+						emailAddress: this.emailAddress
+					}
+				],
+				phoneNumbers: [
+					{
+						phoneNumber: this.phoneNumber
+					}
+				],
+				addresses: [
+					{
+						address1: this.address1,
+						address2: this.address2,
+						city: this.city,
+						state: this.state,
+						country: this.country,
+						postalCode: this.postalCode,
+						primary: this.primary
+					}
 				]
 				//positions: this.positions,
 				//focalAreas: this.focalAreas
