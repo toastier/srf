@@ -131,6 +131,28 @@
                     <input type="date" data-ng-model="dateExpectedCompletion" id="expected-completion-date" class="form-control" required>
                 </div>
              </fieldset>
+            <fieldset>
+                <h2>Focal Areas</h2>
+                <label class="control-label" for="focal-area">Focal Area</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="focalArea" id="focal-area" class="form-control" required>
+                </div>
+            </fieldset>
+            <fieldset>
+                <h2>Referral Source</h2>
+                <label class="control-label" for="primary">Primary</label>
+                <div class="controls">
+                    <select data-ng-model="primary" id="primary" class="form-control" required>
+                        <option>DUSON posting</option>
+                        <option>Internet posting</option>
+                        <option>Personal</option>
+                        <option>Other</option>
+                        </select>
+                    </div>
+                <label class="control-label" for="specific">Specific</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="specific" id="specific" class="form-control" required>
+                </div>
             </fieldset>
             <div class="form-group col-xs-12 ">
                 <input type="submit" class="btn btn-default">

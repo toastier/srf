@@ -68,7 +68,7 @@ var applicantModel = new Schema({
             country:        { type: String }, //TODO enumlist
             primary:        { type: Boolean }
         }],
-        referralSource: {
+        source: {
             primary: {type: String, default: 'Not specified'},
             specific: { type: String }
         },

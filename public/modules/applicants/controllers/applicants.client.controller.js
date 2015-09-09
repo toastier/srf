@@ -58,9 +58,17 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 						institution: this.institution,
 						note: this.note
 					}
-				]
-				//positions: this.positions,
-				//focalAreas: this.focalAreas
+				],
+				focalAreas: [
+					{
+						focalArea: this.focalArea
+					}
+				],
+				source:
+					{
+						primary: this.primary,
+						specific: this.specific
+					}
 			});
 			applicant.$save(function(response) {
 				alert(response._id);
