@@ -1,15 +1,16 @@
 .navbar.navbar-default.navbar-fixed-top.navbar-primary(ng-controller="HeaderController as header", role="navigation")
     .container-fluid
         .navbar-header.text-center
-            button.navbar-toggle(type="button", data-toggle="collapse", data-target=".navbar-collapse")
+            button.navbar-toggle.collapsed(type="button", ng-click="header.toggleCollapsibleMenu()")
                 .sr-only Toggle Navigation
                 .icon-bar
                 .icon-bar
                 .icon-bar
-            a.navbar-brand(ng-href="/#!/") DUSON Faculty Recruitment System
-        .navbar-collapse
+            a.navbar-brand(ng-href="/#!/") {{ header.appInfo.info.name }}
+        .navbar-collapse(collapse="header.isCollapsed")
+            ul.nav.navbar-nav.navbar-right.visible-xs-block
+                li(ng-repeat="item in header.sidebarMenu.items")
+                    a(ng-href="/{{item.uiRoute}}") {{ item.title }}
             ul.nav.navbar-nav.navbar-right(ng-if="header.authentication.user._id")
                 li(ng-repeat="item in header.menu.items")
-                    a(ng-href="/#\!{{item.uiRoute}}") {{ item.title }}
-            .nav.navbar-nav.navbar-right(ng-if="!header.authentication.user")
-                a.btn.btn-primary(ng-href="/#!/signin") Login
+                    a(ng-href="/{{item.uiRoute}}") {{ item.title }}

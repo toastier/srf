@@ -1,24 +1,30 @@
-'use strict';
+angular
+  .module('core')
+  .controller('HomeController', HomeController);
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', 'Messages', 'toastr', function ($scope, Authentication, Messages, toastr) {
-  var home = this;
+function HomeController ($state, Authentication) {
 
-  home.authentication = Authentication;
+  var vm = this;
+  vm.authentication = Authentication.init();
 
   function activate() {
-    var messages = Messages.getMessages();
-    Messages.clearMessages();
 
-    angular.forEach(messages, function(message) {
-      if(message.type === 'warn') {
-        toastr.warning(message.message);
-      } else {
-        toastr.info(message.message);
-      }
-    });
+    vm.authentication.user.$promise
+      .then(function() {
+        if (vm.authentication.user._id) {
+          var hasRole = vm.authentication.hasRole;
+          if(hasRole(['admin'])) {
+            $state.go('listPositions');
+          } else if(hasRole(['faculty/staff'])) {
+            $state.go('listAssets');
+          } else {
+            $state.go('noAccess');
+          }
+        } else {
+          $state.go('signin');
+        }
+      });
+
   }
-
   activate();
-
-
-}]);
+}

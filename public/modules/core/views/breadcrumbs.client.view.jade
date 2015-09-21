@@ -1,0 +1,5 @@
+nav(ng-controller="BreadcrumbsController as crumbs")
+  .col-xs-12
+    ul.breadcrumb(ng-show="crumbs.here.length > 0")
+      li(ng-repeat="crumb in crumbs.here")
+        a(ng-href="{{ crumb.uiRoute}}") {{ crumb.title }}

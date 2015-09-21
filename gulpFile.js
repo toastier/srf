@@ -1,16 +1,19 @@
 'use strict';
 
 var gulp = require('gulp');
+var gulpConfig = require('./gulp.config')();
+var concat = require('gulp-concat');
 var csslint = require('gulp-csslint');
 var jshint = require('gulp-jshint');
-var nodemon = require('gulp-nodemon');
-var livereload = require('gulp-livereload');
-var uglify = require('gulp-uglifyjs');
-var concat = require('gulp-concat');
-var minifyCSS = require('gulp-minify-css');
-var rename = require('gulp-rename');
-var mocha = require('gulp-mocha');
+var jade = require('gulp-jade');
 var karma = require('gulp-karma');
+var livereload = require('gulp-livereload');
+var mocha = require('gulp-mocha');
+var csso = require('gulp-csso');
+var nodemon = require('gulp-nodemon');
+var rename = require('gulp-rename');
+var sass = require('gulp-sass');
+var uglify = require('gulp-uglifyjs');
 var argv = require('yargs').argv;
 var gulpif = require('gulp-if');
 
@@ -48,7 +51,7 @@ gulp.task('uglify', function() {
 gulp.task('cssmin', function () {
   gulp.src(applicationCSSFiles)
      .pipe(concat('application.css'))
-     .pipe(minifyCSS())
+     .pipe(csso())
      .pipe(rename('application.min.css'))
      .pipe(gulp.dest('public/dist'));
 });
@@ -71,6 +74,11 @@ gulp.task('karma', function () {
     });
 });
 
+gulp.task('launchBrowser', function () {
+  gulp.src('')
+    .pipe($.open({app: 'Google Chrome', uri: 'http://localhost:3001'}));
+});
+
 gulp.task('watch', function() {
   var server = livereload();
   gulp.watch(['gulpFile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', 'public/js/**/*.js', 'public/modules/**/*.js'], ['jshint']);
@@ -82,15 +90,38 @@ gulp.task('watch', function() {
 });
 
  gulp.task('loadConfig', function() {
-  var init = require('./config/init')();
-  var config = require('./config/config');
-  applicationJavaScriptFiles = config.assets.js;
-  applicationCSSFiles = config.assets.css;
-  applicationTestFiles = config.assets.lib.js.concat(config.assets.js, config.assets.tests);
+   applicationJavaScriptFiles = gulpConfig.jsFiles;
+   applicationCSSFiles = gulpConfig.cssFiles;
+   applicationTestFiles = gulpConfig.jsFiles.concat(gulpConfig.jsFiles, gulpConfig.testFiles);
+});
+
+gulp.task('transpileSass', ['loadConfig'], function() {
+  gulp.src(gulpConfig.sassFile)
+    //.pipe($.sourcemaps.init())
+    .pipe(sass({outputStyle: 'expanded'}))
+    .pipe(sass({sourceComments: true}))
+    .pipe(sass().on('error', sass.logError))
+    //.pipe($.sourcemaps.write())
+    .pipe(gulp.dest(gulpConfig.cssDestination));
+  console.log('Sass Transpiled to ' + gulpConfig.cssDestination);
+});
+
+gulp.task('compileJade', ['loadConfig'], function() {
+  var outputDir = gulpConfig.modulesDirectory;
+  if(process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
+    outputDir = gulpConfig.htmlDestination;
+  }
+  var LOCALS = {};
+  gulp.src(gulpConfig.jadeFiles)
+    .pipe(jade({
+      locals: LOCALS
+    }))
+    .pipe(gulp.dest(outputDir));
+  console.log('Jade files compiled to ' + outputDir);
 });
 
 // Default task(s).
-gulp.task('default', ['nodemon', 'watch']);  //remove lint tasks
+gulp.task('default', ['compileJade', 'transpileSass', 'nodemon', 'watch']);
 
 // Lint task(s).
 gulp.task('lint', ['jshint', 'csslint']);

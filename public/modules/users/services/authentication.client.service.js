@@ -1,19 +1,32 @@
-'use strict';
-
-function Authentication($resource) {
-  var result = {};
-
-  result.refresh = function() {
-    result.user = $resource('/auth/me').get();
-  };
-
-  if(!result.user) {
-    result.refresh();
-  }
-
-	return result;
-}
-
 angular
 	.module('users')
-	.factory('Authentication', Authentication);
+	.service('Authentication', Authentication);
+
+function Authentication($resource, _) {
+
+  var User = {};
+  var resource = $resource('/auth/me', {});
+
+  function init () {
+    if (!User.cached) {
+      lookupUser();
+    }
+    return User;
+  }
+
+  function lookupUser () {
+    User.hasRole = function hasRole(roles) {
+      return !!(_.intersection(User.user.roles, roles).length);
+    };
+    User.refresh = function refresh() {
+      lookupUser();
+    };
+    User.user = resource.get();
+    User.cached = true;
+  }
+
+  return {
+    init: init
+  };
+}
+

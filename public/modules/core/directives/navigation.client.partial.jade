@@ -1,0 +1,13 @@
+.row(class="navigation", sticky, offset="50", sticky-class="stuck", media-query="min-width: 768px")
+  .col-xs-12
+    .row
+      .col-md-6
+        h1.page-title {{ nav.title.name }}
+      .col-md-6.page-actions
+        .btn-group.pull-right(ng-show="nav.dropdownItems.length > 0")
+          .btn-group
+            button.btn.btn-action.rounded.dropdown-toggle Actions
+            ul.dropdown-menu(role="menu")
+              li(ng-repeat="dropdownItem in nav.dropdownItems")
+                span(ng-click="dropdownItem.method()") {{ dropdownItem.title }}
+        button.btn.btn-default.pull-right(class="{{ button.style }}", ng-click="button.method()", ng-disabled="button.disableIf()", ng-repeat="button in nav.buttons") {{ button.title }}

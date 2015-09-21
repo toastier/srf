@@ -1,22 +1,60 @@
-'use strict';
+angular
+  .module('users')
+  .controller('UsersController', UsersController);
 
-function UsersController($scope, $state, toastr, Users, Roles, Authentication, Masquerade, Matching, Sorting, Pagination) {
-
+function UsersController($scope, $state, Users, Roles, Authentication, Navigation, Masquerade, Pagination, Sorting, Filtering, Messages) {
   var vm = this;
+  Authentication.init();
+  vm.authentication = Authentication.init();
+  vm.paginator = Pagination.paginator;
+  vm.users = {original: [], matched: [], paginated: []};
   vm.options = {};
   vm.forms = {};
   vm.newUser = {};
   vm.forms.userCreate = undefined;
   vm.forms.userForms = {};
-  // expose the authentication object to the view
-  vm.authentication = Authentication;
-  vm.paginator = Pagination.paginator;
-  vm.users = [];
-  vm.matchedUsers = [];
-  vm.paginatedUsers = [];
+  vm.saveUser = saveUser;
+  vm.createUser = createUser;
+  vm.undoUser = undoUser;
+  vm.masquerade = masquerade;
+  vm.paginate = paginate;
+  vm.filterCollection = filterCollection;
+  vm.clearFilters = clearFilters;
+  vm.sortBy = sortBy;
+  vm.sortingClass = sortingClass;
+  vm.tableColumns = [
+    {field: 'displayName', label: 'Name', sortable: true, filterable: true},
+    {field: 'username', label: 'Name', sortable: true, filterable: true}
+  ];
 
-  function createShadowData() {
-    vm.usersOriginal = angular.copy(vm.users);
+  var filterDefinitionArray = [];
+
+  function sortingClass (predicate) {
+    return Sorting.sortingClass(predicate);
+  }
+
+  function paginate () {
+    vm.users.paginated = Sorting.sortThenPaginate(vm.users.matched, vm.users.paginated);
+  }
+
+  function sortBy (predicate) {
+    Sorting.prependToSortOrder(predicate);
+    paginate();
+  }
+
+  function filterCollection () {
+    vm.users.matched = vm.filtering.doFiltering();
+    paginate();
+  }
+
+  function setupFilters () {
+    filterDefinitionArray = vm.filtering.buildFilterConfigurationArray(vm.tableColumns);
+    vm.filtering.addFilterDefinitions(filterDefinitionArray);
+  }
+
+  function clearFilters () {
+    vm.filtering.clearFilters();
+    filterCollection();
   }
 
   /**
@@ -26,7 +64,7 @@ function UsersController($scope, $state, toastr, Users, Roles, Authentication, M
    * @returns {boolean}
    */
   function findUserById(id, collection) {
-    collection = collection || vm.users;
+    collection = collection || vm.users.original;
     var matched = false;
     angular.forEach(collection, function(user) {
       if(!matched && user._id === id) {
@@ -37,75 +75,110 @@ function UsersController($scope, $state, toastr, Users, Roles, Authentication, M
   }
 
   /**
-   * Performs setup and data retrieval
-   * @param mode string
+   * Return the index of the User in the collection based on _id
+   * @param id
+   * @param collection
+   * @returns {number}
    */
-  function activate (mode) {
-    switch (mode) {
-      case 'create':
-        //do something
-        break;
-      default:
-        Users.query().$promise.then(function(result) {
-          vm.users = result;
-          angular.forEach(vm.users, function(user) {
-            vm.forms.userForms[user._id] = 'user-' + user._id;
-            user.isCollapsed = true;
-          });
-          createShadowData();
-          vm.matchedUsers = angular.copy(vm.users);
-          Sorting.setSortOrder([
-            '+lastName'
-          ]);
-          vm.paginatedUsers = Sorting.sortThenPaginate(vm.matchedUsers, vm.paginatedUsers);
-        });
-    }
+  function findIndexOfUserById(id, collection) {
+    collection = collection || vm.users.original;
+    var matched = false;
+    var index = -1;
+    angular.forEach(collection, function(user) {
+      if(!matched && user._id === id) {
+        matched = true;
+        index = collection.indexOf(user);
+      }
+    });
+    return index;
   }
 
-  vm.activate = activate;
+  function saveUser(user, userForm) {
+    user.$update()
+      .then(function(result) {
+        userForm.$setPristine();
+        var index = findIndexOfUserById(user._id);
+        vm.users.original[index] = result;
+        Messages.addMessage('The User ' + result.displayName + ' was updated.', 'success');
+        user.isCollapsed = false;
+        filterCollection();
+      });
+  }
 
-  vm.options.roles = Roles.query();
-
-  vm.saveUser = function(user) {
-    user.$update().then(function(result) {
-      vm.forms.userForms[user._id].$setPristine();
-      toastr.info('The User ' + result.displayName + ' was updated.');
-      createShadowData();
-    });
-  };
-
-  vm.createUser = function() {
+  function createUser() {
     Users.save(vm.newUser).$promise.then(function(user) {
       if(user._id) {
-        toastr.info('The User ' + user.displayName + ' was added.');
+        Messages.addMessage('The User ' + user.displayName + ' was added.', 'info');
         $state.go('list');
       }
     });
-  };
+  }
 
   /**
    * Undo changes to the User
    * @param user
+   * @param userForm
    */
-  vm.undoUser = function(user) {
-    var backupUser = findUserById(user._id, vm.usersOriginal);
-    var index = vm.users.indexOf(user);
-    vm.users[index] = angular.copy(backupUser);
-    vm.users[index].isCollapsed = false;
-  };
+  function undoUser(user, userForm) {
+    var backupUser = findUserById(user._id);
+    backupUser.isCollapsed = false;
+    var index = findIndexOfUserById(user._id);
+    vm.users.original[index] = angular.copy(backupUser);
+    filterCollection();
+    userForm.$setPristine();
+  }
 
-  vm.masquerade = function(user) {
-    Masquerade.do(user).$promise.then(function(response) {
+  function masquerade(user) {
+    Masquerade.do(user).$promise.then(function() {
       vm.authentication.refresh();
       $state.go('home');
     });
-  };
+  }
 
-  $scope.$watch('vm.paginator.currentPage', function() {
-    vm.paginatedUsers = Pagination.paginate(vm.matchedUsers);
+  function setupData () {
+    Users.query().$promise
+      .then(function (result) {
+        Messages.addMessage('Users loaded', 'success');
+        angular.forEach(result, function (user) {
+          user.isCollapsed = true;
+        });
+        vm.users.original = result;
+        vm.users.matched = angular.copy(vm.users.original);
+        vm.filtering = new Filtering(vm.users.original, vm.users.matched);
+        Sorting.setSortOrder([
+          '+lastName'
+        ]);
+        vm.users.paginated = Sorting.sortThenPaginate(vm.users.matched, vm.users.paginated);
+        setupFilters();
+      })
+      .catch(function(err) {
+        Messages.addMessage(err, 'error', 'Error Loading Users');
+      });
+    Roles.query().$promise
+      .then(function (result) {
+        vm.roles = result;
+      })
+      .catch(function (err) {
+        Messages.addMessage(err, 'error', 'Error Loading Roles');
+      });
+
+  }
+
+  /**
+   * Performs setup and data retrieval
+   * @param mode string
+   */
+  function activate () {
+
+    Navigation.clear();
+    Navigation.breadcrumbs.add('Dashboard', '#!/dashboard', '/#!/dashboard');
+    Navigation.viewTitle.set('Users');
+    setupData();
+  }
+
+  activate();
+
+  $scope.$watch('vm.paginator.itemsPerPage', function() {
+    paginate();
   });
 }
-
-angular
-  .module('users')
-  .controller('UsersController', UsersController);

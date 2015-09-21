@@ -1,8 +1,10 @@
 'use strict';
 
-angular.module('core').controller('FooterController', ['Authentication',
-    function(Authentication) {
-        var footer = this;
-        footer.authentication = Authentication;
-    }
+angular.module('core').controller('FooterController', ['Authentication', 'appInfo', 'Messages',
+  function(Authentication, appInfo, Messages) {
+    var footer = this;
+    Authentication.init();
+    footer.authentication = Authentication.init();
+    footer.appInfo = appInfo.init();
+  }
 ]);

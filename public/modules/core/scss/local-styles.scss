@@ -1,0 +1,812 @@
+//pie chart on the dashboard requires height/width for the js
+.dashboard {
+  [data-ac-chart] {
+    height: 300px;
+    width: 100%;
+  }
+}
+
+.display-group .heading {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  h3 {
+    margin-top: 0;
+  }
+}
+
+.display-group {
+  &.no-heading {
+    padding-top: 10px;
+  }
+}
+
+.contractual .has-contract.display-group {
+  margin-bottom: 0;
+}
+
+//
+// Reconciliation Form
+// -----------------------------------------------------
+.table.table-striped > tbody > tr {
+  &.pristine td {
+    background-color: $duke-lime;
+    &:hover td {
+      background-color: lighten($duke-lime, 5%);
+    }
+  }
+  &.reconciliation-needed td {
+    background-color: darken($duke-cadmium-yellow, 5%);
+    &:hover td {
+      background-color: $duke-cadmium-yellow;
+    }
+    &.issue div,
+    &.issue input {
+      color: $duke-red;
+      &:after {
+        @include font-awesome-icon-after;
+        content: '\f12a';
+      }
+    }
+  }
+}
+
+.animate-switch-container {
+  position:relative;
+  overflow:hidden;
+}
+
+.animate-switch {
+  position:absolute;
+}
+
+.animate-switch.ng-animate {
+  -webkit-transition:all 0.5s;
+  transition:all 0.5s;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+}
+
+.animate-switch.ng-leave.ng-leave-active,
+.animate-switch.ng-enter {
+  opacity: 0;
+}
+.animate-switch.ng-leave,
+.animate-switch.ng-enter.ng-enter-active {
+  opacity: 1.0;
+}
+
+.header-controls,
+.contains-control-without-label{
+  @extend .h3-margin-top;
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: $duke-white;
+  opacity: 0.5;
+}
+
+.message {
+  display: block;
+  position: absolute;
+  top: 0;
+}
+
+.chip {
+  display: block;
+  float: left;
+  margin: 0 5px 5px 0;
+}
+
+//
+// Ui-Select
+// -----------------------------------------------------
+
+.ui-select-multiple.ui-select-bootstrap {
+  min-height: 34px;
+}
+
+//
+// Animation
+// -----------------------------------------------------
+
+.animate-container {
+}
+
+.animate-repeat {
+  //line-height:40px;
+  box-sizing:border-box;
+}
+
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter,
+.animate-repeat.ng-leave {
+  -webkit-transition:all ease-in-out 0.25s;
+  transition:all ease-in-out 0.25s;
+}
+
+.animate-repeat.ng-leave.ng-leave-active,
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter {
+  opacity:0;
+  max-height:0;
+}
+
+.animate-repeat.ng-leave,
+.animate-repeat.ng-move.ng-move-active,
+.animate-repeat.ng-enter.ng-enter-active {
+  opacity:1;
+  max-height:40px;
+}
+
+.animate-if.ng-enter, .animate-if.ng-leave {
+  //-webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  //transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+
+.animate-if.ng-enter,
+.animate-if.ng-leave.ng-leave-active {
+  opacity:0;
+}
+
+.animate-if.ng-leave,
+.animate-if.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+.checkmark {
+  &.true {
+    color: $true-green;
+  }
+  &.false {
+    color: $false-red;
+  }
+}
+
+
+//
+// Override Glyphicons
+// -----------------------------------------------------
+
+.glyphicon {
+
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  text-decoration: none;
+  //the chevrons are used by the ui-bootstrap datepicker widget
+  &.glyphicon-chevron-right {
+    &:before {
+      content: '\f054';
+    }
+  }
+
+  &.glyphicon-chevron-left {
+    &:before {
+      content: '\f053';
+    }
+  }
+}
+
+//
+// Custom Style for the footer info on placements/edit
+// -----------------------------------------------------
+
+.display-group.footer {
+  padding: 5px;
+  color: $duke-white;
+  background-color: $duke-smoke;
+}
+
+//
+// Site Name on placements/edit
+// -----------------------------------------------------
+
+h3.site-name a {
+  color: inherit;
+  &:hover {
+    text-decoration: none;
+    color: $duke-blue-link;
+  }
+}
+
+//
+// ngVideo
+// -----------------------------------------------------
+
+
+section.video {
+  &.col-xs-12 {
+    padding: 0;
+  }
+  .video-player {
+    width: 100%;
+  }
+  .timeline-container {
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 5px;
+    padding: 5px 15px;
+    width: 100%;
+  }
+
+  section.controls {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    width: 48px;
+    z-index: 5;
+    text-align: center;
+    color: white;
+    span {
+      a {
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        line-height: 48px;
+        padding-left: 2px;
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+        transition: background-color .35s;
+        border-radius: 3px;
+        margin-bottom: 10px;
+        color: rgba(255,255,255,0.0);
+        &:hover {
+          text-decoration: none;
+          background-color: rgba(255,255,255,0.5);
+          color: $duke-white;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    section.controls {
+      span {
+        a {
+          color:white;
+          background-color: rgba(0,0,0,0.3)
+        }
+      }
+    }
+  }
+}
+
+.help-item {
+  border-radius: 8px;
+  border: 1px solid #cecece;
+  padding: 15px 0;
+  margin-bottom: 8px;
+}
+
+//
+// User Acceptance
+// -----------------------------------------------------
+
+.display-group.answer {
+  &.complete {
+    background-color: $state-success-bg;
+    &:before {
+      @include font-awesome-icon-before;
+    }
+  }
+}
+
+.answer {
+  .status-icon {
+    &:before {
+      @include font-awesome-icon-before;
+    }
+  }
+  .alert {
+    padding: 7px;
+  }
+  .alert-success {
+    .status-icon {
+      &:before {
+        content: '\f00c';
+      }
+    }
+  }
+  .alert-danger {
+    .status-icon {
+      &:before {
+        content: '\f00d';
+      }
+    }
+  }
+}
+
+
+.input-group.with-border {
+  border: 1px solid #ccc;
+  border-radius: $border-radius-base;
+  margin-bottom: 8px;
+  background-color: rgba(255,255,255,0.8);
+  .input-group-addon {
+    border: none;
+    cursor: move;
+  }
+}
+
+.ui-sortable-placeholder {
+  background-color: $duke-red;
+}
+
+.status-cell {
+  margin-top: 8px;
+  border-right: 1px solid $duke-white;
+  &.success {
+    background: $state-success-bg;
+  }
+  &.failure {
+    background: $state-danger-bg;
+  }
+  &:last-child {
+    border-right: none;
+    border-radius: 0 $border-radius-base $border-radius-base 0;
+  }
+  &:first-child {
+    border-radius: $border-radius-base 0 0 $border-radius-base;
+  }
+}
+
+a {
+  cursor: pointer;
+}
+
+.angular-filtering.inline-controls {
+  .row {
+    padding-top: 10px;
+  }
+}
+
+
+//
+// Nested Pseudo Tables
+// -----------------------------------------------------
+
+.pseudo-table {
+  .pseudo-tbody {
+    .display-group {
+      margin: 10px;
+      padding: 0px 0px 10px;
+    }
+  }
+}
+
+.row.show-divider {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid $duke-whisp;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+//
+// Badges used as controls
+// -----------------------------------------------------
+
+.badge.as-control {
+  cursor: pointer;
+  &.badge-false {
+    background-color: $duke-white;
+    border: 1px solid $duke-whisp;
+    color: $duke-whisp;
+  }
+}
+
+//
+// Flow controls
+// -----------------------------------------------------
+
+.button-area:not(.no-border) {
+  padding: 8px 0;
+  margin: 0;
+  >div {
+    padding: 8px;
+    @include light-rounded-border;
+    @include sheet-metal;
+  }
+}
+
+//
+// Form Validation Classes
+// -----------------------------------------------------
+.form-group {
+  .ng-invalid-required {
+    background-color: $alert-info-bg;
+    &.ng-touched {
+      background-color: $alert-danger-bg;
+    }
+  }
+  .help-block {
+    display: none;
+  }
+  &.has-error {
+    .help-block {
+      display: block;
+    }
+  }
+}
+
+.button-area {
+  .btn {
+    margin-right: 10px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  .text-right {
+    &:first-child {
+      margin-right: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.angular-google-map-container { height: 400px; }
+
+.navbar-header.messages{
+  .step {
+    display: block;
+    margin: 8px 8px 8px 16px;
+    .title, .purpose {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: $border-radius-small;
+    }
+    .title {
+      font-weight: bold;
+      border: 1px solid #333;
+      background-color: #a9c5e1;
+      color: #343758;
+    }
+    .purpose, .btn {
+      color: $duke-powder-blue;
+      margin-left: 4px;
+      border: 1px solid #696ca5;
+    }
+    .btn {
+      background-color: #343758;
+      margin-top: -3px;
+      &.back {
+        margin-right: 4px;
+      }
+      &:after {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+$success: #00a910;
+$step1: #6ba900;
+$step2: #aac300;
+$caution: #f1c500;
+$error: #8d000b;
+
+//
+// UI Grid
+// -----------------------------------------------------
+
+.full-page-grid {
+  width: 100%;
+}
+.ui-grid .ui-grid-menu-button {
+  height: 30px;
+  padding-left: 2px;
+  background-color: $duke-ash;
+  border-color: $duke-smoke;
+}
+
+.ui-grid [class^="ui-grid-icon-menu"]:before, [class*=" ui-grid-icon-menu"]:before {
+  font-family: "FontAwesome";
+  color: white;
+  content: '\f013';
+}
+
+.ui-grid-grid-footer {
+  position: relative;
+  overflow: hidden;
+  background: #f3f3f3;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eeeeee), color-stop(1, #ffffff));
+  background: -ms-linear-gradient(bottom, #eeeeee, #ffffff);
+  background: -moz-linear-gradient(center bottom, #eeeeee 0%, #ffffff 100%);
+  background: -o-linear-gradient(#ffffff, #eeeeee);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0);
+  -webkit-border-top-right-radius: -1px;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: -1px;
+  -moz-border-radius-topright: -1px;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: -1px;
+  border-top-right-radius: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: -1px;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px;
+}
+
+//
+// Bootstrap Panel Additions
+// -----------------------------------------------------
+
+.panel {
+  .panel-body {
+    .listing {
+      .row {
+        padding: 4px 0;
+        &:nth-child(2n-1) {
+          background-color: $duke-whisp;
+        }
+      }
+    }
+  }
+}
+
+//
+// Boostrap Form Control Modifications
+// -----------------------------------------------------
+
+.checkbox.add-label-spacing {
+  margin-top: 28px;
+  label {
+    font-weight: bold;
+  }
+}
+
+//
+// Clickable
+// -----------------------------------------------------
+
+.clickable, .clickable td {
+  cursor: pointer;
+}
+
+//
+// Page Title
+// -----------------------------------------------------
+
+h1.page-title {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+//
+// From the users.scss file
+// @todo cleanup
+// -----------------------------------------------------
+
+@media (min-width: 992px) {
+  .nav-users {
+    position: fixed;
+  }
+}
+
+.remove-account-container {
+  display: inline-block;
+  position: relative;
+}
+
+.btn-remove-account {
+  top: 10px;
+  right: 10px;
+  position: absolute;
+}
+
+
+/** @todo move to global */
+input.form-control.toggle-edit:not(:focus),
+div.form-control.ui-select-container.toggle-edit:not(.open){
+  width: auto;
+  height: auto;
+  color: inherit;
+  display: inline;
+  padding: 0;
+  font-size: inherit;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  transition: none;
+}
+
+input.form-control.toggle-edit:after,
+div.form-control.ui-select-container.toggle-edit:not(.open):after{
+  content: '';
+}
+
+input.form-control.toggle-edit:focus:after {
+  content: '';
+}
+
+div.ui-select-container.ui-select-multiple.ui-select-bootstrap {
+  min-height: 34px;
+}
+
+.collapsible .list-group-item {
+  cursor: pointer;
+  &:hover {
+    text-decoration: none;
+    color: #555;
+    background-color: #f5f5f5;
+  }
+}
+
+.list-group-item {
+  .list-group-item-heading {
+    h2, h3, h4, h5, h6 {
+      margin: 0;
+    }
+  }
+}
+
+/* Have to set height explicitly on ui-view
+to prevent collapsing during animation*/
+.ui-view-container {
+  position: relative;
+  //height: 65px;
+}
+
+[ui-view].ng-enter, [ui-view].ng-leave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  -webkit-transition:all .25s ease-in-out;
+  -moz-transition:all .25s ease-in-out;
+  -o-transition:all .25s ease-in-out;
+  transition:all .25s ease-in-out;
+}
+
+[ui-view].ng-enter {
+  opacity: 0;
+  //-webkit-transform:scale3d(0.5, 0.5, 0.5);
+  //-moz-transform:scale3d(0.5, 0.5, 0.5);
+  //transform:scale3d(0.5, 0.5, 0.5);
+  -webkit-transform:translate3d(-100px, 0, 0);
+  -moz-transform:translate3d(-100px, 0, 0);
+  transform:translate3d(-100px, 0, 0);
+}
+
+[ui-view].ng-enter-active {
+  opacity: 1;
+  //-webkit-transform:scale3d(1, 1, 1);
+  //-moz-transform:scale3d(1, 1, 1);
+  //transform:scale3d(1, 1, 1);
+  -webkit-transform:translate3d(0, 0, 0);
+  -moz-transform:translate3d(0, 0, 0);
+  transform:translate3d(0, 0, 0);
+}
+
+[ui-view].ng-leave {
+  opacity: 1;
+  -webkit-transform:translate3d(0, 0, 0);
+  -moz-transform:translate3d(0, 0, 0);
+  transform:translate3d(0, 0, 0);
+}
+
+[ui-view].ng-leave-active {
+  opacity: 0;
+  -webkit-transform:translate3d(100px, 0, 0);
+  -moz-transform:translate3d(100px, 0, 0);
+  transform:translate3d(100px, 0, 0);
+}
+
+//
+// Static Form Controls
+// -----------------------------------------------------
+
+.form-control-static {
+  border-top: 1px solid $duke-whisp;
+}
+
+label.checkbox-inline {
+  padding-top: 29px;
+}
+
+//
+// Navigation Module
+// -----------------------------------------------------
+
+.navigation {
+  z-index: 1000;
+  &.stuck {
+   background-color: $duke-white;
+    border-bottom: 1px solid $duke-smoke;
+  }
+}
+
+.page-actions {
+  margin-top: 8px;
+  .btn-group {
+    margin-left: 4px;
+  }
+  button {
+    margin-right: 4px;
+    // nav.dropdownItems is the 1st child, so the first button is the 2nd child, and we don't want a margin-right on it
+    &:nth-child(0n + 2) {
+      margin-right: 0;
+    }
+  }
+}
+
+//
+// Flex Box
+// -----------------------------------------------------
+
+.flexbox-container {
+  display: flex;
+  &.stretch {
+    align-items: stretch;
+  }
+}
+
+td {
+  > div {
+    &.icon-group {
+      margin: -8px 4px -8px -8px;
+      border: none;
+      border-radius: 0;
+      //background: #efefef;
+      color: $duke-whisp;
+      font-size: 18px;
+
+      a.with-icon {
+        line-height: 32px;
+        &:hover {
+          color: $duke-ash;
+        }
+      }
+    }
+  }
+  &:hover > div.icon-group {
+    color: $duke-smoke;
+  }
+}
+
+//
+// Select Element within .input-group-addon
+// -----------------------------------------------------
+
+.input-group-addon.select {
+  padding: 0;
+
+  select {
+    height: 32px;
+    border: none;
+    line-height: 32px;
+    border-radius: 4px 0 0 4px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    background-color: #eeeeee;
+  }
+}

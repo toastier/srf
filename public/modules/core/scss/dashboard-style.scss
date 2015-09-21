@@ -1,0 +1,18 @@
+@import "duson/duke-pallete";
+@import "duson/variables";
+
+// Transpile bootstrap
+@import "../../../lib/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "duson/duson-mixins";
+
+// Font Awesome bootstrap
+@import "../../../lib/fontawesome/scss/font-awesome";
+
+// Dashboard styles
+@import "duson/dashboard";
+
+// Duson styles
+@import "duson/components";
+
+// Local styles
+@import "local-styles";

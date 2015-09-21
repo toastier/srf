@@ -1,26 +1,8 @@
-section.row(data-ng-controller="AuthenticationController")
-   h3.col-md-12.text-center Or with your account
-   .col-xs-offset-2.col-xs-8.col-md-offset-5.col-md-2
-      form.signin.form-horizontal(data-ng-submit="signin()", autocomplete="off")
-         fieldset
-            .form-group
-               label(for="username") Username
-               input.form-control(type="text", id="username", name="username", data-ng-model="credentials.username", placeholder="Username")
-
-            .form-group
-               label(for="password") Password
-               input.form-control(type="password" id="password" name="password" data-ng-model="credentials.password" placeholder="Password")
-
-            .text-center.form-group
-               button.btn.btn-primary(type="submit") Sign In
-
-            .text-center.text-danger(data-ng-show="error")
-               strong {{error}}
-
-            .text-center.form-group
-               a.btn.btn-workflow(href="/auth/saml") Login with your NetId
-
-
-
-
-
+section
+  navigation
+  .row
+  .col-xs-offset-2.col-xs-8.col-md-offset-5.col-md-2
+    form.signin.form-horizontal(data-ng-submit="signin()")
+      fieldset
+        .text-center.form-group
+          a.btn.btn-workflow(href="/auth/saml") Login with your NetId

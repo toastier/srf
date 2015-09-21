@@ -8,6 +8,7 @@
  * @param Matching
  * @returns {{sortRecords: Function, setSortOrder: Function, getSortOrder: Function, prependToSortOrder: Function, sortingClass: Function}}
  * @constructor
+ * @param Pagination
  */
 function Sorting($q, $filter, Matching, Pagination) {
 

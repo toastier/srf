@@ -1,0 +1,9 @@
+table.table.table-striped
+  thead(du-sorting-header)
+  tr(ng-repeat="row in vm.collection.paginated")
+    td(ng-repeat="column in vm.columnDefinitions")
+      .icon-group.size-medium(ng-if="column.action.restrict(row)")
+        a.with-icon(ng-repeat="item in column.action.items", class="with icon {{ item.type }}", ng-click="item.method(row)", tooltip="{{ item.title }}", tooltip-popup-delay="500", tooltip-append-to-body="true")
+      span(ng-if="!column.format") {{ duTable.getIndex(row, column.field) }}
+      span(ng-if="column.format === 'currency'") {{ duTable.getIndex(row, column.field) | currency }}
+      span(ng-if="column.format === 'date'") {{ duTable.getIndex(row, column.field) | date }}

@@ -1,0 +1,2 @@
+tr
+  th.sort-control(ng-repeat="column in vm.columnDefinitions", ng-class="vm.sortingClass(column.field)", ng-click="vm.collection.sortBy(column.field)") {{ column.label }}

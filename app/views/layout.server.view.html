@@ -23,46 +23,36 @@
 
 	<!-- HTML5 Shim -->
 	<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 </head>
 
 <body class="ng-cloak">
-	<div data-ng-include="'/modules/core/views/footer.client.view.html'" class="navbar navbar-default navbar-fixed-bottom navbar-bottom navbar-secondary"></div>
-	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
-	<section class="content">
-		<div class="container">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-sm-3 col-md-2 sidebar" id="main_menu-menu">
-						<aside data-ng-include="'/modules/core/views/sidebar.client.view.html'">
-						</aside>
-					</div>
-					<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-						<div class="crumbs-actions">
-							<div class="col-xs-12 ui-view-container">
-								{% block content %}{% endblock %}
-							</div>
-						</div>
-					</div>
-				</div>
+<nav data-ng-include="'/modules/core/views/footer.client.view.html'" class="navbar navbar-default navbar-fixed-bottom navbar-bottom navbar-secondary"></nav>
+<nav data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></nav>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 col-md-2 sidebar" id="main_menu-menu">
+			<aside data-ng-include="'/modules/core/views/sidebar.client.view.html'">
+			</aside>
+		</div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<div class="crumbs-actions" ng-include="'/modules/core/views/breadcrumbs.client.view.html'"></div>
+			<div class="col-xs-12 ui-view-container">
+				{% block content %}{% endblock %}
 			</div>
 		</div>
-	</section>
-	
-	<!--Embedding The User Object-->
-	<script type="text/javascript">
-		var user = {{ user | json | safe }};
-	</script>
+	</div>
+</div>
 
-	<!--Application JavaScript Files-->
-	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>
-	{% endfor %} 
+<!--Application JavaScript Files-->
+{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>
+{% endfor %}
 
-	{% if process.env.NODE_ENV === 'development' %}
-	<!--Livereload script rendered -->
-	<script type="text/javascript" src="http://localhost:35729/livereload.js"></script>
-	{% endif %}
+{% if process.env.NODE_ENV === 'development' %}
+<!--Livereload script rendered -->
+<script type="text/javascript" src="http://localhost:35729/livereload.js"></script>
+{% endif %}
 </body>
 
 </html>

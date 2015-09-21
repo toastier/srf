@@ -1,6 +1,6 @@
 .container-fluid(ng-controller="FooterController as footer")
-    .navbar-left
-        .application-name 4.5.0
+    .navbar-left.navbar-collapse(collapse="true")
+        .application-name Version: {{ footer.appInfo.info.version }}
     .navbar-right
         .account-tools(ng-if="footer.authentication.user._id") Logged in as {{ footer.authentication.user.displayName }}
             a.btn.btn-sm.btn-logout(ng-href="/auth/signout") logout

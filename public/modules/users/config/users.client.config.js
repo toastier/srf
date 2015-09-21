@@ -31,6 +31,6 @@ angular.module('users')
   .run(['Menus',
     function (Menus) {
       // Set sidebar menu items
-      Menus.addMenuItem('sidebar', 'Users', 'users/list', '#!/users/list', false, ['admin']);
-      Menus.addMenuItem('sidebar', 'Add User', 'users/create', '#!/users/create', false, ['admin']);
+      Menus.addMenuItem('sidebar', 'Users', 'users', '#!/users/list', '#!/users/list', false, ['admin'], 100, 'users');
+      //Menus.addMenuItem('sidebar', 'Add User', 'users/create', '#!/users/create', false, ['admin']);
     }]);

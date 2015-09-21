@@ -6,6 +6,10 @@
  */
 function Pagination() {
 
+  var output = {
+    records: undefined
+  };
+
   /**
    * paginator configuration object for ui-bootstrap
    * @type {{currentPage: number, itemsPerPage: number, totalPages: number, maxSize: number, paginationOptions: *[]}}
@@ -35,12 +39,16 @@ function Pagination() {
     var end = begin + paginator.itemsPerPage;
 
     paginator.totalPages = Math.ceil(matchedRecords.length / paginator.itemsPerPage);
-    return matchedRecords.slice(begin, end);
+
+    output.records = matchedRecords.slice(begin, end);
+
+    return output.records;
   };
 
   return {
     paginator: paginator,
-    paginate: paginate
+    paginate: paginate,
+    output: output
   };
 }
 

@@ -1,34 +1,17 @@
-'use strict';
+angular
+  .module('users')
+  .controller('AuthenticationController', AuthenticationController);
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$http', '$location', 'Authentication',
-    function($scope, $http, $location, Authentication) {
-        $scope.authentication = Authentication;
 
-        //If user is signed in then redirect back home
-        if ($scope.authentication.user._id) $location.path('/');
+function AuthenticationController ($location, Authentication, Navigation) {
 
-        $scope.signup = function() {
-            $http.post('/auth/signup', $scope.credentials).success(function(response) {
-                //If successful we assign the response to the global user model
-                $scope.authentication.user = response;
+    var vm = this;
 
-                //And redirect to the index page
-                $location.path('/');
-            }).error(function(response) {
-                $scope.error = response.message;
-            });
-        };
+    vm.authentication = Authentication.init();
 
-        $scope.signin = function() {
-            $http.post('/auth/signin', $scope.credentials).success(function(response) {
-                //If successful we assign the response to the global user model
-                $scope.authentication.user = response;
+    //If user is signed in then redirect back home
+    if (vm.authentication) $location.path('/');
 
-                //And redirect to the index page
-                $location.path('/');
-            }).error(function(response) {
-                $scope.error = response.message;
-            });
-        };
-    }
-]);
+    Navigation.viewTitle.set('Login Required');
+
+}
