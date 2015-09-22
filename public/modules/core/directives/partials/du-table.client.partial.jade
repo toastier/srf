@@ -1,9 +1,18 @@
 table.table.table-striped
   thead(du-sorting-header)
-  tr(ng-repeat="row in vm.collection.paginated")
-    td(ng-repeat="column in vm.columnDefinitions")
-      .icon-group.size-medium(ng-if="column.action.restrict(row)")
-        a.with-icon(ng-repeat="item in column.action.items", class="with icon {{ item.type }}", ng-click="item.method(row)", tooltip="{{ item.title }}", tooltip-popup-delay="500", tooltip-append-to-body="true")
-      span(ng-if="!column.format") {{ duTable.getIndex(row, column.field) }}
-      span(ng-if="column.format === 'currency'") {{ duTable.getIndex(row, column.field) | currency }}
-      span(ng-if="column.format === 'date'") {{ duTable.getIndex(row, column.field) | date }}
+  tr(ng-repeat="item in vm.collection.paginated")
+    td(ng-repeat="column in vm.collection.columnDefinitions")
+      .icon-group.size-medium(ng-if="column.actions.restrict(item)")
+        a.with-icon(
+          ng-if="actionItem.attachedTo",
+          ng-repeat="actionItem in column.actions.actionItems",
+          class="with icon {{ actionItem.type }}",
+          ng-click="duTable.callMethod(item, actionItem.method, actionItem.attachedTo)",
+          tooltip="{{ actionItem.title }}",
+          tooltip-popup-delay="500",
+          tooltip-append-to-body="true"
+        )
+      span(ng-if="!column.format") {{ duTable.getIndex(item, column.field) }}
+      span(ng-if="column.format === 'currency'") {{ duTable.getIndex(item, column.field) | currency }}
+      span(ng-if="column.format === 'date'") {{ duTable.getIndex(item, column.field) | date }}
+pagination(boundary-links="true", ng-model="vm.collection.paginator.currentPage", items-per-page="vm.collection.paginator.itemsPerPage", max-size="vm.collection.paginator.maxSize", total-items="vm.collection.matched.length", num-pages="vm.collection.paginator.totalPages", ng-change="vm.collection.paginate()")

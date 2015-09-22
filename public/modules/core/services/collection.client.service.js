@@ -20,26 +20,44 @@
     function providerGetFunction (Sorting, Filtering, Pagination, _ ) {
 
       /**
+       * @typedef ColumnDefinition
+       * @param {string} field
+       * @param {string} label
+       * @param {Object} actions
+       * @param {Function} actions.restrict
+       * @param {Object[]} actions.actionItems
+       * @param {string} actions.actionItems.type
+       * @param {string} actions.actionItems.title
+       * @param {Function} actions.actionItems.restrict
+       * @param {string} actions.actionItems.attachedTo
+       * @param {Function | string} actions.actionItems.method
+       * @param {Boolean | Object=} sortable
+       * @param {Boolean | Object=} filterable
+       * @constructor
+       */
+      var ColumnDefinition = function(field, label, actions, sortable, filterable) {
+        /** @type string | null **/
+        this.field = field || null;
+        /** @type string | null **/
+        this.label = label || null;
+        /** @type Object **/
+        this.actions = actions || null;
+        /** @type Boolean | null **/
+        this.sortable = sortable || null;
+        /** @type Boolean | null **/
+        this.filterable = filterable || null;
+      };
+
+      /**
        * Constructor function for Collection
        * @typedef Collection
        * @constructor
        * @param {string} identifier A unique identifier to be used with useCache is true as part of caching
        * @param {Object[]} members
-       * @param {Object[]} columnDefinitions
-       * @param {string} columnDefinitions.field The field. You can use Dot Notation
-       * @param {string} columnDefinitions.label The label to be displayed on heading column
-       * @param {Boolean=} columnDefinitions.sortable Whether to enable sorting for the given column.
-       * @param {Boolean=} columnDefinitions.filterable Whether to enable filtering for the given column.
-       * @param {Object=} columnDefinitions.action Object defining actions to be provided to the end user.
-       * @param {Object} columnDefinitions.action.restrict Method to determine whether action should be enabled in the UI
-       * @param {Object[]} columnDefinitions.action.items Array of actions to provide in the UI
-       * @param {string} columnDefinitions.actions.items.type Used to set the class of action control
-       * @param {string} columnDefinitions.actions.items.title Title shown in tooltip
-       * @param {Object} columnDefinitions.actions.items.method Method to invoke when clicking on action in the UI
-       * @param {Object} columnDefinitions.actions.items.restrict Function to determine whether action should be enabled in the UI
+       * @param {ColumnDefinition[]} columnDefinitions An Array of ColumnDefinition Object(s)
        * @param {string[]} initialSortOrder Predicate(s) to sort by
-       * @param {Boolean} useCache Whether or not to use caching in the Collection
-       * @returns {*}
+       * @param {Boolean=} useCache Whether or not to use caching in the Collection
+       * @returns {Collection}
        */
       var Collection = function Collection (identifier, members, columnDefinitions, initialSortOrder, useCache) {
 
@@ -116,6 +134,7 @@
         }
 
       };
+
       Collection.cached = {};
       return Collection;
     }
