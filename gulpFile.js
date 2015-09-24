@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var gulpConfig = require('./gulp.config')();
 var concat = require('gulp-concat');
 var csslint = require('gulp-csslint');
-var jshint = require('gulp-jshint');
+var eslint = require('gulp-eslint');
 var jade = require('gulp-jade');
 var karma = require('gulp-karma');
 var livereload = require('gulp-livereload');
@@ -21,12 +21,6 @@ var applicationJavaScriptFiles,
     applicationCSSFiles,
     applicationTestFiles;
 
-gulp.task('jshint', function() {
-  gulp.src(['gulpFile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', 'public/js/**/*.js', 'public/modules/**/*.js', '!app/bower_components/**/*.js','!config/data/*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
-});
-
 gulp.task('csslint', function() {
   gulp.src(['public/modules/**/css/*.css','!app/bower_components/**/*.css'])
     .pipe(csslint('.csslintrc'))
@@ -37,7 +31,6 @@ gulp.task('nodemon', function (done) {
   nodemon({ script: 'server.js', env: { 'NODE_ENV': 'development' }})
     .on('restart');
 });
-
 
 gulp.task('uglify', function() {
   gulp.src(applicationJavaScriptFiles)
@@ -54,6 +47,12 @@ gulp.task('cssmin', function () {
      .pipe(csso())
      .pipe(rename('application.min.css'))
      .pipe(gulp.dest('public/dist'));
+});
+
+gulp.task('eslint', function () {
+  gulp.src(['public/modules', 'public/modules/**/*.js', 'public/modules/**/**/*.js'])
+  .pipe(eslint())
+  .pipe(eslint.format());
 });
 
 gulp.task('mochaTest', function () {
@@ -74,15 +73,22 @@ gulp.task('karma', function () {
     });
 });
 
-gulp.task('launchBrowser', function () {
+gulp.task('launchBrowser', ['nodemon'], function () {
   gulp.src('')
-    .pipe($.open({app: 'Google Chrome', uri: 'http://localhost:3001'}));
+    .pipe($.open({app: 'Google Chrome', uri: 'http://localhost:3000'}));
 });
 
 gulp.task('watch', function() {
   var server = livereload();
-  gulp.watch(['gulpFile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', 'public/js/**/*.js', 'public/modules/**/*.js'], ['jshint']);
+  gulp.watch(['gulpFile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', 'public/js/**/*.js', 'public/modules/**/*.js'], ['eslint']);
   gulp.watch(['public/**/css/*.css'], ['csslint']);
+
+  gulp.watch(
+    gulpConfig.sassComponents.concat(gulpConfig.sassComponents, gulpConfig.sassFile),
+    ['transpileSass']);
+
+  gulp.watch(gulpConfig.jadeFiles,
+    ['compileJade']);
 
   gulp.watch(['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', 'public/modules/**/views/*.html', 'public/js/**/*.js', 'public/modules/**/*.js', 'public/**/css/*.css']).on('change', function(file) {
       server.changed(file.path);
@@ -121,10 +127,10 @@ gulp.task('compileJade', ['loadConfig'], function() {
 });
 
 // Default task(s).
-gulp.task('default', ['compileJade', 'transpileSass', 'nodemon', 'watch']);
+gulp.task('default', ['compileJade', 'transpileSass', 'lint', 'launchBrowser', 'watch']);
 
 // Lint task(s).
-gulp.task('lint', ['jshint', 'csslint']);
+gulp.task('lint', ['eslint', 'csslint']);
 
 // Build task(s).
 gulp.task('build', ['loadConfig', 'uglify', 'cssmin']); // remove lint

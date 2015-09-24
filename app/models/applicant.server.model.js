@@ -120,5 +120,4 @@ var applicantModel = new Schema({
 var modelName = 'Applicant';
 
 module.exports = mongoose.model(modelName, applicantModel);
-console.log('Model: ',modelName);
 

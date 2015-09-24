@@ -1,17 +1,18 @@
-angular
-  .module('users')
-  .controller('NoAccessController', NoAccessController);
+(function () {
+  'use strict';
+  angular
+    .module('users')
+    .controller('NoAccessController', NoAccessController);
 
-function NoAccessController(Navigation) {
+  function NoAccessController(Navigation) {
 
-  var vm = this;
+    var vm = this;
 
+    function activate() {
+      Navigation.clear();
+      Navigation.viewTitle.set('You Do Not Have Access');
+    }
 
-  function activate() {
-    Navigation.clear();
-    Navigation.viewTitle.set('You Do Not Have Access');
+    activate();
   }
-  activate();
-}
-    
-        
+})();

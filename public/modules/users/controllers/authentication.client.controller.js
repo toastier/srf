@@ -1,9 +1,11 @@
-angular
-  .module('users')
-  .controller('AuthenticationController', AuthenticationController);
+(function () {
+  'use strict';
+  angular
+    .module('users')
+    .controller('AuthenticationController', AuthenticationController);
 
 
-function AuthenticationController ($location, Authentication, Navigation) {
+  function AuthenticationController($location, Authentication, Navigation) {
 
     var vm = this;
 
@@ -14,4 +16,5 @@ function AuthenticationController ($location, Authentication, Navigation) {
 
     Navigation.viewTitle.set('Login Required');
 
-}
+  }
+})();

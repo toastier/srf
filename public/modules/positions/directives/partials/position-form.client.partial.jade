@@ -1,0 +1,51 @@
+ng-form(name="vm.positionForm")
+  .row
+    .col-md-6.form-group
+      label.control-label Title
+      input.form-control(type='text', data-ng-model='vm.position.name', placeholder='Position Name', required)
+    .col-xs-3.control-group
+      label.control-label Job Code
+      input.form-control(type="text", ng-model="vm.position.jobCode")
+    .col-md-3
+      label.control-label Date Requested
+      p.input-group
+        input.form-control(name="dateRequested", type="text", datepicker-popup="", is-open="vm.dateRequestedOpen", close-text="Close", ng-model="vm.position.dateRequested", novalidate)
+        span.input-group-btn
+          button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateRequested')")
+            i.fa.fa-calendar
+  .row
+    .col-md-3
+      .row
+        .col-md-12
+          label.control-label Date Posted
+          p.input-group
+            input.form-control(name="datePosted", type="text", datepicker-popup="", is-open="vm.datePostedOpen", close-text="Close", ng-model="vm.position.datePosted", novalidate)
+            span.input-group-btn
+              button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'datePosted')")
+                i.fa.fa-calendar
+        .col-md-12
+          label.control-label Open Date
+          p.input-group
+            input.form-control(name="dateStart", type="text", datepicker-popup="", is-open="vm.dateStartOpen", close-text="Close", ng-model="vm.position.dateStart", novalidate)
+            span.input-group-btn
+              button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateStart')")
+                i.fa.fa-calendar
+        .col-md-12
+          label.control-label Close Date
+          p.input-group
+            input.form-control(name="dateClose", type="text", datepicker-popup="", is-open="vm.dateCloseOpen", close-text="Close", ng-model="vm.position.dateClose", novalidate)
+            span.input-group-btn
+              button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateClose')")
+                i.fa.fa-calendar
+        .col-md-12.form-group
+          label.control-label Is the Position Active?
+            input.checkox-inline(type="checkbox", ng-model="vm.position.isActive")
+            | Yes
+    .col-md-9
+      .row
+        .col-md-12.form-group
+          label.control-label Details
+          textarea.form-control(data-ng-model='vm.position.details', cols='30', rows='10', placeholder='Details')
+
+    .text-danger(data-ng-show='error')
+      strong {{error}}

@@ -11,13 +11,17 @@ var positionModel = new Schema({
         details: {
             type: String
         },
-        dateRequest: Date,
-        datePost: {
+        dateRequested: {type: Date},
+        datePosted: {
             type: Date,
             default: Date.now
         },
-        dateStart: Date,
-        dateClose: Date,
+        isActive: {
+          type: Boolean,
+          default: true
+        },
+        dateStart: {type: Date},
+        dateClose: {type: Date},
         positionLink: [{
             source: {
                 type: String, enum: ['DUSON', 'Other']
@@ -30,11 +34,9 @@ var positionModel = new Schema({
             firstName: String,
             lastName: String
         },
-        testArray: [
-        {
-            name: {type: String},
-            note: {type: String},
-            _id: false
+        openings: [{
+          type: Schema.ObjectId,
+          ref: 'Opening'
         }]
     }
 );
@@ -42,5 +44,4 @@ var positionModel = new Schema({
 var modelName = 'Position';
 
 module.exports = mongoose.model(modelName, positionModel);
-console.log('Model: ',modelName);
 

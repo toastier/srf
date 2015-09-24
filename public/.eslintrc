@@ -3,13 +3,8 @@
     "node" : false,
     "browser": true
   },
+  "plugin": "angular",
   "globals": {
     "angular": true
-  },
-  "rules": {
-    "strict": [1, "global"],
-    "quotes": [1, "single"],
-    "camelcase": [2, {"properties": "never"}],
-    "no-trailing-spaces": [2, { skipBlankLines: true }]
   }
 }

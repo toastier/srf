@@ -1,13 +1,14 @@
-'use strict';
+(function () {
+  'use strict';
+  angular
+    .module('core')
+    .controller('BreadcrumbsController', BreadcrumbsController);
 
-function BreadcrumbsController(Navigation) {
+  function BreadcrumbsController(Navigation) {
 
-  var crumbs = this;
+    var crumbs = this;
 
-  crumbs.here = Navigation.breadcrumbs.get();
+    crumbs.here = Navigation.breadcrumbs.get();
 
-}
-
-angular
-  .module('core')
-  .controller('BreadcrumbsController', BreadcrumbsController);
+  }
+})();

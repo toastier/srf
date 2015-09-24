@@ -11,5 +11,16 @@
 	"regex-selectors": false,
 	"unique-headings": false,
 	"universal-selector": false,
-	"unqualified-attributes": false
+	"unqualified-attributes": false,
+	"selector-max-approaching": false,
+	"compatible-vendor-prefixes": false,
+	"gradients": false,
+	"zero-units": false,
+	"outline-none": false,
+	"text-indent": false,
+	"vendor-prefix": false,
+	"fallback-colors": false,
+	"duplicate-properties": false,
+	"display-property-grouping": false,
+	"shorthand": false
 }

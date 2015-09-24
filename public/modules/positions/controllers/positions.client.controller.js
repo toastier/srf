@@ -1,75 +1,120 @@
-'use strict';
+(function () {
+  'use strict';
+  angular
+    .module('positions')
+    .controller('PositionsController', PositionsController);
 
-angular.module('positions').controller('PositionsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Positions',
-	function($scope, $stateParams, $location, Authentication, Positions) {
-		$scope.authentication = Authentication;
+  function PositionsController($scope, $state, Authentication, Navigation, Position, CollectionModel, Messages) {
+    var vm = this;
+    vm.authentication = Authentication.init();
+    vm.allowEdit = allowEdit;
+    vm.isActiveYes = true;
+    vm.isActiveNo = false;
+    vm.setIsActive = setIsActive;
 
-		$scope.create = function() {
-			var position = new Positions({
-				name: this.name,
-				details: this.details,
-				postDate: this.postDate,
-				closeDate: this.closeDate,
-				docLink: this.docLink
-			});
+    function allowEdit () {
+      return vm.authentication.hasRole(['admin']);
+    }
 
-			position.$save(function(response) {
-				$location.path('positions/' + response._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
+    function setIsActive (source) {
+      if (source === 'isActiveYes') {
+        if (vm.isActiveYes) {
+          vm.isActiveNo = false;
+          vm.collection.filterCriteria.isActive = true;
+        } else {
+          vm.collection.filterCriteria.isActive = null;
+        }
+      } else {
+        if (vm.isActiveNo) {
+          vm.isActiveYes = false;
+          vm.collection.filterCriteria.isActive = false;
+        } else {
+          vm.collection.filterCriteria.isActive = null;
+        }
+      }
+      vm.collection.filterCollection();
+    }
 
-			this.name = '';
-			this.details = '';
-			this.postDate = '';
-			this.closeDate = '';
-			this.docLink = '';
-		};
+    /** type ColumnDefinition[] **/
+    vm.columnDefinitions = [
+      {
+        field: 'name',
+        label: 'Position Title',
+        filterable: true,
+        actions: {
+          restrict: vm.allowEdit,
+          actionItems: [
+            {
+              type: 'edit',
+              title: 'Edit Position',
+              restrict: vm.allowEdit,
+              attachedTo: 'item',
+              method: 'editPosition' // use as string reference to the action as it is attached to the 'item' in the collection and is not available in the current scope
+            },
+            {
+              type: 'view',
+              title: 'View Position',
+              restrict: vm.allowEdit,
+              attachedTo: 'controller',
+              method: viewPosition  // object reference to the method as it is in the current scope
+            }
+          ]
+        }},
+      {field: 'details', label: 'Description', format: 'trimmed', filterable: true},
+      {field: 'isActive', label: 'Active', format: 'checkMark',
+        filterable: {
+          name: 'isActive',
+          field: 'isActive',
+          matchType: 'trueFalse'
+        }
+      },
+      {field: 'datePosted', label: 'Posted', format: 'date'},
+      {field: 'dateStart', label: 'Opens', format: 'date'},
+      {field: 'dateClose', label: 'Closes', format: 'date'}
+    ];
 
-		$scope.remove = function(position) {
-			if (position) {
-				position.$remove();
+    var initialSortOrder = ['+name'];
 
-				for (var i in $scope.positions) {
-					if ($scope.positions[i] === position) {
-						$scope.positions.splice(i, 1);
-					}
-				}
-			} else {
-				$scope.position.$remove(function() {
-					$location.path('positions');
-				});
-			}
-		};
+    function setupNavigation() {
+      Navigation.clear(); // clear everything in the Navigation
 
-		$scope.update = function() {
-			var position = $scope.position;
+      var actions = Position.getActions(); // get the actions from the Model
+      actions.splice(1, 2); // splice out the ones we don't want (were taking them all out here)
 
-			position.$update(function() {
-				$location.path('positions/' + position._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
+      Navigation.actions.addMany(actions); // add the actions to the Navigation service
+      Navigation.viewTitle.set('Positions'); // set the page title
+    }
 
-		$scope.find = function() {
-			$scope.positions = Positions.query();
-		};
+    function activate () {
+      Position.query().$promise
+        .then(function(result) {
+          Messages.addMessage('Positions Loaded', 'success', null, 'dev');
+          vm.collection = new CollectionModel('PositionsController', result, vm.columnDefinitions, initialSortOrder);
+          // watch for change when filters are cleared, and set UI variables/controls appropriately
+          $scope.$watch('vm.collection.filterCriteria.isActive', function(newValue) {
+            switch (newValue) {
+              case true:
+                vm.isActiveYes = true;
+                vm.isActiveNo = false;
+                break;
+              case false:
+                vm.isActiveNo = true;
+                vm.isActiveYes = false;
+                break;
+              default:
+                vm.isActiveYes = null;
+                vm.isActiveNo = null;
+            }
+          });
+      });
+      setupNavigation();
+    }
 
-		$scope.findOne = function() {
-			$scope.position = Positions.get({
-				positionId: $stateParams.positionId
-			});
-		};
+    function viewPosition (position) {
+      $state.go('viewPosition', { positionId: position._id });
+    }
 
-		$scope.filtering = function() {
-			$scope.statusCodes =
-			[	{id:1, positionStatus:'Pending Approval'},
-				{id:2, positionStatus:'Open'},
-				{id:3, positionStatus:'On Hold'}
-			];
-			console.log('statusCodes: ' + $scope.statusCodes);
-			return statusCodes;
-		};
-	}
-]);
+    activate();
+
+  }
+})();

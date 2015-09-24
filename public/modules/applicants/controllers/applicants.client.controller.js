@@ -1,16 +1,31 @@
-'use strict';
-
-angular.module('applicants').controller('ApplicantsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Applicants',
-	function($scope, $stateParams, $location, Authentication, Applicants) {
-		$scope.authentication = Authentication;
-
-		$scope.create = function() {
-
+(function(){
+	'use strict';
+	angular
+		.module('applicants')
+		.controller('ApplicantsController', ApplicantsController);
+		
+	function ApplicantsController($stateParams, $location, Authentication, Applicant, Messages) {
+		var vm = this;
+		vm.authentication = Authentication.init();
+		
+		activate();
+		
+		function activate () {
+			Applicant.query().$promise
+				.then(function (result) {
+					vm.applicants = result;
+					Messages.addMessage('Applicants Loaded', 'success');
+				})
+				.catch(function (error) {
+					Messages.addMessage(error.data.message, 'error');
+				});
+		}
+		
+		vm.create = function() {
+		
 			var addressArray = [{address1:this.address1}];
-
-			console.log(addressArray);
-
-			var applicant = new Applicants({
+		
+			var applicant = new Applicant({
 				name: {
 					firstName: this.firstName,
 					lastName: this.lastName,
@@ -26,8 +41,6 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 							institutionName: this.institutionName
 						},
 						dateExpectedCompletion: this.dateExpectedCompletion
-
-
 					}
 				],
 				emailAddresses: [
@@ -70,51 +83,50 @@ angular.module('applicants').controller('ApplicantsController', ['$scope', '$sta
 						specific: this.specific
 					}
 			});
+
 			applicant.$save(function(response) {
 				alert(response._id);
 				$location.path('applicants/' + response._id);
 			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
+				vm.error = errorResponse.data.message;
 			});
-
-
 		};
-
-		$scope.remove = function(applicant) {
+		
+		vm.remove = function(applicant) {
 			if (applicant) {
 				applicant.$remove();
-
-				for (var i in $scope.applicants) {
-					if ($scope.applicants[i] === applicant) {
-						$scope.applicants.splice(i, 1);
+		
+				for (var i in vm.applicants) {
+					if (vm.applicants[i] === applicant) {
+						vm.applicants.splice(i, 1);
 					}
 				}
 			} else {
-				$scope.applicant.$remove(function() {
+				vm.applicant.$remove(function() {
 					$location.path('applicants');
 				});
 			}
 		};
-
-		$scope.update = function() {
-			var applicant = $scope.applicant;
-
+		
+		vm.update = function() {
+			var applicant = vm.applicant;
+		
 			applicant.$update(function() {
 				$location.path('applicants/' + applicant._id);
 			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
+				vm.error = errorResponse.data.message;
 			});
 		};
-
-		$scope.find = function() {
-			$scope.applicants = Applicants.query();
+		
+		vm.find = function() {
+			vm.applicants = Applicant.query();
 		};
-
-		$scope.findOne = function() {
-			$scope.applicant = Applicants.get({
+		
+		vm.findOne = function() {
+			vm.applicant = Applicant.get({
 				applicantId: $stateParams.applicantId
 			});
 		};
-
+	
 	}
-]);
+})();

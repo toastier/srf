@@ -33,6 +33,9 @@
        * @param {Function | string} actions.actionItems.method
        * @param {Boolean | Object=} sortable
        * @param {Boolean | Object=} filterable
+       * @param {string} filterable.name
+       * @param {string} filterable.field
+       * @param {string} filterable.matchType
        * @constructor
        */
       var ColumnDefinition = function(field, label, actions, sortable, filterable) {
@@ -73,11 +76,13 @@
         }
 
         function filterCollection () {
+          /*eslint no-use-before-define: 0 */
           collection.matched = filtering.doFiltering();
           paginate();
         }
 
         function clearFilters() {
+          /*eslint no-use-before-define: 0 */
           filtering.clearFilters();
           filterCollection();
         }
@@ -100,8 +105,8 @@
             paginate();
 
             var filtering = new Filtering(collection.original, collection.matched);
-            var filtersDefinitionArray = filtering.buildFilterConfigurationArray(columnDefinitions);
-            filtering.addFilterDefinitions(filtersDefinitionArray);
+            var filterConfigurationArray = filtering.buildFilterConfigurationArray(columnDefinitions);
+            filtering.addFilterDefinitions(filterConfigurationArray);
 
             /**
              * methods API

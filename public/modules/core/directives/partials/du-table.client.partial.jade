@@ -15,4 +15,6 @@ table.table.table-striped
       span(ng-if="!column.format") {{ duTable.getIndex(item, column.field) }}
       span(ng-if="column.format === 'currency'") {{ duTable.getIndex(item, column.field) | currency }}
       span(ng-if="column.format === 'date'") {{ duTable.getIndex(item, column.field) | date }}
+      span(ng-if="column.format === 'checkMark'") {{ duTable.getIndex(item, column.field) | checkMark }}
+      span(ng-if="column.format === 'trimmed'") {{ duTable.getIndex(item, column.field) | trimmed }}
 pagination(boundary-links="true", ng-model="vm.collection.paginator.currentPage", items-per-page="vm.collection.paginator.itemsPerPage", max-size="vm.collection.paginator.maxSize", total-items="vm.collection.matched.length", num-pages="vm.collection.paginator.totalPages", ng-change="vm.collection.paginate()")

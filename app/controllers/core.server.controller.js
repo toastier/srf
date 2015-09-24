@@ -12,5 +12,5 @@ exports.index = function(req, res) {
 };
 
 exports.appInfo = function(req, res) {
-	res.jsonp({version: packageJson.version, name: packageJson.name});
+	res.jsonp({version: packageJson.version, name: packageJson.displayName});
 };

@@ -1,0 +1,32 @@
+section
+  navigation
+  .row
+    .col-xs-12
+      small
+        em.text-muted Posted on {{vm.position.datePosted | date}}
+  .row
+    .col-md-6.form-group
+      label.control-label Position Name
+      .form-control-static(ng-bind="vm.position.name")
+    .col-md-6.form-group
+      label.control-label Date Requested
+      .form-control-static(ng-bind="vm.position.dateRequested | date")
+  .row
+    .col-md-3
+      .row
+        .col-md-12.form-group
+          label.control-label Date Posted
+          .form-control-static(ng-bind="vm.position.datePosted | date")
+      .row
+        .col-md-12.form-group
+          label.control-label Date Opens
+          .form-control-static(ng-bind="vm.position.dateStart | date")
+      .row
+        .col-md-12.form-group
+          label.control-label Date Closes
+          .form-control-static(ng-bind="vm.position.dateClose | date")
+    .col-md-9
+      .row
+        .col-md-12.form-group
+          label.control-label Details
+          .form-control-static(ng-bind="vm.position.details")
