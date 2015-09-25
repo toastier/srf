@@ -2,6 +2,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var openingModel = new Schema({
+    name: {
+      type: String,
+      required: true
+    },
+    details: {
+      type: String
+    },
     dateCreated: {
       type: Date,
       default: Date.now()
@@ -10,10 +17,16 @@ var openingModel = new Schema({
       type: Boolean,
       default: true
     },
-    dateOpen: {
+    dateStart: {
       type: Date
     },
     dateClose: {
+      type: Date
+    },
+    datePosted: {
+      type: Date
+    },
+    dateRequested: {
       type: Date
     },
     postingLink: [{

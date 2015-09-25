@@ -1,0 +1,77 @@
+ng-form(name="vm.openingForm")
+  .row
+    .col-md-3.control-group
+      label.control-label Position
+      select.form-control(
+        type="select",
+        ng-model="vm.opening.position",
+        ng-options="position._id as position.name for position in vm.options.positions",
+        ng-required="true",
+        ng-change="vm.fillPositionInfo()")
+          option(value="") --Choose--
+    .col-md-6.form-group
+      label.control-label Opening Title
+      input.form-control(type='text', data-ng-model='vm.opening.name', placeholder='Opening Title', required)
+    .col-md-3
+      label.control-label Date Requested
+      p.input-group
+        input.form-control(name="dateRequested", type="text", datepicker-popup="", is-open="vm.datePickerStates.dateRequestedOpen", close-text="Close", ng-model="vm.opening.dateRequested", novalidate)
+        span.input-group-btn
+          button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateRequested')")
+            i.fa.fa-calendar
+  .row
+    .col-md-3
+      .row
+        .col-md-12
+          label.control-label Posting Date
+          p.input-group
+            input.form-control(name="datePosted", type="text", datepicker-popup="", is-open="vm.datePickerStates.datePostedOpen", close-text="Close", ng-model="vm.opening.datePosted", novalidate)
+            span.input-group-btn
+              button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'datePosted')")
+                i.fa.fa-calendar
+        .col-md-12
+          label.control-label Opening Date
+          p.input-group
+            input.form-control(name="dateStart", type="text", datepicker-popup="", is-open="vm.datePickerStates.dateStartOpen", close-text="Close", ng-model="vm.opening.dateStart", novalidate)
+            span.input-group-btn
+              button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateStart')")
+                i.fa.fa-calendar
+        .col-md-12
+          label.control-label Closing Date
+          p.input-group
+            input.form-control(name="dateClose", type="text", datepicker-popup="", is-open="vm.datePickerStates.dateCloseOpen", close-text="Close", ng-model="vm.opening.dateClose", novalidate)
+            span.input-group-btn
+              button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateClose')")
+                i.fa.fa-calendar
+        .col-md-12.form-group
+          label.checkbox-inline
+            input.checkox-inline(type="checkbox", ng-model="vm.opening.isActive")
+            | This Opening is Active
+    .col-md-9
+      .row
+        .col-md-12.form-group
+          label.control-label Details
+          textarea.form-control(data-ng-model='vm.opening.details', cols='30', rows='10', placeholder='Details')
+  .row
+    .col-xs-12
+      .panel.panel-default
+        .panel-heading
+            h3 Calculate Dates for this Opening
+        .panel-body
+          .row
+            .col-md-4.form-group
+              label.control-label Opening date is
+              .input-group
+                input.form-control(type="text", ng-model="vm.opening.dateCalculationSettings.openWeeksAfterPost")
+                .input-group-addon weeks after Posting
+            .col-md-4.form-group
+              label.control-label Opening closes
+              .input-group
+                input.form-control(type="text", ng-model="vm.opening.dateCalculationSettings.closeWeeksAfterOpen")
+                .input-group-addon weeks after Opening
+            .col-md-4.form-group
+              button.btn.btn-default.btn-workflow.add-label-spacing(ng-click="vm.opening.calculateDates()") Calculate Dates
+
+
+    .text-danger(data-ng-show='error')
+      strong {{error}}

@@ -1,0 +1,30 @@
+section
+  navigation
+  .row
+    .col-xs-12
+      .angular-filtering
+        .col-xs-12
+          ng-form
+            .row
+              .form-group.col-md-4
+                .input-group
+                  .input-group-addon Opening Title
+                  input.form-control(ng-model='vm.collection.filterCriteria.name', placeholder='Any', ng-change="vm.collection.filterCollection()")
+              .form-group.col-md-8
+                .input-group
+                  .input-group-addon Description
+                  input.form-control(ng-model='vm.collection.filterCriteria.details', placeholder='Any', ng-change="vm.collection.filterCollection()")
+            .row
+              .col-md-12.form-group
+                label.checkbox-inline
+                  input.checkox(type="checkbox", ng-model="vm.isActiveYes", ng-change="vm.setIsActive('isActiveYes')")
+                  | Limit to 'active' Openings
+                label.checkbox-inline
+                  input.checkox(type="checkbox", ng-model="vm.isActiveNo", ng-change="vm.setIsActive('isActiveNo')")
+                  | Limit to 'inactive' Openings
+            .row
+              .col-xs-12
+                button.btn.btn-default.btn-undo(ng-click="vm.collection.clearFilters()") Clear Filters
+  .row
+    .col-xs-12
+      du-table

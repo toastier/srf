@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  Position = mongoose.model('Position'),
+  Opening = mongoose.model('Opening'),
   _ = require('lodash');
 
 /**
@@ -17,7 +17,7 @@ var getErrorMessage = function (err) {
     switch (err.code) {
       case 11000:
       case 11001:
-        message = 'Position already exists';
+        message = 'Opening already exists';
         break;
       default:
         message = 'Something went wrong';
@@ -32,105 +32,105 @@ var getErrorMessage = function (err) {
 };
 
 /**
- * Create a position
+ * Create a opening
  */
 exports.create = function (req, res) {
-  var position = new Position(req.body);
-  position.user = req.user;
+  var opening = new Opening(req.body);
+  opening.user = req.user;
 
-  position.save(function (err) {
+  opening.save(function (err) {
     if (err) {
       return res.send(400, {
         message: getErrorMessage(err)
       });
     } else {
-      res.jsonp(position);
+      res.jsonp(opening);
     }
   });
 };
 
 /**
- * Show the current position
+ * Show the current opening
  */
 exports.read = function (req, res) {
-  res.jsonp(req.position);
+  res.jsonp(req.opening);
 };
 
 /**
- * Update a position
+ * Update a opening
  */
 exports.update = function (req, res) {
-  var position = req.position;
+  var opening = req.opening;
 
-  position = _.extend(position, req.body);
+  opening = _.extend(opening, req.body);
 
-  position.save(function (err) {
+  opening.save(function (err) {
     if (err) {
       return res.send(400, {
         message: getErrorMessage(err)
       });
     } else {
-      res.jsonp(position);
+      res.jsonp(opening);
     }
   });
 };
 
 /**
- * Delete an position
+ * Delete an opening
  */
 exports.delete = function (req, res) {
-  var position = req.position;
+  var opening = req.opening;
 
-  position.remove(function (err) {
+  opening.remove(function (err) {
     if (err) {
       return res.send(400, {
         message: getErrorMessage(err)
       });
     } else {
-      res.jsonp(position);
+      res.jsonp(opening);
     }
   });
 };
 
 /**
- * List of Positions
+ * List of Openings
  */
 exports.list = function (req, res) {
-  Position.find().sort('name').populate('user', 'displayName').exec(function (err, positions) {
+  Opening.find().sort('-postDate').populate('user', 'displayName').exec(function (err, openings) {
     if (err) {
       return res.send(400, {
         message: getErrorMessage(err)
       });
     } else {
-      res.jsonp(positions);
+      res.jsonp(openings);
     }
   });
 };
 
 /**
- * Position middleware
+ * Opening middleware
  */
-exports.positionByID = function (req, res, next, id) {
-  Position
+exports.openingByID = function (req, res, next, id) {
+  Opening
     .findById(id)
     .populate('user', 'displayName')
-    .exec(function (err, position) {
+    .exec(function (err, opening) {
       if (err) {
         return next(err);
       }
-      if (!position) {
-        return next(new Error('Failed to load position ' + id));
+      if (!opening) {
+        return next(new Error('Failed to load opening ' + id));
       }
-      req.position = position;
+      req.opening = opening;
       next();
     });
 };
 
 /**
- * Position authorization middleware
+ * Opening authorization middleware
  */
 exports.hasAuthorization = function (req, res, next) {
-  if (req.position.user.id !== req.user.id) {
+  if (req.opening.user.id !== req.user.id) {
     return res.send(403, {
       message: 'User is not authorized'
     });

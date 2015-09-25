@@ -588,6 +588,13 @@ $error: #8d000b;
     font-weight: bold;
   }
 }
+// use when a button is in a row with other labeled controls to align the button with the controls
+button.add-label-spacing {
+  margin-top: 25px;
+  label {
+    font-weight: bold;
+  }
+}
 
 //
 // Clickable
