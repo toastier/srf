@@ -26,7 +26,7 @@
     }
 
     function disableSaveButton() {
-      return vm.positionForm.$invalid || vm.positionForm.$pristine;
+      return angular.isUndefined(vm.positionForm) || vm.positionForm.$invalid || vm.positionForm.$pristine;
     }
 
     function savePosition() {

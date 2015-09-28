@@ -14600,8 +14600,34 @@ h1.page-title {
   right: 10px;
   position: absolute; }
 
+/* line 14687, stdin */
+.item-wrapper {
+  width: 100%;
+  float: left;
+  padding: 3px 0;
+  margin-bottom: 3px;
+  background-color: #f5f5f5;
+  border-radius: 4px; }
+
+/* line 14696, stdin */
+.item-wrapper .form-group {
+  margin-bottom: 0; }
+
+/* line 14700, stdin */
+.item-wrapper .col-md-4, .item-wrapper .col-md-8 {
+  padding-left: 0;
+  padding-right: 0; }
+
+/* line 14705, stdin */
+.item-wrapper .col-md-4:first-child, .item-wrapper .col-md-8:first-child {
+  padding-left: 3px; }
+
+/* line 14709, stdin */
+.item-wrapper .col-md-4:last-child, .item-wrapper .col-md-8:last-child {
+  padding-right: 3px; }
+
 /** @todo move to global */
-/* line 14690, stdin */
+/* line 14716, stdin */
 input.form-control.toggle-edit:not(:focus),
 .display-group input.toggle-edit.data:not(:focus),
 div.form-control.ui-select-container.toggle-edit:not(.open), .display-group div.ui-select-container.toggle-edit.data:not(.open) {
@@ -14617,41 +14643,41 @@ div.form-control.ui-select-container.toggle-edit:not(.open), .display-group div.
   box-shadow: none;
   transition: none; }
 
-/* line 14706, stdin */
+/* line 14732, stdin */
 input.form-control.toggle-edit:after,
 .display-group input.toggle-edit.data:after,
 div.form-control.ui-select-container.toggle-edit:not(.open):after, .display-group div.ui-select-container.toggle-edit.data:not(.open):after {
   content: ''; }
 
-/* line 14710, stdin */
+/* line 14736, stdin */
 input.form-control.toggle-edit:focus:after, .display-group input.toggle-edit.data:focus:after {
   content: ''; }
 
-/* line 14714, stdin */
+/* line 14740, stdin */
 div.ui-select-container.ui-select-multiple.ui-select-bootstrap {
   min-height: 34px; }
 
-/* line 14718, stdin */
+/* line 14744, stdin */
 .collapsible .list-group-item {
   cursor: pointer; }
 
-/* line 14722, stdin */
+/* line 14748, stdin */
 .collapsible .list-group-item:hover {
   text-decoration: none;
   color: #555;
   background-color: #f5f5f5; }
 
-/* line 14728, stdin */
+/* line 14754, stdin */
 .list-group-item .list-group-item-heading h2, .list-group-item .list-group-item-heading h3, .list-group-item .list-group-item-heading h4, .list-group-item .list-group-item-heading h5, .list-group-item .list-group-item-heading h6 {
   margin: 0; }
 
 /* Have to set height explicitly on ui-view
 to prevent collapsing during animation*/
-/* line 14734, stdin */
+/* line 14760, stdin */
 .ui-view-container {
   position: relative; }
 
-/* line 14738, stdin */
+/* line 14764, stdin */
 [ui-view].ng-enter, [ui-view].ng-leave {
   position: absolute;
   left: 0;
@@ -14661,76 +14687,76 @@ to prevent collapsing during animation*/
   -o-transition: all 0.25s ease-in-out;
   transition: all 0.25s ease-in-out; }
 
-/* line 14748, stdin */
+/* line 14774, stdin */
 [ui-view].ng-enter {
   opacity: 0;
   -webkit-transform: translate3d(-100px, 0, 0);
   -moz-transform: translate3d(-100px, 0, 0);
   transform: translate3d(-100px, 0, 0); }
 
-/* line 14755, stdin */
+/* line 14781, stdin */
 [ui-view].ng-enter-active {
   opacity: 1;
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
 
-/* line 14762, stdin */
+/* line 14788, stdin */
 [ui-view].ng-leave {
   opacity: 1;
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
 
-/* line 14769, stdin */
+/* line 14795, stdin */
 [ui-view].ng-leave-active {
   opacity: 0;
   -webkit-transform: translate3d(100px, 0, 0);
   -moz-transform: translate3d(100px, 0, 0);
   transform: translate3d(100px, 0, 0); }
 
-/* line 14776, stdin */
+/* line 14802, stdin */
 .form-control-static {
   border-top: 1px solid #E5E5E5; }
 
-/* line 14780, stdin */
+/* line 14806, stdin */
 label.checkbox-inline {
   padding-top: 29px; }
 
-/* line 14784, stdin */
+/* line 14810, stdin */
 .navigation {
   z-index: 1000; }
 
-/* line 14788, stdin */
+/* line 14814, stdin */
 .navigation.stuck {
   background-color: #ffffff;
   border-bottom: 1px solid #B5B5B5; }
 
-/* line 14793, stdin */
+/* line 14819, stdin */
 .page-actions {
   margin-top: 8px; }
 
-/* line 14797, stdin */
+/* line 14823, stdin */
 .page-actions .btn-group {
   margin-left: 4px; }
 
-/* line 14801, stdin */
+/* line 14827, stdin */
 .page-actions button {
   margin-right: 4px; }
 
-/* line 14805, stdin */
+/* line 14831, stdin */
 .page-actions button:nth-child(0n + 2) {
   margin-right: 0; }
 
-/* line 14809, stdin */
+/* line 14835, stdin */
 .flexbox-container {
   display: flex; }
 
-/* line 14813, stdin */
+/* line 14839, stdin */
 .flexbox-container.stretch {
   align-items: stretch; }
 
-/* line 14817, stdin */
+/* line 14843, stdin */
 td > div.icon-group {
   margin: -8px 4px -8px -8px;
   border: none;
@@ -14738,23 +14764,23 @@ td > div.icon-group {
   color: #E5E5E5;
   font-size: 18px; }
 
-/* line 14825, stdin */
+/* line 14851, stdin */
 td > div.icon-group a.with-icon {
   line-height: 32px; }
 
-/* line 14829, stdin */
+/* line 14855, stdin */
 td > div.icon-group a.with-icon:hover {
   color: #666666; }
 
-/* line 14833, stdin */
+/* line 14859, stdin */
 td:hover > div.icon-group {
   color: #B5B5B5; }
 
-/* line 14837, stdin */
+/* line 14863, stdin */
 .input-group-addon.select {
   padding: 0; }
 
-/* line 14841, stdin */
+/* line 14867, stdin */
 .input-group-addon.select select {
   height: 32px;
   border: none;

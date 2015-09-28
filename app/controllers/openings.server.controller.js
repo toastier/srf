@@ -113,7 +113,7 @@ exports.list = function (req, res) {
 exports.openingByID = function (req, res, next, id) {
   Opening
     .findById(id)
-    .populate('user', 'displayName')
+    .populate('postingLink')
     .exec(function (err, opening) {
       if (err) {
         return next(err);

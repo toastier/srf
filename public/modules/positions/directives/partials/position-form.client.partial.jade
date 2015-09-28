@@ -16,27 +16,6 @@ ng-form(name="vm.positionForm")
   .row
     .col-md-3
       .row
-        .col-md-12
-          label.control-label Date Posted
-          p.input-group
-            input.form-control(name="datePosted", type="text", datepicker-popup="", is-open="vm.datePostedOpen", close-text="Close", ng-model="vm.position.datePosted", novalidate)
-            span.input-group-btn
-              button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'datePosted')")
-                i.fa.fa-calendar
-        .col-md-12
-          label.control-label Open Date
-          p.input-group
-            input.form-control(name="dateStart", type="text", datepicker-popup="", is-open="vm.dateStartOpen", close-text="Close", ng-model="vm.position.dateStart", novalidate)
-            span.input-group-btn
-              button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateStart')")
-                i.fa.fa-calendar
-        .col-md-12
-          label.control-label Close Date
-          p.input-group
-            input.form-control(name="dateClose", type="text", datepicker-popup="", is-open="vm.dateCloseOpen", close-text="Close", ng-model="vm.position.dateClose", novalidate)
-            span.input-group-btn
-              button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateClose')")
-                i.fa.fa-calendar
         .col-md-12.form-group
           label.control-label Is the Position Active?
             input.checkox-inline(type="checkbox", ng-model="vm.position.isActive")

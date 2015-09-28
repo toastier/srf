@@ -31,7 +31,7 @@ var openingModel = new Schema({
     },
     postingLink: [{
       source: {
-        type: String, enum: ['DUSON', 'Other']
+        type: String
       },
       url: {
         type: String

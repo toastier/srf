@@ -68,9 +68,7 @@
           matchType: 'trueFalse'
         }
       },
-      {field: 'datePosted', label: 'Posted', format: 'date'},
-      {field: 'dateStart', label: 'Opens', format: 'date'},
-      {field: 'dateClose', label: 'Closes', format: 'date'}
+      {field: 'dateCreated', label: 'Created', format: 'date'}
     ];
 
     var initialSortOrder = ['+name'];

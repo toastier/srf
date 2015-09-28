@@ -56,7 +56,7 @@ ng-form(name="vm.openingForm")
     .col-xs-12
       .panel.panel-default
         .panel-heading
-            h3 Calculate Dates for this Opening
+          h3 Calculate Dates for this Opening
         .panel-body
           .row
             .col-md-4.form-group
@@ -71,6 +71,23 @@ ng-form(name="vm.openingForm")
                 .input-group-addon weeks after Opening
             .col-md-4.form-group
               button.btn.btn-default.btn-workflow.add-label-spacing(ng-click="vm.opening.calculateDates()") Calculate Dates
+  .row
+    .col-xs-12
+      h3 Online Postings&nbsp;
+        a.with-icon.no-text.add(ng-href="#", ng-click="vm.opening.addPostingLink()")
+      .row(ng-repeat="pLink in vm.opening.postingLink")
+        .col-xs-12
+          .item-wrapper
+            .col-md-4.form-group
+              .input-group
+                .input-group-addon
+                  i.fa.fa-times-circle(ng-click="vm.opening.removePostingLink(pLink)")
+                input.form-control(type="text", ng-model="pLink.source", placeholder="Source")
+            .col-md-8.form-group
+              .input-group
+                .input-group-addon URL
+                input.form-control(type="text", ng-model="pLink.url")
+
 
 
     .text-danger(data-ng-show='error')

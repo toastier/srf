@@ -32,6 +32,25 @@
         openWeeksAfterPost: 0,
         closeWeeksAfterOpen: 8
       },
+      addPostingLink: function (source, url) {
+
+        /**
+         * PostingLink Constructor
+         * @returns {{source: (*|string), url: (*|string)}}
+         * @constructor
+         */
+        function PostingLink () {
+          return {
+            source: source || '',
+            url: url || ''
+          };
+        }
+
+        if(!this.postingLink || !angular.isArray(this.postingLink)) {
+          this.postingLink = [];
+        }
+        this.postingLink.push(new PostingLink());
+      },
       calculateDates: function () {
         var settings = this.dateCalculationSettings;
         settings.openWeeksAfterPost = settings.openWeeksAfterPost || 0;
@@ -57,6 +76,10 @@
       },
       editOpening: function (opening) {
         $state.go('editOpening', {openingId: opening._id});
+      },
+      removePostingLink: function (postingLinkItem) {
+        var index = this.postingLink.indexOf(postingLinkItem);
+        this.postingLink.splice(index, 1);
       },
       viewOpening: function (opening) {
         $state.go('viewOpening', {openingId: opening._id});

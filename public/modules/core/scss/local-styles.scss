@@ -635,6 +635,33 @@ h1.page-title {
   position: absolute;
 }
 
+//
+// Element wrapping a single item or row of data
+// -----------------------------------------------------
+
+.item-wrapper {
+  width: 100%;
+  float: left;
+  padding: 3px 0;
+  margin-bottom: 3px;
+  background-color: $well-bg;
+  //@include light-rounded-border;
+  border-radius: $border-radius-base;
+  .form-group {
+    margin-bottom: 0;
+  }
+  .col-md-4, .col-md-8 {
+    padding-left: 0;
+    padding-right: 0;
+    &:first-child {
+      padding-left: 3px;
+    }
+    &:last-child {
+      padding-right: 3px;
+    }
+  }
+}
+
 
 /** @todo move to global */
 input.form-control.toggle-edit:not(:focus),

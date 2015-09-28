@@ -12,27 +12,13 @@ var positionModel = new Schema({
             type: String
         },
         dateRequested: {type: Date},
-        datePosted: {
+        dateCreated: {
             type: Date,
             default: Date.now
         },
         isActive: {
           type: Boolean,
           default: true
-        },
-        dateStart: {type: Date},
-        dateClose: {type: Date},
-        positionLink: [{
-            source: {
-                type: String, enum: ['DUSON', 'Other']
-            },
-            url: {
-                type: String
-            }
-        }],
-        searchLead: {
-            firstName: String,
-            lastName: String
         },
         openings: [{
           type: Schema.ObjectId,

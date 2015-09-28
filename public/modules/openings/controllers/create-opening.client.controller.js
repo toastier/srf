@@ -25,7 +25,7 @@
     }
 
     function disableSaveButton() {
-      return vm.openingForm.$invalid || vm.openingForm.$pristine;
+      return angular.isUndefined(vm.openingForm) || vm.openingForm.$invalid || vm.openingForm.$pristine;
     }
 
     function getPosition(positionId) {
