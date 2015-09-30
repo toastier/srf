@@ -1,0 +1,153 @@
+ng-form(novalidate='')
+  .row
+    .form-group.col-md-1
+      label.control-label(for='honorific') Hon.
+      .controls
+        input#honorific.form-control(type='text', data-ng-model='vm.applicant.name.honorific', required='')
+    .form-group.col-md-4
+      label.control-label(for='first-name') First Name
+      .controls
+        input#first-name.form-control(type='text', data-ng-model='vm.applicant.name.firstName', required='')
+    .form-group.col-md-2
+      label.control-label(for='middle-name') Middle
+      .controls
+        input#middle-name.form-control(type='text', data-ng-model='vm.applicant.name.middleName')
+    .form-group.col-md-4
+      label.control-label(for='last-name') Last Name
+      .controls
+        input#last-name.form-control(type='text', data-ng-model='vm.applicant.name.lastName', required='')
+    .form-group.col-md-1
+      label.control-label(for='suffix') Suff
+      .controls
+        input#suffix.form-control(type='text', data-ng-model='vm.applicant.name.suffix')
+  .row
+    .col-xs-12
+      //h2 Contact Information
+      .row
+        .col-md-6
+          h3 Email Address&nbsp;
+            a.with-icon.no-text.add(ng-click="vm.applicant.addEmailAddress()")
+          .item-group(ng-repeat="emailAddress in vm.applicant.emailAddresses")
+            .item-group-actions
+              i.fa.fa-times-circle(ng-click="vm.applicant.removeEmailAddress(emailAddress)")
+            .item-group-contents.single-row
+              .row
+                .form-group.col-md-8
+                  input.form-control(type="text", ng-model="emailAddress.emailAddress")
+                .form-group.col-md-4.checkbox-inline
+                  label.checkbox
+                    input(type="checkbox", ng-model="emailAddress.primary")
+                    | Primary?
+        .col-md-6
+          h3 Phone Numbers&nbsp;
+            a.with-icon.no-text.add(ng-click="vm.applicant.addPhoneNumber()")
+          .item-group(ng-repeat="phoneNumber in vm.applicant.phoneNumbers")
+            .item-group-actions
+              i.fa.fa-times-circle(ng-click="vm.applicant.removePhoneNumber(phoneNumber)")
+            .item-group-contents.single-row
+              .row
+                .form-group.col-md-8
+                  input#phone-number.form-control(type='text', data-ng-model='phoneNumber.phoneNumber', required)
+                .form-group.col-md-4.checkbox-inline
+                  label.checkbox
+                    input(type="checkbox", ng-model="phoneNumber.primary")
+                    | Primary?
+      .row
+        .col-md-12
+          h3 Addresses&nbsp;
+            a.with-icon.no-text.add(ng-click="vm.applicant.addAddress()")
+          .item-group(ng-repeat="address in vm.applicant.addresses")
+            .item-group-actions
+              i.fa.fa-times-circle(ng-click="vm.applicant.removeAddress(address)")
+            .item-group-contents
+              .row
+                .form-group.col-md-12
+                  label.control-label(for='address1') Address
+                  input#address1.form-control(type='text', data-ng-model='address.address1', required='')
+                  input#address2.form-control(type='text', data-ng-model='address.address2', required='')
+              .row
+                .form-group.col-md-5
+                  label.control-label(for='city') City
+                  input#city.form-control(type='text', data-ng-model='address.city', required='')
+                .form-group.col-md-4
+                  label.control-label(for='state') State
+                  input#state.form-control(type='text', data-ng-model='address.state', required='')
+                .form-group.col-md-3
+                  label.control-label(for='postal-code') Postal Code
+                  input#postal-code.form-control(type='text', data-ng-model='address.postalCode', required='')
+              .row
+                .form-group.col-md-12
+                  label.control-label(for='country') Country
+                  input#country.form-control(type='text', data-ng-model='address.country', value='United States', required='')
+  .row
+    .col-md-12
+      h3 Credentials&nbsp;
+        a.with-icon.no-text.add(ng-click="vm.applicant.addCredential()")
+      .item-group(ng-repeat="credential in vm.applicant.credentials")
+        .item-group-actions
+          i.fa.fa-times-circle(ng-click="vm.applicant.removeCredential(credential)")
+        .item-group-contents
+          .row
+            .form-group.col-md-4
+              label.control-label(for='credential') Credential
+              input#credential.form-control(type='text', data-ng-model='credential.credential', required='')
+            .form-group.col-md-5
+              label.control-label(for='institution') Institution
+              input#institution.form-control(type='text', data-ng-model='credential.institution', required='')
+            .form-group.col-md-3
+              label.control-label(for='year') Year
+              input#year.form-control(type='number', data-ng-model='credential.year', required='')
+  .row
+    .col-md-12
+      h3 Positions&nbsp;
+        a.with-icon.no-text.add(ng-click="vm.applicant.addApplicantPosition()")
+      .item-group(ng-repeat="position in vm.applicant.applicantPositions")
+        .item-group-actions
+          i.fa.fa-times-circle(ng-click="vm.applicant.removeApplicantPosition(position)")
+        .item-group-contents
+          .row
+            .form-group.col-md-5
+              label.control-label(for='position-name') Position Name
+              input#position-name.form-control(type='text', data-ng-model='position.positionName', required='')
+            .form-group.col-md-4
+              label.control-label(for='institution-name') Institution
+              input#institution-name.form-control(type='text', data-ng-model='position.institution.institutionName', required='')
+            .form-group.col-md-3
+              label.control-label(for='expected-completion-date') Expected Completion Date
+              p.input-group
+                input#expected-completion-date.form-control(type='text', datepicker-popup="", is-open="position.datePickerOpen" data-ng-model='position.dateExpectedCompletion', close-text="Close", novalidate)
+                span.input-group-btn
+                  button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, position)")
+                    i.fa.fa-calendar
+          .row
+            .form-group.col-md-5
+              label.control-label City
+              input.form-control(type="text", ng-model="position.institution.city", required)
+            .form-group.col-md-4
+              label.control-label State
+              input.form-control(type="text", ng-model="position.institution.state", required)
+            .form-group.col-md-3
+              label.control-label Country
+              input.form-control(type="text", ng-model="position.institution.country", required)
+  .row
+    .col-md-12
+      h3 Focal Areas
+    .col-md-12
+      ui-select(multiple ng-model="vm.applicant.focalAreas",  style="width: 300px;")
+        ui-select-match(placeholder="Select Focal Areas") {{$item.focalArea}}
+        ui-select-choices(repeat="option in vm.options.focalAreas | filter:$select.search") {{option.focalArea}}
+
+  .row
+    .col-md-12
+      h3 Referral Source
+      .row
+        .col-md-6.form-group
+          label.control-label(for='primary') Primary
+          select#primary.form-control(data-ng-model='vm.applicant.source.primary', required='')
+            option DUSON posting
+            option Internet posting
+            option Personal
+            option Other
+        .col-md-6.form-group
+          label.control-label(for='specific') Specific
+          input#specific.form-control(type='text', data-ng-model='vm.applicant.source.specific', required='')

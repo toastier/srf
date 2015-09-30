@@ -1,8 +1,8 @@
 (function () {
   'use strict';
-  angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', 'Users', 'Authentication',
-    function ($scope, $http, $location, Users, Authentication) {
-      $scope.user = Authentication.user;
+  angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', 'Users', 'resolvedAuth',
+    function ($scope, $http, $location, Users, resolvedAuth) {
+      $scope.user = resolvedAuth;
 
       // If user is not signed in then redirect back home
       if (!$scope.user) $location.path('/');

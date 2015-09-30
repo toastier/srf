@@ -6,10 +6,10 @@
 
 
   /* @ngInject */
-  function EditOpeningController($stateParams, Authentication, Messages, Navigation, Opening, Position, _) {
+  function EditOpeningController($stateParams, Messages, Navigation, Opening, Position, resolvedAuth, _) {
 
     var vm = this;
-    vm.authentication = Authentication.init();
+    vm.authentication = resolvedAuth;
     vm.cancel = cancel;
     vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
     vm.deleteOpening = deleteOpening;

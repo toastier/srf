@@ -10,7 +10,7 @@
     var environment = 'dev';
     header.menu = Menus.getMenu('topbar');
     header.sidebarMenu = Menus.getMenu('sidebar');
-    header.authentication = Authentication.init();
+    header.user = Authentication;
     header.messages = Messages.messages;
     header.isCollapsed = true;
 

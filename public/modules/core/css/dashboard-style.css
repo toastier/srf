@@ -14789,3 +14789,54 @@ td:hover > div.icon-group {
   padding-top: 6px;
   padding-bottom: 6px;
   background-color: #eeeeee; }
+
+/* line 14877, stdin */
+.input-group-addon.checkbox {
+  padding: 0 8px; }
+
+/* line 14881, stdin */
+.item-group {
+  display: table;
+  position: relative;
+  border-collapse: separate;
+  margin-bottom: 3px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border-radius: 4px; }
+
+/* line 14892, stdin */
+.item-group .item-group-actions {
+  display: table-cell;
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1;
+  box-sizing: border-box; }
+
+/* line 14903, stdin */
+.item-group .item-group-contents {
+  display: table-cell;
+  z-index: 2;
+  width: 100%;
+  float: left;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 0 4px 4px 0;
+  background-color: #ffffff; }
+
+/* line 14919, stdin */
+.item-group .item-group-contents.single-row .form-group {
+  margin-bottom: 0; }
+
+/* line 14923, stdin */
+.item-group .item-group-contents.single-row .checkbox {
+  margin-top: 8px;
+  margin-bottom: 8px; }

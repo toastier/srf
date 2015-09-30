@@ -5,10 +5,10 @@
     .controller('CreatePositionController', CreatePositionController);
 
   /* @ngInject */
-  function CreatePositionController(Authentication, Navigation, Position, Messages, _) {
+  function CreatePositionController(resolvedAuth, Navigation, Position, Messages, _) {
     /* jshint validthis: true */
     var vm = this;
-    vm.authentication = Authentication.init();
+    vm.user = resolvedAuth;
     vm.disableSaveButton = disableSaveButton;
     vm.cancel = cancel;
     vm.dateCloseOpen = false;

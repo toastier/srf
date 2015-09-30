@@ -5,29 +5,49 @@
     function ($stateProvider) {
       // Positions state routing
       $stateProvider
-        .state('listPositions', {
+        .state('main.listPositions', {
           url: '/positions',
           templateUrl: 'modules/positions/views/positions.client.view.html',
           controller: 'PositionsController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            resolvedAuth: function(resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
         })
-        .state('createPosition', {
+        .state('main.createPosition', {
           url: '/positions/create',
           templateUrl: 'modules/positions/views/create-position.client.view.html',
           controller: 'CreatePositionController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            resolvedAuth: function(resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
         })
-        .state('viewPosition', {
+        .state('main.viewPosition', {
           url: '/positions/:positionId',
           templateUrl: 'modules/positions/views/view-position.client.view.html',
           controller: 'ViewPositionController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            resolvedAuth: function(resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
         })
-        .state('editPosition', {
+        .state('main.editPosition', {
           url: '/positions/:positionId/edit',
           templateUrl: 'modules/positions/views/edit-position.client.view.html',
           controller: 'EditPositionController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            resolvedAuth: function(resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
         });
     }
   ]);

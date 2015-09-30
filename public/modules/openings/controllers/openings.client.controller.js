@@ -4,16 +4,16 @@
     .module('openings')
     .controller('OpeningsController', OpeningsController);
 
-  function OpeningsController($scope, $state, Authentication, Navigation, Opening, CollectionModel, Messages) {
+  function OpeningsController($scope, $state, Navigation, Opening, CollectionModel, Messages, resolvedAuth) {
     var vm = this;
-    vm.authentication = Authentication.init();
+    vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;
     vm.isActiveYes = true;
     vm.isActiveNo = false;
     vm.setIsActive = setIsActive;
 
     function allowEdit () {
-      return vm.authentication.hasRole(['admin']);
+      return vm.user.hasRole(['admin']);
     }
 
     function setIsActive (source) {
@@ -111,7 +111,7 @@
     }
 
     function viewOpening (opening) {
-      $state.go('viewOpening', { openingId: opening._id });
+      $state.go('main.viewOpening', { openingId: opening._id });
     }
 
     activate();

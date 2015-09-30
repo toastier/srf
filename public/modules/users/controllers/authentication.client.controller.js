@@ -9,10 +9,10 @@
 
     var vm = this;
 
-    vm.authentication = Authentication.init();
+    vm.user = Authentication;
 
     //If user is signed in then redirect back home
-    if (vm.authentication) $location.path('/');
+    if (vm.user) $location.path('/');
 
     Navigation.viewTitle.set('Login Required');
 

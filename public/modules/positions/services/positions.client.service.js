@@ -13,13 +13,13 @@
 
     var methods = {
       editThisPosition: function () {
-        $state.go('editPosition', {positionId: $stateParams.positionId});
+        $state.go('main.editPosition', {positionId: $stateParams.positionId});
       },
       viewThisPosition: function () {
-        $state.go('viewPosition', {positionId: $stateParams.positionId});
+        $state.go('main.viewPosition', {positionId: $stateParams.positionId});
       },
       createPosition: function () {
-        $state.go('createPosition');
+        $state.go('main.createPosition');
       }
     };
 
@@ -29,16 +29,16 @@
      */
     var itemMethods = {
       editPosition: function (position) {
-        $state.go('editPosition', {positionId: position._id});
+        $state.go('main.editPosition', {positionId: position._id});
       },
       viewPosition: function (position) {
-        $state.go('viewPosition', {positionId: position._id});
+        $state.go('main.viewPosition', {positionId: position._id});
       }
     };
 
     var modelMethods = {
       listPositions: function () {
-        $state.go('listPositions');
+        $state.go('main.listPositions');
       },
       getActions: function () {
         var modelActions = [

@@ -6,10 +6,10 @@
 
 
   /* @ngInject */
-  function EditPositionController($stateParams, Position, Navigation, Authentication, Messages, _) {
+  function EditPositionController($stateParams, Position, Navigation, Messages, resolvedAuth, _) {
 
     var vm = this;
-    vm.authentication = Authentication.init();
+    vm.authentication = resolvedAuth;
     vm.cancel = cancel;
     vm.dateCloseOpen = false;
     vm.datePostedOpen = false;

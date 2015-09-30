@@ -5,10 +5,10 @@
     .controller('ViewPositionController', ViewPositionController);
 
   /* @ngInject */
-  function ViewPositionController($stateParams, Position, Navigation, Authentication, Messages, _) {
+  function ViewPositionController($stateParams, Position, Navigation, resolvedAuth, Messages, _) {
     /* jshint validthis: true */
     var vm = this;
-    vm.authentication = Authentication.init();
+    vm.user = resolvedAuth;
 
     function activate() {
       Position.get({
@@ -30,7 +30,7 @@
       Navigation.breadcrumbs.add('Positions', '#!/positions', '#!/positions'); // add a breadcrumb
       var actions = Position.getActions(); // get the actions from the Model
       actions.splice(0, 2); // splice out the ones we don't want (were taking them all out here)
-      if (vm.authentication.hasRole(['admin'])) {
+      if (vm.user.hasRole(['admin'])) {
         Navigation.actions.addMany(actions); // add the actions to the Navigation service
       }
       Navigation.viewTitle.set('View Position'); // set the page title

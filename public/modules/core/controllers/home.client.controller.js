@@ -4,31 +4,27 @@
     .module('core')
     .controller('HomeController', HomeController);
 
-  function HomeController($state, Authentication) {
+  function HomeController($state, resolvedAuth) {
 
     var vm = this;
-    vm.authentication = Authentication.init();
+    vm.user = resolvedAuth;
 
     function activate() {
+      if (vm.user._id) {
 
-      vm.authentication.user.$promise
-        .then(function () {
-          if (vm.authentication.user._id) {
-            var hasRole = vm.authentication.hasRole;
-            if (hasRole(['admin'])) {
-              $state.go('listPositions');
-            } else if (hasRole(['faculty/staff'])) {
-              $state.go('listAssets');
-            } else {
-              $state.go('noAccess');
-            }
-          } else {
-            $state.go('signin');
-          }
-        });
-
+        if (vm.user.hasRole(['admin'])) {
+          $state.go('main.listPositions');
+        } else if (vm.user.hasRole(['faculty/staff'])) {
+          $state.go('main.listAssets');
+        } else {
+          $state.go('main.noAccess');
+        }
+      } else {
+        $state.go('main.signin');
+      }
     }
 
     activate();
   }
+
 })();

@@ -13,13 +13,13 @@
 
     var methods = {
       editThisOpening: function () {
-        $state.go('editOpening', {openingId: $stateParams.openingId});
+        $state.go('main.editOpening', {openingId: $stateParams.openingId});
       },
       viewThisOpening: function () {
-        $state.go('viewOpening', {openingId: $stateParams.openingId});
+        $state.go('main.viewOpening', {openingId: $stateParams.openingId});
       },
       createOpening: function () {
-        $state.go('createOpening');
+        $state.go('main.createOpening');
       }
     };
 
@@ -75,21 +75,21 @@
         this.dateClose = dateClose;
       },
       editOpening: function (opening) {
-        $state.go('editOpening', {openingId: opening._id});
+        $state.go('main.editOpening', {openingId: opening._id});
       },
       removePostingLink: function (postingLinkItem) {
         var index = this.postingLink.indexOf(postingLinkItem);
         this.postingLink.splice(index, 1);
       },
       viewOpening: function (opening) {
-        $state.go('viewOpening', {openingId: opening._id});
+        $state.go('main.viewOpening', {openingId: opening._id});
       }
     };
 
     var modelMethods = {
 
       listOpenings: function () {
-        $state.go('listOpenings');
+        $state.go('main.listOpenings');
       },
       getActions: function () {
         var modelActions = [

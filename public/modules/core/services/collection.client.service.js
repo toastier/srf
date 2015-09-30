@@ -101,7 +101,7 @@
             Sorting.setSortOrder(initialSortOrder);
             collection.original = members || null;
             collection.matched = angular.copy(collection.original);
-
+            Pagination.paginator.currentPage = 1;
             paginate();
 
             var filtering = new Filtering(collection.original, collection.matched);

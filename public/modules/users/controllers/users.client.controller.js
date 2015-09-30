@@ -4,10 +4,9 @@
     .module('users')
     .controller('UsersController', UsersController);
 
-  function UsersController($scope, $state, Users, Roles, Authentication, Navigation, Masquerade, Pagination, Sorting, Filtering, Messages) {
+  function UsersController($scope, $state, Users, Roles, resolvedAuth, Navigation, Masquerade, Pagination, Sorting, Filtering, Messages) {
     var vm = this;
-    Authentication.init();
-    vm.authentication = Authentication.init();
+    vm.authentication = resolvedAuth;
     vm.paginator = Pagination.paginator;
     vm.users = {original: [], matched: [], paginated: []};
     vm.options = {};

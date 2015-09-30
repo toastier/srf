@@ -850,3 +850,57 @@ td {
   }
 }
 
+.input-group-addon.checkbox {
+  padding: 0 8px;
+}
+
+//
+// Item Groups - useful way of putting actions on the left of a group
+// -----------------------------------------------------
+
+
+.item-group  {
+  display: table;
+  position: relative;
+  border-collapse: separate;
+  margin-bottom: 3px;
+  background-color: $well-bg;
+  @include light-rounded-border;
+  border-radius: $border-radius-base;
+
+  .item-group-actions {
+    display: table-cell;
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1;
+    box-sizing: border-box;
+  }
+
+  .item-group-contents {
+    display: table-cell;
+    z-index: 2;
+    width: 100%;
+    float: left;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    @include light-rounded-border;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-radius: 0 $border-radius-base $border-radius-base 0;
+    background-color: $duke-white;
+    &.single-row {
+      .form-group {
+        margin-bottom: 0;
+      }
+      .checkbox {
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+}
+

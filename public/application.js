@@ -20,7 +20,8 @@ angular.module(ApplicationConfiguration.applicationModuleName)
     uiSelectConfig.theme = 'bootstrap';
   })
   .config(function (toastrConfig) {
-    toastrConfig.timeOut = 2500;
+    toastrConfig.timeOut = 1500;
+    toastrConfig.positionClass = 'toast-top-right';
   });
 
 //Then define the init function for starting up the application

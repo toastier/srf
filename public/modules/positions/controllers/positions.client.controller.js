@@ -4,16 +4,16 @@
     .module('positions')
     .controller('PositionsController', PositionsController);
 
-  function PositionsController($scope, $state, Authentication, Navigation, Position, CollectionModel, Messages) {
+  function PositionsController($scope, $state, Navigation, Position, CollectionModel, Messages, resolvedAuth) {
     var vm = this;
-    vm.authentication = Authentication.init();
+    vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;
     vm.isActiveYes = true;
     vm.isActiveNo = false;
     vm.setIsActive = setIsActive;
 
     function allowEdit () {
-      return vm.authentication.hasRole(['admin']);
+      return vm.user.hasRole(['admin']);
     }
 
     function setIsActive (source) {
@@ -109,7 +109,7 @@
     }
 
     function viewPosition (position) {
-      $state.go('viewPosition', { positionId: position._id });
+      $state.go('main.viewPosition', { positionId: position._id });
     }
 
     activate();
