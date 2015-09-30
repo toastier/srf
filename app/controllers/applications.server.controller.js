@@ -101,7 +101,11 @@ exports.delete = function(req, res) {
  * List of Applications
  */
 exports.list = function(req, res) {
-	Application.find().sort('-postDate').populate('user', 'displayName').exec(function(err, applications) {
+	Application.find()
+		.sort('-postDate')
+		.populate('applicant')
+		.populate('opening')
+		.exec(function(err, applications) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)

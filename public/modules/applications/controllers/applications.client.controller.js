@@ -1,58 +1,51 @@
-'use strict';
+(function () {
+  'use strict';
+  angular
+    .module('applications')
+    .controller('ApplicationsController', ApplicationsController);
 
-angular.module('applications').controller('ApplicationsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Applications',
-	function($scope, $stateParams, $location, Authentication, Applications) {
-		$scope.authentication = Authentication;
+  function ApplicationsController($scope, $state, Navigation, CollectionModel, resolvedAuth, Messages, Application) {
+    var vm = this;
+    vm.user = resolvedAuth;
+    vm.allowEdit = allowEdit;
+    /** @type ColumnDefinition[] **/
+    vm.columnDefinitions = [
+      {field: 'opening.name', label: 'Opening', filterable: true },
+      {field: 'applicant.name.honorific', label: 'Hon', filterable: true },
+      {field: 'applicant.name.firstName', label: 'First Name', filterable: true },
+      {field: 'applicant.name.lastName', label: 'Last Name', filterable: true }
+    ];
 
-		$scope.create = function() {
+    function allowEdit () {
+      return vm.user.hasRole(['admin']);
+    }
 
-			var application = new Applications({
-				applicant: this.applicantId,
-				position: this.positionID
-			});
-			application.$save(function(response) {
-				alert(response._id);
-				$location.path('applications/' + response._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
+    var initialSortOrder = ['+position.name'];
 
-		$scope.remove = function(application) {
-			if (application) {
-				application.$remove();
+    activate();
 
-				for (var i in $scope.applications) {
-					if ($scope.applications[i] === application) {
-						$scope.applications.splice(i, 1);
-					}
-				}
-			} else {
-				$scope.application.$remove(function() {
-					$location.path('applications');
-				});
-			}
-		};
+    function activate() {
+      Application.query().$promise
+        .then(function(result) {
+          Messages.addMessage('Applications Loaded', 'success', null, 'dev');
+          vm.collection = new CollectionModel('ApplicationsController', result, vm.columnDefinitions, initialSortOrder);
+        })
+        .catch(function(err) {
+          Messages.addMessage(err.data.message, 'error', 'Problem Loading Applications');
+        });
 
-		$scope.update = function() {
-			var application = $scope.application;
+      setupNavigation();
+    }
 
-			application.$update(function() {
-				$location.path('applications/' + application._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
+    function setupNavigation() {
+      Navigation.clear(); // clear everything in the Navigation
 
-		$scope.find = function() {
-			$scope.applications = Applications.query();
-		};
+      var actions = Application.getActions(); // get the actions from the Model
+      actions.splice(1, 2); // splice out the ones we don't want (were taking them all out here)
 
-		$scope.findOne = function() {
-			$scope.application = Applications.get({
-				applicationId: $stateParams.applicationId
-			});
-		};
+      Navigation.actions.addMany(actions); // add the actions to the Navigation service
+      Navigation.viewTitle.set('Applications'); // set the page title
+    }
 
-	}
-]);
+  }
+})();

@@ -7,9 +7,9 @@ var applicationModel = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Applicant'
         },
-        position: {
+        opening: {
             type: Schema.Types.ObjectId,
-            ref: 'Position'
+            ref: 'Opening'
         }
     }
 );
@@ -17,5 +17,5 @@ var applicationModel = new Schema({
 var modelName = 'Application';
 
 module.exports = mongoose.model(modelName, applicationModel);
-console.log('Model: ',modelName);
+//console.log('Model: ',modelName);
 

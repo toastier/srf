@@ -35,7 +35,7 @@
       vm.collection.filterCollection();
     }
 
-    /** type ColumnDefinition[] **/
+    /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
       {
         field: 'name',

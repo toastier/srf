@@ -1,0 +1,12 @@
+.col-md-12
+  form.form-horizontal(novalidate='')
+    fieldset
+      .form-group.col-xs-12
+        label.control-label(for='opening') Opening
+        select#opening.form-control(ng-options="opening._id as opening.name for opening in vm.options.openings", data-ng-model='vm.application.opening', required='')
+          option(value="") --Choose an Opening--
+    fieldset
+      .form-group.col-xs-12
+        label.control-label(for='applicant') Applicant
+        select#applicant.form-control(ng-options="applicant._id as applicant.name.honorific + ' ' + applicant.name.firstName + ' ' + applicant.name.lastName for applicant in vm.options.applicants", data-ng-model='vm.application.applicant', required='')
+          option(value="") --Choose--

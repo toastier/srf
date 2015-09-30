@@ -86,6 +86,10 @@
       }
     };
 
+    /**
+     * Methods to add to the Model
+     * @type {{listOpenings: Function, getActions: Function}}
+     */
     var modelMethods = {
 
       listOpenings: function () {
