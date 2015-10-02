@@ -13,7 +13,7 @@ module.exports = function () {
   var clientApp = root + 'public/';
   var dist = clientApp + 'dist/';
   var libraries = clientApp + 'lib/';
-  var modulesDir = clientApp + 'modulesDir/';
+  var modulesDir = clientApp + 'modules/';
   var controllers = modulesDir + '**/*.client.controller.js';
   var configs = modulesDir + '**/config/*.client.config.js';
   var routes = modulesDir + '**/config/*.client.routes.js';
@@ -26,10 +26,10 @@ module.exports = function () {
   var sassComponents = [ modulesDir + 'core/scss/duson/_*.scss', modulesDir + 'core/scss/local-styles.scss'];
   var cssDestination = modulesDir + 'core/css/';
   var jadeFiles = [
-    modulesDir + '**/views/*.client.view.jade',
-    modulesDir + '**/views/partials/*.client.partial.jade',
-    modulesDir + '**/directives/*.client.partial.jade',
-    modulesDir + '**/directives/partials/*.client.partial.jade'
+    modulesDir + '**/views/*.jade',
+    modulesDir + '**/views/partials/*.jade',
+    modulesDir + '**/directives/*.jade',
+    modulesDir + '**/directives/partials/*.jade'
   ];
   var htmlDest = dist + 'html/';
   var htmlTemplates = [ modulesDir + '**/views/*.client.view.html'];

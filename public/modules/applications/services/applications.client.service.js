@@ -77,6 +77,11 @@
           this.reviewPhase.reviews.push(new Review());
         }
       },
+      removeReview: function (review) {
+        if(angular.isObject(review)) {
+          this.reviewPhase.reviews.splice(this.reviewPhase.reviews.indexOf(review), 1);
+        }
+      },
       addPhoneInterview: function addPhoneInterview() {
         if(!this.phoneInterviewPhase.interviews) {
           this.phoneInterviewPhase.interviews = [];

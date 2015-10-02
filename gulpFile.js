@@ -83,12 +83,9 @@ gulp.task('watch', function() {
   gulp.watch(['gulpFile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', 'public/js/**/*.js', 'public/modules/**/*.js'], ['eslint']);
   gulp.watch(['public/**/css/*.css'], ['csslint']);
 
-  gulp.watch(
-    gulpConfig.sassComponents.concat(gulpConfig.sassComponents, gulpConfig.sassFile),
-    ['transpileSass']);
+  gulp.watch(gulpConfig.sassComponents.concat(gulpConfig.sassComponents, gulpConfig.sassFile), ['transpileSass']);
 
-  gulp.watch(gulpConfig.jadeFiles,
-    ['compileJade']);
+  gulp.watch(gulpConfig.jadeFiles, ['compileJade']);
 
   gulp.watch(['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', 'public/modules/**/views/*.html', 'public/js/**/*.js', 'public/modules/**/*.js', 'public/**/css/*.css']).on('change', function(file) {
       server.changed(file.path);
