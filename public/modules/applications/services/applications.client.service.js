@@ -11,6 +11,31 @@
       }
     });
 
+    var maxReviews = 2;
+    var maxInterviews = 2;
+
+    function ReviewWorksheet() {
+      this.complete = false;
+      this.body = '';
+      this.comments = [];
+    }
+
+    function Review() {
+      this.reviewer = null;
+      this.reviewWorksheet = new ReviewWorksheet();
+    }
+    
+    function InterviewWorksheet() {
+      this.complete = false;
+      this.body = '';
+      this.comments = [];
+    }
+    
+    function Interview() {
+      this.interviewer = null;
+      this.interviewWorksheet = new InterviewWorksheet();
+    }
+
     /**
      * Methods that are not returned directly, but used by other methods
      * @type {{editThisApplication: Function, viewThisApplication: Function, createApplication: Function}}
@@ -43,6 +68,28 @@
        */
       viewApplication: function (applicationObject) {
         $state.go('main.viewApplication', {applicationId: applicationObject._id});
+      },
+      addReview: function addReview() {
+        if(!this.reviewPhase.reviews) {
+          this.reviewPhase.reviews = [];
+        }
+        if(this.reviewPhase.reviews.length < maxReviews) {
+          this.reviewPhase.reviews.push(new Review());
+        }
+      },
+      addPhoneInterview: function addPhoneInterview() {
+        if(!this.phoneInterviewPhase.interviews) {
+          this.phoneInterviewPhase.interviews = [];
+        }
+        if(this.phoneInterviewPhase.interviews.length < maxInterviews) {
+          this.phoneInterviewPhase.interviews.push(new Interview());
+        }
+      },
+      showAddReviewButton: function showAddReviewButton () {
+        return this.reviewPhase.reviews.length < maxReviews;
+      },
+      showAddPhoneInterviewButton: function showAddPhoneInterviewButton () {
+        return this.phoneInterviewPhase.interviews.length < maxInterviews;
       }
     };
 

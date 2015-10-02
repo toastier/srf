@@ -1,0 +1,33 @@
+section
+  navigation
+  h2 Opening: {{ vm.application.opening.name }} &nbsp;
+    i.fa(ng-class="{'fa-toggle-right': (!vm.application.opening.isOpen), 'fa-toggle-down': (!!vm.application.opening.isOpen)}", ng-click="vm.application.opening.isOpen = !vm.application.opening.isOpen")
+  .col-xs-12.well(collapse="!vm.application.opening.isOpen")
+    .row
+      .col-xs-12(ng-bind="vm.application.opening | json")
+  h2 Applicant: {{ vm.application.applicant.name.firstName + ' ' + vm.application.applicant.name.lastName }} &nbsp;
+    i.fa(ng-class="{'fa-toggle-right': (!vm.application.applicant.isOpen), 'fa-toggle-down': (!!vm.application.applicant.isOpen)}", ng-click="vm.application.applicant.isOpen = !vm.application.applicant.isOpen")
+  .col-xs-12.well(collapse="!vm.application.applicant.isOpen")
+    .row
+      .col-xs-12(ng-bind="vm.application.applicant | json")
+  h2 Application Workflow
+  .col-xs-12
+    .row
+      .col-md-4
+        label.control-label Progress to Review?
+        du-toggle-switch(toggle-switch-model="vm.application.proceedToReview")
+      .col-md-4(ng-show="vm.application.proceedToReview")
+        label.control-label Progress to Phone Interview?
+        du-toggle-switch(toggle-switch-model="vm.application.reviewPhase.proceedToPhoneInterview")
+      .col-md-4(ng-show="vm.application.proceedToReview && vm.application.reviewPhase.proceedToPhoneInterview")
+        label.control-label Proceed to On-Site Visit?
+        du-toggle-switch(toggle-switch-model="vm.application.phoneInterviewPhase.proceedToOnSite")
+  .col-xs-12
+    .row(ng-if="!!vm.application.proceedToReview")
+      h2 Reviews&nbsp;
+        i.fa.fa-plus-circle(ng-show="vm.application.showAddReviewButton()", ng-click="vm.application.addReview()")
+      application-review-form
+    .row(ng-if="!!vm.application.proceedToReview && !!vm.application.reviewPhase.proceedToPhoneInterview")
+      h2 Phone Interviews&nbsp;
+        i.fa.fa-plus-circle(ng-show="vm.application.showAddPhoneInterviewButton()", ng-click="vm.application.addPhoneInterview()")
+      application-phone-interview-form

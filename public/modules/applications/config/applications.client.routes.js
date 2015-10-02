@@ -32,7 +32,14 @@
         })
         .state('main.editApplication', {
           url: '/applications/:applicationId/edit',
-          templateUrl: 'modules/applications/views/edit-application.client.view.html'
+          templateUrl: 'modules/applications/views/edit-application.client.view.html',
+          controller: 'EditApplicationController',
+          controllerAs: 'vm',
+          resolve: {
+            resolvedAuth: function(resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
         });
     }
   ]);

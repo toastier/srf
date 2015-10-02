@@ -7,9 +7,9 @@
   function CreateApplicantController(Navigation, resolvedAuth, Applicant, Messages) {
     var vm = this;
     vm.user = resolvedAuth;
-    vm.saveApplicant = saveApplicant;
     vm.applicant = new Applicant();
     vm.cancel = Applicant.listApplicants;
+    vm.saveApplicant = saveApplicant;
     vm.options = {};
     vm.options.focalAreas = Applicant.getFocalAreaOptions();
 

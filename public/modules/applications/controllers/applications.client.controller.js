@@ -8,9 +8,28 @@
     var vm = this;
     vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;
+    vm.allowView = allowView;
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
-      {field: 'opening.name', label: 'Opening', filterable: true },
+      {field: 'opening.name', label: 'Opening', filterable: true, actions: {
+        restrict: allowView,
+        actionItems: [
+          {
+            type: 'edit',
+            title: 'Edit Application',
+            restrict: vm.allowEdit,
+            attachedTo: 'item',
+            method: 'editApplication'
+          },
+          {
+            type: 'view',
+            title: 'View Application',
+            restrict: vm.allowView,
+            attachedTo: 'item',
+            method: 'viewApplication'
+          }
+        ]
+      }},
       {field: 'applicant.name.honorific', label: 'Hon', filterable: true },
       {field: 'applicant.name.firstName', label: 'First Name', filterable: true },
       {field: 'applicant.name.lastName', label: 'Last Name', filterable: true }
@@ -19,6 +38,11 @@
     function allowEdit () {
       return vm.user.hasRole(['admin']);
     }
+
+    function allowView () {
+      return vm.user.hasRole(['admin', 'committee member']);
+    }
+
 
     var initialSortOrder = ['+position.name'];
 

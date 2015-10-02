@@ -5,10 +5,10 @@
     .controller('CreateOpeningController', CreateOpeningController);
 
   /* @ngInject */
-  function CreateOpeningController(Authentication, Messages, Navigation, Opening, Position, _) {
+  function CreateOpeningController(resolvedAuth, Messages, Navigation, Opening, Position, _) {
     /* jshint validthis: true */
     var vm = this;
-    vm.authentication = Authentication.init();
+    vm.authentication = resolvedAuth;
     vm.disableSaveButton = disableSaveButton;
     vm.cancel = cancel;
     vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};

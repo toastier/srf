@@ -1,0 +1,8 @@
+.col-xs-12
+  .row
+    .col-md-6(ng-repeat="interview in vm.application.phoneInterviewPhase.interviews")
+      .row
+        .col-xs-12.form-group
+          .input-group
+            .input-group-addon Phone Interviewer
+            select.form-control(ng-options="committeeMember._id as committeeMember.displayName for committeeMember in phoneInterviewPhase.options.committeeMembers", ng-model="interview.interviewer")

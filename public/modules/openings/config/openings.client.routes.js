@@ -16,7 +16,7 @@
             }
           }
         })
-        .state('createOpening', {
+        .state('main.createOpening', {
           url: '/openings/create',
           templateUrl: 'modules/openings/views/create-opening.client.view.html',
           controller: 'CreateOpeningController',

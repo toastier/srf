@@ -120,7 +120,10 @@ exports.list = function(req, res) {
  * Application middleware
  */
 exports.applicationByID = function(req, res, next, id) {
-	Application.findById(id).populate('user', 'displayName').exec(function(err, application) {
+	Application.findById(id)
+		.populate('applicant')
+		.populate('opening')
+		.exec(function(err, application) {
 		if (err) return next(err);
 		if (!application) return next(new Error('Failed to load application ' + id));
 		req.application = application;

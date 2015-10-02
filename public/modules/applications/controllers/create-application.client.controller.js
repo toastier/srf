@@ -59,6 +59,8 @@
       actions.splice(0, 3); // splice out the ones we don't want (were taking them all out here)
       actions = _.union(actions, controllerActions); // merge together actions defined in the controller with those from the Model
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
+
+
       Navigation.viewTitle.set('Create Application'); // set the page title
     }
   }

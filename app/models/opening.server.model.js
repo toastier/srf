@@ -1,3 +1,4 @@
+'use strict';
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -40,7 +41,39 @@ var openingModel = new Schema({
     position: {
       type: Schema.ObjectId,
       ref: 'Position'
-    }
+    },
+    applications: [{
+      type: Schema.ObjectId,
+      ref: 'Application'
+    }],
+    offers: [{
+      date: {
+        type: Date
+      },
+      offeredTo: {
+        type: Schema.ObjectId,
+        ref: 'Applicant'
+      },
+      accepted: {
+        type: Boolean
+      },
+      acceptedDate: {
+        type: Date
+      },
+      declined: {
+        type: Boolean
+      },
+      declinedDate: {
+        type: Date
+      },
+      retracted: {
+        type: Boolean
+      },
+      retractedDate: {
+        type: Date
+      }
+    }]
+
   }
 );
 

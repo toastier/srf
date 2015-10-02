@@ -14840,3 +14840,79 @@ td:hover > div.icon-group {
 .item-group .item-group-contents.single-row .checkbox {
   margin-top: 8px;
   margin-bottom: 8px; }
+
+/* line 14928, stdin */
+.rocker-switch {
+  position: relative;
+  height: 26px;
+  width: 100px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  padding: 2px;
+  border-radius: 4px;
+  transition: all 0.25s; }
+
+/* line 14940, stdin */
+.rocker-switch .switch-off-zone,
+.rocker-switch .switch-on-zone {
+  text-align: center;
+  color: #f5f5f5;
+  height: 26px;
+  width: 50px;
+  background: transparent;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: inherit;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 26px;
+  cursor: pointer; }
+
+/* line 14956, stdin */
+.rocker-switch .switch-off-zone {
+  border-radius: 4px 0 0 4px; }
+
+/* line 14960, stdin */
+.rocker-switch .switch-on-zone {
+  border-radius: 0 4px 4px 0;
+  left: auto;
+  right: 0; }
+
+/* line 14966, stdin */
+.rocker-switch .switch {
+  background: #ffffff;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  position: absolute;
+  left: 25%;
+  width: 50px;
+  height: 20px;
+  z-index: 100;
+  transition: all 0.25s; }
+
+/* line 14978, stdin */
+.rocker-switch.off {
+  background-color: #F09905; }
+
+/* line 14982, stdin */
+.rocker-switch.off .switch-on-zone {
+  color: white;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8); }
+
+/* line 14987, stdin */
+.rocker-switch.off .switch {
+  left: 2px; }
+
+/* line 14991, stdin */
+.rocker-switch.on {
+  background-color: #728302; }
+
+/* line 14995, stdin */
+.rocker-switch.on .switch-off-zone {
+  color: white;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8); }
+
+/* line 15000, stdin */
+.rocker-switch.on .switch {
+  left: 46px; }

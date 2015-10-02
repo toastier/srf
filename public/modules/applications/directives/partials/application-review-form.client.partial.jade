@@ -1,0 +1,9 @@
+.col-xs-12
+  .row
+    .col-md-6(ng-repeat="review in vm.application.reviewPhase.reviews")
+      .row
+        .col-md-12.form-group
+          .input-group
+            .input-group-addon Reviewers
+            select.form-control(ng-options="committeeMember._id as committeeMember.displayName for committeeMember in reviewPhase.options.committeeMembers", ng-model="review.reviewer")
+
