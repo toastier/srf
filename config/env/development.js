@@ -5,26 +5,6 @@ module.exports = {
 	app: {
 		title: 'Faculty Recruitment System - Development Environment'
 	},
-	facebook: {
-		clientID: process.env.FACEBOOK_ID || 'APP_ID',
-		clientSecret: process.env.FACEBOOK_SECRET || 'APP_SECRET',
-		callbackURL: 'http://localhost:3000/auth/facebook/callback'
-	},
-	twitter: {
-		clientID: process.env.TWITTER_KEY || 'CONSUMER_KEY',
-		clientSecret: process.env.TWITTER_SECRET || 'CONSUMER_SECRET',
-		callbackURL: 'http://localhost:3000/auth/twitter/callback'
-	},
-	google: {
-		clientID: process.env.GOOGLE_ID || 'APP_ID',
-		clientSecret: process.env.GOOGLE_SECRET || 'APP_SECRET',
-		callbackURL: 'http://localhost:3000/auth/google/callback'
-	},
-	linkedin: {
-		clientID: process.env.LINKEDIN_ID || 'APP_ID',
-		clientSecret: process.env.LINKEDIN_SECRET || 'APP_SECRET',
-		callbackURL: 'http://localhost:3000/auth/linkedin/callback'
-	},
 	saml: {
 		path: '/auth/saml/callback',
 		callbackURL: 'http://localhost:3000/auth/saml/callback'
@@ -64,6 +44,12 @@ module.exports = {
 		tests: [
 			'public/lib/angular-mocks/angular-mocks.js',
 			'public/modules/*/tests/*.js'
+		],
+		jadeFiles: [
+			'public/modules/*/views/*.client.view.jade',
+			'public/modules/*/views/partials/*.client.partial.jade',
+			'public/modules/*/directives/*.client.partial.jade',
+			'public/modules/*/directives/partials/*.client.partial.jade'
 		]
 	}
 };

@@ -13,26 +13,26 @@ module.exports = function () {
   var clientApp = root + 'public/';
   var dist = clientApp + 'dist/';
   var libraries = clientApp + 'lib/';
-  var modules = clientApp + 'modules/';
-  var controllers = modules + '**/*.client.controller.js';
-  var configs = modules + '**/config/*.client.config.js';
-  var routes = modules + '**/config/*.client.routes.js';
-  var tests = modules + '**/tests/*.client.**.test.js';
-  var filters = modules + '**/filters/*.filters.js';
-  var directives = modules + '**/directives/*.directives.js';
-  var services = modules + '**/services/*.client.service.js';
-  var cssFiles = modules + ['core/css/*.css', 'core/css/*.*.css'];
-  var sassFile = modules + 'core/scss/dashboard-style.scss';
-  var sassComponents = [ modules + 'core/scss/duson/_*.scss', modules + 'core/scss/local-styles.scss'];
-  var cssDestination = modules + 'core/css/';
+  var modulesDir = clientApp + 'modulesDir/';
+  var controllers = modulesDir + '**/*.client.controller.js';
+  var configs = modulesDir + '**/config/*.client.config.js';
+  var routes = modulesDir + '**/config/*.client.routes.js';
+  var tests = modulesDir + '**/tests/*.client.**.test.js';
+  var filters = modulesDir + '**/filters/*.filters.js';
+  var directives = modulesDir + '**/directives/*.directives.js';
+  var services = modulesDir + '**/services/*.client.service.js';
+  var cssFiles = modulesDir + ['core/css/*.css', 'core/css/*.*.css'];
+  var sassFile = modulesDir + 'core/scss/dashboard-style.scss';
+  var sassComponents = [ modulesDir + 'core/scss/duson/_*.scss', modulesDir + 'core/scss/local-styles.scss'];
+  var cssDestination = modulesDir + 'core/css/';
   var jadeFiles = [
-    modules + '**/views/*.client.view.jade',
-    modules + '**/views/partials/*.client.partial.jade',
-    modules + '**/directives/*.client.partial.jade',
-    modules + '**/directives/partials/*.client.partial.jade'
+    modulesDir + '**/views/*.client.view.jade',
+    modulesDir + '**/views/partials/*.client.partial.jade',
+    modulesDir + '**/directives/*.client.partial.jade',
+    modulesDir + '**/directives/partials/*.client.partial.jade'
   ];
   var htmlDest = dist + 'html/';
-  var htmlTemplates = [ modules + '**/views/*.client.view.html'];
+  var htmlTemplates = [ modulesDir + '**/views/*.client.view.html'];
 
   return {
     appConfigJs: appConfig + '**/*.js',
@@ -56,7 +56,7 @@ module.exports = function () {
       directives,
       filters
     ],
-    modulesDirectory: modules,
+    modulesDirectory: modulesDir,
     sassComponents: sassComponents,
     sassFile: sassFile,
     serverFile: root + 'server.js',

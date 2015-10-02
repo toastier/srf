@@ -95,7 +95,7 @@ gulp.task('watch', function() {
   });
 });
 
- gulp.task('loadConfig', function() {
+gulp.task('loadConfig', function() {
    applicationJavaScriptFiles = gulpConfig.jsFiles;
    applicationCSSFiles = gulpConfig.cssFiles;
    applicationTestFiles = gulpConfig.jsFiles.concat(gulpConfig.jsFiles, gulpConfig.testFiles);
