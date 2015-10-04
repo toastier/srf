@@ -1,1 +1,1 @@
-<tr><th ng-repeat="column in vm.collection.columnDefinitions" ng-class="vm.collection.getSortingClass(column.field)" ng-click="vm.collection.sortBy(column.field)" class="sort-control">{{ column.label }}</th></tr>
+<tr><th ng-if="!!column.sortable" ng-repeat="column in vm.collection.columnDefinitions" ng-class="vm.collection.getSortingClass(column.field)" ng-click="vm.collection.sortBy(column.field)" class="sort-control">{{ column.label }}</th><th ng-if="!column.sortable" ng-repeat="column in vm.collection.columnDefinitions">{{ column.label }}</th></tr>
