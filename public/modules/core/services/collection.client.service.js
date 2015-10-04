@@ -17,7 +17,7 @@
      * @param _ {Function} lodash
      * @returns {Function}
      */
-    function providerGetFunction (Sorting, Filtering, Pagination, _ ) {
+    function providerGetFunction ($q, Sorting, Filtering, Pagination, _ ) {
 
       /**
        * @typedef ColumnDefinition
@@ -97,6 +97,8 @@
           // new collection
 
           if (members && columnDefinitions) {
+            var deferred = $q.defer();
+
             initialSortOrder = initialSortOrder || null;
             Sorting.setSortOrder(initialSortOrder);
             collection.original = members || null;
@@ -131,12 +133,13 @@
              * add methods to the collection
              */
             _.assign(collection, methods, properties);
-
+            deferred.resolve(collection);
           }
 
           // finish by assigning this collection to Collection.cached[identifier], and returning it
           Collection.cached[identifier] = collection;
         }
+            return deferred.promise;
 
       };
 

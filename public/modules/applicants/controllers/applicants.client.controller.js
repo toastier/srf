@@ -55,7 +55,10 @@
         .then(function (result) {
           Messages.addMessage('Applicants Loaded', 'success');
           vm.applicants = result;
-          vm.collection = new CollectionModel('ApplicantsController', result, vm.columnDefinitions, initialSortOrder);
+          new CollectionModel('ApplicantsController', result, vm.columnDefinitions, initialSortOrder)
+            .then(function(collection) {
+              vm.collection = collection;
+            });
         })
         .catch(function (error) {
           Messages.addMessage(error.data.message, 'error');

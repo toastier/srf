@@ -12,7 +12,7 @@
     vm.allowManage = allowManage;
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
-      {field: 'opening.name', label: 'Opening', sortable: true, filterable: true, actions: {
+      {field: 'opening.name', label: 'Opening', sortable: true, filterable: true, filterIndex: 'vm.collection.filterCriteria.opeing.name', actions: {
         restrict: allowView,
         actionItems: [
           {
@@ -34,7 +34,7 @@
       {field: 'applicant.name.honorific', label: 'Hon', filterable: true, sortable: true },
       {field: 'applicant.name.firstName', label: 'First Name', filterable: true, sortable: true },
       {field: 'applicant.name.lastName', label: 'Last Name', filterable: true, sortable: true },
-      {field: 'reviewPhase.reviews.reviewer.displayName', label: 'Reviewers', filterable: true, sortable: false}
+      {field: 'reviewPhase.reviews.reviewer.displayName', label: 'Reviewers', filterable: false, sortable: false}
     ];
 
     function allowEdit () {
@@ -58,7 +58,10 @@
       Application.query().$promise
         .then(function(result) {
           Messages.addMessage('Applications Loaded', 'success', null, 'dev');
-          vm.collection = new CollectionModel('ApplicationsController', result, vm.columnDefinitions, initialSortOrder);
+          new CollectionModel('ApplicationsController', result, vm.columnDefinitions, initialSortOrder)
+            .then(function(collection) {
+              vm.collection = collection;
+            });
         })
         .catch(function(err) {
           Messages.addMessage(err.data.message, 'error', 'Problem Loading Applications');

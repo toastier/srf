@@ -1,0 +1,11 @@
+.angular-filtering
+  .col-xs-12
+    ng-form
+      .row
+        .form-group.col-md-4(ng-repeat="filter in duFilter.filters")
+          .input-group
+            .input-group-addon {{ filter.label }}
+            input.form-control(ng-model="filter.model[filter.index]", placeholder='Any', ng-change="vm.collection.filterCollection()")
+      .row
+        .col-xs-12
+          button.btn.btn-default.btn-undo(ng-click="vm.collection.clearFilters()") Clear Filters

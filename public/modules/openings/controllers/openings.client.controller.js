@@ -40,6 +40,7 @@
       {
         field: 'name',
         label: 'Opening Title',
+        sortable: true,
         filterable: true,
         actions: {
           restrict: vm.allowEdit,
@@ -60,17 +61,17 @@
             }
           ]
         }},
-      {field: 'details', label: 'Description', format: 'trimmed', filterable: true},
-      {field: 'isActive', label: 'Active', format: 'checkMark',
+      {field: 'details', label: 'Description', format: 'trimmed', sortable: true, filterable: true},
+      {field: 'isActive', label: 'Active', format: 'checkMark', sortable: true,
         filterable: {
           name: 'isActive',
           field: 'isActive',
           matchType: 'trueFalse'
         }
       },
-      {field: 'datePosted', label: 'Posting', format: 'date'},
-      {field: 'dateStart', label: 'Opening', format: 'date'},
-      {field: 'dateClose', label: 'Closing', format: 'date'}
+      {field: 'datePosted', label: 'Posting', format: 'date', sortable: true},
+      {field: 'dateStart', label: 'Opening', format: 'date', sortable: true},
+      {field: 'dateClose', label: 'Closing', format: 'date', sortable: true}
     ];
 
     var initialSortOrder = ['+name'];
