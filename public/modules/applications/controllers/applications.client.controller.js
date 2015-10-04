@@ -12,7 +12,7 @@
     vm.allowManage = allowManage;
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
-      {field: 'opening.name', label: 'Opening', filterable: true, actions: {
+      {field: 'opening.name', label: 'Opening', sortable: true, filterable: true, actions: {
         restrict: allowView,
         actionItems: [
           {
@@ -31,9 +31,9 @@
           }
         ]
       }},
-      {field: 'applicant.name.honorific', label: 'Hon', filterable: true },
-      {field: 'applicant.name.firstName', label: 'First Name', filterable: true },
-      {field: 'applicant.name.lastName', label: 'Last Name', filterable: true },
+      {field: 'applicant.name.honorific', label: 'Hon', filterable: true, sortable: true },
+      {field: 'applicant.name.firstName', label: 'First Name', filterable: true, sortable: true },
+      {field: 'applicant.name.lastName', label: 'Last Name', filterable: true, sortable: true },
       {field: 'reviewPhase.reviews.reviewer.displayName', label: 'Reviewers', filterable: true, sortable: false}
     ];
 
