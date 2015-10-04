@@ -12010,6 +12010,10 @@ a.with-icon:not(.icon-after).help:before {
   content: '\f059'; }
 
 /* line 12094, stdin */
+a.with-icon:not(.icon-after).sliders:before, a.with-icon:not(.icon-after).manage:before {
+  content: '\f1de'; }
+
+/* line 12098, stdin */
 a.with-icon.icon-after:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12023,39 +12027,39 @@ a.with-icon.icon-after:after {
   text-decoration: inherit;
   margin-left: 4px; }
 
-/* line 12108, stdin */
+/* line 12112, stdin */
 a.with-icon.icon-after.new-window:after {
   content: '\f08e'; }
 
-/* line 12112, stdin */
+/* line 12116, stdin */
 a.with-icon.icon-after.edit:after {
   content: '\f044'; }
 
-/* line 12116, stdin */
+/* line 12120, stdin */
 a.with-icon.icon-after.view:after {
   content: '\f06e'; }
 
-/* line 12120, stdin */
+/* line 12124, stdin */
 a.with-icon.icon-after.reconcile:after {
   content: '\f079'; }
 
-/* line 12124, stdin */
+/* line 12128, stdin */
 a.with-icon.icon-after.add:after {
   content: '\f055'; }
 
-/* line 12128, stdin */
+/* line 12132, stdin */
 a.with-icon.icon-after.delete:after {
   content: '\f014'; }
 
-/* line 12132, stdin */
+/* line 12136, stdin */
 a.with-icon.icon-after.remove:after {
   content: '\f057'; }
 
-/* line 12136, stdin */
+/* line 12140, stdin */
 a.with-icon.icon-after.download:after {
   content: '\f019'; }
 
-/* line 12140, stdin */
+/* line 12144, stdin */
 .icon-group {
   display: block;
   box-sizing: border-box;
@@ -12067,25 +12071,25 @@ a.with-icon.icon-after.download:after {
   border-radius: 4px;
   border-radius: 8px; }
 
-/* line 12152, stdin */
+/* line 12156, stdin */
 .icon-group a.with-icon:last-child:not(.icon-after):before {
   margin-right: 0px; }
 
-/* line 12156, stdin */
+/* line 12160, stdin */
 .icon-group.size-medium {
   font-size: 16px; }
 
-/* line 12160, stdin */
+/* line 12164, stdin */
 .btn.no-text:after {
   margin-left: 0; }
 
-/* line 12164, stdin */
+/* line 12168, stdin */
 .btn-save, .btn-reconcile, .btn-save-reconcile {
   color: #ffffff;
   background-color: #A1B70D;
   border-color: #8c9f0b; }
 
-/* line 12173, stdin */
+/* line 12177, stdin */
 .btn-save:focus,
 .btn-reconcile:focus,
 .btn-save-reconcile:focus,
@@ -12094,13 +12098,13 @@ a.with-icon.icon-after.download:after {
   background-color: #77870a;
   border-color: #232803; }
 
-/* line 12179, stdin */
+/* line 12183, stdin */
 .btn-save:hover, .btn-reconcile:hover, .btn-save-reconcile:hover {
   color: #ffffff;
   background-color: #77870a;
   border-color: #5a6607; }
 
-/* line 12191, stdin */
+/* line 12195, stdin */
 .btn-save:active,
 .btn-reconcile:active,
 .btn-save-reconcile:active,
@@ -12112,7 +12116,7 @@ a.with-icon.icon-after.download:after {
   background-color: #77870a;
   border-color: #5a6607; }
 
-/* line 12221, stdin */
+/* line 12225, stdin */
 .btn-save:active:hover,
 .btn-reconcile:active:hover,
 .btn-save-reconcile:active:hover,
@@ -12142,7 +12146,7 @@ a.with-icon.icon-after.download:after {
   background-color: #5a6607;
   border-color: #232803; }
 
-/* line 12233, stdin */
+/* line 12237, stdin */
 .btn-save:active,
 .btn-reconcile:active,
 .btn-save-reconcile:active,
@@ -12152,7 +12156,7 @@ a.with-icon.icon-after.download:after {
 .open > .btn-save.dropdown-toggle, .open > .dropdown-toggle.btn-reconcile, .open > .dropdown-toggle.btn-save-reconcile {
   background-image: none; }
 
-/* line 12288, stdin */
+/* line 12292, stdin */
 .btn-save.disabled,
 .disabled.btn-reconcile,
 .disabled.btn-save-reconcile,
@@ -12208,12 +12212,12 @@ fieldset[disabled] .btn-save.active, fieldset[disabled] .active.btn-reconcile, f
   background-color: #A1B70D;
   border-color: #8c9f0b; }
 
-/* line 12293, stdin */
+/* line 12297, stdin */
 .btn-save .badge, .btn-reconcile .badge, .btn-save-reconcile .badge {
   color: #A1B70D;
   background-color: #ffffff; }
 
-/* line 12298, stdin */
+/* line 12302, stdin */
 .btn-save:after, .btn-reconcile:after, .btn-save-reconcile:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12228,26 +12232,26 @@ fieldset[disabled] .btn-save.active, fieldset[disabled] .active.btn-reconcile, f
   margin-left: 4px;
   content: '\f0c7'; }
 
-/* line 12313, stdin */
+/* line 12317, stdin */
 .btn-workflow:not(.back) {
   color: #ffffff;
   background-color: #A1B70D;
   border-color: #8c9f0b; }
 
-/* line 12320, stdin */
+/* line 12324, stdin */
 .btn-workflow:not(.back):focus,
 .btn-workflow:not(.back).focus {
   color: #ffffff;
   background-color: #77870a;
   border-color: #232803; }
 
-/* line 12326, stdin */
+/* line 12330, stdin */
 .btn-workflow:not(.back):hover {
   color: #ffffff;
   background-color: #77870a;
   border-color: #5a6607; }
 
-/* line 12334, stdin */
+/* line 12338, stdin */
 .btn-workflow:not(.back):active,
 .btn-workflow:not(.back).active,
 .open > .btn-workflow:not(.back).dropdown-toggle {
@@ -12255,7 +12259,7 @@ fieldset[disabled] .btn-save.active, fieldset[disabled] .active.btn-reconcile, f
   background-color: #77870a;
   border-color: #5a6607; }
 
-/* line 12348, stdin */
+/* line 12352, stdin */
 .btn-workflow:not(.back):active:hover,
 .btn-workflow:not(.back):active:focus,
 .btn-workflow:not(.back):active.focus,
@@ -12269,13 +12273,13 @@ fieldset[disabled] .btn-save.active, fieldset[disabled] .active.btn-reconcile, f
   background-color: #5a6607;
   border-color: #232803; }
 
-/* line 12356, stdin */
+/* line 12360, stdin */
 .btn-workflow:not(.back):active,
 .btn-workflow:not(.back).active,
 .open > .btn-workflow:not(.back).dropdown-toggle {
   background-image: none; }
 
-/* line 12377, stdin */
+/* line 12381, stdin */
 .btn-workflow:not(.back).disabled,
 .btn-workflow:not(.back).disabled:hover,
 .btn-workflow:not(.back).disabled:focus,
@@ -12297,12 +12301,12 @@ fieldset[disabled] .btn-workflow:not(.back).active {
   background-color: #A1B70D;
   border-color: #8c9f0b; }
 
-/* line 12382, stdin */
+/* line 12386, stdin */
 .btn-workflow:not(.back) .badge {
   color: #A1B70D;
   background-color: #ffffff; }
 
-/* line 12387, stdin */
+/* line 12391, stdin */
 .btn-workflow:not(.back):not(.dropdown-toggle):after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12317,26 +12321,26 @@ fieldset[disabled] .btn-workflow:not(.back).active {
   margin-left: 4px;
   content: '\f0a9'; }
 
-/* line 12402, stdin */
+/* line 12406, stdin */
 .btn-workflow.back {
   color: #ffffff;
   background-color: #A1B70D;
   border-color: #8c9f0b; }
 
-/* line 12409, stdin */
+/* line 12413, stdin */
 .btn-workflow.back:focus,
 .btn-workflow.back.focus {
   color: #ffffff;
   background-color: #77870a;
   border-color: #232803; }
 
-/* line 12415, stdin */
+/* line 12419, stdin */
 .btn-workflow.back:hover {
   color: #ffffff;
   background-color: #77870a;
   border-color: #5a6607; }
 
-/* line 12423, stdin */
+/* line 12427, stdin */
 .btn-workflow.back:active,
 .btn-workflow.back.active,
 .open > .btn-workflow.back.dropdown-toggle {
@@ -12344,7 +12348,7 @@ fieldset[disabled] .btn-workflow:not(.back).active {
   background-color: #77870a;
   border-color: #5a6607; }
 
-/* line 12437, stdin */
+/* line 12441, stdin */
 .btn-workflow.back:active:hover,
 .btn-workflow.back:active:focus,
 .btn-workflow.back:active.focus,
@@ -12358,13 +12362,13 @@ fieldset[disabled] .btn-workflow:not(.back).active {
   background-color: #5a6607;
   border-color: #232803; }
 
-/* line 12445, stdin */
+/* line 12449, stdin */
 .btn-workflow.back:active,
 .btn-workflow.back.active,
 .open > .btn-workflow.back.dropdown-toggle {
   background-image: none; }
 
-/* line 12466, stdin */
+/* line 12470, stdin */
 .btn-workflow.back.disabled,
 .btn-workflow.back.disabled:hover,
 .btn-workflow.back.disabled:focus,
@@ -12386,12 +12390,12 @@ fieldset[disabled] .btn-workflow.back.active {
   background-color: #A1B70D;
   border-color: #8c9f0b; }
 
-/* line 12471, stdin */
+/* line 12475, stdin */
 .btn-workflow.back .badge {
   color: #A1B70D;
   background-color: #ffffff; }
 
-/* line 12476, stdin */
+/* line 12480, stdin */
 .btn-workflow.back:not(.dropdown-toggle):before {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12406,7 +12410,7 @@ fieldset[disabled] .btn-workflow.back.active {
   margin-right: 4px;
   content: '\f0a8'; }
 
-/* line 12491, stdin */
+/* line 12495, stdin */
 .btn-reconcile:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12421,7 +12425,7 @@ fieldset[disabled] .btn-workflow.back.active {
   margin-left: 4px;
   content: '\f079'; }
 
-/* line 12506, stdin */
+/* line 12510, stdin */
 .btn-save-reconcile:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12436,13 +12440,13 @@ fieldset[disabled] .btn-workflow.back.active {
   margin-left: 4px;
   content: '\f046'; }
 
-/* line 12521, stdin */
+/* line 12525, stdin */
 .btn-cancel, .btn-undo {
   color: #ffffff;
   background-color: #F09905;
   border-color: #d78904; }
 
-/* line 12529, stdin */
+/* line 12533, stdin */
 .btn-cancel:focus,
 .btn-undo:focus,
 .btn-cancel.focus, .focus.btn-undo {
@@ -12450,13 +12454,13 @@ fieldset[disabled] .btn-workflow.back.active {
   background-color: #be7904;
   border-color: #5a3902; }
 
-/* line 12535, stdin */
+/* line 12539, stdin */
 .btn-cancel:hover, .btn-undo:hover {
   color: #ffffff;
   background-color: #be7904;
   border-color: #9b6303; }
 
-/* line 12545, stdin */
+/* line 12549, stdin */
 .btn-cancel:active,
 .btn-undo:active,
 .btn-cancel.active,
@@ -12466,7 +12470,7 @@ fieldset[disabled] .btn-workflow.back.active {
   background-color: #be7904;
   border-color: #9b6303; }
 
-/* line 12567, stdin */
+/* line 12571, stdin */
 .btn-cancel:active:hover,
 .btn-undo:active:hover,
 .btn-cancel:active:focus,
@@ -12488,7 +12492,7 @@ fieldset[disabled] .btn-workflow.back.active {
   background-color: #9b6303;
   border-color: #5a3902; }
 
-/* line 12577, stdin */
+/* line 12581, stdin */
 .btn-cancel:active,
 .btn-undo:active,
 .btn-cancel.active,
@@ -12496,7 +12500,7 @@ fieldset[disabled] .btn-workflow.back.active {
 .open > .btn-cancel.dropdown-toggle, .open > .dropdown-toggle.btn-undo {
   background-image: none; }
 
-/* line 12615, stdin */
+/* line 12619, stdin */
 .btn-cancel.disabled,
 .disabled.btn-undo,
 .btn-cancel.disabled:hover,
@@ -12535,12 +12539,12 @@ fieldset[disabled] .btn-cancel.active, fieldset[disabled] .active.btn-undo {
   background-color: #F09905;
   border-color: #d78904; }
 
-/* line 12620, stdin */
+/* line 12624, stdin */
 .btn-cancel .badge, .btn-undo .badge {
   color: #F09905;
   background-color: #ffffff; }
 
-/* line 12625, stdin */
+/* line 12629, stdin */
 .btn-cancel:after, .btn-undo:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12555,13 +12559,13 @@ fieldset[disabled] .btn-cancel.active, fieldset[disabled] .active.btn-undo {
   margin-left: 4px;
   content: '\f05c'; }
 
-/* line 12640, stdin */
+/* line 12644, stdin */
 .btn-refresh, .btn-reload {
   color: #ffffff;
   background-color: #F09905;
   border-color: #d78904; }
 
-/* line 12648, stdin */
+/* line 12652, stdin */
 .btn-refresh:focus,
 .btn-refresh.focus, .btn-reload:focus,
 .btn-reload.focus {
@@ -12569,13 +12573,13 @@ fieldset[disabled] .btn-cancel.active, fieldset[disabled] .active.btn-undo {
   background-color: #be7904;
   border-color: #5a3902; }
 
-/* line 12654, stdin */
+/* line 12658, stdin */
 .btn-refresh:hover, .btn-reload:hover {
   color: #ffffff;
   background-color: #be7904;
   border-color: #9b6303; }
 
-/* line 12664, stdin */
+/* line 12668, stdin */
 .btn-refresh:active,
 .btn-refresh.active,
 .open > .btn-refresh.dropdown-toggle, .btn-reload:active,
@@ -12585,7 +12589,7 @@ fieldset[disabled] .btn-cancel.active, fieldset[disabled] .active.btn-undo {
   background-color: #be7904;
   border-color: #9b6303; }
 
-/* line 12686, stdin */
+/* line 12690, stdin */
 .btn-refresh:active:hover,
 .btn-refresh:active:focus,
 .btn-refresh:active.focus,
@@ -12607,7 +12611,7 @@ fieldset[disabled] .btn-cancel.active, fieldset[disabled] .active.btn-undo {
   background-color: #9b6303;
   border-color: #5a3902; }
 
-/* line 12696, stdin */
+/* line 12700, stdin */
 .btn-refresh:active,
 .btn-refresh.active,
 .open > .btn-refresh.dropdown-toggle, .btn-reload:active,
@@ -12615,7 +12619,7 @@ fieldset[disabled] .btn-cancel.active, fieldset[disabled] .active.btn-undo {
 .open > .btn-reload.dropdown-toggle {
   background-image: none; }
 
-/* line 12734, stdin */
+/* line 12738, stdin */
 .btn-refresh.disabled,
 .btn-refresh.disabled:hover,
 .btn-refresh.disabled:focus,
@@ -12654,12 +12658,12 @@ fieldset[disabled] .btn-reload.active {
   background-color: #F09905;
   border-color: #d78904; }
 
-/* line 12739, stdin */
+/* line 12743, stdin */
 .btn-refresh .badge, .btn-reload .badge {
   color: #F09905;
   background-color: #ffffff; }
 
-/* line 12744, stdin */
+/* line 12748, stdin */
 .btn-refresh:after, .btn-reload:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12674,7 +12678,7 @@ fieldset[disabled] .btn-reload.active {
   margin-left: 4px;
   content: '\f021'; }
 
-/* line 12759, stdin */
+/* line 12763, stdin */
 .btn-refresh:hover:after, .btn-reload:hover:after {
   -webkit-animation: fa-spin 2s infinite linear;
   -webkit-animation-name: fa-spin;
@@ -12687,26 +12691,26 @@ fieldset[disabled] .btn-reload.active {
   -webkit-animation-play-state: initial;
   animation: fa-spin 2s infinite linear; }
 
-/* line 12772, stdin */
+/* line 12776, stdin */
 .btn-auto {
   color: #ffffff;
   background-color: #F09905;
   border-color: #d78904; }
 
-/* line 12779, stdin */
+/* line 12783, stdin */
 .btn-auto:focus,
 .btn-auto.focus {
   color: #ffffff;
   background-color: #be7904;
   border-color: #5a3902; }
 
-/* line 12785, stdin */
+/* line 12789, stdin */
 .btn-auto:hover {
   color: #ffffff;
   background-color: #be7904;
   border-color: #9b6303; }
 
-/* line 12793, stdin */
+/* line 12797, stdin */
 .btn-auto:active,
 .btn-auto.active,
 .open > .btn-auto.dropdown-toggle {
@@ -12714,7 +12718,7 @@ fieldset[disabled] .btn-reload.active {
   background-color: #be7904;
   border-color: #9b6303; }
 
-/* line 12807, stdin */
+/* line 12811, stdin */
 .btn-auto:active:hover,
 .btn-auto:active:focus,
 .btn-auto:active.focus,
@@ -12728,13 +12732,13 @@ fieldset[disabled] .btn-reload.active {
   background-color: #9b6303;
   border-color: #5a3902; }
 
-/* line 12815, stdin */
+/* line 12819, stdin */
 .btn-auto:active,
 .btn-auto.active,
 .open > .btn-auto.dropdown-toggle {
   background-image: none; }
 
-/* line 12836, stdin */
+/* line 12840, stdin */
 .btn-auto.disabled,
 .btn-auto.disabled:hover,
 .btn-auto.disabled:focus,
@@ -12756,12 +12760,12 @@ fieldset[disabled] .btn-auto.active {
   background-color: #F09905;
   border-color: #d78904; }
 
-/* line 12841, stdin */
+/* line 12845, stdin */
 .btn-auto .badge {
   color: #F09905;
   background-color: #ffffff; }
 
-/* line 12846, stdin */
+/* line 12850, stdin */
 .btn-auto:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12776,7 +12780,7 @@ fieldset[disabled] .btn-auto.active {
   margin-left: 4px;
   content: '\f0e7'; }
 
-/* line 12861, stdin */
+/* line 12865, stdin */
 .btn-undo:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12791,26 +12795,26 @@ fieldset[disabled] .btn-auto.active {
   margin-left: 4px;
   content: '\f0e2'; }
 
-/* line 12876, stdin */
+/* line 12880, stdin */
 .btn-delete {
   color: #ffffff;
   background-color: #CC3300;
   border-color: #b32d00; }
 
-/* line 12883, stdin */
+/* line 12887, stdin */
 .btn-delete:focus,
 .btn-delete.focus {
   color: #ffffff;
   background-color: #992600;
   border-color: #330d00; }
 
-/* line 12889, stdin */
+/* line 12893, stdin */
 .btn-delete:hover {
   color: #ffffff;
   background-color: #992600;
   border-color: #751d00; }
 
-/* line 12897, stdin */
+/* line 12901, stdin */
 .btn-delete:active,
 .btn-delete.active,
 .open > .btn-delete.dropdown-toggle {
@@ -12818,7 +12822,7 @@ fieldset[disabled] .btn-auto.active {
   background-color: #992600;
   border-color: #751d00; }
 
-/* line 12911, stdin */
+/* line 12915, stdin */
 .btn-delete:active:hover,
 .btn-delete:active:focus,
 .btn-delete:active.focus,
@@ -12832,13 +12836,13 @@ fieldset[disabled] .btn-auto.active {
   background-color: #751d00;
   border-color: #330d00; }
 
-/* line 12919, stdin */
+/* line 12923, stdin */
 .btn-delete:active,
 .btn-delete.active,
 .open > .btn-delete.dropdown-toggle {
   background-image: none; }
 
-/* line 12940, stdin */
+/* line 12944, stdin */
 .btn-delete.disabled,
 .btn-delete.disabled:hover,
 .btn-delete.disabled:focus,
@@ -12860,12 +12864,12 @@ fieldset[disabled] .btn-delete.active {
   background-color: #CC3300;
   border-color: #b32d00; }
 
-/* line 12945, stdin */
+/* line 12949, stdin */
 .btn-delete .badge {
   color: #CC3300;
   background-color: #ffffff; }
 
-/* line 12950, stdin */
+/* line 12954, stdin */
 .btn-delete:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12880,7 +12884,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f014'; }
 
-/* line 12965, stdin */
+/* line 12969, stdin */
 .btn-change:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12895,7 +12899,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f0ec'; }
 
-/* line 12980, stdin */
+/* line 12984, stdin */
 .btn-duplicate:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12910,7 +12914,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f0c5'; }
 
-/* line 12995, stdin */
+/* line 12999, stdin */
 .btn-multiple:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12925,7 +12929,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f12b'; }
 
-/* line 13010, stdin */
+/* line 13014, stdin */
 .btn-email:not(.dropdown-toggle):after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12940,7 +12944,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f0e0'; }
 
-/* line 13025, stdin */
+/* line 13029, stdin */
 .btn-action:after, .btn-logout:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12955,7 +12959,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f0ae'; }
 
-/* line 13040, stdin */
+/* line 13044, stdin */
 .btn-view:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12970,7 +12974,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f06e'; }
 
-/* line 13055, stdin */
+/* line 13059, stdin */
 .btn-edit:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -12985,7 +12989,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f044'; }
 
-/* line 13070, stdin */
+/* line 13074, stdin */
 .btn-add:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -13000,11 +13004,11 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f067'; }
 
-/* line 13085, stdin */
+/* line 13089, stdin */
 .btn-logout:after {
   content: '\f08b'; }
 
-/* line 13089, stdin */
+/* line 13093, stdin */
 .btn-end-masquerade:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -13019,7 +13023,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f05c'; }
 
-/* line 13104, stdin */
+/* line 13108, stdin */
 .btn-search:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -13034,7 +13038,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f002'; }
 
-/* line 13119, stdin */
+/* line 13123, stdin */
 .btn-info:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -13049,7 +13053,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f05a'; }
 
-/* line 13134, stdin */
+/* line 13138, stdin */
 .btn-help:not(.dropdown-toggle):after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -13064,7 +13068,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f059'; }
 
-/* line 13149, stdin */
+/* line 13153, stdin */
 .btn-list:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -13079,7 +13083,7 @@ fieldset[disabled] .btn-delete.active {
   margin-left: 4px;
   content: '\f03a'; }
 
-/* line 13164, stdin */
+/* line 13168, stdin */
 .btn-waiting:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -13104,12 +13108,12 @@ fieldset[disabled] .btn-delete.active {
   animation: fa-spin 2s infinite linear;
   content: '\f110'; }
 
-/* line 13190, stdin */
+/* line 13194, stdin */
 .filtering form button.btn,
 .workflow-actions form button.btn {
   margin: 0 auto; }
 
-/* line 13194, stdin */
+/* line 13198, stdin */
 .application-name:before {
   font-family: "FontAwesome";
   font-style: normal;
@@ -13124,18 +13128,18 @@ fieldset[disabled] .btn-delete.active {
   margin-right: 4px;
   content: '\f0c9'; }
 
-/* line 13209, stdin */
+/* line 13213, stdin */
 .navbar-secondary .navbar-left ul {
   list-style: none;
   margin: 0;
   padding: 0; }
 
-/* line 13215, stdin */
+/* line 13219, stdin */
 .navbar-secondary .navbar-left ul li {
   margin: 0;
   padding: 0; }
 
-/* line 13220, stdin */
+/* line 13224, stdin */
 .navbar-secondary .navbar-left ul li a {
   display: block;
   margin: 4px 0;
@@ -13143,44 +13147,44 @@ fieldset[disabled] .btn-delete.active {
   border-radius: 4px;
   text-decoration: none; }
 
-/* line 13228, stdin */
+/* line 13232, stdin */
 .navbar-secondary .navbar-left ul li a:hover {
   background-color: #0e99f0;
   color: #ffffff; }
 
-/* line 13233, stdin */
+/* line 13237, stdin */
 ::-webkit-input-placeholder {
   color: #B5B5B5;
   font-style: italic; }
 
-/* line 13238, stdin */
+/* line 13242, stdin */
 :-moz-placeholder {
   color: #B5B5B5;
   font-style: italic; }
 
-/* line 13243, stdin */
+/* line 13247, stdin */
 ::-moz-placeholder {
   color: #B5B5B5;
   font-style: italic; }
 
-/* line 13248, stdin */
+/* line 13252, stdin */
 :-ms-input-placeholder {
   color: #B5B5B5;
   font-style: italic; }
 
-/* line 13253, stdin */
+/* line 13257, stdin */
 .panel-heading h1, .panel-heading h2, .panel-heading h3, .panel-heading h4, .panel-heading h5, .panel-heading h6 {
   margin: 0; }
 
-/* line 13257, stdin */
+/* line 13261, stdin */
 .sort-control {
   cursor: pointer; }
 
-/* line 13261, stdin */
+/* line 13265, stdin */
 .sort-control label {
   cursor: pointer; }
 
-/* line 13265, stdin */
+/* line 13269, stdin */
 .sort-control:after {
   color: #E5E5E5;
   font-family: "FontAwesome";
@@ -13197,88 +13201,88 @@ fieldset[disabled] .btn-delete.active {
   content: '\f0dc';
   width: 10px; }
 
-/* line 13282, stdin */
+/* line 13286, stdin */
 .sort-control:hover:after {
   color: #333333;
   content: '\f15d'; }
 
-/* line 13287, stdin */
+/* line 13291, stdin */
 .sort-control.sorted.first {
   background-color: #ffe593; }
 
-/* line 13291, stdin */
+/* line 13295, stdin */
 .sort-control.sorted.second {
   background-color: #fff1c6; }
 
-/* line 13295, stdin */
+/* line 13299, stdin */
 .sort-control.sorted.third {
   background-color: #fff7e0; }
 
-/* line 13299, stdin */
+/* line 13303, stdin */
 .sort-control.sorted:after {
   color: inherit;
   content: '\f15d'; }
 
-/* line 13304, stdin */
+/* line 13308, stdin */
 .sort-control.sorted:hover:after {
   color: #0e80e5;
   content: '\f15e'; }
 
-/* line 13309, stdin */
+/* line 13313, stdin */
 .sort-control.sorted.reverse:after {
   color: inherit;
   content: '\f15e'; }
 
-/* line 13314, stdin */
+/* line 13318, stdin */
 .sort-control.sorted.reverse:hover:after {
   color: #0e80e5;
   content: '\f15d'; }
 
-/* line 13319, stdin */
+/* line 13323, stdin */
 .sort-control.numeric:hover:after {
   content: '\f162'; }
 
-/* line 13323, stdin */
+/* line 13327, stdin */
 .sort-control.numeric.sorted:after {
   content: '\f162'; }
 
-/* line 13327, stdin */
+/* line 13331, stdin */
 .sort-control.numeric.sorted:hover:after {
   content: '\f163'; }
 
-/* line 13331, stdin */
+/* line 13335, stdin */
 .sort-control.numeric.sorted.reverse:after {
   content: '\f163'; }
 
-/* line 13335, stdin */
+/* line 13339, stdin */
 .sort-control.numeric.sorted.reverse:hover:after {
   content: '\f162'; }
 
-/* line 13339, stdin */
+/* line 13343, stdin */
 .pseudo-table > .pseudo-tbody > div:nth-child(odd) .col.sorted.first {
   background-color: #bfe3ff; }
 
-/* line 13343, stdin */
+/* line 13347, stdin */
 .pseudo-table > .pseudo-tbody > div:nth-child(odd) .col.sorted.second {
   background-color: #d8eeff; }
 
-/* line 13347, stdin */
+/* line 13351, stdin */
 .pseudo-table > .pseudo-tbody > div:nth-child(odd) .col.sorted.third {
   background-color: #f2f9ff; }
 
-/* line 13351, stdin */
+/* line 13355, stdin */
 .pseudo-table > .pseudo-tbody > div:nth-child(even) .col.sorted.first {
   background-color: #d8eeff; }
 
-/* line 13355, stdin */
+/* line 13359, stdin */
 .pseudo-table > .pseudo-tbody > div:nth-child(even) .col.sorted.second {
   background-color: #f2f9ff; }
 
-/* line 13359, stdin */
+/* line 13363, stdin */
 .pseudo-table > .pseudo-tbody > div:nth-child(even) .col.sorted.third {
   background-color: white; }
 
-/* line 13363, stdin */
+/* line 13367, stdin */
 thead.sorting th a:after {
   color: #E5E5E5;
   font-family: "FontAwesome";
@@ -13295,32 +13299,32 @@ thead.sorting th a:after {
   content: '\f0dc';
   width: 10px; }
 
-/* line 13380, stdin */
+/* line 13384, stdin */
 thead.sorting th a:hover:after {
   color: #333333;
   content: '\f15d'; }
 
-/* line 13385, stdin */
+/* line 13389, stdin */
 thead.sorting th a.asc:after {
   color: inherit;
   content: '\f15d'; }
 
-/* line 13390, stdin */
+/* line 13394, stdin */
 thead.sorting th a.asc:hover:after {
   color: #0e80e5;
   content: '\f15e'; }
 
-/* line 13395, stdin */
+/* line 13399, stdin */
 thead.sorting th a.desc:after {
   color: inherit;
   content: '\f15e'; }
 
-/* line 13400, stdin */
+/* line 13404, stdin */
 thead.sorting th a.desc:hover:after {
   color: #0e80e5;
   content: '\f15d'; }
 
-/* line 13405, stdin */
+/* line 13409, stdin */
 a[target=_blank]:not(.with-icon):after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -13335,7 +13339,7 @@ a[target=_blank]:not(.with-icon):after {
   margin-left: 4px;
   content: '\f08e'; }
 
-/* line 13423, stdin */
+/* line 13427, stdin */
 .site-enrollment-group.display-group,
 .site-enrollment.display-group,
 .site-enrollment .display-group,
@@ -13346,7 +13350,7 @@ a[target=_blank]:not(.with-icon):after {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE5E5E5', endColorstr='#FFF2F2F2', GradientType=0); }
 
-/* line 13431, stdin */
+/* line 13435, stdin */
 .locked.site-enrollment .display-group {
   background-image: -webkit-linear-gradient(top, #d8d8d8 0%, #d8d8d8 100%);
   background-image: -o-linear-gradient(top, #d8d8d8 0%, #d8d8d8 100%);
@@ -13354,33 +13358,33 @@ a[target=_blank]:not(.with-icon):after {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFD8D8D8', endColorstr='#FFD8D8D8', GradientType=0); }
 
-/* line 13440, stdin */
+/* line 13444, stdin */
 .display-group.site-enrollment,
 .display-group.preceptor {
   padding-top: 10px; }
 
-/* line 13444, stdin */
+/* line 13448, stdin */
 .popover .popover-content {
   font-size: 1.5rem; }
 
-/* line 13448, stdin */
+/* line 13452, stdin */
 .popover .popover-content p:last-child {
   margin-bottom: 0; }
 
-/* line 13452, stdin */
+/* line 13456, stdin */
 .popover .popover-title {
   display: none; }
 
-/* line 13456, stdin */
+/* line 13460, stdin */
 .specialties .label {
   float: right;
   margin: 0 0 5px 5px; }
 
-/* line 13461, stdin */
+/* line 13465, stdin */
 .pseudo-table > .pseudo-thead {
   font-weight: bold; }
 
-/* line 13465, stdin */
+/* line 13469, stdin */
 .pseudo-table > .pseudo-thead > div {
   border-top: 0;
   vertical-align: bottom;
@@ -13388,7 +13392,7 @@ a[target=_blank]:not(.with-icon):after {
   line-height: 1.42857;
   text-align: left; }
 
-/* line 13473, stdin */
+/* line 13477, stdin */
 .pseudo-table > .pseudo-thead > div > div.flex-row {
   display: -webkit-box;
   display: -moz-box;
@@ -13399,39 +13403,39 @@ a[target=_blank]:not(.with-icon):after {
   flex-wrap: nowrap;
   align-items: stretch; }
 
-/* line 13484, stdin */
+/* line 13488, stdin */
 .pseudo-table > .pseudo-thead > div > div.flex-row > div {
   padding: 8px;
   flex-grow: 1;
   width: 12%; }
 
-/* line 13490, stdin */
+/* line 13494, stdin */
 .pseudo-table > .pseudo-thead > div > div.flex-row > div.col-xs-1-5 {
   flex-grow: 0.5;
   width: 6%; }
 
-/* line 13495, stdin */
+/* line 13499, stdin */
 .pseudo-table > .pseudo-thead > div > div.flex-row > div.col-xs-2 {
   flex-grow: 2;
   width: 24%; }
 
-/* line 13500, stdin */
+/* line 13504, stdin */
 .pseudo-table > .pseudo-thead > div > div.flex-row > div.col-xs-3 {
   flex-grow: 3;
   width: 36%; }
 
-/* line 13505, stdin */
+/* line 13509, stdin */
 .pseudo-table > .pseudo-tbody > div:nth-child(odd) {
   background-color: #f9f9f9; }
 
-/* line 13509, stdin */
+/* line 13513, stdin */
 .pseudo-table > .pseudo-tbody > div > div > div {
   padding: 8px;
   line-height: 1.42857;
   vertical-align: top;
   border-top: 1px solid #DDDDDD; }
 
-/* line 13516, stdin */
+/* line 13520, stdin */
 .pseudo-table > .pseudo-tbody > div > div.flex-row {
   display: -webkit-box;
   display: -moz-box;
@@ -13442,27 +13446,27 @@ a[target=_blank]:not(.with-icon):after {
   flex-wrap: nowrap;
   align-items: stretch; }
 
-/* line 13527, stdin */
+/* line 13531, stdin */
 .pseudo-table > .pseudo-tbody > div > div.flex-row > div {
   flex-grow: 1;
   width: 12%; }
 
-/* line 13532, stdin */
+/* line 13536, stdin */
 .pseudo-table > .pseudo-tbody > div > div.flex-row > div.col-xs-1-5 {
   flex-grow: 0.5;
   width: 6%; }
 
-/* line 13537, stdin */
+/* line 13541, stdin */
 .pseudo-table > .pseudo-tbody > div > div.flex-row > div.col-xs-2 {
   flex-grow: 2;
   width: 24%; }
 
-/* line 13542, stdin */
+/* line 13546, stdin */
 .pseudo-table > .pseudo-tbody > div > div.flex-row > div.col-xs-3 {
   flex-grow: 3;
   width: 36%; }
 
-/* line 13547, stdin */
+/* line 13551, stdin */
 .pseudo-table > .pseudo-tbody > div > div.nested-row {
   margin: 10px;
   border-radius: 10px;
@@ -13476,18 +13480,18 @@ a[target=_blank]:not(.with-icon):after {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFCADCE5', endColorstr='#FFDBE7ED', GradientType=0);
   color: #666666; }
 
-/* line 13561, stdin */
+/* line 13565, stdin */
 .pseudo-table > .pseudo-tbody > div > div.nested-row > div {
   border-top: none; }
 
-/* line 13568, stdin */
+/* line 13572, stdin */
 .contract-requests .pseudo-table > .pseudo-tbody > div > div.flex-row > div.contract-type .label,
 .contract-requests .pseudo-table > .pseudo-tbody > div > div.flex-row > div.attachment-type .label,
 .contract-requests .pseudo-table > .pseudo-thead > div > div.flex-row > div.contract-type .label,
 .contract-requests .pseudo-table > .pseudo-thead > div > div.flex-row > div.attachment-type .label {
   display: inline-block; }
 
-/* line 13573, stdin */
+/* line 13577, stdin */
 .contract-requests .pseudo-table > .pseudo-tbody > div > div.attachments-addenda,
 .contract-requests .pseudo-table > .pseudo-thead > div > div.attachments-addenda {
   margin: 10px 0;
@@ -13495,12 +13499,12 @@ a[target=_blank]:not(.with-icon):after {
   border-width: 1px;
   border-style: solid; }
 
-/* line 13581, stdin */
+/* line 13585, stdin */
 .contract-requests .pseudo-table > .pseudo-tbody > div > div.attachments-addenda > div,
 .contract-requests .pseudo-table > .pseudo-thead > div > div.attachments-addenda > div {
   border-top: none; }
 
-/* line 13586, stdin */
+/* line 13590, stdin */
 .contract-requests .pseudo-table > .pseudo-tbody > div > div.attachments-addenda.addenda,
 .contract-requests .pseudo-table > .pseudo-thead > div > div.attachments-addenda.addenda {
   background-image: -webkit-linear-gradient(top, #cadce5 0%, #dbe7ed 100%);
@@ -13509,7 +13513,7 @@ a[target=_blank]:not(.with-icon):after {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFCADCE5', endColorstr='#FFDBE7ED', GradientType=0); }
 
-/* line 13599, stdin */
+/* line 13603, stdin */
 .contract-requests .pseudo-table > .pseudo-tbody > div > div.attachments-addenda.addenda .organization,
 .contract-requests .pseudo-table > .pseudo-tbody > div > div.attachments-addenda.addenda .state,
 .contract-requests .pseudo-table > .pseudo-tbody > div > div.attachments-addenda.addenda .contact,
@@ -13518,7 +13522,7 @@ a[target=_blank]:not(.with-icon):after {
 .contract-requests .pseudo-table > .pseudo-thead > div > div.attachments-addenda.addenda .contact {
   color: #B5B5B5; }
 
-/* line 13604, stdin */
+/* line 13608, stdin */
 .contract-requests .pseudo-table > .pseudo-tbody > div > div.attachments-addenda.attachment-a,
 .contract-requests .pseudo-table > .pseudo-thead > div > div.attachments-addenda.attachment-a {
   background-image: -webkit-linear-gradient(top, #d0e5da 0%, #e0eee7 100%);
@@ -13527,7 +13531,7 @@ a[target=_blank]:not(.with-icon):after {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFD0E5DA', endColorstr='#FFE0EEE7', GradientType=0); }
 
-/* line 13613, stdin */
+/* line 13617, stdin */
 .contract-requests .pseudo-table > .pseudo-tbody > div > div.attachments-addenda.amendment,
 .contract-requests .pseudo-table > .pseudo-thead > div > div.attachments-addenda.amendment {
   background-image: -webkit-linear-gradient(top, #e3e5ce 0%, #eeecde 100%);
@@ -13536,23 +13540,23 @@ a[target=_blank]:not(.with-icon):after {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE3E5CE', endColorstr='#FFEEECDE', GradientType=0); }
 
-/* line 13621, stdin */
+/* line 13625, stdin */
 .modal-header h2 {
   margin-top: 5px; }
 
-/* line 13625, stdin */
+/* line 13629, stdin */
 .modal-header .modal-close-control {
   position: absolute;
   top: 5px;
   right: 5px;
   font-size: 21px; }
 
-/* line 13632, stdin */
+/* line 13636, stdin */
 .flagged i:not(.column-label) {
   color: #F09905;
   cursor: pointer; }
 
-/* line 13637, stdin */
+/* line 13641, stdin */
 .inline-alert .alert {
   margin-bottom: 0;
   margin-left: auto;
@@ -13560,32 +13564,32 @@ a[target=_blank]:not(.with-icon):after {
   width: auto;
   float: left; }
 
-/* line 13645, stdin */
+/* line 13649, stdin */
 .chip {
   padding: 7px 12px;
   background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 4px; }
 
-/* line 13652, stdin */
+/* line 13656, stdin */
 .chip.selected {
   color: #ffffff;
   background-color: #A1B70D; }
 
-/* line 13657, stdin */
+/* line 13661, stdin */
 form:not(.ignore-dirty).ng-dirty > .display-group:not(.ignore-dirty) {
   background-color: #fcf8e3; }
 
-/* line 13661, stdin */
+/* line 13665, stdin */
 form:not(.ignore-dirty).ng-invalid.ng-dirty > .display-group:not(.ignore-dirty) {
   background-color: inherit;
   border-color: #ebccd1; }
 
-/* line 13666, stdin */
+/* line 13670, stdin */
 button.form-control-button {
   margin-top: 35px; }
 
-/* line 13670, stdin */
+/* line 13674, stdin */
 form .form-group.is-required label:after {
   font-family: "FontAwesome";
   font-style: normal;
@@ -13601,19 +13605,19 @@ form .form-group.is-required label:after {
   font-weight: normal;
   content: '\f069'; }
 
-/* line 13686, stdin */
+/* line 13690, stdin */
 form .warning {
   display: none;
   padding: 4px;
   text-align: center;
   color: #a94442; }
 
-/* line 13694, stdin */
+/* line 13698, stdin */
 form .form-group.has-warning label,
 form .input-group.has-warning label {
   color: #a94442; }
 
-/* line 13706, stdin */
+/* line 13710, stdin */
 form .form-group.has-warning input,
 form .form-group.has-warning select,
 form .form-group.has-warning textarea,
@@ -13626,7 +13630,7 @@ form .input-group.has-warning .display-group div.radio-switch fieldset, .display
   color: #a94442;
   border-color: #ebccd1; }
 
-/* line 13716, stdin */
+/* line 13720, stdin */
 form .form-group.has-warning .form-control:focus:focus,
 form .form-group.has-warning .display-group .data:focus:focus,
 .display-group form .form-group.has-warning .data:focus:focus,
@@ -13638,12 +13642,12 @@ form .input-group.has-warning .display-group div.radio-switch fieldset:focus:foc
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(235, 204, 209, 0.6);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(235, 204, 209, 0.6); }
 
-/* line 13724, stdin */
+/* line 13728, stdin */
 form .form-group.has-warning .warning,
 form .input-group.has-warning .warning {
   display: block; }
 
-/* line 13731, stdin */
+/* line 13735, stdin */
 form .form-group.has-warning .input-group-addon,
 form .form-group.has-warning .input-group-btn .btn-default,
 form .input-group.has-warning .input-group-addon,
@@ -13652,7 +13656,7 @@ form .input-group.has-warning .input-group-btn .btn-default {
   border-color: #a94442;
   background-color: #f2dede; }
 
-/* line 13742, stdin */
+/* line 13746, stdin */
 .canvassing-entries .site-controls,
 .canvassing-entries .preceptor-controls,
 .placement-slots-area .site-controls,
@@ -13667,19 +13671,19 @@ form .input-group.has-warning .input-group-btn .btn-default {
   line-height: 20px;
   padding: 7px; }
 
-/* line 13752, stdin */
+/* line 13756, stdin */
 .fa.hover-on {
   visibility: hidden; }
 
-/* line 13756, stdin */
+/* line 13760, stdin */
 .preceptor:hover .fa.hover-on {
   visibility: visible; }
 
-/* line 13760, stdin */
+/* line 13764, stdin */
 .semester {
   padding: 0; }
 
-/* line 13764, stdin */
+/* line 13768, stdin */
 .semester.ui-sortable .ui-sortable-handle {
   display: block;
   border-radius: 4px;
@@ -13695,7 +13699,7 @@ form .input-group.has-warning .input-group-btn .btn-default {
   margin-bottom: 4px;
   line-height: 28px; }
 
-/* line 13780, stdin */
+/* line 13784, stdin */
 .semester.ui-sortable .ui-sortable-handle.ui-sortable-helper {
   visibility: visible;
   display: block;
@@ -13703,11 +13707,11 @@ form .input-group.has-warning .input-group-btn .btn-default {
   -webkit-box-shadow: 0 0 10px #0e99f0;
   box-shadow: 0 0 10px #0e99f0; }
 
-/* line 13788, stdin */
+/* line 13792, stdin */
 .semester.ui-sortable .ui-sortable-handle.ui-sortable-helper:before {
   visibility: hidden; }
 
-/* line 13792, stdin */
+/* line 13796, stdin */
 .semester.ui-sortable .ui-sortable-handle:before {
   display: block;
   content: '';
@@ -13719,31 +13723,31 @@ form .input-group.has-warning .input-group-btn .btn-default {
   color: #001A57;
   font-weight: bold; }
 
-/* line 13804, stdin */
+/* line 13808, stdin */
 .semester.ui-sortable .ui-sortable-handle:nth-child(1):before {
   content: '1'; }
 
-/* line 13808, stdin */
+/* line 13812, stdin */
 .semester.ui-sortable .ui-sortable-handle:nth-child(2):before {
   content: '2'; }
 
-/* line 13812, stdin */
+/* line 13816, stdin */
 .semester.ui-sortable .ui-sortable-handle:nth-child(3):before {
   content: '3'; }
 
-/* line 13816, stdin */
+/* line 13820, stdin */
 .semester.ui-sortable .ui-sortable-handle:nth-child(4):before {
   content: '4'; }
 
-/* line 13820, stdin */
+/* line 13824, stdin */
 .semester.ui-sortable .ui-sortable-handle:nth-child(5):before {
   content: '5'; }
 
-/* line 13824, stdin */
+/* line 13828, stdin */
 .semester.ui-sortable .ui-sortable-handle:nth-child(6):before {
   content: '6'; }
 
-/* line 13828, stdin */
+/* line 13832, stdin */
 .semester.ui-sortable .ui-sortable-handle .course-id:before {
   font-family: "FontAwesome";
   font-style: normal;
@@ -13759,11 +13763,11 @@ form .input-group.has-warning .input-group-btn .btn-default {
   content: '\f07d';
   color: #E5E5E5; }
 
-/* line 13844, stdin */
+/* line 13848, stdin */
 .semester.ui-sortable .ui-sortable-handle .pref-delete {
   float: right; }
 
-/* line 13848, stdin */
+/* line 13852, stdin */
 .semester.ui-sortable .ui-sortable-handle .pref-delete a:before {
   display: block;
   font-family: "FontAwesome";
@@ -13780,32 +13784,32 @@ form .input-group.has-warning .input-group-btn .btn-default {
   content: '\f057';
   color: #CC3300; }
 
-/* line 13865, stdin */
+/* line 13869, stdin */
 .semester.ui-sortable .ui-sortable-handle .pref-delete a:hover {
   text-decoration: none; }
 
-/* line 13869, stdin */
+/* line 13873, stdin */
 table.courses tr.courseOffering td {
   background-color: #666666; }
 
-/* line 13873, stdin */
+/* line 13877, stdin */
 table.courses tr.is-inactive td {
   background-color: #B5B5B5; }
 
 @media print {
-  /* line 13878, stdin */
+  /* line 13882, stdin */
   #debug-kit-toolbar {
     display: none; } }
 
-/* line 13883, stdin */
+/* line 13887, stdin */
 .workflow-diagram rect {
   fill: #B5B5B5; }
 
-/* line 13887, stdin */
+/* line 13891, stdin */
 .workflow-diagram rect.approved {
   fill: #E5EDDC; }
 
-/* line 13891, stdin */
+/* line 13895, stdin */
 .nav-tabs > li.ui-state-active a {
   color: #555555;
   background-color: #fff;
@@ -13813,25 +13817,25 @@ table.courses tr.is-inactive td {
   border-bottom-color: transparent;
   cursor: default; }
 
-/* line 13899, stdin */
+/* line 13903, stdin */
 .ui-tabs .ui-tabs-panel {
   margin-top: 10px; }
 
-/* line 13903, stdin */
+/* line 13907, stdin */
 .input.checkbox {
   margin-top: 35px;
   margin-left: 0px; }
 
-/* line 13908, stdin */
+/* line 13912, stdin */
 .input.checkbox input[type="checkbox"] {
   margin-left: 0px;
   margin-top: 0px; }
 
-/* line 13913, stdin */
+/* line 13917, stdin */
 .input.checkbox label {
   padding-left: 20px; }
 
-/* line 13917, stdin */
+/* line 13921, stdin */
 .widget.picker {
   position: fixed;
   display: block;
@@ -13845,7 +13849,7 @@ table.courses tr.is-inactive td {
   width: 22%;
   transition: padding 0.5s, height 1s; }
 
-/* line 13931, stdin */
+/* line 13935, stdin */
 .widget.picker.faculty .widget-heading {
   text-transform: uppercase;
   padding: 5px 0;
@@ -13859,7 +13863,7 @@ table.courses tr.is-inactive td {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0; }
 
-/* line 13945, stdin */
+/* line 13949, stdin */
 .widget.picker.faculty .available-faculty {
   height: auto;
   max-height: calc(100% - 166px);
@@ -13871,86 +13875,86 @@ table.courses tr.is-inactive td {
   border-top-right-radius: 0;
   transition: height 1s; }
 
-/* line 13957, stdin */
+/* line 13961, stdin */
 .widget.picker.faculty .available-faculty ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 7px; }
 
-/* line 13962, stdin */
+/* line 13966, stdin */
 .widget.picker.faculty .available-faculty .faculty-member.no-points-remaining {
   background-color: #dff0d8;
   color: #3c763d; }
 
-/* line 13967, stdin */
+/* line 13971, stdin */
 .widget.picker.faculty .available-faculty .faculty-member.no-points-remaining.selected {
   background-color: #f9bd00; }
 
-/* line 13971, stdin */
+/* line 13975, stdin */
 .widget.picker.faculty .available-faculty .faculty-member.over-allocated {
   background-color: #f2dede;
   color: #a94442; }
 
-/* line 13976, stdin */
+/* line 13980, stdin */
 .widget.picker.faculty .available-faculty .faculty-member.over-allocated.selected {
   background-color: #f9bd00; }
 
-/* line 13980, stdin */
+/* line 13984, stdin */
 .widget.picker.faculty .available-faculty p {
   text-align: center; }
 
-/* line 13984, stdin */
+/* line 13988, stdin */
 .widget.picker.faculty .available-faculty p img {
   margin-top: 7px;
   max-width: 25px;
   height: auto; }
 
-/* line 13990, stdin */
+/* line 13994, stdin */
 .widget.picker.faculty .available-faculty p.alert {
   margin-bottom: 0; }
 
-/* line 13994, stdin */
+/* line 13998, stdin */
 .widget.picker.faculty .available-faculty .loading-wrapper {
   text-align: center;
   padding: 10px 0; }
 
-/* line 13999, stdin */
+/* line 14003, stdin */
 .widget.picker.faculty .available-faculty .search-box-container {
   background-color: #F7F3E2;
   padding: 5px; }
 
-/* line 14004, stdin */
+/* line 14008, stdin */
 .widget.picker.faculty .actions {
   height: 35px; }
 
-/* line 14008, stdin */
+/* line 14012, stdin */
 .widget.picker.faculty .key {
   height: 76px; }
 
-/* line 14012, stdin */
+/* line 14016, stdin */
 .widget.picker.faculty .key .key-heading {
   text-transform: uppercase; }
 
-/* line 14016, stdin */
+/* line 14020, stdin */
 .badge.primary-program {
   background-color: #A1B70D; }
 
-/* line 14020, stdin */
+/* line 14024, stdin */
 .badge.previous-points {
   background-color: #0680CD; }
 
-/* line 14024, stdin */
+/* line 14028, stdin */
 .badge.preference-weight {
   background-color: #F09905; }
 
-/* line 14028, stdin */
+/* line 14032, stdin */
 .badge.badge-warning {
   background-color: #F09905; }
 
-/* line 14032, stdin */
+/* line 14036, stdin */
 .badge.badge-error {
   background-color: #CC3300; }
 
-/* line 14038, stdin */
+/* line 14042, stdin */
 .animate-repeat.ng-move,
 .animate-repeat.ng-enter,
 .animate-repeat.ng-leave {
@@ -13958,49 +13962,49 @@ table.courses tr.is-inactive td {
   -webkit-transition: all linear 0.5s;
   transition: all linear 0.5s; }
 
-/* line 14046, stdin */
+/* line 14050, stdin */
 .animate-repeat.ng-leave.ng-leave-active,
 .animate-repeat.ng-move,
 .animate-repeat.ng-enter {
   opacity: 0;
   max-height: 0; }
 
-/* line 14053, stdin */
+/* line 14057, stdin */
 .animate-repeat.ng-leave,
 .animate-repeat.ng-move.ng-move-active,
 .animate-repeat.ng-enter.ng-enter-active {
   opacity: 0.5;
   max-height: 40px; }
 
-/* line 14060, stdin */
+/* line 14064, stdin */
 .animate-repeat.animate-fast.ng-move,
 .animate-repeat.animate-fast.ng-enter,
 .animate-repeat.animate-fast.ng-leave {
   -webkit-transition: all linear 0.2s;
   transition: all linear 0.2s; }
 
-/* line 14067, stdin */
+/* line 14071, stdin */
 .animate-repeat.animate-slow.ng-move,
 .animate-repeat.animate-slow.ng-enter,
 .animate-repeat.animate-slow.ng-leave {
   -webkit-transition: all linear 1s;
   transition: all linear 1s; }
 
-/* line 14072, stdin */
+/* line 14076, stdin */
 .animate-repeat.assignment input.ng-hide-add-active {
   display: none; }
 
-/* line 14077, stdin */
+/* line 14081, stdin */
 .h3-margin-top, .header-controls,
 .contains-control-without-label {
   margin-top: 20px;
   line-height: 1.4; }
 
-/* line 14082, stdin */
+/* line 14086, stdin */
 #toast-container.toast-bottom-right {
   bottom: 50px; }
 
-/* line 14086, stdin */
+/* line 14090, stdin */
 p.no-records {
   margin-top: 10px;
   margin-bottom: 0;
@@ -14012,11 +14016,11 @@ p.no-records {
   border: 1px solid #bce8f1;
   color: #31708f; }
 
-/* line 14098, stdin */
+/* line 14102, stdin */
 .collapse-trigger {
   cursor: pointer; }
 
-/* line 14102, stdin */
+/* line 14106, stdin */
 .collapse-trigger:before {
   font-family: "FontAwesome";
   font-style: normal;
@@ -14033,55 +14037,55 @@ p.no-records {
   transition: all 0.5s;
   color: #666666; }
 
-/* line 14119, stdin */
+/* line 14123, stdin */
 .collapse-trigger.not-collapsed:before {
   transition: all 0.5s;
   transform: rotate(90deg); }
 
-/* line 14124, stdin */
+/* line 14128, stdin */
 .dashboard [data-ac-chart] {
   height: 300px;
   width: 100%; }
 
-/* line 14129, stdin */
+/* line 14133, stdin */
 .display-group .heading {
   padding-top: 10px;
   padding-bottom: 10px; }
 
-/* line 14134, stdin */
+/* line 14138, stdin */
 .display-group .heading h3 {
   margin-top: 0; }
 
-/* line 14138, stdin */
+/* line 14142, stdin */
 .display-group.no-heading {
   padding-top: 10px; }
 
-/* line 14142, stdin */
+/* line 14146, stdin */
 .contractual .has-contract.display-group {
   margin-bottom: 0; }
 
-/* line 14146, stdin */
+/* line 14150, stdin */
 .table.table-striped > tbody > tr.pristine td {
   background-color: #A1B70D; }
 
-/* line 14150, stdin */
+/* line 14154, stdin */
 .table.table-striped > tbody > tr.pristine td:hover td {
   background-color: #b6cf0f; }
 
-/* line 14154, stdin */
+/* line 14158, stdin */
 .table.table-striped > tbody > tr.reconciliation-needed td {
   background-color: #ffd347; }
 
-/* line 14158, stdin */
+/* line 14162, stdin */
 .table.table-striped > tbody > tr.reconciliation-needed td:hover td {
   background-color: #FFD960; }
 
-/* line 14163, stdin */
+/* line 14167, stdin */
 .table.table-striped > tbody > tr.reconciliation-needed td.issue div,
 .table.table-striped > tbody > tr.reconciliation-needed td.issue input {
   color: #CC3300; }
 
-/* line 14168, stdin */
+/* line 14172, stdin */
 .table.table-striped > tbody > tr.reconciliation-needed td.issue div:after,
 .table.table-striped > tbody > tr.reconciliation-needed td.issue input:after {
   font-family: "FontAwesome";
@@ -14097,16 +14101,16 @@ p.no-records {
   margin-left: 4px;
   content: '\f12a'; }
 
-/* line 14183, stdin */
+/* line 14187, stdin */
 .animate-switch-container {
   position: relative;
   overflow: hidden; }
 
-/* line 14188, stdin */
+/* line 14192, stdin */
 .animate-switch {
   position: absolute; }
 
-/* line 14192, stdin */
+/* line 14196, stdin */
 .animate-switch.ng-animate {
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
@@ -14115,17 +14119,17 @@ p.no-records {
   right: 0;
   bottom: 0; }
 
-/* line 14202, stdin */
+/* line 14206, stdin */
 .animate-switch.ng-leave.ng-leave-active,
 .animate-switch.ng-enter {
   opacity: 0; }
 
-/* line 14207, stdin */
+/* line 14211, stdin */
 .animate-switch.ng-leave,
 .animate-switch.ng-enter.ng-enter-active {
   opacity: 1.0; }
 
-/* line 14211, stdin */
+/* line 14215, stdin */
 .loading-indicator {
   display: flex;
   align-items: center;
@@ -14141,71 +14145,71 @@ p.no-records {
   background-color: #ffffff;
   opacity: 0.5; }
 
-/* line 14227, stdin */
+/* line 14231, stdin */
 .message {
   display: block;
   position: absolute;
   top: 0; }
 
-/* line 14233, stdin */
+/* line 14237, stdin */
 .chip {
   display: block;
   float: left;
   margin: 0 5px 5px 0; }
 
-/* line 14239, stdin */
+/* line 14243, stdin */
 .ui-select-multiple.ui-select-bootstrap {
   min-height: 34px; }
 
-/* line 14243, stdin */
+/* line 14247, stdin */
 .animate-repeat {
   box-sizing: border-box; }
 
-/* line 14249, stdin */
+/* line 14253, stdin */
 .animate-repeat.ng-move,
 .animate-repeat.ng-enter,
 .animate-repeat.ng-leave {
   -webkit-transition: all ease-in-out 0.25s;
   transition: all ease-in-out 0.25s; }
 
-/* line 14256, stdin */
+/* line 14260, stdin */
 .animate-repeat.ng-leave.ng-leave-active,
 .animate-repeat.ng-move,
 .animate-repeat.ng-enter {
   opacity: 0;
   max-height: 0; }
 
-/* line 14263, stdin */
+/* line 14267, stdin */
 .animate-repeat.ng-leave,
 .animate-repeat.ng-move.ng-move-active,
 .animate-repeat.ng-enter.ng-enter-active {
   opacity: 1;
   max-height: 40px; }
 
-/* line 14268, stdin */
+/* line 14272, stdin */
 .animate-if.ng-enter, .animate-if.ng-leave {
   -webkit-transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
   transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s; }
 
-/* line 14274, stdin */
+/* line 14278, stdin */
 .animate-if.ng-enter,
 .animate-if.ng-leave.ng-leave-active {
   opacity: 0; }
 
-/* line 14279, stdin */
+/* line 14283, stdin */
 .animate-if.ng-leave,
 .animate-if.ng-enter.ng-enter-active {
   opacity: 1; }
 
-/* line 14283, stdin */
+/* line 14287, stdin */
 .checkmark.true {
   color: #07a300; }
 
-/* line 14287, stdin */
+/* line 14291, stdin */
 .checkmark.false {
   color: #ba000c; }
 
-/* line 14291, stdin */
+/* line 14295, stdin */
 .glyphicon {
   font-family: "FontAwesome";
   font-style: normal;
@@ -14217,38 +14221,38 @@ p.no-records {
   -webkit-font-smoothing: antialiased;
   text-decoration: none; }
 
-/* line 14303, stdin */
+/* line 14307, stdin */
 .glyphicon.glyphicon-chevron-right:before {
   content: '\f054'; }
 
-/* line 14307, stdin */
+/* line 14311, stdin */
 .glyphicon.glyphicon-chevron-left:before {
   content: '\f053'; }
 
-/* line 14311, stdin */
+/* line 14315, stdin */
 .display-group.footer {
   padding: 5px;
   color: #ffffff;
   background-color: #B5B5B5; }
 
-/* line 14317, stdin */
+/* line 14321, stdin */
 h3.site-name a {
   color: inherit; }
 
-/* line 14321, stdin */
+/* line 14325, stdin */
 h3.site-name a:hover {
   text-decoration: none;
   color: #0e80e5; }
 
-/* line 14326, stdin */
+/* line 14330, stdin */
 section.video.col-xs-12 {
   padding: 0; }
 
-/* line 14330, stdin */
+/* line 14334, stdin */
 section.video .video-player {
   width: 100%; }
 
-/* line 14334, stdin */
+/* line 14338, stdin */
 section.video .timeline-container {
   box-sizing: border-box;
   position: absolute;
@@ -14256,7 +14260,7 @@ section.video .timeline-container {
   padding: 5px 15px;
   width: 100%; }
 
-/* line 14342, stdin */
+/* line 14346, stdin */
 section.video section.controls {
   position: absolute;
   top: 15px;
@@ -14266,7 +14270,7 @@ section.video section.controls {
   text-align: center;
   color: white; }
 
-/* line 14352, stdin */
+/* line 14356, stdin */
 section.video section.controls span a {
   margin: 0;
   padding: 0;
@@ -14281,29 +14285,29 @@ section.video section.controls span a {
   margin-bottom: 10px;
   color: rgba(255, 255, 255, 0); }
 
-/* line 14367, stdin */
+/* line 14371, stdin */
 section.video section.controls span a:hover {
   text-decoration: none;
   background-color: rgba(255, 255, 255, 0.5);
   color: #ffffff; }
 
-/* line 14373, stdin */
+/* line 14377, stdin */
 section.video:hover section.controls span a {
   color: white;
   background-color: rgba(0, 0, 0, 0.3); }
 
-/* line 14378, stdin */
+/* line 14382, stdin */
 .help-item {
   border-radius: 8px;
   border: 1px solid #cecece;
   padding: 15px 0;
   margin-bottom: 8px; }
 
-/* line 14385, stdin */
+/* line 14389, stdin */
 .display-group.answer.complete {
   background-color: #dff0d8; }
 
-/* line 14389, stdin */
+/* line 14393, stdin */
 .display-group.answer.complete:before {
   font-family: "FontAwesome";
   font-style: normal;
@@ -14317,7 +14321,7 @@ section.video:hover section.controls span a {
   text-decoration: inherit;
   margin-right: 4px; }
 
-/* line 14403, stdin */
+/* line 14407, stdin */
 .answer .status-icon:before {
   font-family: "FontAwesome";
   font-style: normal;
@@ -14331,99 +14335,99 @@ section.video:hover section.controls span a {
   text-decoration: inherit;
   margin-right: 4px; }
 
-/* line 14417, stdin */
+/* line 14421, stdin */
 .answer .alert {
   padding: 7px; }
 
-/* line 14421, stdin */
+/* line 14425, stdin */
 .answer .alert-success .status-icon:before {
   content: '\f00c'; }
 
-/* line 14425, stdin */
+/* line 14429, stdin */
 .answer .alert-danger .status-icon:before {
   content: '\f00d'; }
 
-/* line 14429, stdin */
+/* line 14433, stdin */
 .input-group.with-border {
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 8px;
   background-color: rgba(255, 255, 255, 0.8); }
 
-/* line 14436, stdin */
+/* line 14440, stdin */
 .input-group.with-border .input-group-addon {
   border: none;
   cursor: move; }
 
-/* line 14441, stdin */
+/* line 14445, stdin */
 .ui-sortable-placeholder {
   background-color: #CC3300; }
 
-/* line 14445, stdin */
+/* line 14449, stdin */
 .status-cell {
   margin-top: 8px;
   border-right: 1px solid #ffffff; }
 
-/* line 14450, stdin */
+/* line 14454, stdin */
 .status-cell.success {
   background: #dff0d8; }
 
-/* line 14454, stdin */
+/* line 14458, stdin */
 .status-cell.failure {
   background: #f2dede; }
 
-/* line 14458, stdin */
+/* line 14462, stdin */
 .status-cell:last-child {
   border-right: none;
   border-radius: 0 4px 4px 0; }
 
-/* line 14463, stdin */
+/* line 14467, stdin */
 .status-cell:first-child {
   border-radius: 4px 0 0 4px; }
 
-/* line 14467, stdin */
+/* line 14471, stdin */
 a {
   cursor: pointer; }
 
-/* line 14471, stdin */
+/* line 14475, stdin */
 .angular-filtering.inline-controls .row {
   padding-top: 10px; }
 
-/* line 14475, stdin */
+/* line 14479, stdin */
 .angular-filtering .checkbox-inline {
   padding-top: 0px; }
 
-/* line 14479, stdin */
+/* line 14483, stdin */
 .pseudo-table .pseudo-tbody .display-group {
   margin: 10px;
   padding: 0px 0px 10px; }
 
-/* line 14484, stdin */
+/* line 14488, stdin */
 .row.show-divider {
   padding-top: 5px;
   padding-bottom: 5px;
   border-bottom: 1px solid #E5E5E5; }
 
-/* line 14490, stdin */
+/* line 14494, stdin */
 .row.show-divider:last-child {
   border-bottom: none; }
 
-/* line 14494, stdin */
+/* line 14498, stdin */
 .badge.as-control {
   cursor: pointer; }
 
-/* line 14498, stdin */
+/* line 14502, stdin */
 .badge.as-control.badge-false {
   background-color: #ffffff;
   border: 1px solid #E5E5E5;
   color: #E5E5E5; }
 
-/* line 14504, stdin */
+/* line 14508, stdin */
 .button-area:not(.no-border) {
   padding: 8px 0;
   margin: 0; }
 
-/* line 14509, stdin */
+/* line 14513, stdin */
 .button-area:not(.no-border) > div {
   padding: 8px;
   border: 1px solid #ccc;
@@ -14434,97 +14438,97 @@ a {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE5E5E5', endColorstr='#FFF2F2F2', GradientType=0); }
 
-/* line 14520, stdin */
+/* line 14524, stdin */
 .form-group .ng-invalid-required {
   background-color: #d9edf7; }
 
-/* line 14524, stdin */
+/* line 14528, stdin */
 .form-group .ng-invalid-required.ng-touched {
   background-color: #f2dede; }
 
-/* line 14528, stdin */
+/* line 14532, stdin */
 .form-group .help-block {
   display: none; }
 
-/* line 14532, stdin */
+/* line 14536, stdin */
 .form-group.has-error .help-block {
   display: block; }
 
-/* line 14536, stdin */
+/* line 14540, stdin */
 .button-area .btn {
   margin-right: 10px; }
 
-/* line 14540, stdin */
+/* line 14544, stdin */
 .button-area .btn:last-child {
   margin-right: 0; }
 
-/* line 14544, stdin */
+/* line 14548, stdin */
 .button-area .text-right:first-child {
   margin-right: 0; }
 
-/* line 14548, stdin */
+/* line 14552, stdin */
 .button-area .text-right:last-child {
   margin-right: 0; }
 
-/* line 14552, stdin */
+/* line 14556, stdin */
 .angular-google-map-container {
   height: 400px; }
 
-/* line 14556, stdin */
+/* line 14560, stdin */
 .navbar-header.messages .step {
   display: block;
   margin: 8px 8px 8px 16px; }
 
-/* line 14561, stdin */
+/* line 14565, stdin */
 .navbar-header.messages .step .title, .navbar-header.messages .step .purpose {
   display: inline-block;
   padding: 6px 12px;
   border-radius: 3px; }
 
-/* line 14567, stdin */
+/* line 14571, stdin */
 .navbar-header.messages .step .title {
   font-weight: bold;
   border: 1px solid #333;
   background-color: #a9c5e1;
   color: #343758; }
 
-/* line 14574, stdin */
+/* line 14578, stdin */
 .navbar-header.messages .step .purpose, .navbar-header.messages .step .btn {
   color: #d7eaff;
   margin-left: 4px;
   border: 1px solid #696ca5; }
 
-/* line 14580, stdin */
+/* line 14584, stdin */
 .navbar-header.messages .step .btn {
   background-color: #343758;
   margin-top: -3px; }
 
-/* line 14585, stdin */
+/* line 14589, stdin */
 .navbar-header.messages .step .btn.back {
   margin-right: 4px; }
 
-/* line 14589, stdin */
+/* line 14593, stdin */
 .navbar-header.messages .step .btn:after {
   margin-left: 0; }
 
-/* line 14593, stdin */
+/* line 14597, stdin */
 .full-page-grid {
   width: 100%; }
 
-/* line 14597, stdin */
+/* line 14601, stdin */
 .ui-grid .ui-grid-menu-button {
   height: 30px;
   padding-left: 2px;
   background-color: #666666;
   border-color: #B5B5B5; }
 
-/* line 14604, stdin */
+/* line 14608, stdin */
 .ui-grid [class^="ui-grid-icon-menu"]:before, [class*=" ui-grid-icon-menu"]:before {
   font-family: "FontAwesome";
   color: white;
   content: '\f013'; }
 
-/* line 14610, stdin */
+/* line 14614, stdin */
 .ui-grid-grid-footer {
   position: relative;
   overflow: hidden;
@@ -14551,56 +14555,56 @@ a {
   background-clip: padding-box;
   padding: 5px; }
 
-/* line 14637, stdin */
+/* line 14641, stdin */
 .panel .panel-body .listing .row {
   padding: 4px 0; }
 
-/* line 14641, stdin */
+/* line 14645, stdin */
 .panel .panel-body .listing .row:nth-child(2n-1) {
   background-color: #E5E5E5; }
 
-/* line 14645, stdin */
+/* line 14649, stdin */
 .checkbox.add-label-spacing {
   margin-top: 28px; }
 
-/* line 14649, stdin */
+/* line 14653, stdin */
 .checkbox.add-label-spacing label {
   font-weight: bold; }
 
-/* line 14653, stdin */
+/* line 14657, stdin */
 button.add-label-spacing {
   margin-top: 25px; }
 
-/* line 14657, stdin */
+/* line 14661, stdin */
 button.add-label-spacing label {
   font-weight: bold; }
 
-/* line 14661, stdin */
+/* line 14665, stdin */
 .clickable, .clickable td {
   cursor: pointer; }
 
-/* line 14665, stdin */
+/* line 14669, stdin */
 h1.page-title {
   margin-top: 0;
   margin-bottom: 0; }
 
 @media (min-width: 992px) {
-  /* line 14671, stdin */
+  /* line 14675, stdin */
   .nav-users {
     position: fixed; } }
 
-/* line 14676, stdin */
+/* line 14680, stdin */
 .remove-account-container {
   display: inline-block;
   position: relative; }
 
-/* line 14681, stdin */
+/* line 14685, stdin */
 .btn-remove-account {
   top: 10px;
   right: 10px;
   position: absolute; }
 
-/* line 14687, stdin */
+/* line 14691, stdin */
 .item-wrapper {
   width: 100%;
   float: left;
@@ -14609,25 +14613,25 @@ h1.page-title {
   background-color: #f5f5f5;
   border-radius: 4px; }
 
-/* line 14696, stdin */
+/* line 14700, stdin */
 .item-wrapper .form-group {
   margin-bottom: 0; }
 
-/* line 14700, stdin */
+/* line 14704, stdin */
 .item-wrapper .col-md-4, .item-wrapper .col-md-8 {
   padding-left: 0;
   padding-right: 0; }
 
-/* line 14705, stdin */
+/* line 14709, stdin */
 .item-wrapper .col-md-4:first-child, .item-wrapper .col-md-8:first-child {
   padding-left: 3px; }
 
-/* line 14709, stdin */
+/* line 14713, stdin */
 .item-wrapper .col-md-4:last-child, .item-wrapper .col-md-8:last-child {
   padding-right: 3px; }
 
 /** @todo move to global */
-/* line 14716, stdin */
+/* line 14720, stdin */
 input.form-control.toggle-edit:not(:focus),
 .display-group input.toggle-edit.data:not(:focus),
 div.form-control.ui-select-container.toggle-edit:not(.open), .display-group div.ui-select-container.toggle-edit.data:not(.open) {
@@ -14643,41 +14647,41 @@ div.form-control.ui-select-container.toggle-edit:not(.open), .display-group div.
   box-shadow: none;
   transition: none; }
 
-/* line 14732, stdin */
+/* line 14736, stdin */
 input.form-control.toggle-edit:after,
 .display-group input.toggle-edit.data:after,
 div.form-control.ui-select-container.toggle-edit:not(.open):after, .display-group div.ui-select-container.toggle-edit.data:not(.open):after {
   content: ''; }
 
-/* line 14736, stdin */
+/* line 14740, stdin */
 input.form-control.toggle-edit:focus:after, .display-group input.toggle-edit.data:focus:after {
   content: ''; }
 
-/* line 14740, stdin */
+/* line 14744, stdin */
 div.ui-select-container.ui-select-multiple.ui-select-bootstrap {
   min-height: 34px; }
 
-/* line 14744, stdin */
+/* line 14748, stdin */
 .collapsible .list-group-item {
   cursor: pointer; }
 
-/* line 14748, stdin */
+/* line 14752, stdin */
 .collapsible .list-group-item:hover {
   text-decoration: none;
   color: #555;
   background-color: #f5f5f5; }
 
-/* line 14754, stdin */
+/* line 14758, stdin */
 .list-group-item .list-group-item-heading h2, .list-group-item .list-group-item-heading h3, .list-group-item .list-group-item-heading h4, .list-group-item .list-group-item-heading h5, .list-group-item .list-group-item-heading h6 {
   margin: 0; }
 
 /* Have to set height explicitly on ui-view
 to prevent collapsing during animation*/
-/* line 14760, stdin */
+/* line 14764, stdin */
 .ui-view-container {
   position: relative; }
 
-/* line 14764, stdin */
+/* line 14768, stdin */
 [ui-view].ng-enter, [ui-view].ng-leave {
   position: absolute;
   left: 0;
@@ -14687,76 +14691,76 @@ to prevent collapsing during animation*/
   -o-transition: all 0.25s ease-in-out;
   transition: all 0.25s ease-in-out; }
 
-/* line 14774, stdin */
+/* line 14778, stdin */
 [ui-view].ng-enter {
   opacity: 0;
   -webkit-transform: translate3d(-100px, 0, 0);
   -moz-transform: translate3d(-100px, 0, 0);
   transform: translate3d(-100px, 0, 0); }
 
-/* line 14781, stdin */
+/* line 14785, stdin */
 [ui-view].ng-enter-active {
   opacity: 1;
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
 
-/* line 14788, stdin */
+/* line 14792, stdin */
 [ui-view].ng-leave {
   opacity: 1;
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
 
-/* line 14795, stdin */
+/* line 14799, stdin */
 [ui-view].ng-leave-active {
   opacity: 0;
   -webkit-transform: translate3d(100px, 0, 0);
   -moz-transform: translate3d(100px, 0, 0);
   transform: translate3d(100px, 0, 0); }
 
-/* line 14802, stdin */
+/* line 14806, stdin */
 .form-control-static {
   border-top: 1px solid #E5E5E5; }
 
-/* line 14806, stdin */
+/* line 14810, stdin */
 label.checkbox-inline {
   padding-top: 29px; }
 
-/* line 14810, stdin */
+/* line 14814, stdin */
 .navigation {
   z-index: 1000; }
 
-/* line 14814, stdin */
+/* line 14818, stdin */
 .navigation.stuck {
   background-color: #ffffff;
   border-bottom: 1px solid #B5B5B5; }
 
-/* line 14819, stdin */
+/* line 14823, stdin */
 .page-actions {
   margin-top: 8px; }
 
-/* line 14823, stdin */
+/* line 14827, stdin */
 .page-actions .btn-group {
   margin-left: 4px; }
 
-/* line 14827, stdin */
+/* line 14831, stdin */
 .page-actions button {
   margin-right: 4px; }
 
-/* line 14831, stdin */
+/* line 14835, stdin */
 .page-actions button:nth-child(0n + 2) {
   margin-right: 0; }
 
-/* line 14835, stdin */
+/* line 14839, stdin */
 .flexbox-container {
   display: flex; }
 
-/* line 14839, stdin */
+/* line 14843, stdin */
 .flexbox-container.stretch {
   align-items: stretch; }
 
-/* line 14843, stdin */
+/* line 14847, stdin */
 td > div.icon-group {
   margin: -8px 4px -8px -8px;
   border: none;
@@ -14764,23 +14768,23 @@ td > div.icon-group {
   color: #E5E5E5;
   font-size: 18px; }
 
-/* line 14851, stdin */
+/* line 14855, stdin */
 td > div.icon-group a.with-icon {
   line-height: 32px; }
 
-/* line 14855, stdin */
+/* line 14859, stdin */
 td > div.icon-group a.with-icon:hover {
   color: #666666; }
 
-/* line 14859, stdin */
+/* line 14863, stdin */
 td:hover > div.icon-group {
   color: #B5B5B5; }
 
-/* line 14863, stdin */
+/* line 14867, stdin */
 .input-group-addon.select {
   padding: 0; }
 
-/* line 14867, stdin */
+/* line 14871, stdin */
 .input-group-addon.select select {
   height: 32px;
   border: none;
@@ -14790,11 +14794,11 @@ td:hover > div.icon-group {
   padding-bottom: 6px;
   background-color: #eeeeee; }
 
-/* line 14877, stdin */
+/* line 14881, stdin */
 .input-group-addon.checkbox {
   padding: 0 8px; }
 
-/* line 14881, stdin */
+/* line 14885, stdin */
 .item-group {
   display: table;
   position: relative;
@@ -14805,7 +14809,7 @@ td:hover > div.icon-group {
   border-radius: 4px;
   border-radius: 4px; }
 
-/* line 14892, stdin */
+/* line 14896, stdin */
 .item-group .item-group-actions {
   display: table-cell;
   width: 1%;
@@ -14816,7 +14820,7 @@ td:hover > div.icon-group {
   line-height: 1;
   box-sizing: border-box; }
 
-/* line 14903, stdin */
+/* line 14907, stdin */
 .item-group .item-group-contents {
   display: table-cell;
   z-index: 2;
@@ -14832,31 +14836,31 @@ td:hover > div.icon-group {
   border-radius: 0 4px 4px 0;
   background-color: #ffffff; }
 
-/* line 14919, stdin */
+/* line 14923, stdin */
 .item-group .item-group-contents.single-row .form-group {
   margin-bottom: 0; }
 
-/* line 14923, stdin */
+/* line 14927, stdin */
 .item-group .item-group-contents.single-row .checkbox {
   margin-top: 8px;
   margin-bottom: 8px; }
 
-/* line 14928, stdin */
+/* line 14932, stdin */
 .rocker-switch {
   position: relative;
   height: 26px;
   width: 100px;
-  background-color: #f5f5f5;
+  background-color: #B5B5B5;
   border: 1px solid #e3e3e3;
   padding: 2px;
   border-radius: 4px;
   transition: all 0.25s; }
 
-/* line 14940, stdin */
+/* line 14944, stdin */
 .rocker-switch .switch-off-zone,
 .rocker-switch .switch-on-zone {
   text-align: center;
-  color: #f5f5f5;
+  color: #B5B5B5;
   height: 26px;
   width: 50px;
   background: transparent;
@@ -14869,17 +14873,17 @@ td:hover > div.icon-group {
   line-height: 26px;
   cursor: pointer; }
 
-/* line 14956, stdin */
+/* line 14960, stdin */
 .rocker-switch .switch-off-zone {
   border-radius: 4px 0 0 4px; }
 
-/* line 14960, stdin */
+/* line 14964, stdin */
 .rocker-switch .switch-on-zone {
   border-radius: 0 4px 4px 0;
   left: auto;
   right: 0; }
 
-/* line 14966, stdin */
+/* line 14970, stdin */
 .rocker-switch .switch {
   background: #ffffff;
   border: 1px solid #e3e3e3;
@@ -14891,28 +14895,28 @@ td:hover > div.icon-group {
   z-index: 100;
   transition: all 0.25s; }
 
-/* line 14978, stdin */
+/* line 14982, stdin */
 .rocker-switch.off {
   background-color: #F09905; }
 
-/* line 14982, stdin */
+/* line 14986, stdin */
 .rocker-switch.off .switch-on-zone {
   color: white;
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.8); }
 
-/* line 14987, stdin */
+/* line 14991, stdin */
 .rocker-switch.off .switch {
   left: 2px; }
 
-/* line 14991, stdin */
+/* line 14995, stdin */
 .rocker-switch.on {
   background-color: #728302; }
 
-/* line 14995, stdin */
+/* line 14999, stdin */
 .rocker-switch.on .switch-off-zone {
   color: white;
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.8); }
 
-/* line 15000, stdin */
+/* line 15004, stdin */
 .rocker-switch.on .switch {
   left: 46px; }

@@ -105,6 +105,7 @@ exports.list = function(req, res) {
 		.sort('-postDate')
 		.populate('applicant')
 		.populate('opening')
+		.populate('reviewPhase.reviews.reviewer')
 		.exec(function(err, applications) {
 		if (err) {
 			return res.send(400, {

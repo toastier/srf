@@ -48,7 +48,7 @@ var applicationModel = new Schema({
         type: Boolean,
         default: null
       },
-      interviews: [
+      phoneInterviews: [
         {
           interviewer: {
             type: Schema.ObjectId,

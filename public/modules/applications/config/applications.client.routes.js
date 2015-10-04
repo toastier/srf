@@ -30,10 +30,10 @@
           url: '/applications/:applicationId',
           templateUrl: 'modules/applications/views/view-application.client.view.html'
         })
-        .state('main.editApplication', {
-          url: '/applications/:applicationId/edit',
-          templateUrl: 'modules/applications/views/edit-application.client.view.html',
-          controller: 'EditApplicationController',
+        .state('main.manageApplication', {
+          url: '/applications/:applicationId/manage',
+          templateUrl: 'modules/applications/views/manage-application.client.view.html',
+          controller: 'ManageApplicationController',
           controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {

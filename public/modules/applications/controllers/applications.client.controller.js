@@ -9,17 +9,18 @@
     vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;
     vm.allowView = allowView;
+    vm.allowManage = allowManage;
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
       {field: 'opening.name', label: 'Opening', filterable: true, actions: {
         restrict: allowView,
         actionItems: [
           {
-            type: 'edit',
-            title: 'Edit Application',
-            restrict: vm.allowEdit,
+            type: 'manage',
+            title: 'Manage Application',
+            restrict: vm.allowManage,
             attachedTo: 'item',
-            method: 'editApplication'
+            method: 'manageApplication'
           },
           {
             type: 'view',
@@ -32,11 +33,16 @@
       }},
       {field: 'applicant.name.honorific', label: 'Hon', filterable: true },
       {field: 'applicant.name.firstName', label: 'First Name', filterable: true },
-      {field: 'applicant.name.lastName', label: 'Last Name', filterable: true }
+      {field: 'applicant.name.lastName', label: 'Last Name', filterable: true },
+      {field: 'reviewPhase.reviews.reviewer.displayName', label: 'Reviewers', filterable: true, sortable: false}
     ];
 
     function allowEdit () {
       return vm.user.hasRole(['admin']);
+    }
+
+    function allowManage () {
+      return vm.user.hasRole(['admin', 'manager']);
     }
 
     function allowView () {

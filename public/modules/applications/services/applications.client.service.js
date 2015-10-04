@@ -69,6 +69,12 @@
       viewApplication: function (applicationObject) {
         $state.go('main.viewApplication', {applicationId: applicationObject._id});
       },
+      /**
+       * @param {Application} applicationObject Named as such to avoid shadowing
+       */
+      manageApplication: function (applicationObject) {
+        $state.go('main.manageApplication', {applicationId: applicationObject._id});
+      },
       addReview: function addReview() {
         if(!this.reviewPhase.reviews) {
           this.reviewPhase.reviews = [];
@@ -83,18 +89,23 @@
         }
       },
       addPhoneInterview: function addPhoneInterview() {
-        if(!this.phoneInterviewPhase.interviews) {
-          this.phoneInterviewPhase.interviews = [];
+        if(!this.phoneInterviewPhase.phoneInterviews) {
+          this.phoneInterviewPhase.phoneInterviews = [];
         }
-        if(this.phoneInterviewPhase.interviews.length < maxInterviews) {
-          this.phoneInterviewPhase.interviews.push(new Interview());
+        if(this.phoneInterviewPhase.phoneInterviews.length < maxInterviews) {
+          this.phoneInterviewPhase.phoneInterviews.push(new Interview());
+        }
+      },
+      removePhoneInterview: function removePhoneInterview(phoneInterview) {
+        if(angular.isObject(phoneInterview)) {
+          this.phoneInterviewPhase.phoneInterviews.splice(this.phoneInterviewPhase.phoneInterviews.indexOf(phoneInterview), 1);
         }
       },
       showAddReviewButton: function showAddReviewButton () {
         return this.reviewPhase.reviews.length < maxReviews;
       },
       showAddPhoneInterviewButton: function showAddPhoneInterviewButton () {
-        return this.phoneInterviewPhase.interviews.length < maxInterviews;
+        return this.phoneInterviewPhase.phoneInterviews.length < maxInterviews;
       }
     };
 

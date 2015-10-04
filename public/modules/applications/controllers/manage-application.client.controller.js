@@ -2,9 +2,9 @@
   'use strict';
   angular
     .module('applications')
-    .controller('EditApplicationController', EditApplicationController);
+    .controller('ManageApplicationController', ManageApplicationController);
 
-  function EditApplicationController ($stateParams, resolvedAuth, Messages, Application, Navigation, _ ) {
+  function ManageApplicationController ($stateParams, resolvedAuth, Messages, Application, Navigation, _ ) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.cancel = Application.listApplications;
@@ -54,7 +54,7 @@
       actions.splice(0, 3); // splice out the ones we don't want (were taking them all out here)
       actions = _.union(actions, controllerActions); // merge together actions defined in the controller with those from the Model
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('Edit Application'); // set the page title
+      Navigation.viewTitle.set('Manage Application'); // set the page title
     }
 
     function toggleSwitch(event) {

@@ -780,6 +780,11 @@ a {
           content: '\f059';
         }
       }
+      &.sliders, &.manage {
+        &:before {
+          content: '\f1de';
+        }
+      }
     }
 
     &.icon-after {

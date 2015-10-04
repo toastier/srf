@@ -38,6 +38,20 @@
      * @returns {*}
      */
     function getIndex(obj, is, value) {
+      //handle array
+      if(angular.isObject(obj) && angular.isArray(is) && !angular.isUndefined(obj[is[0]]) && angular.isArray(obj[is[0]])) {
+
+        var result = '';
+        var isNow = angular.copy(is);
+        isNow.splice(0,1);
+        var str = isNow.join('.');
+
+        angular.forEach(obj[is[0]], function(each) {
+          result = getIndex(each, str) + ', ' + result;
+        });
+
+        return result;
+      }
       if (typeof is == 'string') {
         return getIndex(obj, is.split('.'), value);
       }

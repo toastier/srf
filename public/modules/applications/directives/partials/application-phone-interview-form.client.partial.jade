@@ -1,8 +1,10 @@
 .col-xs-12
   .row
-    .col-md-6(ng-repeat="interview in vm.application.phoneInterviewPhase.interviews")
+    .col-md-6(ng-repeat="phoneInterview in vm.application.phoneInterviewPhase.phoneInterviews")
       .row
         .col-xs-12.form-group
           .input-group
-            .input-group-addon Phone Interviewer
-            select.form-control(ng-options="committeeMember._id as committeeMember.displayName for committeeMember in phoneInterviewPhase.options.committeeMembers", ng-model="interview.interviewer")
+            .input-group-addon
+              i.fa.fa-times-circle(ng-click="vm.application.removePhoneInterview(phoneInterview)")
+              | &nbsp; Phone Interviewer
+            select.form-control(ng-options="committeeMember._id as committeeMember.displayName for committeeMember in phoneInterviewPhase.options.committeeMembers", ng-model="phoneInterview.interviewer")
