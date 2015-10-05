@@ -2,10 +2,14 @@
   .col-xs-12
     ng-form
       .row
-        .form-group.col-md-4(ng-repeat="filter in duFilter.filters")
+        .form-group(ng-repeat="filter in duFilter.filters", class="col-md-{{ filter.cols }}")
           .input-group
             .input-group-addon {{ filter.label }}
             input.form-control(ng-model="filter.model[filter.index]", placeholder='Any', ng-change="vm.collection.filterCollection()")
       .row
-        .col-xs-12
+        .col-md-3.form-group
+          .input-group
+            .input-group-addon Items per Page
+            select.form-control(name="itemsPerPage", id="itemsPerPage", ng-model="vm.collection.paginator.itemsPerPage", ng-change="vm.collection.filterCollection()", ng-options="option.items as option.items for option in vm.collection.paginator.paginationOptions")
+        .col-md-9.text-right
           button.btn.btn-default.btn-undo(ng-click="vm.collection.clearFilters()") Clear Filters

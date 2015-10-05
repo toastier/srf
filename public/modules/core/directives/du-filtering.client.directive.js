@@ -27,9 +27,11 @@
           duFilter.filterCriteria = $scope.vm.collection.filterCriteria;
           angular.forEach($scope.vm.collection.columnDefinitions, function(columnDefinition) {
             if(columnDefinition.filterable) {
+              var cols = (columnDefinition.filterable.size) ? columnDefinition.filterable.size : 4;
               var filterCriteria = getFilterCriteriaReference(columnDefinition.field);
               var filter = {
                 label: columnDefinition.label,
+                cols: cols,
                 model: filterCriteria.model,
                 index: filterCriteria.index
               };

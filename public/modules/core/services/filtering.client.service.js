@@ -4,7 +4,7 @@
     .module('core')
     .service('Filtering', Filtering);
 
-  function Filtering($filter, Matching) {
+  function Filtering($filter, Matching, utility) {
 
     return function (collection, matchedCollection) {
 
@@ -46,7 +46,7 @@
               }
             }
 
-            return {name: name, field: field, matchType: matchType}
+            return {name: name, field: field, matchType: matchType};
           }
           //not a filterable column, return false;
           return false;
@@ -67,68 +67,19 @@
        * @param filterConfiguration FilterConfigurationObject{{name: String, field: String, matchType: String}}
        */
       function addFilterDefinition(filterConfiguration) {
-        /**
-         * sets an index
-         * @param obj the object from which we want to set the index
-         * @param is string representation of the index
-         * @param value
-         * @returns {*}
-         */
-        function setIndex(obj, is, value) {
-          if (typeof is == 'string') {
-            return setIndex(obj, is.split('.'), value);
-          }
-          else if (is.length == 1 && angular.isDefined(value)) {
-            return obj[is[0]] = value;
-          }
-          else if (is.length == 0) {
-            return obj;
-          }
-          else {
-            if (!obj[is[0]]) {
-              obj[is[0]] = {};
-            }
-            return setIndex(obj[is[0]], is.slice(1), value);
-          }
-        }
 
-        /**
-         * gets an index
-         * @param obj the object from which we want to retrieve the index value
-         * @param is string representation of the index
-         * @param value
-         * @returns {*}
-         */
-        function getIndex(obj, is, value) {
-          if (typeof is == 'string') {
-            return getIndex(obj, is.split('.'), value);
-          }
-          else if (is.length == 1 && angular.isDefined(value)) {
-            return obj[is[0]] = value;
-          }
-          else if (is.length == 0) {
-            return obj;
-          }
-          else if (!obj) {
-            return null;
-          }
-          else {
-            return getIndex(obj[is[0]], is.slice(1), value);
-          }
-        }
-
-        function createFilter(name, field, matchType) {
+        function createFilter(filterName, filterField, filterMatchType) {
 
           function filterFunction(item) {
 
-            var criteria = getIndex(filterCriteria, name);
-            var value = getIndex(item, field);
+            var criteria = utility.getIndex(filterCriteria, filterName);
+            var value = utility.getIndex(item, filterField);
 
-            return !!Matching[matchType](criteria, value);
+            return !!Matching[filterMatchType](criteria, value);
           }
 
           return function () {
-            filtering.matched = $filter('filter')(filtering.matched, filterFunction)
+            filtering.matched = $filter('filter')(filtering.matched, filterFunction);
           };
         }
 
@@ -140,7 +91,7 @@
           if (name && field && matchType) {
             filterDefinitions.push({name: name, filter: createFilter(name, field, matchType)});
 
-            setIndex(filterCriteria, name, null);
+            utility.setIndex(filterCriteria, name, null);
 
           }
         }

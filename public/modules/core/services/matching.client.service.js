@@ -9,7 +9,7 @@
    * @returns {{stringInString: Function, trueMatch: Function, numberMatch: Function}}
    * @constructor
    */
-  function Matching() {
+  function Matching( _ ) {
     return {
       /**
        * provides simple wildcard search with a boolean return.

@@ -72,6 +72,6 @@
     return {
       setIndex: setIndex,
       getIndex: getIndex
-    }
+    };
   }
 })();
