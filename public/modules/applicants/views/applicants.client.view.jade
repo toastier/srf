@@ -1,29 +1,4 @@
 section
   navigation
-  .row
-    .col-xs-12
-      .angular-filtering
-        .col-xs-12
-          ng-form
-            .row
-              .col-md-4.form-group
-                label.control-label Hon
-                input.form-control(type="text", ng-model="vm.collection.filterCriteria.name.honorific", placeholder='Any', ng-change="vm.collection.filterCollection()")
-              .col-md-4.form-group
-                label.control-label First Name
-                input.form-control(type="text", ng-model="vm.collection.filterCriteria.name.firstName", placeholder='Any', ng-change="vm.collection.filterCollection()")
-              .col-md-4.form-group
-                label.control-label Last Name
-                input.form-control(type="text", ng-model="vm.collection.filterCriteria.name.lastName", placeholder='Any', ng-change="vm.collection.filterCollection()")
-            .row
-              .col-md-4.form-group
-                .input-group
-                  .input-group-addon Items per Page
-                  select.form-control(name="itemsPerPage", id="itemsPerPage", ng-model="vm.collection.paginator.itemsPerPage", ng-change="vm.collection.filterCollection()", ng-options="option.items as option.items for option in vm.collection.paginator.paginationOptions")
-            .row
-              .col-xs-12
-                button.btn.btn-default.btn-undo(ng-click="vm.collection.clearFilters()") Clear Filters
-  .row
-    .col-xs-12
-      du-table
+  du-table
 

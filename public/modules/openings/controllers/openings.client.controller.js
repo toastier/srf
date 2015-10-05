@@ -6,6 +6,7 @@
 
   function OpeningsController($scope, $state, Navigation, Opening, CollectionModel, Messages, resolvedAuth) {
     var vm = this;
+    vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;
     vm.isActiveYes = true;
@@ -90,23 +91,32 @@
       Opening.query().$promise
         .then(function(result) {
           Messages.addMessage('Openings Loaded', 'success', null, 'dev');
-          vm.collection = new CollectionModel('OpeningsController', result, vm.columnDefinitions, initialSortOrder);
-          // watch for change when filters are cleared, and set UI variables/controls appropriately
-          $scope.$watch('vm.collection.filterCriteria.isActive', function(newValue) {
-            switch (newValue) {
-              case true:
-                vm.isActiveYes = true;
-                vm.isActiveNo = false;
-                break;
-              case false:
-                vm.isActiveNo = true;
-                vm.isActiveYes = false;
-                break;
-              default:
-                vm.isActiveYes = null;
-                vm.isActiveNo = null;
-            }
-          });
+
+          new CollectionModel('OpeningsController', result, vm.columnDefinitions, initialSortOrder)
+            .then(function(collection) {
+              vm.collection = collection;
+
+              // watch for change when filters are cleared, and set UI variables/controls appropriately
+              $scope.$watch('vm.collection.filterCriteria.isActive', function(newValue) {
+                switch (newValue) {
+                  case true:
+                    vm.isActiveYes = true;
+                    vm.isActiveNo = false;
+                    break;
+                  case false:
+                    vm.isActiveNo = true;
+                    vm.isActiveYes = false;
+                    break;
+                  default:
+                    vm.isActiveYes = null;
+                    vm.isActiveNo = null;
+                }
+              });
+            })
+            .catch(function(err) {
+              Messages.addMessage(err.data.message, 'error');
+            });
+
       });
       setupNavigation();
     }
