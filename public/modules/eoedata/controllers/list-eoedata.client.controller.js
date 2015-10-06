@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   angular
-    .module('eoedata')
+    .module('Eoedata')
     .controller('EoedataController', EoedataController);
 
   function EoedataController($scope, $state, Navigation, Eoedata, CollectionModel, Messages, resolvedAuth) {
@@ -110,8 +110,8 @@
       setupNavigation();
     }
 
-    function viewEoedata (eoedata) {
-      $state.go('main.viewEoedata', { eoedataId: eoedata._id });
+    function viewEoedata (Eoedata) {
+      $state.go('main.viewEoedata', { EoedataId: Eoedata._id });
     }
 
     activate();

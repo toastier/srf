@@ -7,8 +7,8 @@
       $stateProvider
         .state('main.listEoedata', {
           url: '/eoedata',
-          templateUrl: 'modules/eoedata/views/eoedata.client.view.html',
-          controller: 'EoedataController',
+          templateUrl: 'modules/eoedata/views/list-eoedata.client.view.html',
+          controller: 'LstEoedataController',
           controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {
@@ -16,7 +16,7 @@
             }
           }
         })
-        .state('createEoedata', {
+        .state('main.createEoedata', {
           url: '/eoedata/create',
           templateUrl: 'modules/eoedata/views/create-eoedata.client.view.html',
           controller: 'CreateEoedataController',
