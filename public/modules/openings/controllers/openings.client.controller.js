@@ -63,6 +63,7 @@
           ]
         }},
       {field: 'details', label: 'Description', format: 'trimmed', sortable: true, filterable: true},
+      {field: 'requisitionNumber', label: 'Requisition Number', sortable: true, filterable: true},
       {field: 'isActive', label: 'Active', format: 'checkMark', sortable: true,
         filterable: {
           name: 'isActive',

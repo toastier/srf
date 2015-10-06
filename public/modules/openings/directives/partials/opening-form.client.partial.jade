@@ -13,15 +13,18 @@ ng-form(name="vm.openingForm")
       label.control-label Opening Title
       input.form-control(type='text', data-ng-model='vm.opening.name', placeholder='Opening Title', required)
     .col-md-3
-      label.control-label Date Requested
-      p.input-group
-        input.form-control(name="dateRequested", type="text", datepicker-popup="", is-open="vm.datePickerStates.dateRequestedOpen", close-text="Close", ng-model="vm.opening.dateRequested", novalidate)
-        span.input-group-btn
-          button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateRequested')")
-            i.fa.fa-calendar
+      label.control-label Requisition Number
+      input.form-control(type="text", data-ng-model="vm.opening.requisitionNumber", placeholder="Duke Requisition Number")
   .row
     .col-md-3
       .row
+        .col-md-12
+          label.control-label Date Requested
+          p.input-group
+            input.form-control(name="dateRequested", type="text", datepicker-popup="", is-open="vm.datePickerStates.dateRequestedOpen", close-text="Close", ng-model="vm.opening.dateRequested", novalidate)
+            span.input-group-btn
+              button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateRequested')")
+                i.fa.fa-calendar
         .col-md-12
           label.control-label Posting Date
           p.input-group
@@ -51,7 +54,7 @@ ng-form(name="vm.openingForm")
       .row
         .col-md-12.form-group
           label.control-label Details
-          textarea.form-control(data-ng-model='vm.opening.details', cols='30', rows='10', placeholder='Details')
+          textarea.form-control(data-ng-model='vm.opening.details', cols='30', rows='12', placeholder='Details')
   .row
     .col-xs-12
       .panel.panel-default

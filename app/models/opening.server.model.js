@@ -7,6 +7,9 @@ var openingModel = new Schema({
       type: String,
       required: true
     },
+    requisitionNumber: {
+      type: Number
+    },
     details: {
       type: String
     },
