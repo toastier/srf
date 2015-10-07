@@ -5,23 +5,20 @@
     .controller('CreateEoeDataDemographicController', CreateEoeDataDemographicController);
 
   /* @ngInject */
-  function CreateEoeDataDemographicController(Authentication, Messages, Navigation, EoeDataDemographic, Position, _) {
+  function CreateEoeDataDemographicController(Messages, Navigation, EoeDataDemographic, _) {
     /* jshint validthis: true */
     var vm = this;
-    vm.authentication = Authentication.init();
+
     vm.disableSaveButton = disableSaveButton;
     vm.cancel = cancel;
-    vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
-    vm.fillPositionInfo = fillPositionInfo;
     vm.eoeDataDemographic = new EoeDataDemographic();
     vm.saveEoeDataDemographic = saveEoeDataDemographic;
-    vm.toggleDatePicker = toggleDatePicker;
     vm.options = {};
 
     activate();
 
     function cancel() {
-      EoeDataDemographic.listEoeDataDemographic();
+      //EoeDataDemographic.();
     }
 
     function disableSaveButton() {
@@ -38,14 +35,14 @@
       return matched;
     }
 
-    function getValueLists() {
-      Position.query().$promise
-        .then(function(result) {
-          vm.options.positions = result;
-        })
-        .catch(function(error) {
-          Messages.addMessage(error.data.message, 'error');
-        });
+    function getRaces() {
+      vm.options.races = [
+        { description: 'American Indian or Alaskan Native' },
+        { description: 'Black or Afranic American' },
+        { description: 'Native Hawaiian or Other Pacific Islander' },
+        { description: 'White' },
+        { description: 'Other' }
+      ];
     }
 
     function fillPositionInfo() {
@@ -98,9 +95,8 @@
 
     function activate() {
       setupEoeDataDemographic();
-      calculateDates();
       setupNavigation();
-      getValueLists();
+      getRaces();
     }
   }
 })();

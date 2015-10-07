@@ -7,7 +7,8 @@
   function eoeDataDemographicForm() {
     return {
       restrict: 'E',
-      templateUrl: 'modules/eoeDataDemographic/directives/partials/eoeDataDemographic-form.client.partial.html'
+      //templateUrl: 'modules/eoeDataDemographic/directives/partials/eoeDataDemographic-form.client.partial.html'
+      template: '<p>Hello</p>'
     };
   }
 })();
