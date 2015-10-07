@@ -1,10 +1,10 @@
 (function () {
   'use strict';
   angular
-    .module('Eoedata')
-    .controller('EoedataController', EoedataController);
+    .module('eoedata')
+    .controller('ListEoedataController', ListEoedataController);
 
-  function EoedataController($scope, $state, Navigation, Eoedata, CollectionModel, Messages, resolvedAuth) {
+  function ListEoedataController($scope, $state, Navigation, Eoedata, CollectionModel, Messages, resolvedAuth) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;

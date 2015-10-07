@@ -8,7 +8,7 @@
         .state('main.listEoedata', {
           url: '/eoedata',
           templateUrl: 'modules/eoedata/views/list-eoedata.client.view.html',
-          controller: 'LstEoedataController',
+          controller: 'ListEoedataController',
           controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {
