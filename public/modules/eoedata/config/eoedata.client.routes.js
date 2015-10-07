@@ -1,14 +1,14 @@
 (function () {
   'use strict';
   // Setting up route
-  angular.module('eoeDataDemographics').config(['$stateProvider',
+  angular.module('eoeDatademographic').config(['$stateProvider',
     function ($stateProvider) {
-      // EoeDataDemographics state routing
+      // EoeDatademographic state routing
       $stateProvider
-        .state('main.listEoeDataDemographics', {
-          url: '/eoeDataDemographics',
-          templateUrl: 'modules/eoeDataDemographics/views/list-eoeDataDemographics.client.view.html',
-          controller: 'ListEoeDataDemographicsController',
+        .state('main.listEoeDatademographic', {
+          url: '/eoeDatademographic',
+          templateUrl: 'modules/eoeDatademographic/views/list-eoeDatademographic.client.view.html',
+          controller: 'ListEoeDatademographicController',
           controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {
@@ -16,10 +16,10 @@
             }
           }
         })
-        .state('main.createEoeDataDemographics', {
-          url: '/eoeDataDemographics/create',
-          templateUrl: 'modules/eoeDataDemographics/views/create-eoeDataDemographics.client.view.html',
-          controller: 'CreateEoeDataDemographicsController',
+        .state('main.createEoeDatademographic', {
+          url: '/eoeDatademographic/create',
+          templateUrl: 'modules/eoeDatademographic/views/create-eoeDatademographic.client.view.html',
+          controller: 'CreateEoeDatademographicController',
           controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {
@@ -27,10 +27,10 @@
             }
           }
         })
-        .state('main.viewEoeDataDemographics', {
-          url: '/eoeDataDemographics/:eoeDataDemographicsId',
-          templateUrl: 'modules/eoeDataDemographics/views/view-eoeDataDemographics.client.view.html',
-          controller: 'ViewEoeDataDemographicsController',
+        .state('main.viewEoeDatademographic', {
+          url: '/eoeDatademographic/:eoeDatademographicId',
+          templateUrl: 'modules/eoeDatademographic/views/view-eoeDatademographic.client.view.html',
+          controller: 'ViewEoeDatademographicController',
           controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {
@@ -38,10 +38,10 @@
             }
           }
         })
-        .state('main.editEoeDataDemographics', {
-          url: '/eoeDataDemographics/:eoeDataDemographicsId/edit',
-          templateUrl: 'modules/eoeDataDemographics/views/edit-eoeDataDemographics.client.view.html',
-          controller: 'EditEoeDataDemographicsController',
+        .state('main.editEoeDatademographic', {
+          url: '/eoeDatademographic/:eoeDatademographicId/edit',
+          templateUrl: 'modules/eoeDatademographic/views/edit-eoeDatademographic.client.view.html',
+          controller: 'EditEoeDatademographicController',
           controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {

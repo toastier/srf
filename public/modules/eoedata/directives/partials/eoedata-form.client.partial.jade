@@ -1,21 +1,21 @@
-ng-form(name="vm.eoeDataDemographicsForm")
+ng-form(name="vm.eoeDatademographicForm")
   .row
     .col-md-3.control-group
       label.control-label Position
       select.form-control(
         type="select",
-        ng-model="vm.eoeDataDemographics.position",
+        ng-model="vm.eoeDatademographic.position",
         ng-options="position._id as position.name for position in vm.options.positions",
         ng-required="true",
         ng-change="vm.fillPositionInfo()")
           option(value="") --Choose--
     .col-md-6.form-group
-      label.control-label EoeDataDemographics Title
-      input.form-control(type='text', data-ng-model='vm.eoeDataDemographics.name', placeholder='EoeDataDemographics Title', required)
+      label.control-label EoeDatademographic Title
+      input.form-control(type='text', data-ng-model='vm.eoeDatademographic.name', placeholder='EoeDatademographic Title', required)
     .col-md-3
       label.control-label Date Requested
       p.input-group
-        input.form-control(name="dateRequested", type="text", datepicker-popup="", is-open="vm.datePickerStates.dateRequestedOpen", close-text="Close", ng-model="vm.eoeDataDemographics.dateRequested", novalidate)
+        input.form-control(name="dateRequested", type="text", datepicker-popup="", is-open="vm.datePickerStates.dateRequestedOpen", close-text="Close", ng-model="vm.eoeDatademographic.dateRequested", novalidate)
         span.input-group-btn
           button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateRequested')")
             i.fa.fa-calendar
@@ -25,63 +25,63 @@ ng-form(name="vm.eoeDataDemographicsForm")
         .col-md-12
           label.control-label Posting Date
           p.input-group
-            input.form-control(name="datePosted", type="text", datepicker-popup="", is-open="vm.datePickerStates.datePostedOpen", close-text="Close", ng-model="vm.eoeDataDemographics.datePosted", novalidate)
+            input.form-control(name="datePosted", type="text", datepicker-popup="", is-open="vm.datePickerStates.datePostedOpen", close-text="Close", ng-model="vm.eoeDatademographic.datePosted", novalidate)
             span.input-group-btn
               button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'datePosted')")
                 i.fa.fa-calendar
         .col-md-12
-          label.control-label EoeDataDemographics Date
+          label.control-label EoeDatademographic Date
           p.input-group
-            input.form-control(name="dateStart", type="text", datepicker-popup="", is-open="vm.datePickerStates.dateStartOpen", close-text="Close", ng-model="vm.eoeDataDemographics.dateStart", novalidate)
+            input.form-control(name="dateStart", type="text", datepicker-popup="", is-open="vm.datePickerStates.dateStartOpen", close-text="Close", ng-model="vm.eoeDatademographic.dateStart", novalidate)
             span.input-group-btn
               button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateStart')")
                 i.fa.fa-calendar
         .col-md-12
           label.control-label Closing Date
           p.input-group
-            input.form-control(name="dateClose", type="text", datepicker-popup="", is-open="vm.datePickerStates.dateCloseOpen", close-text="Close", ng-model="vm.eoeDataDemographics.dateClose", novalidate)
+            input.form-control(name="dateClose", type="text", datepicker-popup="", is-open="vm.datePickerStates.dateCloseOpen", close-text="Close", ng-model="vm.eoeDatademographic.dateClose", novalidate)
             span.input-group-btn
               button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateClose')")
                 i.fa.fa-calendar
         .col-md-12.form-group
           label.checkbox-inline
-            input.checkox-inline(type="checkbox", ng-model="vm.eoeDataDemographics.isActive")
-            | This EoeDataDemographics is Active
+            input.checkox-inline(type="checkbox", ng-model="vm.eoeDatademographic.isActive")
+            | This EoeDatademographic is Active
     .col-md-9
       .row
         .col-md-12.form-group
           label.control-label Details
-          textarea.form-control(data-ng-model='vm.eoeDataDemographics.details', cols='30', rows='10', placeholder='Details')
+          textarea.form-control(data-ng-model='vm.eoeDatademographic.details', cols='30', rows='10', placeholder='Details')
   .row
     .col-xs-12
       .panel.panel-default
         .panel-heading
-          h3 Calculate Dates for this EoeDataDemographics
+          h3 Calculate Dates for this EoeDatademographic
         .panel-body
           .row
             .col-md-4.form-group
-              label.control-label EoeDataDemographics date is
+              label.control-label EoeDatademographic date is
               .input-group
-                input.form-control(type="text", ng-model="vm.eoeDataDemographics.dateCalculationSettings.openWeeksAfterPost")
+                input.form-control(type="text", ng-model="vm.eoeDatademographic.dateCalculationSettings.openWeeksAfterPost")
                 .input-group-addon weeks after Posting
             .col-md-4.form-group
-              label.control-label EoeDataDemographics closes
+              label.control-label EoeDatademographic closes
               .input-group
-                input.form-control(type="text", ng-model="vm.eoeDataDemographics.dateCalculationSettings.closeWeeksAfterOpen")
-                .input-group-addon weeks after EoeDataDemographics
+                input.form-control(type="text", ng-model="vm.eoeDatademographic.dateCalculationSettings.closeWeeksAfterOpen")
+                .input-group-addon weeks after EoeDatademographic
             .col-md-4.form-group
-              button.btn.btn-default.btn-workflow.add-label-spacing(ng-click="vm.eoeDataDemographics.calculateDates()") Calculate Dates
+              button.btn.btn-default.btn-workflow.add-label-spacing(ng-click="vm.eoeDatademographic.calculateDates()") Calculate Dates
   .row
     .col-xs-12
       h3 Online Postings&nbsp;
-        a.with-icon.no-text.add(ng-href="#", ng-click="vm.eoeDataDemographics.addPostingLink()")
-      .row(ng-repeat="pLink in vm.eoeDataDemographics.postingLink")
+        a.with-icon.no-text.add(ng-href="#", ng-click="vm.eoeDatademographic.addPostingLink()")
+      .row(ng-repeat="pLink in vm.eoeDatademographic.postingLink")
         .col-xs-12
           .item-wrapper
             .col-md-4.form-group
               .input-group
                 .input-group-addon
-                  i.fa.fa-times-circle(ng-click="vm.eoeDataDemographics.removePostingLink(pLink)")
+                  i.fa.fa-times-circle(ng-click="vm.eoeDatademographic.removePostingLink(pLink)")
                 input.form-control(type="text", ng-model="pLink.source", placeholder="Source")
             .col-md-8.form-group
               .input-group

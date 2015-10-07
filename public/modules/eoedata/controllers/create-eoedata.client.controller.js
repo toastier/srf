@@ -1,11 +1,11 @@
 (function () {
   'use strict';
   angular
-    .module('eoeDataDemographics')
-    .controller('CreateEoeDataDemographicsController', CreateEoeDataDemographicsController);
+    .module('eoeDatademographic')
+    .controller('CreateEoeDatademographicController', CreateEoeDatademographicController);
 
   /* @ngInject */
-  function CreateEoeDataDemographicsController(Authentication, Messages, Navigation, EoeDataDemographics, Position, _) {
+  function CreateEoeDatademographicController(Authentication, Messages, Navigation, EoeDatademographic, Position, _) {
     /* jshint validthis: true */
     var vm = this;
     vm.authentication = Authentication.init();
@@ -13,19 +13,19 @@
     vm.cancel = cancel;
     vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
     vm.fillPositionInfo = fillPositionInfo;
-    vm.eoeDataDemographics = new EoeDataDemographics();
-    vm.saveEoeDataDemographics = saveEoeDataDemographics;
+    vm.eoeDatademographic = new EoeDatademographic();
+    vm.saveEoeDatademographic = saveEoeDatademographic;
     vm.toggleDatePicker = toggleDatePicker;
     vm.options = {};
 
     activate();
 
     function cancel() {
-      EoeDataDemographics.listEoeDataDemographics();
+      EoeDatademographic.listEoeDatademographic();
     }
 
     function disableSaveButton() {
-      return angular.isUndefined(vm.eoeDataDemographicsForm) || vm.eoeDataDemographicsForm.$invalid || vm.eoeDataDemographicsForm.$pristine;
+      return angular.isUndefined(vm.eoeDatademographicForm) || vm.eoeDatademographicForm.$invalid || vm.eoeDatademographicForm.$pristine;
     }
 
     function getPosition(positionId) {
@@ -49,28 +49,28 @@
     }
 
     function fillPositionInfo() {
-      var position = getPosition(vm.eoeDataDemographics.position);
-      vm.eoeDataDemographics.name = position.name;
-      vm.eoeDataDemographics.details = position.details;
+      var position = getPosition(vm.eoeDatademographic.position);
+      vm.eoeDatademographic.name = position.name;
+      vm.eoeDatademographic.details = position.details;
     }
 
-    function saveEoeDataDemographics() {
-      vm.eoeDataDemographics.$save()
+    function saveEoeDatademographic() {
+      vm.eoeDatademographic.$save()
         .then(function (result) {
-          Messages.addMessage('The EoeDataDemographics "' + result.name + '" was saved.', 'success');
-          EoeDataDemographics.listEoeDataDemographics();
+          Messages.addMessage('The EoeDatademographic "' + result.name + '" was saved.', 'success');
+          EoeDatademographic.listEoeDatademographic();
         })
         .catch(function (error) {
-          Messages.addMessage('There was a problem saving the EoeDataDemographics ' + error.data.message, 'error');
+          Messages.addMessage('There was a problem saving the EoeDatademographic ' + error.data.message, 'error');
         });
     }
 
     function calculateDates () {
-      vm.eoeDataDemographics.calculateDates();
+      vm.eoeDatademographic.calculateDates();
     }
 
-    function setupEoeDataDemographics() {
-      vm.eoeDataDemographics.isActive = true;
+    function setupEoeDatademographic() {
+      vm.eoeDatademographic.isActive = true;
     }
 
     function toggleDatePicker(event, datePicker) {
@@ -80,24 +80,24 @@
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
-      Navigation.breadcrumbs.add('EoeDataDemographics', '#!/eoeDataDemographics', '#!/eoeDataDemographics'); // add a breadcrumb
+      Navigation.breadcrumbs.add('EoeDatademographic', '#!/eoeDatademographic', '#!/eoeDatademographic'); // add a breadcrumb
       /** @type Array Actions we wish to add to the Navigation that we define locally **/
       var controllerActions = [
-        {title: 'Save EoeDataDemographics', method: vm.saveEoeDataDemographics, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
+        {title: 'Save EoeDatademographic', method: vm.saveEoeDatademographic, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
         {title: 'Cancel', method: vm.cancel, type: 'button', style: 'btn-cancel'}
       ];
 
-      var actions = EoeDataDemographics.getActions(); // get the actions from the Model
+      var actions = EoeDatademographic.getActions(); // get the actions from the Model
       actions.splice(0, 3); // splice out the ones we don't want (were taking them all out here)
       actions = _.union(actions, controllerActions); // merge together actions defined in the controller with those from the Model
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('Create EoeDataDemographics'); // set the page title
+      Navigation.viewTitle.set('Create EoeDatademographic'); // set the page title
     }
 
 
 
     function activate() {
-      setupEoeDataDemographics();
+      setupEoeDatademographic();
       calculateDates();
       setupNavigation();
       getValueLists();

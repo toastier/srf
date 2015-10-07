@@ -1,10 +1,10 @@
 (function () {
   'use strict';
-  // Configuring the EoeDataDemographics module
-  angular.module('eoeDataDemographics').run(['Menus',
+  // Configuring the EoeDatademographic module
+  angular.module('eoeDatademographic').run(['Menus',
     function (Menus) {
       // Set top bar menu items
-      Menus.addMenuItem('sidebar', 'EoeDataDemographics', 'eoeDataDemographics', '#!/eoeDataDemographics', '#!/eoeDataDemographics');
+      Menus.addMenuItem('sidebar', 'EoeDatademographic', 'eoeDatademographic', '#!/eoeDatademographic', '#!/eoeDatademographic');
     }
   ]);
 })();
