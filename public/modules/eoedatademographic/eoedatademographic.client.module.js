@@ -1,6 +1,6 @@
 (function () {
   'use strict';
   //alert('about to laod');
-  ApplicationConfiguration.registerModule('eoeDatademographic');
+  ApplicationConfiguration.registerModule('eoeDataDemographic');
   //alert('tried to laod');
 })();

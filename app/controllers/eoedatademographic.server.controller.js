@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	EoeDatademographic = mongoose.model('EoeDatademographic'),
+	EoeDataDemographic = mongoose.model('EoeDataDemographic'),
 	errorHandler = 	require('./errors.server.controller'), //this doesn't work
 	_ = require('lodash');
 
@@ -19,7 +19,7 @@ var getErrorMessage = function(err) {
 		switch (err.code) {
 			case 11000:
 			case 11001:
-				message = 'EoeDatademographic already exists';
+				message = 'EoeDataDemographic already exists';
 				break;
 			default:
 				message = 'Something went wrong';
@@ -34,20 +34,20 @@ var getErrorMessage = function(err) {
 };
 
 /**
- * Create a EoeDatademographicset
+ * Create a EoeDataDemographicset
  */
 exports.create = function(req, res) {
-	var eoeDatademographic = new EoeDatademographic(req.body);
-	eoeDatademographic.user = req.user;
+	var eoeDataDemographic = new EoeDataDemographic(req.body);
+	eoeDataDemographic.user = req.user;
 
-	eoeDatademographic.save(function(err) {
+	eoeDataDemographic.save(function(err) {
 		if (err) {
 			return res.send(400, {
 				// this doesn't work, dumping errorHandler into its own controller
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoeDatademographic);
+			res.jsonp(eoeDataDemographic);
 		}
 	});
 };
@@ -55,80 +55,80 @@ exports.create = function(req, res) {
 
 
 /**
- * Show the current eoeDatademographic
+ * Show the current eoeDataDemographic
  */
 exports.read = function(req, res) {
-	res.jsonp(req.eoeDatademographic);
+	res.jsonp(req.eoeDataDemographic);
 };
 
 /**
- * Update a eoeDatademographic
+ * Update a eoeDataDemographic
  */
 exports.update = function(req, res) {
-	var eoeDatademographic = req.eoeDatademographic;
+	var eoeDataDemographic = req.eoeDataDemographic;
 
-	eoeDatademographic = _.extend(eoeDatademographic, req.body);
+	eoeDataDemographic = _.extend(eoeDataDemographic, req.body);
 
-	eoeDatademographic.save(function(err) {
+	eoeDataDemographic.save(function(err) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoeDatademographic);
+			res.jsonp(eoeDataDemographic);
 		}
 	});
 };
 
 /**
- * Delete an eoeDatademographic
+ * Delete an eoeDataDemographic
  */
 exports.delete = function(req, res) {
-	var eoeDatademographic = req.eoeDatademographic;
+	var eoeDataDemographic = req.eoeDataDemographic;
 
-	eoeDatademographic.remove(function(err) {
+	eoeDataDemographic.remove(function(err) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoeDatademographic);
+			res.jsonp(eoeDataDemographic);
 		}
 	});
 };
 
 /**
- * List of EoeDatademographic
+ * List of EoeDataDemographic
  */
 exports.list = function(req, res) {
-	EoeDatademographic.find().sort('-postDate').populate('user', 'displayName').exec(function(err, eoeDatademographic) {
+	EoeDataDemographic.find().sort('-postDate').populate('user', 'displayName').exec(function(err, eoeDataDemographic) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoeDatademographic);
+			res.jsonp(eoeDataDemographic);
 		}
 	});
 };
 
 /**
- * EoeDatademographic middleware
+ * EoeDataDemographic middleware
  */
-exports.eoeDatademographicByID = function(req, res, next, id) {
-	EoeDatademographic.findById(id).populate('user', 'displayName').exec(function(err, eoeDatademographic) {
+exports.eoeDataDemographicByID = function(req, res, next, id) {
+	EoeDataDemographic.findById(id).populate('user', 'displayName').exec(function(err, eoeDataDemographic) {
 		if (err) return next(err);
-		if (!eoeDatademographic) return next(new Error('Failed to load eoeDatademographic ' + id));
-		req.eoeDatademographic = eoeDatademographic;
+		if (!eoeDataDemographic) return next(new Error('Failed to load eoeDataDemographic ' + id));
+		req.eoeDataDemographic = eoeDataDemographic;
 		next();
 	});
 };
 
 /**
- * EoeDatademographic authorization middleware
+ * EoeDataDemographic authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.eoeDatademographic.user.id !== req.user.id) {
+	if (req.eoeDataDemographic.user.id !== req.user.id) {
 		return res.send(403, {
 			message: 'User is not authorized'
 		});

@@ -1,10 +1,10 @@
 (function () {
   'use strict';
   angular
-    .module('eoeDatademographic')
-    .controller('ListEoeDatademographicController', ListEoeDatademographicController);
+    .module('eoeDataDemographic')
+    .controller('ListEoeDataDemographicController', ListEoeDataDemographicController);
 
-  function ListEoeDatademographicController($scope, $state, Navigation, EoeDatademographic, CollectionModel, Messages, resolvedAuth) {
+  function ListEoeDataDemographicController($scope, $state, Navigation, EoeDataDemographic, CollectionModel, Messages, resolvedAuth) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;
@@ -39,24 +39,24 @@
     vm.columnDefinitions = [
       {
         field: 'name',
-        label: 'EoeDatademographic Title',
+        label: 'EoeDataDemographic Title',
         filterable: true,
         actions: {
           restrict: vm.allowEdit,
           actionItems: [
             {
               type: 'edit',
-              title: 'Edit EoeDatademographic',
+              title: 'Edit EoeDataDemographic',
               restrict: vm.allowEdit,
               attachedTo: 'item',
-              method: 'editEoeDatademographic' // use as string reference to the action as it is attached to the 'item' in the collection and is not available in the current scope
+              method: 'editEoeDataDemographic' // use as string reference to the action as it is attached to the 'item' in the collection and is not available in the current scope
             },
             {
               type: 'view',
-              title: 'View EoeDatademographic',
+              title: 'View EoeDataDemographic',
               restrict: vm.allowEdit,
               attachedTo: 'controller',
-              method: viewEoeDatademographic  // object reference to the method as it is in the current scope
+              method: viewEoeDataDemographic  // object reference to the method as it is in the current scope
             }
           ]
         }},
@@ -69,7 +69,7 @@
         }
       },
       {field: 'datePosted', label: 'Posting', format: 'date'},
-      {field: 'dateStart', label: 'EoeDatademographic', format: 'date'},
+      {field: 'dateStart', label: 'EoeDataDemographic', format: 'date'},
       {field: 'dateClose', label: 'Closing', format: 'date'}
     ];
 
@@ -78,18 +78,18 @@
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
 
-      var actions = EoeDatademographic.getActions(); // get the actions from the Model
+      var actions = EoeDataDemographic.getActions(); // get the actions from the Model
       actions.splice(1, 2); // splice out the ones we don't want (were taking them all out here)
 
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('EoeDatademographic'); // set the page title
+      Navigation.viewTitle.set('EoeDataDemographic'); // set the page title
     }
 
     function activate () {
-      EoeDatademographic.query().$promise
+      EoeDataDemographic.query().$promise
         .then(function(result) {
-          Messages.addMessage('EoeDatademographic Loaded', 'success', null, 'dev');
-          vm.collection = new CollectionModel('EoeDatademographicController', result, vm.columnDefinitions, initialSortOrder);
+          Messages.addMessage('EoeDataDemographic Loaded', 'success', null, 'dev');
+          vm.collection = new CollectionModel('EoeDataDemographicController', result, vm.columnDefinitions, initialSortOrder);
           // watch for change when filters are cleared, and set UI variables/controls appropriately
           $scope.$watch('vm.collection.filterCriteria.isActive', function(newValue) {
             switch (newValue) {
@@ -110,8 +110,8 @@
       setupNavigation();
     }
 
-    function viewEoeDatademographic (EoeDatademographic) {
-      $state.go('main.viewEoeDatademographic', { EoeDatademographicId: EoeDatademographic._id });
+    function viewEoeDataDemographic (EoeDataDemographic) {
+      $state.go('main.viewEoeDataDemographic', { EoeDataDemographicId: EoeDataDemographic._id });
     }
 
     activate();

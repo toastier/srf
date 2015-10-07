@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var eoeDatademographicModel = new Schema({
+var eoeDataDemographicModel = new Schema({
     openingID: {
         type: String
     },
@@ -21,11 +21,11 @@ var eoeDatademographicModel = new Schema({
     //}
   },
     {
-        collection: 'eoeDatademographic'
+        collection: 'eoeDataDemographic'
     }
 );
 
-var modelName = 'EoeDatademographic';
+var modelName = 'EoeDataDemographic';
 
-module.exports = mongoose.model(modelName, eoeDatademographicModel);
+module.exports = mongoose.model(modelName, eoeDataDemographicModel);
 

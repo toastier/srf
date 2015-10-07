@@ -1,25 +1,25 @@
 (function () {
   'use strict';
   angular
-    .module('eoeDatademographic')
-    .factory('EoeDatademographic', EoeDatademographic);
+    .module('eoeDataDemographic')
+    .factory('EoeDataDemographic', EoeDataDemographic);
 
-  function EoeDatademographic($resource, $state, $stateParams) {
-    var EoeDatademographic = $resource('eoeDatademographic/:eoeDatademographicId', {eoeDatademographicId: '@_id'}, {
+  function EoeDataDemographic($resource, $state, $stateParams) {
+    var EoeDataDemographic = $resource('eoeDataDemographic/:eoeDataDemographicId', {eoeDataDemographicId: '@_id'}, {
       update: {
         method: 'PUT'
       }
     });
 
     var methods = {
-      editThisEoeDatademographic: function () {
-        $state.go('main.editEoeDatademographic', {eoeDatademographicId: $stateParams.eoeDatademographicId});
+      editThisEoeDataDemographic: function () {
+        $state.go('main.editEoeDataDemographic', {eoeDataDemographicId: $stateParams.eoeDataDemographicId});
       },
-      viewThisEoeDatademographic: function () {
-        $state.go('main.viewEoeDatademographic', {eoeDatademographicId: $stateParams.eoeDatademographicId});
+      viewThisEoeDataDemographic: function () {
+        $state.go('main.viewEoeDataDemographic', {eoeDataDemographicId: $stateParams.eoeDataDemographicId});
       },
-      createEoeDatademographic: function () {
-        $state.go('main.createEoeDatademographic');
+      createEoeDataDemographic: function () {
+        $state.go('main.createEoeDataDemographic');
       }
     };
 
@@ -74,45 +74,45 @@
         dateClose.setDate(dateStart.getDate() + parseInt(settings.closeWeeksAfterOpen, 10) * 7);
         this.dateClose = dateClose;
       },
-      editEoeDatademographic: function (eoeDatademographic) {
-        $state.go('main.editEoeDatademographic', {eoeDatademographicId: eoeDatademographic._id});
+      editEoeDataDemographic: function (eoeDataDemographic) {
+        $state.go('main.editEoeDataDemographic', {eoeDataDemographicId: eoeDataDemographic._id});
       },
       removePostingLink: function (postingLinkItem) {
         var index = this.postingLink.indexOf(postingLinkItem);
         this.postingLink.splice(index, 1);
       },
-      viewEoeDatademographic: function (eoeDatademographic) {
-        $state.go('main.viewEoeDatademographic', {eoeDatademographicId: eoeDatademographic._id});
+      viewEoeDataDemographic: function (eoeDataDemographic) {
+        $state.go('main.viewEoeDataDemographic', {eoeDataDemographicId: eoeDataDemographic._id});
       }
     };
 
     /**
      * Methods to add to the Model
-     * @type {{listEoeDatademographic: Function, getActions: Function}}
+     * @type {{listEoeDataDemographic: Function, getActions: Function}}
      */
     var modelMethods = {
 
-      listEoeDatademographic: function () {
-        $state.go('main.listEoeDatademographic');
+      listEoeDataDemographic: function () {
+        $state.go('main.listEoeDataDemographic');
       },
       getActions: function () {
         var modelActions = [
-          {title: 'Create a New EoeDatademographic', method: methods.createEoeDatademographic, type: 'button', style: 'btn-add'},
-          {title: 'View EoeDatademographic', method: methods.viewThisEoeDatademographic, type: 'button', style: 'btn-view'},
-          {title: 'Edit EoeDatademographic', method: methods.editThisEoeDatademographic, type: 'button', style: 'btn-edit'}
+          {title: 'Create a New EoeDataDemographic', method: methods.createEoeDataDemographic, type: 'button', style: 'btn-add'},
+          {title: 'View EoeDataDemographic', method: methods.viewThisEoeDataDemographic, type: 'button', style: 'btn-view'},
+          {title: 'Edit EoeDataDemographic', method: methods.editThisEoeDataDemographic, type: 'button', style: 'btn-edit'}
         ];
         return angular.copy(modelActions);
       }
     };
 
     /**
-     * Extend EoeDatademographic with the methods
+     * Extend EoeDataDemographic with the methods
      */
-    angular.extend(EoeDatademographic.prototype, itemMethods);
+    angular.extend(EoeDataDemographic.prototype, itemMethods);
 
-    angular.extend(EoeDatademographic, modelMethods);
+    angular.extend(EoeDataDemographic, modelMethods);
 
 
-    return EoeDatademographic;
+    return EoeDataDemographic;
   }
 })();
