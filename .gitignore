@@ -9,3 +9,6 @@ app/tests/coverage/
 .idea/
 .vscode/
 typings/
+app/data/uploads/cv/*
+app/data/uploads/*.*
+app/data/uploads/coverLetter/*
