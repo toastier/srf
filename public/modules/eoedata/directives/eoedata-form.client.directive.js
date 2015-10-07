@@ -1,13 +1,13 @@
 (function () {
   'use strict';
   angular
-    .module('eoedata')
-    .directive('eoedataForm', eoedataForm);
+    .module('eoeDataDemographics')
+    .directive('eoeDataDemographicsForm', eoeDataDemographicsForm);
 
-  function eoedataForm() {
+  function eoeDataDemographicsForm() {
     return {
       restrict: 'E',
-      templateUrl: 'modules/eoedata/directives/partials/eoedata-form.client.partial.html'
+      templateUrl: 'modules/eoeDataDemographics/directives/partials/eoeDataDemographics-form.client.partial.html'
     };
   }
 })();

@@ -1,10 +1,10 @@
 (function () {
   'use strict';
   angular
-    .module('eoedata')
-    .controller('ListEoedataController', ListEoedataController);
+    .module('eoeDataDemographics')
+    .controller('ListEoeDataDemographicsController', ListEoeDataDemographicsController);
 
-  function ListEoedataController($scope, $state, Navigation, Eoedata, CollectionModel, Messages, resolvedAuth) {
+  function ListEoeDataDemographicsController($scope, $state, Navigation, EoeDataDemographics, CollectionModel, Messages, resolvedAuth) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;
@@ -39,24 +39,24 @@
     vm.columnDefinitions = [
       {
         field: 'name',
-        label: 'Eoedata Title',
+        label: 'EoeDataDemographics Title',
         filterable: true,
         actions: {
           restrict: vm.allowEdit,
           actionItems: [
             {
               type: 'edit',
-              title: 'Edit Eoedata',
+              title: 'Edit EoeDataDemographics',
               restrict: vm.allowEdit,
               attachedTo: 'item',
-              method: 'editEoedata' // use as string reference to the action as it is attached to the 'item' in the collection and is not available in the current scope
+              method: 'editEoeDataDemographics' // use as string reference to the action as it is attached to the 'item' in the collection and is not available in the current scope
             },
             {
               type: 'view',
-              title: 'View Eoedata',
+              title: 'View EoeDataDemographics',
               restrict: vm.allowEdit,
               attachedTo: 'controller',
-              method: viewEoedata  // object reference to the method as it is in the current scope
+              method: viewEoeDataDemographics  // object reference to the method as it is in the current scope
             }
           ]
         }},
@@ -69,7 +69,7 @@
         }
       },
       {field: 'datePosted', label: 'Posting', format: 'date'},
-      {field: 'dateStart', label: 'Eoedata', format: 'date'},
+      {field: 'dateStart', label: 'EoeDataDemographics', format: 'date'},
       {field: 'dateClose', label: 'Closing', format: 'date'}
     ];
 
@@ -78,18 +78,18 @@
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
 
-      var actions = Eoedata.getActions(); // get the actions from the Model
+      var actions = EoeDataDemographics.getActions(); // get the actions from the Model
       actions.splice(1, 2); // splice out the ones we don't want (were taking them all out here)
 
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('Eoedata'); // set the page title
+      Navigation.viewTitle.set('EoeDataDemographics'); // set the page title
     }
 
     function activate () {
-      Eoedata.query().$promise
+      EoeDataDemographics.query().$promise
         .then(function(result) {
-          Messages.addMessage('Eoedata Loaded', 'success', null, 'dev');
-          vm.collection = new CollectionModel('EoedataController', result, vm.columnDefinitions, initialSortOrder);
+          Messages.addMessage('EoeDataDemographics Loaded', 'success', null, 'dev');
+          vm.collection = new CollectionModel('EoeDataDemographicsController', result, vm.columnDefinitions, initialSortOrder);
           // watch for change when filters are cleared, and set UI variables/controls appropriately
           $scope.$watch('vm.collection.filterCriteria.isActive', function(newValue) {
             switch (newValue) {
@@ -110,8 +110,8 @@
       setupNavigation();
     }
 
-    function viewEoedata (Eoedata) {
-      $state.go('main.viewEoedata', { EoedataId: Eoedata._id });
+    function viewEoeDataDemographics (EoeDataDemographics) {
+      $state.go('main.viewEoeDataDemographics', { EoeDataDemographicsId: EoeDataDemographics._id });
     }
 
     activate();

@@ -8,7 +8,7 @@ section
             .row
               .form-group.col-md-4
                 .input-group
-                  .input-group-addon Eoedata Title
+                  .input-group-addon EoeDataDemographics Title
                   input.form-control(ng-model='vm.collection.filterCriteria.name', placeholder='Any', ng-change="vm.collection.filterCollection()")
               .form-group.col-md-8
                 .input-group
@@ -18,10 +18,10 @@ section
               .col-md-12.form-group
                 label.checkbox-inline
                   input.checkox(type="checkbox", ng-model="vm.isActiveYes", ng-change="vm.setIsActive('isActiveYes')")
-                  | Limit to 'active' Eoedata
+                  | Limit to 'active' EoeDataDemographics
                 label.checkbox-inline
                   input.checkox(type="checkbox", ng-model="vm.isActiveNo", ng-change="vm.setIsActive('isActiveNo')")
-                  | Limit to 'inactive' Eoedata
+                  | Limit to 'inactive' EoeDataDemographics
             .row
               .col-xs-12
                 button.btn.btn-default.btn-undo(ng-click="vm.collection.clearFilters()") Clear Filters

@@ -1,25 +1,25 @@
 (function () {
   'use strict';
   angular
-    .module('eoedata')
-    .factory('Eoedata', Eoedata);
+    .module('eoeDataDemographics')
+    .factory('EoeDataDemographics', EoeDataDemographics);
 
-  function Eoedata($resource, $state, $stateParams) {
-    var Eoedata = $resource('eoedata/:eoedataId', {eoedataId: '@_id'}, {
+  function EoeDataDemographics($resource, $state, $stateParams) {
+    var EoeDataDemographics = $resource('eoeDataDemographics/:eoeDataDemographicsId', {eoeDataDemographicsId: '@_id'}, {
       update: {
         method: 'PUT'
       }
     });
 
     var methods = {
-      editThisEoedata: function () {
-        $state.go('main.editEoedata', {eoedataId: $stateParams.eoedataId});
+      editThisEoeDataDemographics: function () {
+        $state.go('main.editEoeDataDemographics', {eoeDataDemographicsId: $stateParams.eoeDataDemographicsId});
       },
-      viewThisEoedata: function () {
-        $state.go('main.viewEoedata', {eoedataId: $stateParams.eoedataId});
+      viewThisEoeDataDemographics: function () {
+        $state.go('main.viewEoeDataDemographics', {eoeDataDemographicsId: $stateParams.eoeDataDemographicsId});
       },
-      createEoedata: function () {
-        $state.go('main.createEoedata');
+      createEoeDataDemographics: function () {
+        $state.go('main.createEoeDataDemographics');
       }
     };
 
@@ -74,45 +74,45 @@
         dateClose.setDate(dateStart.getDate() + parseInt(settings.closeWeeksAfterOpen, 10) * 7);
         this.dateClose = dateClose;
       },
-      editEoedata: function (eoedata) {
-        $state.go('main.editEoedata', {eoedataId: eoedata._id});
+      editEoeDataDemographics: function (eoeDataDemographics) {
+        $state.go('main.editEoeDataDemographics', {eoeDataDemographicsId: eoeDataDemographics._id});
       },
       removePostingLink: function (postingLinkItem) {
         var index = this.postingLink.indexOf(postingLinkItem);
         this.postingLink.splice(index, 1);
       },
-      viewEoedata: function (eoedata) {
-        $state.go('main.viewEoedata', {eoedataId: eoedata._id});
+      viewEoeDataDemographics: function (eoeDataDemographics) {
+        $state.go('main.viewEoeDataDemographics', {eoeDataDemographicsId: eoeDataDemographics._id});
       }
     };
 
     /**
      * Methods to add to the Model
-     * @type {{listEoedata: Function, getActions: Function}}
+     * @type {{listEoeDataDemographics: Function, getActions: Function}}
      */
     var modelMethods = {
 
-      listEoedata: function () {
-        $state.go('main.listEoedata');
+      listEoeDataDemographics: function () {
+        $state.go('main.listEoeDataDemographics');
       },
       getActions: function () {
         var modelActions = [
-          {title: 'Create a New Eoedata', method: methods.createEoedata, type: 'button', style: 'btn-add'},
-          {title: 'View Eoedata', method: methods.viewThisEoedata, type: 'button', style: 'btn-view'},
-          {title: 'Edit Eoedata', method: methods.editThisEoedata, type: 'button', style: 'btn-edit'}
+          {title: 'Create a New EoeDataDemographics', method: methods.createEoeDataDemographics, type: 'button', style: 'btn-add'},
+          {title: 'View EoeDataDemographics', method: methods.viewThisEoeDataDemographics, type: 'button', style: 'btn-view'},
+          {title: 'Edit EoeDataDemographics', method: methods.editThisEoeDataDemographics, type: 'button', style: 'btn-edit'}
         ];
         return angular.copy(modelActions);
       }
     };
 
     /**
-     * Extend Eoedata with the methods
+     * Extend EoeDataDemographics with the methods
      */
-    angular.extend(Eoedata.prototype, itemMethods);
+    angular.extend(EoeDataDemographics.prototype, itemMethods);
 
-    angular.extend(Eoedata, modelMethods);
+    angular.extend(EoeDataDemographics, modelMethods);
 
 
-    return Eoedata;
+    return EoeDataDemographics;
   }
 })();

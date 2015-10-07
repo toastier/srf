@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Eoedata = mongoose.model('Eoedata'),
+	EoeDataDemographics = mongoose.model('EoeDataDemographics'),
 	errorHandler = 	require('./errors.server.controller'), //this doesn't work
 	_ = require('lodash');
 
@@ -19,7 +19,7 @@ var getErrorMessage = function(err) {
 		switch (err.code) {
 			case 11000:
 			case 11001:
-				message = 'Eoedata already exists';
+				message = 'EoeDataDemographics already exists';
 				break;
 			default:
 				message = 'Something went wrong';
@@ -34,20 +34,20 @@ var getErrorMessage = function(err) {
 };
 
 /**
- * Create a EOEDataset
+ * Create a EoeDataDemographicsset
  */
 exports.create = function(req, res) {
-	var eoedata = new Eoedata(req.body);
-	eoedata.user = req.user;
+	var eoeDataDemographics = new EoeDataDemographics(req.body);
+	eoeDataDemographics.user = req.user;
 
-	eoedata.save(function(err) {
+	eoeDataDemographics.save(function(err) {
 		if (err) {
 			return res.send(400, {
 				// this doesn't work, dumping errorHandler into its own controller
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoedata);
+			res.jsonp(eoeDataDemographics);
 		}
 	});
 };
@@ -55,80 +55,80 @@ exports.create = function(req, res) {
 
 
 /**
- * Show the current eoedata
+ * Show the current eoeDataDemographics
  */
 exports.read = function(req, res) {
-	res.jsonp(req.eoedata);
+	res.jsonp(req.eoeDataDemographics);
 };
 
 /**
- * Update a eoedata
+ * Update a eoeDataDemographics
  */
 exports.update = function(req, res) {
-	var eoedata = req.eoedata;
+	var eoeDataDemographics = req.eoeDataDemographics;
 
-	eoedata = _.extend(eoedata, req.body);
+	eoeDataDemographics = _.extend(eoeDataDemographics, req.body);
 
-	eoedata.save(function(err) {
+	eoeDataDemographics.save(function(err) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoedata);
+			res.jsonp(eoeDataDemographics);
 		}
 	});
 };
 
 /**
- * Delete an eoedata
+ * Delete an eoeDataDemographics
  */
 exports.delete = function(req, res) {
-	var eoedata = req.eoedata;
+	var eoeDataDemographics = req.eoeDataDemographics;
 
-	eoedata.remove(function(err) {
+	eoeDataDemographics.remove(function(err) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoedata);
+			res.jsonp(eoeDataDemographics);
 		}
 	});
 };
 
 /**
- * List of Eoedata
+ * List of EoeDataDemographics
  */
 exports.list = function(req, res) {
-	Eoedata.find().sort('-postDate').populate('user', 'displayName').exec(function(err, eoedata) {
+	EoeDataDemographics.find().sort('-postDate').populate('user', 'displayName').exec(function(err, eoeDataDemographics) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoedata);
+			res.jsonp(eoeDataDemographics);
 		}
 	});
 };
 
 /**
- * Eoedata middleware
+ * EoeDataDemographics middleware
  */
-exports.eoedataByID = function(req, res, next, id) {
-	Eoedata.findById(id).populate('user', 'displayName').exec(function(err, eoedata) {
+exports.eoeDataDemographicsByID = function(req, res, next, id) {
+	EoeDataDemographics.findById(id).populate('user', 'displayName').exec(function(err, eoeDataDemographics) {
 		if (err) return next(err);
-		if (!eoedata) return next(new Error('Failed to load eoedata ' + id));
-		req.eoedata = eoedata;
+		if (!eoeDataDemographics) return next(new Error('Failed to load eoeDataDemographics ' + id));
+		req.eoeDataDemographics = eoeDataDemographics;
 		next();
 	});
 };
 
 /**
- * Eoedata authorization middleware
+ * EoeDataDemographics authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.eoedata.user.id !== req.user.id) {
+	if (req.eoeDataDemographics.user.id !== req.user.id) {
 		return res.send(403, {
 			message: 'User is not authorized'
 		});

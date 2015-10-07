@@ -1,11 +1,11 @@
 (function () {
   'use strict';
   angular
-    .module('eoedata')
-    .controller('CreateEoedataController', CreateEoedataController);
+    .module('eoeDataDemographics')
+    .controller('CreateEoeDataDemographicsController', CreateEoeDataDemographicsController);
 
   /* @ngInject */
-  function CreateEoedataController(Authentication, Messages, Navigation, Eoedata, Position, _) {
+  function CreateEoeDataDemographicsController(Authentication, Messages, Navigation, EoeDataDemographics, Position, _) {
     /* jshint validthis: true */
     var vm = this;
     vm.authentication = Authentication.init();
@@ -13,19 +13,19 @@
     vm.cancel = cancel;
     vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
     vm.fillPositionInfo = fillPositionInfo;
-    vm.eoedata = new Eoedata();
-    vm.saveEoedata = saveEoedata;
+    vm.eoeDataDemographics = new EoeDataDemographics();
+    vm.saveEoeDataDemographics = saveEoeDataDemographics;
     vm.toggleDatePicker = toggleDatePicker;
     vm.options = {};
 
     activate();
 
     function cancel() {
-      Eoedata.listEoedata();
+      EoeDataDemographics.listEoeDataDemographics();
     }
 
     function disableSaveButton() {
-      return angular.isUndefined(vm.eoedataForm) || vm.eoedataForm.$invalid || vm.eoedataForm.$pristine;
+      return angular.isUndefined(vm.eoeDataDemographicsForm) || vm.eoeDataDemographicsForm.$invalid || vm.eoeDataDemographicsForm.$pristine;
     }
 
     function getPosition(positionId) {
@@ -49,28 +49,28 @@
     }
 
     function fillPositionInfo() {
-      var position = getPosition(vm.eoedata.position);
-      vm.eoedata.name = position.name;
-      vm.eoedata.details = position.details;
+      var position = getPosition(vm.eoeDataDemographics.position);
+      vm.eoeDataDemographics.name = position.name;
+      vm.eoeDataDemographics.details = position.details;
     }
 
-    function saveEoedata() {
-      vm.eoedata.$save()
+    function saveEoeDataDemographics() {
+      vm.eoeDataDemographics.$save()
         .then(function (result) {
-          Messages.addMessage('The Eoedata "' + result.name + '" was saved.', 'success');
-          Eoedata.listEoedata();
+          Messages.addMessage('The EoeDataDemographics "' + result.name + '" was saved.', 'success');
+          EoeDataDemographics.listEoeDataDemographics();
         })
         .catch(function (error) {
-          Messages.addMessage('There was a problem saving the Eoedata ' + error.data.message, 'error');
+          Messages.addMessage('There was a problem saving the EoeDataDemographics ' + error.data.message, 'error');
         });
     }
 
     function calculateDates () {
-      vm.eoedata.calculateDates();
+      vm.eoeDataDemographics.calculateDates();
     }
 
-    function setupEoedata() {
-      vm.eoedata.isActive = true;
+    function setupEoeDataDemographics() {
+      vm.eoeDataDemographics.isActive = true;
     }
 
     function toggleDatePicker(event, datePicker) {
@@ -80,24 +80,24 @@
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
-      Navigation.breadcrumbs.add('Eoedata', '#!/eoedata', '#!/eoedata'); // add a breadcrumb
+      Navigation.breadcrumbs.add('EoeDataDemographics', '#!/eoeDataDemographics', '#!/eoeDataDemographics'); // add a breadcrumb
       /** @type Array Actions we wish to add to the Navigation that we define locally **/
       var controllerActions = [
-        {title: 'Save Eoedata', method: vm.saveEoedata, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
+        {title: 'Save EoeDataDemographics', method: vm.saveEoeDataDemographics, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
         {title: 'Cancel', method: vm.cancel, type: 'button', style: 'btn-cancel'}
       ];
 
-      var actions = Eoedata.getActions(); // get the actions from the Model
+      var actions = EoeDataDemographics.getActions(); // get the actions from the Model
       actions.splice(0, 3); // splice out the ones we don't want (were taking them all out here)
       actions = _.union(actions, controllerActions); // merge together actions defined in the controller with those from the Model
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('Create Eoedata'); // set the page title
+      Navigation.viewTitle.set('Create EoeDataDemographics'); // set the page title
     }
 
 
 
     function activate() {
-      setupEoedata();
+      setupEoeDataDemographics();
       calculateDates();
       setupNavigation();
       getValueLists();
