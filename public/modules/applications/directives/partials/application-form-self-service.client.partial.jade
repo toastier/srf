@@ -30,11 +30,13 @@
           label.control-label Last Name
           input.form-control(name="lastName", type="text", ng-model="vm.application.lastName", required)
       .row
-        .col-md-12
-          button.btn.btn-default.btn-add Add Your Curriculum Vitae
-      .row
-        .col-md-12
-          button.btn.btn-default.btn-add Add Your Cover Letter
+        .col-md-6
+          label.control-label Select Cover Letter:
+          input.form-control(type="file", ngf-select, ng-model="vm.application.coverLetter", name="coverLetter", accept="*", ngf-max-size="2MB" required)
+        .col-md-6
+          label.control-label Select CV:
+          input.form-control(type="file", ngf-select, ng-model="vm.application.cv", name="cv", accept="*", ngf-max-size="2MB" required)
+
       .row
         .col-md-12
           button.btn.btn-default.btn-workflow(ng-click="vm.submitApplication()") Submit Your Application

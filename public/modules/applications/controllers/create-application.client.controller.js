@@ -37,13 +37,16 @@
     }
 
     function submitApplication() {
-      vm.application.$save()
-        .then(function (result) {
-          Messages.addMessage('Your Application was successfully submitted');
-          Opening.listCurrentOpenings();
-        })
-        .catch(function (err) {
-          Messages.addMessage(err.data.message, 'error');
+      vm.application.createApplication()
+        .then(function (uploadResponse) {
+          //vm.application.$save()
+          //  .then(function (saveResponse) {
+          //    Messages.addMessage('Your Application was successfully submitted');
+          //    Opening.listCurrentOpenings();
+          //  })
+          //  .catch(function (err) {
+          //    Messages.addMessage(err.data.message, 'error');
+          //  });
         });
     }
 
