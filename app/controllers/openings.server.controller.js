@@ -57,6 +57,16 @@ exports.read = function (req, res) {
 };
 
 /**
+ * Get data for opening, if opening is active, open and not closed
+ * @param req
+ * @param res
+ */
+exports.readCurrent = function (req, res) {
+  //@todo add control over 'currentness' of opening
+  res.jsonp(req.opening);
+};
+
+/**
  * Update a opening
  */
 exports.update = function (req, res) {
@@ -96,7 +106,7 @@ exports.delete = function (req, res) {
  * List of Openings
  */
 exports.list = function (req, res) {
-  Opening.find().sort('-postDate').populate('user', 'displayName').exec(function (err, openings) {
+  Opening.find().sort('-datePosted').populate('user', 'displayName').exec(function (err, openings) {
     if (err) {
       return res.send(400, {
         message: getErrorMessage(err)
@@ -105,6 +115,25 @@ exports.list = function (req, res) {
       res.jsonp(openings);
     }
   });
+};
+
+/**
+ * List of Openings for public access
+ * @param req
+ * @param res
+ */
+exports.current = function (req, res) {
+  Opening.find({isActive: true})
+    .sort('-datePosted')
+    .exec(function(err, openings) {
+      if (err) {
+        return res.send(400, {
+          message: getErrorMessage(err)
+        });
+      } else {
+        res.jsonp(openings);
+      }
+    });
 };
 
 /**

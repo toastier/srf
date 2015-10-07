@@ -234,6 +234,12 @@ div.radio-switch {
       &.my-assets > a:before { content: '\f108';}
       &.users > a:before { content: '\f0c0';}
       &.add-user > a:before { content: '\f234';}
+      //Faculty Recruitment System
+      &.openings > a:before { content: '\f115';}
+      &.positions > a:before, &.archive > a:before { content: '\f187';}
+      &.applicants > a:before { content: '\f007';}
+      &.applications > a:before, &.file > a:before { content: '\f0f6';}
+
 
       // when opened
       &.open {
@@ -1077,6 +1083,14 @@ a {
   &:after {
     @include font-awesome-icon-after;
     content: '\f03a';
+  }
+}
+
+.btn-login {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f090';
   }
 }
 

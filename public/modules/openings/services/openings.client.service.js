@@ -8,6 +8,15 @@
     var Opening = $resource('openings/:openingId', {openingId: '@_id'}, {
       update: {
         method: 'PUT'
+      },
+      listCurrent: {
+        method: 'GET',
+        isArray: true,
+        url: 'openings/current'
+      },
+      getForPublic: {
+        method: 'GET',
+        url: 'openings/current/:openingId'
       }
     });
 
@@ -83,6 +92,9 @@
       },
       viewOpening: function (opening) {
         $state.go('main.viewOpening', {openingId: opening._id});
+      },
+      applyForOpening: function () {
+        $state.go('main.createApplication', {openingId: this._id });
       }
     };
 
@@ -91,7 +103,9 @@
      * @type {{listOpenings: Function, getActions: Function}}
      */
     var modelMethods = {
-
+      listCurrentOpenings: function() {
+        $state.go('main.listCurrentOpenings');
+      },
       listOpenings: function () {
         $state.go('main.listOpenings');
       },
@@ -102,7 +116,8 @@
           {title: 'Edit Opening', method: methods.editThisOpening, type: 'button', style: 'btn-edit'}
         ];
         return angular.copy(modelActions);
-      }
+      },
+
     };
 
     /**

@@ -19,7 +19,7 @@ section
                 .input-group
                   .input-group-addon Requisition Number
                   input.form-control(type="text", ng-model="vm.collection.filterCriteria.requisitionNumber", placeholder='Any', ng-change="vm.collection.filterCollection()")
-              .col-md-8.form-group
+              .col-md-8.form-group(ng-if="vm.user.hasRole(['admin', 'committee member'])")
                 label.checkbox-inline
                   input.checkox(type="checkbox", ng-model="vm.isActiveYes", ng-change="vm.setIsActive('isActiveYes')")
                   | Limit to 'active' Openings

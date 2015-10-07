@@ -57,7 +57,31 @@
       Navigation.viewTitle.set('View Opening'); // set the page title
     }
 
+    /**
+     * setup the nav for Users without privileges.
+     */
+    function setupPublicNavigation() {
+      Navigation.clear();
+      Navigation.breadcrumbs.add('Openings', '#!/openings', '#!/openings'); // add a breadcrumb
+      Navigation.viewTitle.set('View Opening');
+    }
+
     function activate() {
+
+      // if the User does not have privileges
+      if(!vm.user._id || !vm.user.hasRole(['admin', 'committee member'])) {
+        Opening.getForPublic({
+          openingId: $stateParams.openingId
+        }).$promise
+          .then(function (result) {
+            vm.opening = result;
+          })
+          .catch(function (err) {
+            Messages.addMessage(err.data.message, 'error');
+          });
+        setupPublicNavigation();
+        return 'done';
+      }
 
       Opening.get({
         openingId: $stateParams.openingId

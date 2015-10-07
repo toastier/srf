@@ -9,9 +9,14 @@
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;
+    vm.allowView = allowView;
     vm.isActiveYes = true;
     vm.isActiveNo = false;
     vm.setIsActive = setIsActive;
+
+    function allowView () {
+      return true;
+    }
 
     function allowEdit () {
       return vm.user.hasRole(['admin']);
@@ -44,7 +49,7 @@
         sortable: true,
         filterable: true,
         actions: {
-          restrict: vm.allowEdit,
+          restrict: vm.allowView,
           actionItems: [
             {
               type: 'edit',
@@ -56,7 +61,7 @@
             {
               type: 'view',
               title: 'View Opening',
-              restrict: vm.allowEdit,
+              restrict: vm.allowView,
               attachedTo: 'controller',
               method: viewOpening  // object reference to the method as it is in the current scope
             }
@@ -88,7 +93,35 @@
       Navigation.viewTitle.set('Openings'); // set the page title
     }
 
+    /**
+     * setup the nav for Users without privileges.
+     */
+    function setupPublicNavigation() {
+      Navigation.clear();
+      Navigation.viewTitle.set('Current Openings');
+    }
+
     function activate () {
+
+      // if the user is not logged in, or is logged in but doesn't have rights
+      if(!vm.user._id || !vm.user.hasRole(['admin', 'committee member'])) {
+        // modify the columnDefinitions to limit what they see, remove 'active' and 'posting'
+        vm.columnDefinitions.splice(3,2);
+        Opening.listCurrent().$promise
+          .then(function (result) {
+
+            new CollectionModel('OpeningsControllerPublic', result, vm.columnDefinitions, initialSortOrder)
+              .then(function (collection) {
+                vm.collection = collection;
+              });
+          })
+          .catch(function (err) {
+            Messages.addMessage(err.data.message, 'error');
+          });
+        setupPublicNavigation();
+        return 'done';
+      }
+
       Opening.query().$promise
         .then(function(result) {
           Messages.addMessage('Openings Loaded', 'success', null, 'dev');

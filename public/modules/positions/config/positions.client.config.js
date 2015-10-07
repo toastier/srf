@@ -4,7 +4,7 @@
   angular.module('positions').run(['Menus',
     function (Menus) {
       // Set top bar menu items
-      Menus.addMenuItem('sidebar', 'Positions', 'positions', '#!/positions', '#!/positions');
+      Menus.addMenuItem('sidebar', 'Positions', 'positions', null, '#!/positions', false, ['admin', 'manager'], 90, 'positions');
     }
   ]);
 })();

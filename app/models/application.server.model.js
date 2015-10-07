@@ -2,6 +2,18 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var applicationModel = new Schema({
+    honorific: {
+      type: String
+    },
+    firstName: {
+      type: String
+    },
+    middleName: {
+      type: String
+    },
+    lastName: {
+      type: String
+    },
     applicant: {
       type: Schema.Types.ObjectId,
       ref: 'Applicant'

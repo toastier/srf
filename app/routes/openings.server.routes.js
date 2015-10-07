@@ -8,6 +8,10 @@ module.exports = function(app) {
   app.route('/openings')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), openings.list)
     .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), openings.create);
+  app.route('/openings/current')
+    .get(openings.current);
+  app.route('/openings/current/:openingId')
+    .get(openings.readCurrent);
   app.route('/openings/:openingId')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), openings.read)
     .put(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), openings.update)

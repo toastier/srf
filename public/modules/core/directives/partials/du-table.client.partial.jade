@@ -5,7 +5,7 @@ table.table.table-striped
     td(ng-repeat="column in vm.collection.columnDefinitions")
       .icon-group.size-medium(ng-if="column.actions.restrict(item)")
         a.with-icon(
-          ng-if="actionItem.attachedTo",
+          ng-if="actionItem.restrict()",
           ng-repeat="actionItem in column.actions.actionItems",
           class="with icon {{ actionItem.type }}",
           ng-click="duTable.callMethod(item, actionItem.method, actionItem.attachedTo)"

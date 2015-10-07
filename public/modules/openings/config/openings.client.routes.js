@@ -16,6 +16,17 @@
             }
           }
         })
+        .state('main.listCurrentOpenings', {
+          url: '/openings/list',
+          templateUrl: 'modules/openings/views/openings.client.view.html',
+          controller: 'OpeningsController',
+          controllerAs: 'vm',
+          resolve: {
+            resolvedAuth: function(resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
+        })
         .state('main.createOpening', {
           url: '/openings/create',
           templateUrl: 'modules/openings/views/create-opening.client.view.html',

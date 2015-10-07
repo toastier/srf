@@ -16,7 +16,7 @@
           }
         })
         .state('main.createApplication', {
-          url: '/applications/create',
+          url: '/applications/create/:openingId',
           templateUrl: 'modules/applications/views/create-application.client.view.html',
           controller: 'CreateApplicationController',
           controllerAs: 'vm',

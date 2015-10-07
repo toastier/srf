@@ -1,6 +1,8 @@
 .container-fluid(ng-controller="FooterController as footer")
-    .navbar-left.navbar-collapse(collapse="true")
-        .application-name Version: {{ footer.appInfo.info.version }}
-    .navbar-right
-        .account-tools(ng-if="footer.user._id") Logged in as {{ footer.user.displayName }}
-            a.btn.btn-sm.btn-logout(ng-href="/auth/signout") logout
+  .navbar-left.navbar-collapse(collapse="true")
+    .application-name Version: {{ footer.appInfo.info.version }}
+  .navbar-right
+    .account-tools(ng-if="footer.user._id") Logged in as {{ footer.user.displayName }}
+      a.btn.btn-sm.btn-logout(ng-href="/auth/signout") logout
+    .account-tools(ng-if="!footer.user._id")
+      a.btn.btn-sm.btn-default.btn-login(ng-href="/auth/saml") Login

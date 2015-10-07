@@ -4,18 +4,47 @@
     .module('applications')
     .controller('CreateApplicationController', CreateApplicationController);
   
-  function CreateApplicationController(resolvedAuth, Messages, Application, Applicant, Opening, Navigation, _ ) {
+  function CreateApplicationController($stateParams, resolvedAuth, Messages, Application, Applicant, Opening, Navigation, _ ) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.application = new Application();
     vm.saveApplication = saveApplication;
+    vm.submitApplication = submitApplication;
     vm.options = {};
 
     activate();
 
     function activate() {
+      if(!vm.user.hasRole(['admin', 'committee member'])) {
+
+        Opening.getForPublic({
+          openingId: $stateParams.openingId
+        }).$promise
+          .then(function (result) {
+            vm.opening = result;
+            vm.application.opening = vm.opening._id;
+            setupPublicNavigation();
+          })
+          .catch(function (err) {
+            Messages.addMessage(err.data.message, 'error');
+          });
+        vm.application.applicant = null;
+        return 'done';
+      }
+
       setupNavigation();
       getValueLists();
+    }
+
+    function submitApplication() {
+      vm.application.$save()
+        .then(function (result) {
+          Messages.addMessage('Your Application was successfully submitted');
+          Opening.listCurrentOpenings();
+        })
+        .catch(function (err) {
+          Messages.addMessage(err.data.message, 'error');
+        });
     }
 
     function saveApplication() {
@@ -44,6 +73,13 @@
         .catch(function(error) {
           Messages.addMessage(error.data.message, 'error');
         });
+    }
+
+    function setupPublicNavigation() {
+      Navigation.clear();
+      Navigation.breadcrumbs.add('Openings', '#!/openings', '#!/openings');
+      Navigation.breadcrumbs.add( vm.opening.name, '#!/openings/' + $stateParams.openingId, '#!/openings/' + $stateParams.openingId);
+      Navigation.viewTitle.set('Apply for Opening');
     }
 
     function setupNavigation() {

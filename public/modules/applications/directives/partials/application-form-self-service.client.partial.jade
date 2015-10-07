@@ -1,0 +1,40 @@
+.col-md-12
+  .row
+    h2 Overview
+  .well.row
+    .row
+      .col-md-6.form-group
+        label.control-label Opening Title
+        .form-control-static(ng-bind="vm.opening.name")
+      .col-md-3.form-group
+        label.control-label Opening Date
+        .form-control-static(ng-bind="vm.opening.dateStart | date")
+      .col-md-3.form-group
+        label.control-label Closing Date
+        .form-control-static(ng-bind="vm.opening.dateClose | date")
+  .row
+    h2 Your Details
+  .well.row
+    ng-form(name="vm.selfService")
+      .row
+        .col-md-2.form-group
+          label.control-label Title
+          input.form-control(name="honorific", type="text", ng-model="vm.application.honorific", required)
+        .col-md-3.form-group
+          label.control-label First Name
+          input.form-control(name="firstName", type="text", ng-model="vm.application.firstName", required)
+        .col-md-3.form-group
+          label.control-label Middle Name
+          input.form-control(name="middleName", type="text", ng-model="vm.application.middleName")
+        .col-md-4.form-group
+          label.control-label Last Name
+          input.form-control(name="lastName", type="text", ng-model="vm.application.lastName", required)
+      .row
+        .col-md-12
+          button.btn.btn-default.btn-add Add Your Curriculum Vitae
+      .row
+        .col-md-12
+          button.btn.btn-default.btn-add Add Your Cover Letter
+      .row
+        .col-md-12
+          button.btn.btn-default.btn-workflow(ng-click="vm.submitApplication()") Submit Your Application

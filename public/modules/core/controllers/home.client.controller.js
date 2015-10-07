@@ -4,7 +4,7 @@
     .module('core')
     .controller('HomeController', HomeController);
 
-  function HomeController($state, resolvedAuth) {
+  function HomeController($state, $location, resolvedAuth) {
 
     var vm = this;
     vm.user = resolvedAuth;
@@ -13,14 +13,12 @@
       if (vm.user._id) {
 
         if (vm.user.hasRole(['admin'])) {
-          $state.go('main.listPositions');
-        } else if (vm.user.hasRole(['faculty/staff'])) {
-          $state.go('main.listAssets');
-        } else {
-          $state.go('main.noAccess');
+          $state.go('main.listOpenings');
+        } else if (vm.user.hasRole(['committee member'])) {
+          $state.go('main.listOpenings');
         }
       } else {
-        $state.go('main.signin');
+        $state.go('main.listCurrentOpenings');
       }
     }
 

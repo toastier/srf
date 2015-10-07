@@ -2,4 +2,5 @@ section
   navigation
   .row
     .col-xs-12
-      application-form-dual-selector
+      application-form-dual-selector(ng-if="vm.user.hasRole(['admin', 'committee member'])")
+      application-form-self-service(ng-if="!vm.user.hasRole(['admin', 'committee member'])")
