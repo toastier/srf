@@ -34,9 +34,10 @@ var getErrorMessage = function(err) {
 };
 
 /**
- * Create a EoeDataDemographicset
+ * Create a EoeDataDemographic record
  */
 exports.create = function(req, res) {
+	console.log('creating');
 	var eoeDataDemographic = new EoeDataDemographic(req.body);
 	eoeDataDemographic.user = req.user;
 

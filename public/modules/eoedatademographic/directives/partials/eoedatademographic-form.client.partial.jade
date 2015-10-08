@@ -3,6 +3,14 @@ ng-form(name="vm.eoeDataDemographicForm")
     .col-md-3.control-group
       //p(data-ng-repeat='race in options.races') {{race.description}}
       label(data-ng-repeat='race in vm.options.races') {{race.description}}
-        input(type='checkbox', checklist-value='race.description')
+        input(type='checkbox', ng-model='vm.eoeDataDemographic.race', checklist-value='race.description')
+      fieldset
+        h2 Gender
+        input#female(type='radio', value='Female', ng-model='vm.eoeDataDemographic.gender')
+        label Female
+        input#male(type='radio', value='Male', ng-model='vm.eoeDataDemographic.gender')
+        label Male
+        input#decline(type='radio', value='Decline', ng-model='vm.eoeDataDemographic.gender')
+        label Decline to answer
     .text-danger(data-ng-show='error')
       strong {{error}}
