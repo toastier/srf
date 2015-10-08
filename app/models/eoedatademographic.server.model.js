@@ -2,8 +2,9 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var eoeDataDemographicModel = new Schema({
-    openingID: {
-        type: String
+    opening: {
+        type: Schema.ObjectId,
+        ref: 'Opening'
     },
     gender: {
         type: String

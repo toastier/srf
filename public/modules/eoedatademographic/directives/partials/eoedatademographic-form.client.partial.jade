@@ -1,9 +1,8 @@
-p hello
 ng-form(name="vm.eoeDataDemographicForm")
-  p hello
-  h1 Hello
-  //.row
-  //  .col-md-3.control-group
-  //    label(data-ng-repeat='race in vm.options.races')
-  //  .text-danger(data-ng-show='error')
-  //    strong {{error}}
+  .row
+    .col-md-3.control-group
+      //p(data-ng-repeat='race in options.races') {{race.description}}
+      label(data-ng-repeat='race in vm.options.races') {{race.description}}
+        input(type='checkbox', checklist-value='race.description')
+    .text-danger(data-ng-show='error')
+      strong {{error}}
