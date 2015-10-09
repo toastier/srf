@@ -38,42 +38,76 @@
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
       {
-        field: 'name',
-        label: 'EoeDataDemographic Title',
-        filterable: true,
-        actions: {
-          restrict: vm.allowEdit,
-          actionItems: [
-            {
-              type: 'edit',
-              title: 'Edit EoeDataDemographic',
-              restrict: vm.allowEdit,
-              attachedTo: 'item',
-              method: 'editEoeDataDemographic' // use as string reference to the action as it is attached to the 'item' in the collection and is not available in the current scope
-            },
-            {
-              type: 'view',
-              title: 'View EoeDataDemographic',
-              restrict: vm.allowEdit,
-              attachedTo: 'controller',
-              method: viewEoeDataDemographic  // object reference to the method as it is in the current scope
-            }
-          ]
-        }},
-      {field: 'details', label: 'Description', format: 'trimmed', filterable: true},
-      {field: 'isActive', label: 'Active', format: 'checkMark',
-        filterable: {
-          name: 'isActive',
-          field: 'isActive',
-          matchType: 'trueFalse'
-        }
+        field: 'opening.name',
+        label: 'Opening',
+        filterable: true
       },
-      {field: 'datePosted', label: 'Posting', format: 'date'},
-      {field: 'dateStart', label: 'EoeDataDemographic', format: 'date'},
-      {field: 'dateClose', label: 'Closing', format: 'date'}
+      {
+        field: 'gender', label: 'Gender',
+          filterable: {
+            name: 'gender',
+            field: 'gender'
+          }
+      },
+     {
+        field: 'ethnicity.hispanic', label: 'Hispanic', format: 'checkMark',
+          filterable: {
+            name: 'hispanic',
+            field: 'hispanic',
+            matchType: 'trueFalse'
+          }
+      },
+     {
+        field: 'race.black', label: 'Black', format: 'checkMark',
+          filterable: {
+            name: 'black',
+            field: 'black',
+            matchType: 'trueFalse'
+          }
+      },
+      {
+        field: 'race.multiple', label: 'Multiple', format: 'checkMark',
+          filterable: {
+            name: 'multiple',
+            field: 'multiple',
+            matchType: 'trueFalse'
+          }
+      },
+      {
+        field: 'race.white', label: 'White', format: 'checkMark',
+          filterable: {
+            name: 'white',
+            field: 'white',
+            matchType: 'trueFalse'
+          }
+      },
+      {
+        field: 'race.pacific', label: 'Pacific', format: 'checkMark',
+          filterable: {
+            name: 'pacific',
+            field: 'pacific',
+            matchType: 'trueFalse'
+          }
+      },
+      {
+        field: 'race.native', label: 'Native', format: 'checkMark',
+          filterable: {
+            name: 'native',
+            field: 'native',
+            matchType: 'trueFalse'
+          }
+      },
+      {
+        field: 'race.declined', label: 'declined', format: 'checkMark',
+          filterable: {
+            name: 'declined',
+            field: 'declined',
+            matchType: 'trueFalse'
+          }
+      }
     ];
 
-    var initialSortOrder = ['+name'];
+    var initialSortOrder = ['+opening'];
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation

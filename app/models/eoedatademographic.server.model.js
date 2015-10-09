@@ -3,11 +3,16 @@ var mongoose = require('mongoose'),
 
 var eoeDataDemographicModel = new Schema({
     opening: {
-        type: Schema.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Opening'
     },
     gender: {
-        type: String
+        type: String, enum: ['Female', 'Male', 'Declined']
+    },
+    ethnicity: {
+        hispanic: {
+            type: Boolean
+        }
     },
     race: {
         native: {
@@ -27,26 +32,25 @@ var eoeDataDemographicModel = new Schema({
         }
     },
     dateCreated: {
-      type: Date,
-      default: Date.now
+        type: Date,
+        default: Date.now
     }
-    // User is what has been causing the ObjectId cast error on create (2015-09-04)
-    //user: {
-    //    displayName: {
-    //        type: String,
-    //        default: 'Doris DuSon'
-    //    }
+    //    ,
+    //toObject: {
+    //    virtuals: true
+    //},
+    //toJSON: {
+    //    virtuals: true
     //}
-  },
+},
     {
         collection: 'eoeDataDemographic'
     }
 );
+//    .virtual('race.multiple').get(function () {
+//    return ((race.white + race.black + race.pacific + race.native));
+//});
 
-//eoeDataDemographicModel.virtual('race.multiple').applyGetters()
-eoeDataDemographicModel.virtual('race.multiple').get(function () {
-    return ((race.white + race.black + race.pacific + race.native) >= 1);
-})
 
 var modelName = 'EoeDataDemographic';
 

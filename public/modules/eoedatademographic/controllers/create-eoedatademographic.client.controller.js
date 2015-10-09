@@ -5,7 +5,7 @@
     .controller('CreateEoeDataDemographicController', CreateEoeDataDemographicController);
 
   /* @ngInject */
-  function CreateEoeDataDemographicController(Messages, Navigation, EoeDataDemographic, _) {
+  function CreateEoeDataDemographicController(Messages, Navigation, Opening, EoeDataDemographic, _) {
     /* jshint validthis: true */
     var vm = this;
 
@@ -33,6 +33,23 @@
         }
       });
       return matched;
+    }
+
+    function getValueLists() {
+      Opening.query().$promise
+          .then(function(result) {
+            vm.options.openings = result;
+          })
+          .catch(function(error) {
+            Messages.addMessage(error.data.message, 'error');
+          });
+      vm.options.races = [
+        { code: 'native', description: 'American Indian or Alaskan Native' },
+        { code: 'black', description: 'Black or Afranic American' },
+        { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander' },
+        { code: 'white', description: 'White' },
+        { code: 'other', description: 'Other' }
+      ];
     }
 
     function getRaces() {

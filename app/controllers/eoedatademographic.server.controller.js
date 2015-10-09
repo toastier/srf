@@ -102,7 +102,10 @@ exports.delete = function(req, res) {
  * List of EoeDataDemographic
  */
 exports.list = function(req, res) {
-	EoeDataDemographic.find().sort('-postDate').populate('user', 'displayName').exec(function(err, eoeDataDemographic) {
+	EoeDataDemographic.find()
+	.sort('-postDate')
+	.populate('opening')
+	.exec(function(err, eoeDataDemographic) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
