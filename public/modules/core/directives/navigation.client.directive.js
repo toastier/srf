@@ -8,7 +8,7 @@
 
     return {
       restrict: 'E',
-      templateUrl: 'modules/core/directives/navigation.client.partial.html',
+      templateUrl: 'modules/core/directives/partials/navigation.client.partial.html',
       controller: function (Navigation) {
         var nav = this;
         nav.title = Navigation.viewTitle.get();

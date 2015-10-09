@@ -17,7 +17,7 @@
   function duSortingHeader() {
     return {
       restrict: 'A',
-      templateUrl: 'modules/core/directives/sorting-header.client.partial.html'
+      templateUrl: 'modules/core/directives/partials/sorting-header.client.partial.html'
     };
   }
 })();
