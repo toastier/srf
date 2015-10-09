@@ -1,0 +1,16 @@
+col-xs-12
+  .panel.panel-default
+    .panel-heading
+      h3 Related Position
+    .panel-body
+      .row
+        .col-md-9.form-group
+          label.control-label Position Name
+          .form-control-static(ng-bind="vm.position.name")
+        .col-md-3.form-group
+          label.control-label Date Approved
+          .form-control-static(ng-bind="vm.position.dateStart | date")
+      .row
+        .col-md-12.form-group
+          label.control-label Details
+          .form-control-static(ng-bind="vm.position.details")
