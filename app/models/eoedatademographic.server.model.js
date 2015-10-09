@@ -9,6 +9,23 @@ var eoeDataDemographicModel = new Schema({
     gender: {
         type: String
     },
+    race: {
+        native: {
+            type: Boolean
+        },
+        black: {
+            type: Boolean
+        },
+        pacific: {
+            type: Boolean
+        },
+        white: {
+            type: Boolean
+        },
+        declined: {
+            type: Boolean
+        }
+    },
     dateCreated: {
       type: Date,
       default: Date.now
@@ -25,6 +42,11 @@ var eoeDataDemographicModel = new Schema({
         collection: 'eoeDataDemographic'
     }
 );
+
+//eoeDataDemographicModel.virtual('race.multiple').applyGetters()
+eoeDataDemographicModel.virtual('race.multiple').get(function () {
+    return ((race.white + race.black + race.pacific + race.native) >= 1);
+})
 
 var modelName = 'EoeDataDemographic';
 

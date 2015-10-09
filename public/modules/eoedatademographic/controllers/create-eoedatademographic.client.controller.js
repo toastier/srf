@@ -37,11 +37,11 @@
 
     function getRaces() {
       vm.options.races = [
-        { description: 'American Indian or Alaskan Native' },
-        { description: 'Black or Afranic American' },
-        { description: 'Native Hawaiian or Other Pacific Islander' },
-        { description: 'White' },
-        { description: 'Other' }
+        { code: 'native', description: 'American Indian or Alaskan Native' },
+        { code: 'black', description: 'Black or Afranic American' },
+        { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander' },
+        { code: 'white', description: 'White' },
+        { code: 'other', description: 'Other' }
       ];
     }
 
