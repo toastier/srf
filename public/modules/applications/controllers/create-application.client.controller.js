@@ -8,11 +8,24 @@
     var vm = this;
     vm.user = resolvedAuth;
     vm.application = new Application();
+    vm.saveDetails = saveDetails;
     vm.saveApplication = saveApplication;
     vm.submitApplication = submitApplication;
+    vm.uploadFile = uploadFile;
     vm.options = {};
 
     activate();
+
+    function uploadFile(file, type) {
+      vm.application.uploadFile(file)
+        .then(function (response) {
+          if(type === 'coverLetter') {
+            vm.application.coverLetter = response.data.fileId;
+          } else {
+            vm.application.cv = response.data.fileId;
+          }
+        });
+    }
 
     function activate() {
       if(!vm.user.hasRole(['admin', 'committee member'])) {
@@ -37,16 +50,23 @@
     }
 
     function submitApplication() {
-      vm.application.createApplication()
-        .then(function (uploadResponse) {
-          //vm.application.$save()
-          //  .then(function (saveResponse) {
-          //    Messages.addMessage('Your Application was successfully submitted');
-          //    Opening.listCurrentOpenings();
-          //  })
-          //  .catch(function (err) {
-          //    Messages.addMessage(err.data.message, 'error');
-          //  });
+      Application.update(vm.application).$promise
+        .then(function (saveResponse) {
+          Messages.addMessage('The Application for ' + saveResponse.firstName + ' ' + saveResponse.lastName + ' was Submitted.');
+          Opening.listCurrentOpenings();
+        })
+        .catch(function (err) {
+          Messages.addMessage(err.data.message, 'error');
+        });
+    }
+
+    function saveDetails() {
+      vm.application.$save()
+        .then(function (result) {
+          Messages.addMessage('Details Saved for ' + result.firstName + ' ' + result.lastName);
+        })
+        .catch(function (err) {
+          Messages.addMessage(err.data.message, 'error');
         });
     }
 

@@ -11,10 +11,10 @@ module.exports = function (app) {
   // Application Routes
   app.route('/applications')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.list)
-    .post(applications.create, uploads.uploadCvAndCoverLetter, applications.update); //@todo need to consider security here more thoroughly
+    .post(applications.create); //@todo need to consider security here more thoroughly
   app.route('/applications/:applicationId')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.read)
-    .put(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), applications.update)
+    .put(applications.update)//@todo this is a big security no no.  Need to fix
     .delete(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), applications.delete);
 
   // Finish by binding the application middleware

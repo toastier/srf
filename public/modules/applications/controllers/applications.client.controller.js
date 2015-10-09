@@ -31,9 +31,10 @@
           }
         ]
       }},
-      {field: 'applicant.name.honorific', label: 'Hon', filterable: { size: 3 }, sortable: true },
-      {field: 'applicant.name.firstName', label: 'First Name', filterable: true, sortable: true },
-      {field: 'applicant.name.lastName', label: 'Last Name', filterable: true, sortable: true },
+      {field: 'newApplicant', label: 'New?', filterable: false, sortable: true, type: 'checkMark'},
+      {field: 'honorific', label: 'Hon', filterable: { size: 3 }, sortable: true },
+      {field: 'firstName', label: 'First Name', filterable: true, sortable: true },
+      {field: 'lastName', label: 'Last Name', filterable: true, sortable: true },
       {field: 'reviewPhase.reviews.reviewer.displayName', label: 'Reviewers', filterable: true, sortable: false}
     ];
 

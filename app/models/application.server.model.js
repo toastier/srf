@@ -1,6 +1,9 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
+var fs = require('fs');
+var grid = require('gridfs-stream');;
+
 var applicationModel = new Schema({
     honorific: {
       type: String
@@ -22,9 +25,19 @@ var applicationModel = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Opening'
     },
+    cv: {
+      type: Schema.Types.ObjectId
+    },
+    coverLetter: {
+      type: Schema.Types.ObjectId
+    },
     proceedToReview: {
       type: Boolean,
       default: null
+    },
+    newApplicant: {
+      type: Boolean,
+      default: true
     },
     reviewPhase: {
       proceedToPhoneInterview: {

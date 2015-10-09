@@ -16,7 +16,7 @@
     h2 Your Details
   .well.row
     ng-form(name="vm.selfService")
-      .row
+      .row(ng-if="!vm.application._id")
         .col-md-2.form-group
           label.control-label Title
           input.form-control(name="honorific", type="text", ng-model="vm.application.honorific", required)
@@ -29,14 +29,31 @@
         .col-md-4.form-group
           label.control-label Last Name
           input.form-control(name="lastName", type="text", ng-model="vm.application.lastName", required)
-      .row
-        .col-md-6
-          label.control-label Select Cover Letter:
-          input.form-control(type="file", ngf-select, ng-model="vm.application.coverLetter", name="coverLetter", accept="*", ngf-max-size="2MB" required)
-        .col-md-6
-          label.control-label Select CV:
-          input.form-control(type="file", ngf-select, ng-model="vm.application.cv", name="cv", accept="*", ngf-max-size="2MB" required)
-
-      .row
+      .row(ng-if="!vm.application._id")
         .col-md-12
-          button.btn.btn-default.btn-workflow(ng-click="vm.submitApplication()") Submit Your Application
+          button.btn.btn-default.btn-workflow(
+            ng-click="vm.saveDetails()",
+            ng-disabled="vm.selfService.$invalid") Step 1: Save Your Details
+      .row(ng-if="vm.application._id")
+        .col-md-2.form-group
+          label.control-label Title
+          .form-control-static(ng-bind="vm.application.honorific")
+        .col-md-3.form-group
+          label.control-label First Name
+          .form-control-static(ng-bind="vm.application.firstName")
+        .col-md-3.form-group
+          label.control-label Middle Name
+          .form-control-static(ng-bind="vm.application.middleName")
+        .col-md-4.form-group
+          label.control-label Last Name
+          .form-control-static(ng-bind="vm.application.lastName")
+  .well.row(name="vm.fileUploads", ng-if="vm.application._id")
+    ng-form
+      .row
+        .col-md-6
+          .button.btn.btn-save(ngf-select="vm.uploadFile($file, 'coverLetter')") Step 2: Upload Cover Letter
+        .col-md-6
+          .button.btn.btn-save(ngf-select="vm.uploadFile($file, 'cv')") Step 3: Upload Cv
+  .row(ng-if="vm.application.coverLetter && vm.application.cv")
+    .col-md-12
+      button.btn.btn-save(ng-click="vm.submitApplication()") Step 4: Submit Your Application

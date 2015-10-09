@@ -109,102 +109,34 @@
         return this.phoneInterviewPhase.phoneInterviews.length < maxInterviews;
       },
 
-      uploadCv: function() {
+      uploadFile: function(file) {
         var deferred = $q.defer();
-        var cv = this.cv;
-
-        cv.upload = Upload.upload({
-          url: '/uploads/cv',
-          method: 'POST',
-          data: {
-            type: 'cv',
-            file: cv
-          }
-        });
-        cv.upload.then(function (response) {
-          $timeout(function () {
-            deferred.resolve(response);
-            //cv.result = response.data;
+        if(!file) {
+          deferred.reject('no file given');
+        } else {
+          file.upload = Upload.upload({
+            url: '/uploads/file',
+            method: 'POST',
+            data: {
+              file: file
+            }
           });
-        }, function(err) {
-          if(err.status > 0) {
-            Messages.addMessage(err.status + ': ' + err.data);
-          }
-        }, function(evt) {
-          cv.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-        });
-        return deferred.promise;
-      },
-
-      uploadCoverletter: function() {
-        var deferred = $q.defer();
-        var coverLetter = this.coverLetter;
-
-        coverLetter.upload = Upload.upload({
-          url: '/uploads/coverLetter',
-          method: 'POST',
-          data: {
-            type: 'coverLetter',
-            file: coverletter
-          }
-        });
-
-        coverLetter.upload.then(function (response) {
-          $timeout(function () {
-            deferred.resolve(response);
-            //coverLetter.result = response.data;
+          file.upload.then(function (response) {
+            $timeout(function () {
+              deferred.resolve(response);
+            });
+          }, function(err) {
+            if(err.status > 0) {
+              Messages.addMessage(err.status + ': ' + err.data);
+            }
+          }, function(evt) {
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
           });
-        }, function(err) {
-          if(err.status > 0) {
-            Messages.addMessage(err.status + ': ' + err.data);
-          }
-        }, function(evt) {
-          coverLetter.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-        });
-        return deferred.promise;
-      },
-
-      createApplication: function() {
-        var deferred = $q.defer();
-        this.files = [];
-        var files = this.files;
-
-        //add the cv if it has been provided
-        if (angular.isObject(this.cv)) {
-          files.push(this.cv);
+          return deferred.promise;
         }
-
-        //add the coverLetter if it has been provided
-        if (angular.isObject(this.coverLetter)) {
-          files.push(this.coverLetter);
-        }
-
-        files.upload = Upload.upload({
-          url: '/uploads/newApplication',
-          method: 'POST',
-          data: {
-            //this shows up in the fields object when parsing the multi-part form
-            type: 'bundle',
-            files: files
-          }
-        });
-
-        files.upload.then(function (response) {
-          $timeout(function() {
-            deferred.resolve(response);
-          });
-        }, function(err) {
-          if(err.status > 0) {
-            Messages.addMessage(err.status + ': ' + err.data.message);
-          }
-        }, function (evt) {
-          files.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-        });
-        return deferred.promise;
       }
+
     };
-    
-    
 
     /**
      * Methods to add to the Model
