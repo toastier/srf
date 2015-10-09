@@ -13,15 +13,19 @@
       controllerAs: 'duFilter'
     };
 
-    function duFilteringController ($scope, utility) {
+    function duFilteringController ($scope) {
 
       var duFilter = this;
       duFilter.filters = [];
 
+      //  when vm.collection is resolved, setup the filters
       $scope.$watch('vm.collection', function() {
         setupFilters();
       });
 
+      /**
+       * sets up the filtering, called once $scope.vm.collection promise is resolved
+       */
       function setupFilters () {
         if($scope.vm.collection) {
           duFilter.filterCriteria = $scope.vm.collection.filterCriteria;
@@ -41,6 +45,12 @@
         }
       }
 
+      /**
+       * turns dot Notation fieldName into a model reference and stringIndex.  this is necessary in order
+       * to use the values to construct the ng-model="" expression in the view template
+       * @param fieldName
+       * @returns {{model: Object, index: string}}
+       */
       function getFilterCriteriaReference (fieldName) {
         var pass = 0;
         var ref = [];
@@ -55,9 +65,11 @@
             bracketIt(fieldNameArray);
           }
         }
-
-        bracketIt(fieldNameAsArray);
-        return {model: ref[pass], index: fieldNameAsArray[0] };
+        if(fieldName.indexOf('.') > -1) {
+          bracketIt(fieldNameAsArray);
+          return {model: ref[pass], index: [fieldNameAsArray[0]]};
+        }
+        return {model: ref[0], index: fieldName };
       }
 
     }
