@@ -12,6 +12,9 @@ var eoeDataDemographicModel = new Schema({
     ethnicity: {
         hispanic: {
             type: Boolean
+        },
+        declined: {
+            type: Boolean
         }
     },
     race: {
