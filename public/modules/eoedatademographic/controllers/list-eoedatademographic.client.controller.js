@@ -50,11 +50,10 @@
           }
       },
      {
-        field: 'ethnicity.hispanic', label: 'Hispanic', format: 'checkMark',
+        field: 'ethnicity', label: 'Hispanic',
           filterable: {
             name: 'hispanic',
-            field: 'hispanic',
-            matchType: 'trueFalse'
+            field: 'hispanic'
           }
       },
      {

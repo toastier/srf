@@ -7,15 +7,10 @@ var eoeDataDemographicModel = new Schema({
         ref: 'Opening'
     },
     gender: {
-        type: String, enum: ['Female', 'Male', 'Declined']
+        type: String, enum: ['f', 'm', 'd']
     },
     ethnicity: {
-        hispanic: {
-            type: Boolean
-        },
-        declined: {
-            type: Boolean
-        }
+        type: String, enum: ['h', 'n', 'd']
     },
     race: {
         native: {

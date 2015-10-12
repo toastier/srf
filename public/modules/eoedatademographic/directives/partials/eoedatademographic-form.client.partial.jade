@@ -19,11 +19,11 @@ ng-form(name="vm.eoeDataDemographicForm")
       .form-group.col-xs-12
           h2 Gender
           .col-md-12.control-group
-            input#female(type='radio', value='Female', ng-model='vm.eoeDataDemographic.gender')
+            input#female(type='radio', value='f', ng-model='vm.eoeDataDemographic.gender')
             label Female
-            input#male(type='radio', value='Male', ng-model='vm.eoeDataDemographic.gender')
+            input#male(type='radio', value='m', ng-model='vm.eoeDataDemographic.gender')
             label Male
-            input#decline(type='radio', value='Decline', ng-model='vm.eoeDataDemographic.gender')
+            input#decline(type='radio', value='d', ng-model='vm.eoeDataDemographic.gender')
             label Decline to answer
   .row
       fieldset
@@ -31,11 +31,11 @@ ng-form(name="vm.eoeDataDemographicForm")
           h2 Ethnicity
           h3 Are you Hispanic?
           .col-md-12.control-group
-            input#hispanic(type='radio', value='true', ng-model='vm.eoeDataDemographic.ethnicity.hispanic')
+            input#hispanic(type='radio', value='h', ng-model='vm.eoeDataDemographic.ethnicity')
             label Yes
-            input#hispanic(type='radio', value='false', ng-model='vm.eoeDataDemographic.ethnicity.hispanic')
+            input#hispanic(type='radio', value='n', ng-model='vm.eoeDataDemographic.ethnicity')
             label No
-            input#decline(type='radio', value='Decline', ng-model='vm.eoeDataDemographic.ethnicity.decline')
+            input#decline(type='radio', value='d', ng-model='vm.eoeDataDemographic.ethnicity')
             label Decline to answer
     .text-danger(data-ng-show='error')
         strong {{error}}
