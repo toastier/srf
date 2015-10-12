@@ -1,0 +1,6 @@
+.panel.panel-default
+  .panel-heading Current Openings
+  .panel-body
+     ul.list-group
+       li.list-group-item(ng-repeat="opening in vm.openings")
+        a(ng-click="opening.viewOpening(opening)") {{ opening.name }}
