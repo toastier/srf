@@ -3,21 +3,218 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose')
-  , _ = require('lodash');
-
-var mongo = mongoose.mongo;
-var formidable = require('formidable');
-var fs = require('fs');
-var grid = require('gridfs-stream');
-
+var mongoose = require('mongoose');
+var _ = require('lodash');
 var Application = mongoose.model('Application');
+
+/**
+ * Application middleware
+ */
+exports.applicationByID = function (req, res, next, id) {
+  Application.findById(id)
+    .populate('applicant')
+    .populate('opening')
+    .exec(function (err, application) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!application) {
+        return next(new Error('Failed to load application ' + id));
+      }
+
+      req.application = application;
+      next();
+    });
+};
+
+/**
+ * Method to retrieve Application for the purposes of conducting a review
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+exports.conductReview = function (req, res) {
+  if (isReviewer(req)) {
+    return res.jsonp(req.application);
+  } else {
+    return res.send(400, {
+      message: 'You are not an assigned Reviewer for this Application'
+    });
+  }
+};
+
+/**
+ * Retrieve Application for the purpose of conducting a phone Interview
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+exports.conductPhoneInterview = function (req, res) {
+  if (isPhoneInterviewer(req)) {
+    return res.jsonp(req.application);
+  } else {
+    return res.send(400, {
+      message: 'You are not an assigned Phone Interviewer for this Application'
+    });
+  }
+};
+
+/**
+ * Create an Application
+ * @param req
+ * @param res
+ */
+exports.create = function(req, res) {
+	var application = new Application(req.body);
+	application.user = req.user;
+
+	application.save(function(err) {
+		if (err) {
+			return res.send(400, {
+				// this doesn't work, dumping errorHandler into its own controller
+				message: getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(application);
+		}
+	});
+};
+
+/**
+ * Delete an Application
+ * @param req
+ * @param res
+ */
+exports.delete = function (req, res) {
+  var application = req.application;
+
+  application.remove(function (err) {
+    if (err) {
+      return res.send(400, {
+        message: getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(application);
+    }
+  });
+};
 
 
 /**
- * Get the error message from error object
+ * Application Authorization Middleware
+ * @param req
+ * @param res
+ * @param next
+ * @returns {*}
  */
-var getErrorMessage = function (err) {
+exports.hasAuthorization = function (req, res, next) {
+  if (req.application.user.id !== req.user.id) {
+    return res.send(403, {
+      message: 'User is not authorized'
+    });
+  }
+  next();
+};
+
+/**
+ * Get Applications where Authenticated User is the Reviewer
+ * @param req
+ * @param res
+ */
+exports.iAmReviewer = function (req, res) {
+  Application.find({'reviewPhase.reviews.reviewer': req.user._id})
+    .sort('-postDate')
+    .populate('opening')
+    .exec(function(err, applications) {
+      if(err) {
+        return res.send(400, {
+          message: getErrorMessage(err)
+        });
+      } else {
+        res.jsonp(applications);
+      }
+    });
+};
+
+/**
+ * Get Applications wehre Authenticated User is the Phone Interviewer
+ * @param req
+ * @param res
+ */
+exports.iAmPhoneInterviewer = function (req, res) {
+  Application.find({'phoneInterviewPhase.phoneInterviews.interviewer': req.user._id})
+    .sort('-postDate')
+    .populate('opening')
+    .exec(function(err, applications) {
+      if(err) {
+        return res.send(400, {
+          message: getErrorMessage(err)
+        });
+      } else {
+        res.jsonp(applications);
+      }
+    });
+};
+
+/**
+ * Return JSON of Applications
+ * @param req
+ * @param res
+ */
+exports.list = function (req, res) {
+  Application.find()
+    .sort('-postDate')
+    .populate('applicant')
+    .populate('opening')
+    .populate('reviewPhase.reviews.reviewer')
+    .exec(function (err, applications) {
+      if (err) {
+        return res.send(400, {
+          message: getErrorMessage(err)
+        });
+      } else {
+        res.jsonp(applications);
+      }
+    });
+};
+
+/**
+ * Return JSON of current Application
+ * @param req
+ * @param res
+ */
+exports.read = function (req, res) {
+  res.jsonp(req.application);
+};
+
+/**
+ * Update an Application
+ * @param req
+ * @param res
+ */
+exports.update = function (req, res) {
+  var application = req.application;
+
+  application = _.extend(application, req.body);
+
+  application.save(function (err) {
+    if (err) {
+      return res.send(400, {
+        message: getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(application);
+    }
+  });
+};
+
+/**
+ * Get the error message from the Error Object
+ * @param err
+ * @returns {string}
+ */
+function getErrorMessage(err) {
   var message = '';
 
   if (err.code) {
@@ -38,114 +235,34 @@ var getErrorMessage = function (err) {
   }
 
   return message;
-};
+}
 
 /**
- * Create a application
+ * Check that the authenticated User is an Assigned Phone Interviewer
+ * @param req
+ * @returns {boolean}
  */
-exports.create = function(req, res, next) {
-	var application = new Application(req.body);
-	application.user = req.user;
-
-	application.save(function(err) {
-		if (err) {
-			return res.send(400, {
-				// this doesn't work, dumping errorHandler into its own controller
-				message: getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(application);
-		}
-	});
-};
-
-
-/**
- * Show the current application
- */
-exports.read = function (req, res) {
-  res.jsonp(req.application);
-};
-
-/**
- * Update a application
- */
-exports.update = function (req, res) {
-  var application = req.application;
-
-  application = _.extend(application, req.body);
-
-  application.save(function (err) {
-    if (err) {
-      return res.send(400, {
-        message: getErrorMessage(err)
-      });
-    } else {
-      res.jsonp(application);
+function isPhoneInterviewer(req) {
+  var interviewerFound = false;
+  _.forEach(req.application.phoneInterviewPhase.phoneInterviews, function(phoneInterview) {
+    if((req.user._id === phoneInterview.interviewer.toString()) && !interviewerFound) {
+      interviewerFound = true;
     }
   });
-};
+  return interviewerFound;
+}
 
 /**
- * Delete an application
+ * Check that the authenticated User is an Assigned Reviewer
+ * @param req
+ * @returns {boolean}
  */
-exports.delete = function (req, res) {
-  var application = req.application;
-
-  application.remove(function (err) {
-    if (err) {
-      return res.send(400, {
-        message: getErrorMessage(err)
-      });
-    } else {
-      res.jsonp(application);
+function isReviewer(req) {
+  var reviewerFound = false;
+  _.forEach(req.application.reviewPhase.reviews, function(review) {
+    if((req.user._id === review.reviewer.toString()) && !reviewerFound) {
+      reviewerFound = true;
     }
   });
-};
-
-/**
- * List of Applications
- */
-exports.list = function (req, res) {
-  Application.find()
-    .sort('-postDate')
-    .populate('applicant')
-    .populate('opening')
-    .populate('reviewPhase.reviews.reviewer')
-    .exec(function (err, applications) {
-      if (err) {
-        return res.send(400, {
-          message: getErrorMessage(err)
-        });
-      } else {
-        res.jsonp(applications);
-      }
-    });
-};
-
-/**
- * Application middleware
- */
-exports.applicationByID = function (req, res, next, id) {
-  Application.findById(id)
-    .populate('applicant')
-    .populate('opening')
-    .exec(function (err, application) {
-      if (err) return next(err);
-      if (!application) return next(new Error('Failed to load application ' + id));
-      req.application = application;
-      next();
-    });
-};
-
-/**
- * Application authorization middleware
- */
-exports.hasAuthorization = function (req, res, next) {
-  if (req.application.user.id !== req.user.id) {
-    return res.send(403, {
-      message: 'User is not authorized'
-    });
-  }
-  next();
-};
+  return reviewerFound;
+}

@@ -1,0 +1,13 @@
+.panel.panel-default
+  .panel-heading {{ vm.componentTitle }}
+  .panel-body
+    ul.list-group(ng-if="!!vm.applications.length")
+      li.list-group-item(ng-repeat="application in vm.applications")
+        .row
+          .col-xs-12
+            .row
+              .col-md-8 {{ application.honorific + ' ' + application.firstName + ' ' + application.lastName + ' | ' + application.opening.name }}
+              .col-md-4.text-right
+                .btn.btn-sm.btn-edit(ng-click="vm.clickAction(application)") {{ vm.buttonTitle }}
+    .alert.alert-info(ng-if="!vm.applications.length") No matching Applications
+

@@ -8,6 +8,24 @@
     var application = $resource('applications/:applicationId', {applicationId: '@_id'}, {
       update: {
         method: 'PUT'
+      },
+      iAmReviewer: {
+        method: 'GET',
+        isArray: true,
+        url: 'applications/iAmReviewer'
+      },
+      iAmPhoneInterviewer: {
+        method: 'GET',
+        isArray: true,
+        url: 'applications/iAmPhoneInterviewer'
+      },
+      doReview: {
+        method: 'GET',
+        url: 'applications/:applicationId/conductReview'
+      },
+      doPhoneInterview: {
+        method: 'GET',
+        url: 'applications/:applicationId/conductPhoneInterview'
       }
     });
 
@@ -153,6 +171,21 @@
           {title: 'Edit Application', method: methods.editThisApplication, type: 'button', style: 'btn-edit'}
         ];
         return angular.copy(modelActions);
+      },
+      conductReview: function(applicationObject) {
+        $state.go('main.conductReview', {applicationId: applicationObject._id});
+      },
+      /**
+       * @param {Application} applicationObject Named as such to avoid shadowing
+       */
+      conductPhoneInterview: function(applicationObject) {
+        $state.go('main.conductPhoneInterview', {applicationId: applicationObject._id});
+      },
+      /**
+       * @param {Application} applicationObject Named as such to avoid shadowing
+       */
+      viewApplication: function (applicationObject) {
+        $state.go('main.viewApplication', {applicationId: applicationObject._id});
       }
     };
     
