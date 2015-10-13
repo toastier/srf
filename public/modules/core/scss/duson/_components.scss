@@ -837,6 +837,21 @@ a {
           content: '\f019';
         }
       }
+      &.print {
+        &:after {
+          content: '\f02f';
+        }
+      }
+      &.help {
+        &:after {
+          content: '\f059';
+        }
+      }
+      &.sliders, &.manage {
+        &:after {
+          content: '\f1de';
+        }
+      }
     }
   }
 }
@@ -998,6 +1013,13 @@ a {
       content: '\f0e0';
     }
   }
+  &.no-text {
+    &:not(.dropdown-toggle) {
+      &:after {
+        margin-left: 0;
+      }
+    }
+  }
 }
 
 .btn-action {
@@ -1042,6 +1064,10 @@ a {
 
 .btn-masquerade {
   @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f21b';
+  }
 }
 
 .btn-end-masquerade {
@@ -2072,6 +2098,16 @@ p.no-records {
     transition: all 0.5s;
     transform: rotate(90deg);
     }
+  }
+}
+
+//
+// Vertical Column Spacing for the Style Guide
+// -----------------------------------------------------
+
+.vertical-col-spacing {
+  .col-md-3, .col-md-1 {
+    padding-bottom: 8px;
   }
 }
 
