@@ -10,6 +10,7 @@
     activate();
 
     function activate() {
+      Navigation.clear();
       Navigation.viewTitle.set('Dashboard');
     }
   }
