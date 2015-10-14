@@ -29,7 +29,20 @@
               return resolvedAuth;
             }
           }
-        });
+        })
+        // Style Guide
+        .state('main.styles', {
+          url: '/styles',
+          controller: 'StyleGuideController',
+          controllerAs: 'vm',
+          templateUrl: 'modules/core/views/style-guide.client.view.html',
+          resolve: {
+            resolvedAuth: function(resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
+        })
+      ;
     }
   ]);
 })();

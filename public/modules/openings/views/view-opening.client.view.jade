@@ -3,3 +3,4 @@ section
    .row
       .col-xs-12
          opening-view
+         du-position-info-smart-component(ng-if="vm.user.hasRole(['admin', 'committee member'])", position-id="vm.opening.position", name="fred")

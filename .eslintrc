@@ -5,7 +5,7 @@
   },
   "rules": {
     "no-use-before-define": [2, "nofunc"],
-    "strict": [2, "function"],
+    "strict": [2, "global"],
     "quotes": [1, "single"],
     "camelcase": [2, {"properties": "never"}],
     "no-trailing-spaces": [2, { "skipBlankLines": true }],

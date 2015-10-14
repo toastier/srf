@@ -28,7 +28,14 @@
         })
         .state('main.viewApplication', {
           url: '/applications/:applicationId',
-          templateUrl: 'modules/applications/views/view-application.client.view.html'
+          templateUrl: 'modules/applications/views/view-application.client.view.html',
+          controller: 'ViewApplicationController',
+          controllerAs: 'vm',
+          resolve: {
+            resolvedAuth: function(resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
         })
         .state('main.manageApplication', {
           url: '/applications/:applicationId/manage',
@@ -40,7 +47,28 @@
               return resolvedAuth;
             }
           }
+        })
+        .state('main.conductReview', {
+          url: '/applications/:applicationId/review/conduct',
+          templateUrl: 'modules/applications/views/conduct-review.client.view.html',
+          controller: 'ApplicationReviewController',
+          controllerAs: 'vm',
+          resolve: {
+            resolvedAuth: function (resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
+        })
+        .state('main.conductPhoneInterview', {
+          url: '/applications/:applicationId/phoneInterview/conduct',
+          templateUrl: 'modules/applications/views/conduct-phone-interview.client.view.html',
+          controller: 'ApplicationPhoneInterviewController',
+          controllerAs: 'vm',
+          resolve: {
+            resolvedAuth: function (resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
         });
-    }
-  ]);
+  }]);
 })();

@@ -1,0 +1,333 @@
+h1 Style Guide
+.panel.panel-default
+  .panel-heading(ng-click="vm.headingsCollapsed = !vm.headingsCollapsed")
+    h3 Headings
+  .panel-body(collapse="vm.headingsCollapsed")
+    h1 H1. We Are Going To See the Greatest
+    h2 H2. The Greatest of Them All
+    h3 H3. Mr. Willy Wonka
+    h4 H4. He Really Likes Chocolate I Hear
+    h5 H5. Are There Any Questions?
+.panel.panel-default.vertical-col-spacing
+  .panel-heading(ng-click="vm.buttonsCollapsed = !vm.buttonsCollapsed")
+    h3 Buttons
+  .panel-body(collapse="vm.buttonsCollapsed")
+    .panel.panel-default
+      .panel-heading
+        h4 Standard Buttons&nbsp;
+          code .btn
+      .panel-body
+        .col-md-3.col-sm-6
+          div
+            code .btn-action
+          button.btn.btn-action Action
+        .col-md-3.col-sm-6
+          div
+            code .btn-add
+          button.btn.btn-add Add
+        .col-md-3.col-sm-6
+          div
+            code .btn-auto
+          button.btn.btn-auto Automatic
+        .col-md-3.col-sm-6
+          div
+            code .btn-cancel
+          button.btn.btn-cancel Cancel
+        .col-md-3.col-sm-6
+          div
+            code .btn-change
+          button.btn.btn-change Change
+        .col-md-3.col-sm-6
+          div
+            code .btn-delete
+          button.btn.btn-delete Delete
+        .col-md-3.col-sm-6
+          div
+            code .btn-duplicate
+          button.btn.btn-duplicate Duplicate
+        .col-md-3.col-sm-6
+          div
+            code .btn-edit
+          button.btn.btn-edit Edit
+        .col-md-3.col-sm-6
+          div
+            code .btn-email
+          button.btn.btn-email Email
+        .col-md-3.col-sm-6
+          div
+            code .btn-info
+          button.btn.btn-info Info
+        .col-md-3.col-sm-6
+          div
+            code .btn-list
+          button.btn.btn-list List
+        .col-md-3.col-sm-6
+          div
+            code .btn-login
+          button.btn.btn-login Login
+        .col-md-3.col-sm-6
+          div
+            code .btn-logout
+          button.btn.btn-logout Logout
+        .col-md-3.col-sm-6
+          div
+            code .btn-masquerade
+          button.btn.btn-masquerade Masquerade
+        .col-md-3.col-sm-6
+          div
+            code .btn-end-masquerade
+          button.btn.btn-end-masquerade End Masquerade
+        .col-md-3.col-sm-6
+          div
+            code .btn-multiple
+          button.btn.btn-multiple Multiple
+        .col-md-3.col-sm-6
+          div
+            code .btn-reconcile
+          button.btn.btn-reconcile Reconcile
+        .col-md-3.col-sm-6
+          div
+            code .btn-refresh
+          button.btn.btn-refresh Refresh
+        .col-md-3.col-sm-6
+          div
+            code .btn-save
+          button.btn.btn-save Save
+        .col-md-3.col-sm-6
+          div
+            code .btn-save-reconcile
+          button.btn.btn-save-reconcile Save and Reconcile
+        .col-md-3.col-sm-6
+          div
+            code .btn-search
+          button.btn.btn-search Search
+        .col-md-3.col-sm-6
+          div
+            code .btn-workflow
+          button.btn.btn-workflow Workflow
+        .col-md-3.col-sm-6
+          div
+            code .btn-workflow.back
+          button.btn.btn-workflow.back Workflow Back
+        .col-md-3.col-sm-6
+          div
+            code .btn-undo
+          button.btn.btn-undo Undo
+        .col-md-3.col-sm-6
+          div
+            code .btn-view
+          button.btn.btn-view View
+        .col-md-3.col-sm-6
+          div
+            code .btn-waiting
+          button.btn.btn-waiting Waiting
+    .panel.panel-default
+      .panel-heading
+        h4 Small Action Buttons&nbsp
+          code .btn.btn-xs.no-text
+      .panel-body
+        .col-md-12
+          p Commonly used on tables or lists, where an action for an individual row or record needs to be indicated. Add the
+            code .btn-xs.no-text
+            | class to any of the standard buttons
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-action
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-add
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-auto
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-cancel
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-change
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-delete
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-duplicate
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-edit
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-email
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-info
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-list
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-login
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-logout
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-masquerade
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-end-masquerade
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-multiple
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-reconcile
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-refresh
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-save
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-save-reconcile
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-search
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-workflow
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-workflow.back
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-undo
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-view
+        .col-md-1.col-sm-3
+          button.btn.btn-xs.no-text.btn-waiting
+    .panel.panel-default
+      .panel-heading
+        h4 Button Sizes
+      .panel-body
+        .col-md-3.col-sm-6
+          div
+            code .btn
+          button.btn.btn-primary Standard
+        .col-md-3.col-sm-6
+          div
+            code .btn.btn-sm
+          button.btn.btn-sm.btn-primary Small
+        .col-md-3.col-sm-6
+          div
+            code .btn.btn-xs
+          button.btn.btn-xs.btn-primary Extra Small
+.panel.panel-default.vertical-col-spacing
+  .panel-heading(ng-click="vm.iconsCollapsed = !vm.iconsCollapsed")
+    h3 Application Icons&nbsp;
+  .panel-body(collapse="vm.iconsCollapsed")
+    .panel.panel-default
+      .panel-heading
+        h4 Standard Icons&nbsp;
+          code .with-icon
+      .panel-body
+        .col-md-3.col-sm-6
+          div
+            code .add
+          a.with-icon.add Add
+        .col-md-3.col-sm-6
+          div
+            code .download
+          a.with-icon.download Download
+        .col-md-3.col-sm-6
+          div
+            code .delete
+          a.with-icon.delete Delete
+        .col-md-3.col-sm-6
+          div
+            code .edit
+          a.with-icon.edit Edit
+        .col-md-3.col-sm-6
+          div
+            code .help
+          a.with-icon.help Help
+        .col-md-3.col-sm-6
+          div
+            code .manage
+          a.with-icon.manage Manage
+        .col-md-3.col-sm-6
+          div
+            code .print
+          a.with-icon.print Print
+        .col-md-3.col-sm-6
+          div
+            code .reconcile
+          a.with-icon.reconcile Reconcile
+        .col-md-3.col-sm-6
+          div
+            code .remove
+          a.with-icon.remove Remove
+        .col-md-3.col-sm-6
+          div
+            code .view
+          a.with-icon.view View
+    .panel.panel-default
+      .panel-heading
+        h4 Icon After&nbsp;
+          code .with-icon.icon-after
+      .panel-body
+        p Add the
+          code .icon-after
+          | class to any of the standard Application Icons to place the icon after your text
+        .col-md-3.col-sm-6
+
+          a.with-icon.icon-after.add Add
+        .col-md-3.col-sm-6
+          
+          a.with-icon.icon-after.download Download
+        .col-md-3.col-sm-6
+          
+          a.with-icon.icon-after.delete Delete
+        .col-md-3.col-sm-6
+          
+          a.with-icon.icon-after.edit Edit
+        .col-md-3.col-sm-6
+          
+          a.with-icon.icon-after.help Help
+        .col-md-3.col-sm-6
+          
+          a.with-icon.icon-after.manage Manage
+        .col-md-3.col-sm-6
+          
+          a.with-icon.icon-after.print Print
+        .col-md-3.col-sm-6
+          
+          a.with-icon.icon-after.reconcile Reconcile
+        .col-md-3.col-sm-6
+          
+          a.with-icon.icon-after.remove Remove
+        .col-md-3.col-sm-6
+          
+          a.with-icon.icon-after.view View
+    .panel.panel-default
+      .panel-heading
+        h4 Icon With No Text
+      .panel-body
+        p Simply Don't include any text within the a element to show the icon only
+        .col-md-3.col-sm-6
+          a.with-icon.add
+        .col-md-3.col-sm-6
+          a.with-icon.download
+        .col-md-3.col-sm-6
+          a.with-icon.delete
+        .col-md-3.col-sm-6
+          a.with-icon.edit
+        .col-md-3.col-sm-6
+          a.with-icon.help
+        .col-md-3.col-sm-6
+          a.with-icon.manage
+        .col-md-3.col-sm-6
+          a.with-icon.print
+        .col-md-3.col-sm-6
+          a.with-icon.reconcile
+        .col-md-3.col-sm-6
+          a.with-icon.remove
+        .col-md-3.col-sm-6
+          a.with-icon.view 
+    .panel.panel-default
+      .panel-heading
+        h4 Icon Group
+          code .icon-group&nbsp;
+      .panel-body
+        p Use the&nbsp;
+          code .with-icon
+          | &nbsp;class on the anchor elements within a&nbsp;
+          code .icon-group
+          | &nbsp;div
+        .icon-group
+          a.with-icon.add
+          a.with-icon.download
+          a.with-icon.delete
+          a.with-icon.edit
+          a.with-icon.help
+          a.with-icon.manage
+          a.with-icon.print
+          a.with-icon.reconcile
+          a.with-icon.remove
+          a.with-icon.view
