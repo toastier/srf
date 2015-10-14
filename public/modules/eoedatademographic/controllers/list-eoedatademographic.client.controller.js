@@ -41,69 +41,70 @@
         field: 'opening.name',
         label: 'Opening',
         filterable: true
-      },
-      {
-        field: 'gender', label: 'Gender',
-          filterable: {
-            name: 'gender',
-            field: 'gender'
-          }
-      },
-     {
-        field: 'ethnicity', label: 'Hispanic',
-          filterable: {
-            name: 'hispanic',
-            field: 'hispanic'
-          }
-      },
-     {
-        field: 'race.black', label: 'Black', format: 'checkMark',
-          filterable: {
-            name: 'black',
-            field: 'black',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.multiple', label: 'Multiple', format: 'checkMark',
-          filterable: {
-            name: 'multiple',
-            field: 'multiple',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.white', label: 'White', format: 'checkMark',
-          filterable: {
-            name: 'white',
-            field: 'white',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.pacific', label: 'Pacific', format: 'checkMark',
-          filterable: {
-            name: 'pacific',
-            field: 'pacific',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.native', label: 'Native', format: 'checkMark',
-          filterable: {
-            name: 'native',
-            field: 'native',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.declined', label: 'declined', format: 'checkMark',
-          filterable: {
-            name: 'declined',
-            field: 'declined',
-            matchType: 'trueFalse'
-          }
       }
+     // ,
+     // {
+     //   field: 'gender', label: 'Gender',
+     //     filterable: {
+     //       name: 'gender',
+     //       field: 'gender'
+     //     }
+     // },
+     //{
+     //   field: 'ethnicity', label: 'Hispanic',
+     //     filterable: {
+     //       name: 'hispanic',
+     //       field: 'hispanic'
+     //     }
+     // },
+     //{
+     //   field: 'race.black', label: 'Black', format: 'checkMark',
+     //     filterable: {
+     //       name: 'black',
+     //       field: 'black',
+     //       matchType: 'trueFalse'
+     //     }
+     // },
+     // {
+     //   field: 'race.multiple', label: 'Multiple', format: 'checkMark',
+     //     filterable: {
+     //       name: 'multiple',
+     //       field: 'multiple',
+     //       matchType: 'trueFalse'
+     //     }
+     // },
+     // {
+     //   field: 'race.white', label: 'White', format: 'checkMark',
+     //     filterable: {
+     //       name: 'white',
+     //       field: 'white',
+     //       matchType: 'trueFalse'
+     //     }
+     // },
+     // {
+     //   field: 'race.pacific', label: 'Pacific', format: 'checkMark',
+     //     filterable: {
+     //       name: 'pacific',
+     //       field: 'pacific',
+     //       matchType: 'trueFalse'
+     //     }
+     // },
+     // {
+     //   field: 'race.native', label: 'Native', format: 'checkMark',
+     //     filterable: {
+     //       name: 'native',
+     //       field: 'native',
+     //       matchType: 'trueFalse'
+     //     }
+     // },
+     // {
+     //   field: 'race.declined', label: 'declined', format: 'checkMark',
+     //     filterable: {
+     //       name: 'declined',
+     //       field: 'declined',
+     //       matchType: 'trueFalse'
+     //     }
+     // }
     ];
 
     var initialSortOrder = ['+opening'];
@@ -115,7 +116,7 @@
       actions.splice(1, 2); // splice out the ones we don't want (were taking them all out here)
 
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('EoeDataDemographic'); // set the page title
+      Navigation.viewTitle.set('EOE Data - Demographics'); // set the page title
     }
 
     function activate () {

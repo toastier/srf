@@ -13,7 +13,7 @@
     vm.cancel = cancel;
     vm.eoeDataDemographic = new EoeDataDemographic();
     vm.saveEoeDataDemographic = saveEoeDataDemographic;
-    vm.options = {};
+    vm.options = { 'showCrumbs' : false };
 
     activate();
 
