@@ -42,7 +42,7 @@ var eoeDemographicModel = new Schema({
     //}
 },
     {
-        collection: 'eoe'
+        collection: 'eoeDemographic'
     }
 );
 //    .virtual('race.multiple').get(function () {

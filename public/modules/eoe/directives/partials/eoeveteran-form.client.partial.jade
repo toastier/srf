@@ -4,12 +4,12 @@ h1 Protected Veteran Self-Identification
 .row
   fieldset
       .col-md-12.control-group
-        input#yesId(type='radio', value='yi', ng-model='vm.eoe.veteran')
+        input#yesId(type='radio', value='yes-id', ng-model='vm.eoe.veteran')
         label
           strong I identify as one or more of the classifications of protected veterans:
-        input#yesNotId(type='radio', value='yn', ng-model='vm.eoe.veteran')
+        input#yesNotId(type='radio', value='yes-not-id', ng-model='vm.eoe.veteran')
         label
           strong I am a protected veteran, but I choose not to self-identify the classifications to which I belong
-        input#no(type='radio', value='n', ng-model='vm.eoe.veteran')
+        input#no(type='radio', value='no', ng-model='vm.eoe.veteran')
         label
           span I am NOT a protected veteran

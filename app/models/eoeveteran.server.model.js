@@ -1,13 +1,13 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var eoeDisabilityModel = new Schema({
+var eoeVeteranModel = new Schema({
     opening: {
         type: Schema.Types.ObjectId,
         ref: 'Opening'
     },
-    disability: {
-        type: String, enum: ['y', 'n', 'd']
+    veteran: {
+        type: String, enum: ['yes-id', 'yes-not-id', 'no']
     },
     dateCreated: {
         type: Date,
@@ -15,11 +15,11 @@ var eoeDisabilityModel = new Schema({
     }
 },
     {
-        collection: 'eoeDisability'
+        collection: 'eoeVeteran'
     }
 );
 
-var modelName = 'EoeDisability';
+var modelName = 'EoeVeteran';
 
-module.exports = mongoose.model(modelName, eoeDisabilityModel);
+module.exports = mongoose.model(modelName, eoeVeteranModel);
 

@@ -6,7 +6,8 @@
 var mongoose = require('mongoose'),
 	EoeDemographic = mongoose.model('EoeDemographic'),
 	EoeDisability = mongoose.model('EoeDisability'),
-	errorHandler = 	require('./errors.server.controller'), //this doesn't work
+	EoeVeteran = mongoose.model('EoeVeteran'),
+	//errorHandler = 	require('./errors.server.controller'), //this doesn't work
 	_ = require('lodash');
 
 
@@ -37,10 +38,11 @@ var getErrorMessage = function(err) {
 /**
  * Create a EOE Demographic record
  */
+// TODO use better method to parse out req.body
 exports.create = function(req, res) {
 	console.log('creating EOE demographic record');
 	console.log(req.body);
-	var eoeDemographic = new EoeDemographic(_.omit(req.body, 'disability'));
+	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran']));
 	eoeDemographic.user = req.user;
 
 	eoeDemographic.save(function(err) {
@@ -59,7 +61,7 @@ exports.create = function(req, res) {
 	 */
 
 	console.log('creating EOE disability');
-	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race']));
+	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran']));
 
 	eoeDisability.save(function(err) {
 		if (err) {
@@ -69,6 +71,20 @@ exports.create = function(req, res) {
 			});
 		} else {
 			res.jsonp(eoeDisability);
+		}
+	});
+
+	console.log('creating EOE veteran');
+	var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
+
+	eoeVeteran.save(function(err) {
+		if (err) {
+			return res.send(400, {
+				// this doesn't work, dumping errorHandler into its own controller
+				message: getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(eoeVeteran);
 		}
 	});
 };
