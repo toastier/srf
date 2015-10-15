@@ -41,7 +41,7 @@ var getErrorMessage = function(err) {
 // TODO use better method to parse out req.body
 exports.create = function(req, res) {
 	console.log('creating EOE record...');
-	req.body.opening = 'ObjectId("561410fc5a6e72be05f95c76")';
+	req.body.opening = mongoose.Types.ObjectId('561410fc5a6e72be05f95c76');
 	console.log(req.body);
 	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran']));
 	//eoeDemographic.user = req.user;
