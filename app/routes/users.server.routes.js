@@ -7,7 +7,9 @@ var passport = require('passport');
 
 module.exports = function (app) {
   // User Routes
-  var users = require('../../app/controllers/users');
+  var users = require('../../app/controllers/users.server.controller');
+  app.route('/users/checkEmail')
+    .post(users.emailAddressIsUnique);
   app.route('/users/me').get(users.me);
   app.route('/users/me/update').get(users.update);
   app.route('/users')
@@ -22,6 +24,7 @@ module.exports = function (app) {
   // Setting up the users api
   app.route('/auth/signin').post(users.signin);
   app.route('/auth/signout').get(users.signout);
+  app.route('/auth/signup').post(users.signup);
   app.route('/auth/me').get(users.jsonMe);
 
   // Setting the Saml routes

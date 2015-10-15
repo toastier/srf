@@ -37,6 +37,12 @@ var UserSchema = new Schema({
 		default: '',
 		validate: [validateLocalStrategyProperty, 'Please fill in your last name']
 	},
+	honorific: {
+		type: String
+	},
+	suffix: {
+		type: String
+	},
 	displayName: {
 		type: String,
 		trim: true
