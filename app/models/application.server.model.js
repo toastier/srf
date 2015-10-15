@@ -17,6 +17,9 @@ var applicationModel = new Schema({
     lastName: {
       type: String
     },
+    email: {
+      type: String
+    },
     applicant: {
       type: Schema.Types.ObjectId,
       ref: 'Applicant'

@@ -116,7 +116,7 @@
           {title: 'Edit Opening', method: methods.editThisOpening, type: 'button', style: 'btn-edit'}
         ];
         return angular.copy(modelActions);
-      },
+      }
 
     };
 

@@ -8,11 +8,11 @@
     var vm = this;
     vm.user = resolvedAuth;
     vm.application = new Application();
+    vm.options = {};
     vm.saveDetails = saveDetails;
     vm.saveApplication = saveApplication;
     vm.submitApplication = submitApplication;
     vm.uploadFile = uploadFile;
-    vm.options = {};
 
     activate();
 
@@ -42,6 +42,7 @@
             Messages.addMessage(err.data.message, 'error');
           });
         vm.application.applicant = null;
+
         return 'done';
       }
 

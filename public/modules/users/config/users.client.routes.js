@@ -34,6 +34,8 @@
         .state('main.signup', {
           url: '/signup',
           templateUrl: 'modules/users/views/signup.client.view.html',
+          controller: 'AuthenticationController',
+          controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {
               return resolvedAuth;

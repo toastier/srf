@@ -974,3 +974,29 @@ td {
     }
   }
 }
+
+//
+// messages within a form
+// -----------------------------------------------------
+
+.message {
+  @include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
+  display: block;
+  float:none;
+  clear: both;
+  box-sizing: border-box;
+  padding: $padding-small-vertical $padding-small-horizontal;
+  border-radius: $border-radius-base;
+  &.add-label-spacing {
+    margin-top: 26px;
+  }
+  .has-success & {
+    @include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
+  }
+  .has-error & {
+    @include alert-variant($alert-danger-bg, $alert-danger-border, $alert-danger-text);
+  }
+  .has-warning & {
+    @include alert-variant($alert-warning-bg, $alert-warning-border, $alert-warning-text);
+  }
+}
