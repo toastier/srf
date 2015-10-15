@@ -40,7 +40,7 @@ var getErrorMessage = function(err) {
 exports.create = function(req, res) {
 	console.log('creating');
 	console.log(req.body);
-	var eoeDataDemographic = new EoeDataDemographic(req.body);
+	var eoeDataDemographic = new EoeDataDemographic(_.omit(req.body, 'disability'));
 	eoeDataDemographic.user = req.user;
 
 	eoeDataDemographic.save(function(err) {
@@ -53,14 +53,9 @@ exports.create = function(req, res) {
 			res.jsonp(eoeDataDemographic);
 		}
 	});
-};
 
-/**
- * Create an EOE Disability record
- */
-exports.create = function(req, res) {
 	console.log('creating EOE disability');
-	var eoeDisability = new EoeDisability(req.body);
+	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race']));
 	//eoeDataDemographic.user = req.user;
 
 	eoeDisability.save(function(err) {
@@ -74,6 +69,12 @@ exports.create = function(req, res) {
 		}
 	});
 };
+
+
+/**
+ * Create an EOE Disability record
+ */
+
 
 
 
