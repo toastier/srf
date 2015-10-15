@@ -28,14 +28,21 @@
                     input.radio#decline(type='radio', value='d', ng-model='vm.eoe.gender')
                     span Decline to answer
     .row
-      fieldset
-      //.form-group.col-xs-12
-      h2 Ethnicity
-      h3 Are you Hispanic?
-      .col-md-12.control-group
-        input#hispanic(type='radio', value='h', ng-model='vm.eoe.ethnicity')
-        label Yes
-        input#hispanic(type='radio', value='n', ng-model='vm.eoe.ethnicity')
-        label No
-        input#decline(type='radio', value='d', ng-model='vm.eoe.ethnicity')
-        label Decline to answer
+      .col-md-12
+        .row
+          .col-md-12.form-group
+            label.control-label Ethnicity
+              p Are you Hispanic?
+              .col-md-12.control-group
+                .radio
+                  label
+                    input.radio#hispanic(type='radio', value='h', ng-model='vm.eoe.ethnicity')
+                    span Yes
+                .radio
+                  label
+                    input.radio#nothispanic(type='radio', value='n', ng-model='vm.eoe.ethnicity')
+                    span No
+                .radio
+                  label
+                    input.radio#decline(type='radio', value='d', ng-model='vm.eoe.ethnicity')
+                    span Decline to answer
