@@ -1,10 +1,10 @@
 (function () {
   'use strict';
   angular
-    .module('eoeDataDemographic')
-    .controller('ListEoeDataDemographicController', ListEoeDataDemographicController);
+    .module('eoe')
+    .controller('ListEoeController', ListEoeController);
 
-  function ListEoeDataDemographicController($scope, $state, Navigation, EoeDataDemographic, CollectionModel, Messages, resolvedAuth) {
+  function ListEoeController($scope, $state, Navigation, Eoe, CollectionModel, Messages, resolvedAuth) {
     var vm = this;
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
@@ -118,7 +118,7 @@
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
 
-      var actions = EoeDataDemographic.getActions(); // get the actions from the Model
+      var actions = Eoe.getActions(); // get the actions from the Model
       actions.splice(1, 2); // splice out the ones we don't want (were taking them all out here)
 
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
@@ -131,10 +131,10 @@
       if(!vm.user._id || !vm.user.hasRole(['admin', 'committee member'])) {
         // modify the columnDefinitions to limit what they see, remove 'active' and 'posting'
         vm.columnDefinitions.splice(3,2);
-        EoeDataDemographic.listCurrent().$promise
+        Eoe.listCurrent().$promise
             .then(function (result) {
 
-              new CollectionModel('ListEoeDataDemographicControllerPublic', result, vm.columnDefinitions, initialSortOrder)
+              new CollectionModel('ListEoeControllerPublic', result, vm.columnDefinitions, initialSortOrder)
                   .then(function (collection) {
                     vm.collection = collection;
                   });
@@ -146,11 +146,11 @@
         return 'done';
       }
 
-      EoeDataDemographic.query().$promise
+      Eoe.query().$promise
           .then(function(result) {
             Messages.addMessage('Openings Loaded', 'success', null, 'dev');
 
-            new CollectionModel('EoeDataDemographicController', result, vm.columnDefinitions, initialSortOrder)
+            new CollectionModel('EoeController', result, vm.columnDefinitions, initialSortOrder)
                 .then(function(collection) {
                   vm.collection = collection;
 
@@ -178,8 +178,8 @@
           });
       setupNavigation();
     }
-    function viewEoeDataDemographic (EoeDataDemographic) {
-      $state.go('main.viewEoeDataDemographic', { EoeDataDemographicId: EoeDataDemographic._id });
+    function viewEoe (Eoe) {
+      $state.go('main.viewEoe', { EoeId: Eoe._id });
     }
 
     activate();

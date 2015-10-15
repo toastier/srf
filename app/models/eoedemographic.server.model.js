@@ -1,10 +1,10 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var eoeDataDemographicModel = new Schema({
+var eoeDemographicModel = new Schema({
     opening: {
-        type: Schema.Types.ObjectId,
-        ref: 'Opening'
+            type: Schema.Types.ObjectId,
+            ref: 'Opening'
     },
     gender: {
         type: String, enum: ['f', 'm', 'd']
@@ -42,7 +42,7 @@ var eoeDataDemographicModel = new Schema({
     //}
 },
     {
-        collection: 'eoeDataDemographic'
+        collection: 'eoeDemographic'
     }
 );
 //    .virtual('race.multiple').get(function () {
@@ -50,7 +50,7 @@ var eoeDataDemographicModel = new Schema({
 //});
 
 
-var modelName = 'EoeDataDemographic';
+var modelName = 'EoeDemographic';
 
-module.exports = mongoose.model(modelName, eoeDataDemographicModel);
+module.exports = mongoose.model(modelName, eoeDemographicModel);
 
