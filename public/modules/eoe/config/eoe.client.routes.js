@@ -37,17 +37,6 @@
               return resolvedAuth;
             }
           }
-        })
-        .state('main.editEoe', {
-          url: '/eoe/:eoeId/edit',
-          templateUrl: 'modules/eoe/views/edit-eoddatademographic.client.view.html',
-          controller: 'EditEoeController',
-          controllerAs: 'vm',
-          resolve: {
-            resolvedAuth: function(resolvedAuth) {
-              return resolvedAuth;
-            }
-          }
         });
     }
   ]);
