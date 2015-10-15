@@ -3,8 +3,6 @@
   angular
     .module('eoe')
     .directive('eoeForm', eoeForm)
-    //.directive('eoeDisabilityForm', eoeDisabilityForm);
-
 
   function eoeForm() {
     return {

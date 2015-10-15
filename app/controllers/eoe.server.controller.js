@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Eoe = mongoose.model('EoeDemographic'),
+	EoeDemographic = mongoose.model('EoeDemographic'),
 	EoeDisability = mongoose.model('EoeDisability'),
 	errorHandler = 	require('./errors.server.controller'), //this doesn't work
 	_ = require('lodash');
@@ -40,17 +40,17 @@ var getErrorMessage = function(err) {
 exports.create = function(req, res) {
 	console.log('creating EOE demographic record');
 	console.log(req.body);
-	var eoe = new Eoe(_.omit(req.body, 'disability'));
-	eoe.user = req.user;
+	var eoeDemographic = new EoeDemographic(_.omit(req.body, 'disability'));
+	eoeDemographic.user = req.user;
 
-	eoe.save(function(err) {
+	eoeDemographic.save(function(err) {
 		if (err) {
 			return res.send(400, {
 				// this doesn't work, dumping errorHandler into its own controller
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoe);
+			res.jsonp(eoeDemographic);
 		}
 	});
 

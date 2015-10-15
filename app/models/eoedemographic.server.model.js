@@ -50,7 +50,7 @@ var eoeDemographicModel = new Schema({
 //});
 
 
-var modelName = 'Eoe';
+var modelName = 'EoeDemographic';
 
 module.exports = mongoose.model(modelName, eoeDemographicModel);
 

@@ -5,7 +5,7 @@
     function (Menus) {
       // Set top bar menu items
       Menus.addMenuItem('sidebar', 'EOE Survey', '', '#!/eoe/create', '#!/eoe/create', false, ['admin'], 998);
-      Menus.addMenuItem('sidebar', 'EOE Demographics - Report', '', '#!/eoe', '#!/eoe', false, ['admin'], 999);
+      Menus.addMenuItem('sidebar', 'EOE Report', '', '#!/eoe', '#!/eoe', false, ['admin'], 999);
     }
   ]);
 })();
