@@ -40,10 +40,13 @@ var getErrorMessage = function(err) {
  */
 // TODO use better method to parse out req.body
 exports.create = function(req, res) {
-	console.log('creating EOE demographic record');
+	console.log('creating EOE record...');
+	req.body.opening = 'ObjectId("561410fc5a6e72be05f95c76")';
 	console.log(req.body);
 	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran']));
-	eoeDemographic.user = req.user;
+	//eoeDemographic.user = req.user;
+	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran']));
+	var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
 
 	eoeDemographic.save(function(err) {
 		if (err) {
@@ -60,9 +63,6 @@ exports.create = function(req, res) {
 	 * Create an EOE Disability record
 	 */
 
-	console.log('creating EOE disability');
-	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran']));
-
 	eoeDisability.save(function(err) {
 		if (err) {
 			return res.send(400, {
@@ -74,8 +74,6 @@ exports.create = function(req, res) {
 		}
 	});
 
-	console.log('creating EOE veteran');
-	var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
 
 	eoeVeteran.save(function(err) {
 		if (err) {
@@ -90,59 +88,11 @@ exports.create = function(req, res) {
 };
 
 
-
-
-
-
-
-/**
- * Show the current eoe
- */
-exports.read = function(req, res) {
-	res.jsonp(req.eoe);
-};
-
-/**
- * Update a eoe
- */
-exports.update = function(req, res) {
-	var eoe = req.eoe;
-
-	eoe = _.extend(eoe, req.body);
-
-	eoe.save(function(err) {
-		if (err) {
-			return res.send(400, {
-				message: getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(eoe);
-		}
-	});
-};
-
-/**
- * Delete an eoe
- */
-exports.delete = function(req, res) {
-	var eoe = req.eoe;
-
-	eoe.remove(function(err) {
-		if (err) {
-			return res.send(400, {
-				message: getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(eoe);
-		}
-	});
-};
-
 /**
  * List of Eoe
  */
 exports.list = function(req, res) {
-	Eoe.find()
+	EoeDemographic.find()
 	.sort('-postDate')
 	.populate('opening')
 	.exec(function(err, eoe) {
