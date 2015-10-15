@@ -17,18 +17,23 @@
   .well.row(ng-if="!vm.user._id")
     user-signup-or-login-form(user="vm.user")
   .row(ng-if="vm.user._id")
-    .col-md-2.form-group
-      label.control-label Title
-      .form-control-static(ng-bind="vm.application.honorific")
-    .col-md-3.form-group
-      label.control-label First Name
-      .form-control-static(ng-bind="vm.application.firstName")
-    .col-md-3.form-group
-      label.control-label Middle Name
-      .form-control-static(ng-bind="vm.application.middleName")
-    .col-md-4.form-group
-      label.control-label Last Name
-      .form-control-static(ng-bind="vm.application.lastName")
+    ng-form(name="vm.userDetailsForm")
+      .row
+        .col-md-2.form-group
+          label.control-label Title
+          input.form-control(name="honorific", type="text", ng-model="vm.application.honorific", required)
+        .col-md-3.form-group
+          label.control-label First Name
+          input.form-control(name="firstName", type="text", ng-model="vm.application.firstName", required)
+        .col-md-3.form-group
+          label.control-label Middle Name
+          input.form-control(name="middleName", type="text", ng-model="vm.application.middleName")
+        .col-md-4.form-group
+          label.control-label Last Name
+          input.form-control(name="lastName", type="text", ng-model="vm.application.lastName", required)
+      .row
+        .col-xs-12
+          button.btn.btn-workflow(ng-click="vm.createApplication()", ng-disabled="vm.userDetailsForm.$invalid") Step 2: Confirm Application Details
   .well.row(name="vm.fileUploads", ng-if="vm.application._id")
     ng-form
       .row

@@ -24,6 +24,10 @@ var applicationModel = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Applicant'
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'Applicant'
+    },
     opening: {
       type: Schema.Types.ObjectId,
       ref: 'Opening'

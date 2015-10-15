@@ -18,7 +18,7 @@
       bindToController: true
     };
 
-    function UserSignupOrLoginFormController($scope, Messages, Users, _ ) {
+    function UserSignupOrLoginFormController($scope, $state, Messages, Users, _ ) {
       var directiveVm = this;
       directiveVm.emailIsUnique = true;
       directiveVm.emailStatusMessage = '';
@@ -100,8 +100,12 @@
       function signup() {
         directiveVm.user.username = directiveVm.user.email;
         directiveVm.user.auth.signup(directiveVm.user).$promise
-          .then(function(){
-            directiveVm.user.refresh();
+          .then(function(user){
+            directiveVm.user._id = user._id;
+            directiveVm.user.displayName = user.displayName;
+            directiveVm.user.roles = user.roles;
+            delete directiveVm.password;
+            delete directiveVm.passwordConfirm;
           })
           .catch(function(err) {
             Messages.addMessage(err.data.message, 'error', 'Problem Saving User', 'dev');

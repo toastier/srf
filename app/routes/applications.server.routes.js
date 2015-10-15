@@ -13,6 +13,9 @@ module.exports = function (app) {
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.list)
     .post(applications.create); //@todo need to consider security here more thoroughly
 
+  app.route('/applications/createForUser')
+    .post(users.requiresLogin, users.hasAuthorization(['user']), applications.createForUser);
+
   app.route('/applications/iAmReviewer')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.iAmReviewer);
 

@@ -4,28 +4,17 @@
     .module('applications')
     .controller('CreateApplicationController', CreateApplicationController);
   
-  function CreateApplicationController($stateParams, resolvedAuth, Messages, Application, Applicant, Opening, Navigation, _ ) {
+  function CreateApplicationController($scope, $stateParams, resolvedAuth, Messages, Application, Applicant, Opening, Navigation, _ ) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.application = new Application();
     vm.options = {};
-    vm.saveDetails = saveDetails;
+    vm.createApplication = createApplication;
     vm.saveApplication = saveApplication;
     vm.submitApplication = submitApplication;
     vm.uploadFile = uploadFile;
 
     activate();
-
-    function uploadFile(file, type) {
-      vm.application.uploadFile(file)
-        .then(function (response) {
-          if(type === 'coverLetter') {
-            vm.application.coverLetter = response.data.fileId;
-          } else {
-            vm.application.cv = response.data.fileId;
-          }
-        });
-    }
 
     function activate() {
       if(!vm.user.hasRole(['admin', 'committee member'])) {
@@ -43,11 +32,34 @@
           });
         vm.application.applicant = null;
 
-        return 'done';
+        $scope.$watch('vm.user', function(newVal) {
+          updateApplicationUserInfo(newVal);
+        }, true);
+
+        return true;
       }
 
       setupNavigation();
       getValueLists();
+    }
+
+    function updateApplicationUserInfo(user) {
+      vm.application.firstName = user.firstName;
+      vm.application.lastName = user.lastName;
+      vm.application.honorific = user.honorific;
+      vm.application.middleName = user.middleName;
+      vm.application.user = user._id;
+    }
+
+    function uploadFile(file, type) {
+      vm.application.uploadFile(file)
+        .then(function (response) {
+          if(type === 'coverLetter') {
+            vm.application.coverLetter = response.data.fileId;
+          } else {
+            vm.application.cv = response.data.fileId;
+          }
+        });
     }
 
     function submitApplication() {
@@ -61,10 +73,12 @@
         });
     }
 
-    function saveDetails() {
-      vm.application.$save()
-        .then(function (result) {
-          Messages.addMessage('Details Saved for ' + result.firstName + ' ' + result.lastName);
+    function createApplication() {
+      vm.application.user = vm.user._id;
+      Application.create(vm.application).$promise
+        .then(function (application) {
+          Messages.addMessage('Details Saved for ' + application.firstName + ' ' + application.lastName);
+          vm.application = application;
         })
         .catch(function (err) {
           Messages.addMessage(err.data.message, 'error');
