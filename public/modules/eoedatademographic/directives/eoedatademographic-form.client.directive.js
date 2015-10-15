@@ -1,21 +1,21 @@
 (function () {
   'use strict';
   angular
-    .module('eoeDataDemographic')
-    .directive('eoeDataDemographicForm', eoeDataDemographicForm)
+    .module('eoe')
+    .directive('eoeForm', eoeForm)
     //.directive('eoeDisabilityForm', eoeDisabilityForm);
 
 
-  function eoeDataDemographicForm() {
+  function eoeForm() {
     return {
       restrict: 'E',
-      templateUrl: 'modules/eoeDataDemographic/directives/partials/eoeDataDemographic-form.client.partial.html'
+      templateUrl: 'modules/eoe/directives/partials/eoe-form.client.partial.html'
     };
   }
   //function eoeDisabilityForm() {
   //  return {
   //    restrict: 'E',
-  //    templateUrl: 'modules/eoeDataDemographic/directives/partials/eoeDisability-form.client.partial.html'
+  //    templateUrl: 'modules/eoe/directives/partials/eoeDisability-form.client.partial.html'
   //  };
   //}
 })();

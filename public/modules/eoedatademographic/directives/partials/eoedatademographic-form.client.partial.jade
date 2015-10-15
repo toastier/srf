@@ -1,4 +1,4 @@
-ng-form(name="vm.eoeDataDemographicForm")
+ng-form(name="vm.eoeForm")
     .container
         .jumbotron
             p Duke University takes seriously its commitment to equal opportunity in hiring. In order to measure how well we are doing, we need to have accurate data regarding the composition of our applicant pools
@@ -8,8 +8,8 @@ ng-form(name="vm.eoeDataDemographicForm")
           fieldset
           .form-group.col-xs-12
             label.control-label(for='opening') Opening
-            //select#opening.form-control(ng-options="opening._id as opening.name for opening in vm.options.openings", data-ng-model='vm.eoeDataDemographic.opening', required='')
-            select#opening.form-control(data-ng-model='vm.eoeDataDemographic.opening', required='')
+            //select#opening.form-control(ng-options="opening._id as opening.name for opening in vm.options.openings", data-ng-model='vm.eoe.opening', required='')
+            select#opening.form-control(data-ng-model='vm.eoe.opening', required='')
               option(value="") --Choose an Opening--
               option(value="561410fc5a6e72be05f95c76") ABSN Psych 2016
         .row
@@ -18,17 +18,17 @@ ng-form(name="vm.eoeDataDemographicForm")
               h2 Race
               .col-md-12.control-group(data-ng-repeat='race in vm.options.races')
                 label {{race.description}}
-                    input(type='checkbox', ng-model=('vm.eoeDataDemographic.race[race.code]'), checklist-value='race.description')
+                    input(type='checkbox', ng-model=('vm.eoe.race[race.code]'), checklist-value='race.description')
         .row
           fieldset
           .form-group.col-xs-12
               h2 Gender
               .col-md-12.control-group
-                input#female(type='radio', value='f', ng-model='vm.eoeDataDemographic.gender')
+                input#female(type='radio', value='f', ng-model='vm.eoe.gender')
                 label Female
-                input#male(type='radio', value='m', ng-model='vm.eoeDataDemographic.gender')
+                input#male(type='radio', value='m', ng-model='vm.eoe.gender')
                 label Male
-                input#decline(type='radio', value='d', ng-model='vm.eoeDataDemographic.gender')
+                input#decline(type='radio', value='d', ng-model='vm.eoe.gender')
                 label Decline to answer
         .row
           fieldset
@@ -36,11 +36,11 @@ ng-form(name="vm.eoeDataDemographicForm")
               h2 Ethnicity
               h3 Are you Hispanic?
               .col-md-12.control-group
-                input#hispanic(type='radio', value='h', ng-model='vm.eoeDataDemographic.ethnicity')
+                input#hispanic(type='radio', value='h', ng-model='vm.eoe.ethnicity')
                 label Yes
-                input#hispanic(type='radio', value='n', ng-model='vm.eoeDataDemographic.ethnicity')
+                input#hispanic(type='radio', value='n', ng-model='vm.eoe.ethnicity')
                 label No
-                input#decline(type='radio', value='d', ng-model='vm.eoeDataDemographic.ethnicity')
+                input#decline(type='radio', value='d', ng-model='vm.eoe.ethnicity')
                 label Decline to answer
     .container
         include eoedisability-form.client.partial.html

@@ -1,14 +1,14 @@
 (function () {
   'use strict';
   // Setting up route
-  angular.module('eoeDataDemographic').config(['$stateProvider',
+  angular.module('eoe').config(['$stateProvider',
     function ($stateProvider) {
-      // EoeDataDemographic state routing
+      // Eoe state routing
       $stateProvider
-        .state('main.listEoeDataDemographic', {
-          url: '/eoeDataDemographic',
-          templateUrl: 'modules/eoeDataDemographic/views/list-eoeDataDemographic.client.view.html',
-          controller: 'ListEoeDataDemographicController',
+        .state('main.listEoe', {
+          url: '/eoe',
+          templateUrl: 'modules/eoe/views/list-eoe.client.view.html',
+          controller: 'ListEoeController',
           controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {
@@ -16,10 +16,10 @@
             }
           }
         })
-        .state('main.createEoeDataDemographic', {
-          url: '/eoeDataDemographic/create',
-          templateUrl: 'modules/eoeDataDemographic/views/create-eoeDataDemographic.client.view.html',
-          controller: 'CreateEoeDataDemographicController',
+        .state('main.createEoe', {
+          url: '/eoe/create',
+          templateUrl: 'modules/eoe/views/create-eoe.client.view.html',
+          controller: 'CreateEoeController',
           controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {
@@ -27,10 +27,10 @@
             }
           }
         })
-        .state('main.viewEoeDataDemographic', {
-          url: '/eoeDataDemographic/:eoeDataDemographicId',
-          templateUrl: 'modules/eoeDataDemographic/views/view-eoeDataDemographic.client.view.html',
-          controller: 'ViewEoeDataDemographicController',
+        .state('main.viewEoe', {
+          url: '/eoe/:eoeId',
+          templateUrl: 'modules/eoe/views/view-eoe.client.view.html',
+          controller: 'ViewEoeController',
           controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {
@@ -38,10 +38,10 @@
             }
           }
         })
-        .state('main.editEoeDataDemographic', {
-          url: '/eoeDataDemographic/:eoeDataDemographicId/edit',
-          templateUrl: 'modules/eoeDataDemographic/views/edit-eoddatademographic.client.view.html',
-          controller: 'EditEoeDataDemographicController',
+        .state('main.editEoe', {
+          url: '/eoe/:eoeId/edit',
+          templateUrl: 'modules/eoe/views/edit-eoddatademographic.client.view.html',
+          controller: 'EditEoeController',
           controllerAs: 'vm',
           resolve: {
             resolvedAuth: function(resolvedAuth) {

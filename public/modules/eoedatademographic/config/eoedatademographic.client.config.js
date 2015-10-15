@@ -1,11 +1,11 @@
 (function () {
   'use strict';
-  // Configuring the EoeDataDemographic module
-  angular.module('eoeDataDemographic').run(['Menus',
+  // Configuring the Eoe module
+  angular.module('eoe').run(['Menus',
     function (Menus) {
       // Set top bar menu items
-      Menus.addMenuItem('sidebar', 'EOE Survey', '', '#!/eoeDataDemographic/create', '#!/eoeDataDemographic/create', false, ['admin'], 998);
-      Menus.addMenuItem('sidebar', 'EOE Demographics - Report', '', '#!/eoeDataDemographic', '#!/eoeDataDemographic', false, ['admin'], 999);
+      Menus.addMenuItem('sidebar', 'EOE Survey', '', '#!/eoe/create', '#!/eoe/create', false, ['admin'], 998);
+      Menus.addMenuItem('sidebar', 'EOE Demographics - Report', '', '#!/eoe', '#!/eoe', false, ['admin'], 999);
     }
   ]);
 })();

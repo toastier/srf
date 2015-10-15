@@ -1,25 +1,25 @@
 (function () {
   'use strict';
   angular
-    .module('eoeDataDemographic')
-    .factory('EoeDataDemographic', EoeDataDemographic);
+    .module('eoe')
+    .factory('Eoe', Eoe);
 
-  function EoeDataDemographic($resource, $state, $stateParams) {
-    var EoeDataDemographic = $resource('eoeDataDemographic/:eoeDataDemographicId', {eoeDataDemographicId: '@_id'}, {
+  function Eoe($resource, $state, $stateParams) {
+    var Eoe = $resource('eoe/:eoeId', {eoeId: '@_id'}, {
       update: {
         method: 'PUT'
       }
     });
 
     var methods = {
-      editThisEoeDataDemographic: function () {
-        $state.go('main.editEoeDataDemographic', {eoeDataDemographicId: $stateParams.eoeDataDemographicId});
+      editThisEoe: function () {
+        $state.go('main.editEoe', {eoeId: $stateParams.eoeId});
       },
-      viewThisEoeDataDemographic: function () {
-        $state.go('main.viewEoeDataDemographic', {eoeDataDemographicId: $stateParams.eoeDataDemographicId});
+      viewThisEoe: function () {
+        $state.go('main.viewEoe', {eoeId: $stateParams.eoeId});
       },
-      createEoeDataDemographic: function () {
-        $state.go('main.createEoeDataDemographic');
+      createEoe: function () {
+        $state.go('main.createEoe');
       }
     };
 
@@ -33,31 +33,31 @@
 
     /**
      * Methods to add to the Model
-     * @type {{listEoeDataDemographic: Function, getActions: Function}}
+     * @type {{listEoe: Function, getActions: Function}}
      */
     var modelMethods = {
 
-      listEoeDataDemographic: function () {
-        $state.go('main.listEoeDataDemographic');
+      listEoe: function () {
+        $state.go('main.listEoe');
       },
       getActions: function () {
         var modelActions = [
-          {title: 'Create a New EoeDataDemographic', method: methods.createEoeDataDemographic, type: 'button', style: 'btn-add'},
-          {title: 'View EoeDataDemographic', method: methods.viewThisEoeDataDemographic, type: 'button', style: 'btn-view'},
-          {title: 'Edit EoeDataDemographic', method: methods.editThisEoeDataDemographic, type: 'button', style: 'btn-edit'}
+          {title: 'Create a New Eoe', method: methods.createEoe, type: 'button', style: 'btn-add'},
+          {title: 'View Eoe', method: methods.viewThisEoe, type: 'button', style: 'btn-view'},
+          {title: 'Edit Eoe', method: methods.editThisEoe, type: 'button', style: 'btn-edit'}
         ];
         return angular.copy(modelActions);
       }
     };
 
     /**
-     * Extend EoeDataDemographic with the methods
+     * Extend Eoe with the methods
      */
-    angular.extend(EoeDataDemographic.prototype, itemMethods);
+    angular.extend(Eoe.prototype, itemMethods);
 
-    angular.extend(EoeDataDemographic, modelMethods);
+    angular.extend(Eoe, modelMethods);
 
 
-    return EoeDataDemographic;
+    return Eoe;
   }
 })();

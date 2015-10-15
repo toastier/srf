@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var eoeDataDemographicModel = new Schema({
+var eoeModel = new Schema({
     opening: {
             type: Schema.Types.ObjectId,
             ref: 'Opening'
@@ -42,7 +42,7 @@ var eoeDataDemographicModel = new Schema({
     //}
 },
     {
-        collection: 'eoeDataDemographic'
+        collection: 'eoe'
     }
 );
 //    .virtual('race.multiple').get(function () {
@@ -50,7 +50,7 @@ var eoeDataDemographicModel = new Schema({
 //});
 
 
-var modelName = 'EoeDataDemographic';
+var modelName = 'Eoe';
 
-module.exports = mongoose.model(modelName, eoeDataDemographicModel);
+module.exports = mongoose.model(modelName, eoeModel);
 

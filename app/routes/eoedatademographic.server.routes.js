@@ -4,11 +4,11 @@
  * Module dependencies.
  */
 var users = require('../../app/controllers/users'),
-	eoeDataDemographic = require('../../app/controllers/eoedatademographic');
+	eoe = require('../../app/controllers/eoe');
 
 module.exports = function(app) {
 	// EOE Demographic Routes
-	app.route('/eoeDataDemographic')
-		.get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), eoeDataDemographic.list)
-		.post(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), eoeDataDemographic.create);
+	app.route('/eoe')
+		.get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), eoe.list)
+		.post(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), eoe.create);
 };
