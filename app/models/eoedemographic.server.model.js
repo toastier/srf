@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var eoeModel = new Schema({
+var eoeDemographicModel = new Schema({
     opening: {
             type: Schema.Types.ObjectId,
             ref: 'Opening'
@@ -52,5 +52,5 @@ var eoeModel = new Schema({
 
 var modelName = 'Eoe';
 
-module.exports = mongoose.model(modelName, eoeModel);
+module.exports = mongoose.model(modelName, eoeDemographicModel);
 
