@@ -3,8 +3,8 @@ var mongoose = require('mongoose'),
 
 var eoeDataDemographicModel = new Schema({
     opening: {
-        type: Schema.Types.ObjectId,
-        ref: 'Opening'
+            type: Schema.Types.ObjectId,
+            ref: 'Opening'
     },
     gender: {
         type: String, enum: ['f', 'm', 'd']

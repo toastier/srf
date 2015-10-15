@@ -12,8 +12,10 @@
     vm.disableSaveButton = disableSaveButton;
     vm.cancel = cancel;
     vm.eoeDataDemographic = new EoeDataDemographic();
+    vm.eoeDataDemographic.disability = 'Yes';
     vm.saveEoeDataDemographic = saveEoeDataDemographic;
-    vm.options = { 'showCrumbs' : false };
+    //vm.saveEoeDisability = saveEoeDisability;
+    vm.options = { };
 
     activate();
 
@@ -77,6 +79,14 @@
         .catch(function (error) {
           Messages.addMessage('There was a problem saving the EoeDataDemographic ' + error.data.message, 'error');
         });
+      //vm.eoeDisability.$save()
+      //  .then(function (result) {
+      //    Messages.addMessage('The Eoe disability data "' + result.name + '" was saved.', 'success');
+      //    //EoeDataDemographic.listEoeDataDemographic();
+      //  })
+      //  .catch(function (error) {
+      //    Messages.addMessage('There was a problem saving the Eoe Disability ' + error.data.message, 'error');
+      //  });
     }
 
     function calculateDates () {
@@ -94,10 +104,10 @@
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
-      Navigation.breadcrumbs.add('EoeDataDemographic', '#!/eoeDataDemographic', '#!/eoeDataDemographic'); // add a breadcrumb
+      //Navigation.breadcrumbs.add('EoeDataDemographic', '#!/eoeDataDemographic', '#!/eoeDataDemographic'); // add a breadcrumb
       /** @type Array Actions we wish to add to the Navigation that we define locally **/
       var controllerActions = [
-        {title: 'Save EoeDataDemographic', method: vm.saveEoeDataDemographic, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
+        {title: 'Submit', method: vm.saveEoeDataDemographic, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
         {title: 'Cancel', method: vm.cancel, type: 'button', style: 'btn-cancel'}
       ];
 
@@ -105,7 +115,7 @@
       actions.splice(0, 3); // splice out the ones we don't want (were taking them all out here)
       actions = _.union(actions, controllerActions); // merge together actions defined in the controller with those from the Model
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('Create EoeDataDemographic'); // set the page title
+      Navigation.viewTitle.set('EOE Survey'); // set the page title
     }
 
 

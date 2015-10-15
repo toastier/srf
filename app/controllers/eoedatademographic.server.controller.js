@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
 	EoeDataDemographic = mongoose.model('EoeDataDemographic'),
+	EoeDisability = mongoose.model('EoeDisability'),
 	errorHandler = 	require('./errors.server.controller'), //this doesn't work
 	_ = require('lodash');
 
@@ -38,6 +39,7 @@ var getErrorMessage = function(err) {
  */
 exports.create = function(req, res) {
 	console.log('creating');
+	console.log(req.body);
 	var eoeDataDemographic = new EoeDataDemographic(req.body);
 	eoeDataDemographic.user = req.user;
 
@@ -52,6 +54,27 @@ exports.create = function(req, res) {
 		}
 	});
 };
+
+/**
+ * Create an EOE Disability record
+ */
+exports.create = function(req, res) {
+	console.log('creating EOE disability');
+	var eoeDisability = new EoeDisability(req.body);
+	//eoeDataDemographic.user = req.user;
+
+	eoeDisability.save(function(err) {
+		if (err) {
+			return res.send(400, {
+				// this doesn't work, dumping errorHandler into its own controller
+				message: getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(eoeDisability);
+		}
+	});
+};
+
 
 
 

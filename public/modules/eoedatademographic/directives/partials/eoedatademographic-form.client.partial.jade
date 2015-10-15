@@ -1,46 +1,48 @@
-.jumbotron
-    .container
-    p Duke University takes seriously its commitment to equal opportunity in hiring. In order to measure how well we are doing, we need to have accurate data regarding the composition of our applicant pools
-    p We would appreciate, therefore, having your self-identification by ethnicity, race and gender, and letting us know if you have a disability or if you are a protected veteran. Completing this part is voluntary, but we hope that you will choose to fill it out. Your decision not to supply this information will not prejudice our consideration of your application, but it will hinder our efforts to review and evaluate our hiring procedures and practices. The information you supply will be kept private and will not be used against you in any way.
-
 ng-form(name="vm.eoeDataDemographicForm")
-  .row
-      fieldset
-      .form-group.col-xs-12
-        label.control-label(for='opening') Opening
-        //select#opening.form-control(ng-options="opening._id as opening.name for opening in vm.options.openings", data-ng-model='vm.eoeDataDemographic.opening', required='')
-        select#opening.form-control(data-ng-model='vm.eoeDataDemographic.opening', required='')
-          option(value="") --Choose an Opening--
-          option(value="561410fc5a6e72be05f95c76") ABSN Psych 2016
-  .row
-      fieldset
-      .form-group.col-xs-12
-          h2 Race
-          .col-md-12.control-group(data-ng-repeat='race in vm.options.races')
-            label {{race.description}}
-                input(type='checkbox', ng-model=('vm.eoeDataDemographic.race[race.code]'), checklist-value='race.description')
-  .row
-      fieldset
-      .form-group.col-xs-12
-          h2 Gender
-          .col-md-12.control-group
-            input#female(type='radio', value='f', ng-model='vm.eoeDataDemographic.gender')
-            label Female
-            input#male(type='radio', value='m', ng-model='vm.eoeDataDemographic.gender')
-            label Male
-            input#decline(type='radio', value='d', ng-model='vm.eoeDataDemographic.gender')
-            label Decline to answer
-  .row
-      fieldset
-      .form-group.col-xs-12
-          h2 Ethnicity
-          h3 Are you Hispanic?
-          .col-md-12.control-group
-            input#hispanic(type='radio', value='h', ng-model='vm.eoeDataDemographic.ethnicity')
-            label Yes
-            input#hispanic(type='radio', value='n', ng-model='vm.eoeDataDemographic.ethnicity')
-            label No
-            input#decline(type='radio', value='d', ng-model='vm.eoeDataDemographic.ethnicity')
-            label Decline to answer
+    .container
+        .jumbotron
+            p Duke University takes seriously its commitment to equal opportunity in hiring. In order to measure how well we are doing, we need to have accurate data regarding the composition of our applicant pools
+            p We would appreciate, therefore, having your self-identification by ethnicity, race and gender, and letting us know if you have a disability or if you are a protected veteran. Completing this part is voluntary, but we hope that you will choose to fill it out. Your decision not to supply this information will not prejudice our consideration of your application, but it will hinder our efforts to review and evaluate our hiring procedures and practices. The information you supply will be kept private and will not be used against you in any way.
+        h1 Demographics
+        .row
+          fieldset
+          .form-group.col-xs-12
+            label.control-label(for='opening') Opening
+            //select#opening.form-control(ng-options="opening._id as opening.name for opening in vm.options.openings", data-ng-model='vm.eoeDataDemographic.opening', required='')
+            select#opening.form-control(data-ng-model='vm.eoeDataDemographic.opening', required='')
+              option(value="") --Choose an Opening--
+              option(value="561410fc5a6e72be05f95c76") ABSN Psych 2016
+        .row
+          fieldset
+          .form-group.col-xs-12
+              h2 Race
+              .col-md-12.control-group(data-ng-repeat='race in vm.options.races')
+                label {{race.description}}
+                    input(type='checkbox', ng-model=('vm.eoeDataDemographic.race[race.code]'), checklist-value='race.description')
+        .row
+          fieldset
+          .form-group.col-xs-12
+              h2 Gender
+              .col-md-12.control-group
+                input#female(type='radio', value='f', ng-model='vm.eoeDataDemographic.gender')
+                label Female
+                input#male(type='radio', value='m', ng-model='vm.eoeDataDemographic.gender')
+                label Male
+                input#decline(type='radio', value='d', ng-model='vm.eoeDataDemographic.gender')
+                label Decline to answer
+        .row
+          fieldset
+          .form-group.col-xs-12
+              h2 Ethnicity
+              h3 Are you Hispanic?
+              .col-md-12.control-group
+                input#hispanic(type='radio', value='h', ng-model='vm.eoeDataDemographic.ethnicity')
+                label Yes
+                input#hispanic(type='radio', value='n', ng-model='vm.eoeDataDemographic.ethnicity')
+                label No
+                input#decline(type='radio', value='d', ng-model='vm.eoeDataDemographic.ethnicity')
+                label Decline to answer
+    .container
+        include eoedisability-form.client.partial.html
     .text-danger(data-ng-show='error')
         strong {{error}}
