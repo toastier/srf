@@ -3,7 +3,7 @@ ng-form(name="directiveVm.userSignupOrLoginForm")
     .col-md-6.form-group(ng-class="{ 'has-success': directiveVm.userSignupOrLoginForm.email.$valid, 'has-warning': directiveVm.userSignupOrLoginForm.email.$invalid && directiveVm.userSignupOrLoginForm.email.$dirty}")
       label.control-label Email Address
       .input-group
-        input.form-control(name="email", type="email", ng-model="directiveVm.user.email", required)
+        input.form-control(name="email", type="email", du-validate-email, ng-model="directiveVm.user.email", required)
         .input-group-addon
           i.fa.fa-envelope
     .col-md-6.form-group(ng-show="directiveVm.userSignupOrLoginForm.email.$dirty", ng-class="{ 'has-success': directiveVm.userSignupOrLoginForm.email.$valid, 'has-warning': directiveVm.userSignupOrLoginForm.email.$invalid && directiveVm.userSignupOrLoginForm.email.$dirty}")
