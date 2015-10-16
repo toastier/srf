@@ -1,24 +1,30 @@
+/**
+ * @ngdoc directive
+ * @scope directiveVm
+ * @example
+   <user-signup-or-signin-form user="vm.user"></user-signup-or-signin-form>
+ */
 (function () {
   'use strict';
 
   angular
     .module('users')
-    .directive('userSignupOrLoginForm', userSignupOrLoginForm);
+    .directive('userSignupOrSigninForm', userSignupOrSigninForm);
 
-  function userSignupOrLoginForm() {
+  function userSignupOrSigninForm() {
 
     return {
       restrict: 'E',
-      templateUrl: 'modules/users/directives/partials/user-signup-or-login-form.client.partial.html',
+      templateUrl: 'modules/users/directives/partials/user-signup-or-signin-form.client.partial.html',
       scope: {
         user: '='
       },
-      controller: UserSignupOrLoginFormController,
+      controller: UserSignupOrSigninFormController,
       controllerAs: 'directiveVm',
       bindToController: true
     };
 
-    function UserSignupOrLoginFormController($scope, $state, Messages, Users, _ ) {
+    function UserSignupOrSigninFormController($scope, Messages, Users, _ ) {
       var directiveVm = this;
       directiveVm.emailIsUnique = true;
       directiveVm.emailStatusMessage = '';
@@ -93,7 +99,27 @@
         checkPasswordStrength();
       }
 
+      function updateUser(user) {
+        directiveVm.user._id = user._id;
+        directiveVm.user.honorific = user.honorific;
+        directiveVm.user.firstName = user.firstName;
+        directiveVm.user.middleName = user.middleName;
+        directiveVm.user.lastName = user.lastName;
+        directiveVm.user.displayName = user.displayName;
+        directiveVm.user.roles = user.roles;
+        delete directiveVm.password;
+        delete directiveVm.passwordConfirm;
+      }
+
       function signin() {
+        directiveVm.user.username = directiveVm.user.email;
+        directiveVm.user.auth.signin(directiveVm.user).$promise
+          .then(function (user) {
+            updateUser(user);
+          })
+          .catch(function (err) {
+            Messages.addMessage(err.data.message, 'error', 'Problem Signing in', 'dev');
+          });
         //@todo sign user in
       }
 
@@ -101,16 +127,11 @@
         directiveVm.user.username = directiveVm.user.email;
         directiveVm.user.auth.signup(directiveVm.user).$promise
           .then(function(user){
-            directiveVm.user._id = user._id;
-            directiveVm.user.displayName = user.displayName;
-            directiveVm.user.roles = user.roles;
-            delete directiveVm.password;
-            delete directiveVm.passwordConfirm;
+            updateUser(user);
           })
           .catch(function(err) {
             Messages.addMessage(err.data.message, 'error', 'Problem Saving User', 'dev');
           });
-        //@todo sign user up
       }
     }
   }
