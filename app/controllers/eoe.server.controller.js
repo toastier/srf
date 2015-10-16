@@ -43,9 +43,9 @@ exports.create = function(req, res) {
 	console.log('creating EOE record...');
 	req.body.opening = mongoose.Types.ObjectId('561410fc5a6e72be05f95c76');
 	console.log(req.body);
-	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran']));
+	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass']));
 	//eoeDemographic.user = req.user;
-	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran']));
+	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran', 'vetClass']));
 	var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
 
 	eoeDemographic.save(function(err) {

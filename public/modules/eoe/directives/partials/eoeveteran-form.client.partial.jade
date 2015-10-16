@@ -1,15 +1,23 @@
-h1 Protected Veteran Self-Identification
-.jumbotron
+.panel.panel-default
+  .panel-heading.large Protected Veteran Self-Identification
+  .panel-body
     p If you believe you belong to any of the categories of protected veterans listed below, please check the appropriate boxes. We request this information in order to measure the effectiveness of the outreach and positive recruitment efforts we undertake pursuant to VEVRAA.
-.row
-  fieldset
-      .col-md-12.control-group
-        input#yesId(type='radio', value='yes-id', ng-model='vm.eoe.veteran')
-        label
-          strong I identify as one or more of the classifications of protected veterans:
-        input#yesNotId(type='radio', value='yes-not-id', ng-model='vm.eoe.veteran')
-        label
-          strong I am a protected veteran, but I choose not to self-identify the classifications to which I belong
-        input#no(type='radio', value='no', ng-model='vm.eoe.veteran')
-        label
-          span I am NOT a protected veteran
+  .row
+    .col-md-12
+      .row
+        .col-md-12.form-group
+          .radio
+            label
+              input.radio#yesId(type='radio', value='yes-id', ng-model='vm.eoe.veteran')
+              strong I identify as one or more of the classifications of protected veterans:
+              .col-md-12.control-group(data-ng-repeat='vetClass in vm.options.vetClasses')
+                input.checkbox-inline(type="checkbox", ng-model=('vm.eoe.vetClass[vetClass.code]'), checklist-value='vetClass.description')
+                span {{vetClass.description}}
+          .radio
+            label
+              input.radio#yesNotId(type='radio', value='yes-not-id', ng-model='vm.eoe.veteran')
+              strong I am a protected veteran, but I choose not to self-identify the classifications to which I belong
+          .radio
+            label
+              input.radio#no(type='radio', value='no', ng-model='vm.eoe.veteran')
+              span I am NOT a protected veteran
