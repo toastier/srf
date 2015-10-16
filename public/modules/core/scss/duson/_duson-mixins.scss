@@ -139,3 +139,28 @@
 //* html .clearfix { height: 1%; }
 //.clearfix { display: block; }
 /* close commented backslash hack */
+
+//
+// Animation Mixins
+// -----------------------------------------------------
+
+@mixin duTransition($transition) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}
+
+@mixin duBackface() {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+@mixin duTranslate3d($x, $y, $z) {
+  @include backface();
+  -webkit-transform: translate3d($x, $y, $z);
+  -moz-transform: translate3d($x, $y, $z);
+  -o-transform: translate3d($x, $y, $z);
+  transform: translate3d($x, $y, $z);
+}

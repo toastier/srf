@@ -711,54 +711,48 @@ div.ui-select-container.ui-select-multiple.ui-select-bootstrap {
 
 /* Have to set height explicitly on ui-view
 to prevent collapsing during animation*/
-.ui-view-container {
-  position: relative;
-  //height: 65px;
-}
-
-[ui-view].ng-enter, [ui-view].ng-leave {
-  position: absolute;
-  left: 0;
-  right: 0;
-  -webkit-transition:all .25s ease-in-out;
-  -moz-transition:all .25s ease-in-out;
-  -o-transition:all .25s ease-in-out;
-  transition:all .25s ease-in-out;
-}
-
-[ui-view].ng-enter {
-  opacity: 0;
-  //-webkit-transform:scale3d(0.5, 0.5, 0.5);
-  //-moz-transform:scale3d(0.5, 0.5, 0.5);
-  //transform:scale3d(0.5, 0.5, 0.5);
-  -webkit-transform:translate3d(-100px, 0, 0);
-  -moz-transform:translate3d(-100px, 0, 0);
-  transform:translate3d(-100px, 0, 0);
-}
-
-[ui-view].ng-enter-active {
-  opacity: 1;
-  //-webkit-transform:scale3d(1, 1, 1);
-  //-moz-transform:scale3d(1, 1, 1);
-  //transform:scale3d(1, 1, 1);
-  -webkit-transform:translate3d(0, 0, 0);
-  -moz-transform:translate3d(0, 0, 0);
-  transform:translate3d(0, 0, 0);
-}
-
-[ui-view].ng-leave {
-  opacity: 1;
-  -webkit-transform:translate3d(0, 0, 0);
-  -moz-transform:translate3d(0, 0, 0);
-  transform:translate3d(0, 0, 0);
-}
-
-[ui-view].ng-leave-active {
-  opacity: 0;
-  -webkit-transform:translate3d(100px, 0, 0);
-  -moz-transform:translate3d(100px, 0, 0);
-  transform:translate3d(100px, 0, 0);
-}
+//.ui-view-container {
+//  position: relative;
+//  height: 65px;
+//}
+//
+//[ui-view].ng-enter, [ui-view].ng-leave {
+//  position: absolute;
+//  left: 0;
+//  right: 0;
+//  -webkit-transition:all .25s ease-in-out;
+//  -moz-transition:all .25s ease-in-out;
+//  -o-transition:all .25s ease-in-out;
+//  transition:all .25s ease-in-out;
+//}
+//
+//[ui-view].ng-enter {
+//  opacity: 0;
+//  -webkit-transform:translate3d(-100px, 0, 0);
+//  -moz-transform:translate3d(-100px, 0, 0);
+//  transform:translate3d(-100px, 0, 0);
+//}
+//
+//[ui-view].ng-enter-active {
+//  opacity: 1;
+//  -webkit-transform:translate3d(0, 0, 0);
+//  -moz-transform:translate3d(0, 0, 0);
+//  transform:translate3d(0, 0, 0);
+//}
+//
+//[ui-view].ng-leave {
+//  opacity: 1;
+//  -webkit-transform:translate3d(0, 0, 0);
+//  -moz-transform:translate3d(0, 0, 0);
+//  transform:translate3d(0, 0, 0);
+//}
+//
+//[ui-view].ng-leave-active {
+//  opacity: 0;
+//  -webkit-transform:translate3d(100px, 0, 0);
+//  -moz-transform:translate3d(100px, 0, 0);
+//  transform:translate3d(100px, 0, 0);
+//}
 
 //
 // Static Form Controls
@@ -975,7 +969,63 @@ td {
   }
 }
 
-
 .multi-column {
   column-count: 3;
+}
+
+//
+// messages within a form
+// -----------------------------------------------------
+
+.message {
+  @include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
+  display: block;
+  float: none;
+  clear: both;
+  box-sizing: border-box;
+  padding: $padding-small-vertical $padding-small-horizontal;
+  border-radius: $border-radius-base;
+  &.add-label-spacing {
+    margin-top: 26px;
+  }
+  .has-success & {
+    @include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
+  }
+  .has-error & {
+    @include alert-variant($alert-danger-bg, $alert-danger-border, $alert-danger-text);
+  }
+  .has-warning & {
+    @include alert-variant($alert-warning-bg, $alert-warning-border, $alert-warning-text);
+  }
+}
+
+//
+// Animation
+// - dependent on ngAnimate and sass-animate
+// -----------------------------------------------------
+
+#masterUI {
+  @include transition(all 1s);
+  > ui-view {
+    position: absolute;
+    width: 96%;
+    @extend .animated;
+    z-index: 10;
+    &.ng-enter {
+      @extend .fadeIn;
+    }
+    &.ng-leave {
+      @extend .fadeOut;
+    }
+    > section {
+      .animated {
+        &.ng-enter {
+          @extend .fadeIn;
+        }
+        &.ng-leave {
+          @extend .fadeOut;
+        }
+      }
+    }
+  }
 }

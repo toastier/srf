@@ -1,3 +1,35 @@
+//
+// Choose which animations to import
+// -----------------------------------------------------
+
+// Fade Enter
+$use-fadeIn             :   true;
+$use-fadeInLeft         :   true;
+
+// Fade Exit
+$use-fadeOut            :   true;
+$use-fadeOutRight       :   true;
+$base-duration          :   0.5s;
+
+// Lightspeed
+$use-lightSpeedIn 		:	true !default;
+$use-lightSpeedOut 		:	true !default;
+
+// Attention Seekers
+$use-bounce				:	true !default;
+$use-flash				:	true !default;
+$use-pulse				:	true !default;
+$use-wiggle				:	true !default;
+$use-swing				:	true !default;
+$use-shake				:	true !default;
+$use-tada				:	true !default;
+$use-wobble				:	true !default;
+
+
+// Special
+$use-hinge				:	true !default;
+
+
 $bootstrap-sass-asset-helper: false !default;
 //
 // Variables
