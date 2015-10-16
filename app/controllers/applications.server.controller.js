@@ -128,10 +128,10 @@ exports.createForUser = function(req, res) {
   /**
    * find an existing Applicant for the given User._id, if one is found call saveApplication(), passing the Applicant,
    * if not found, call createApplicant()
-   * @param id
+   * @param userId
    */
-  function findApplicantByUserId(id) {
-    Applicant.findById(id)
+  function findApplicantByUserId(userId) {
+    Applicant.findOne({user: userId})
       .exec(function (err, foundApplicant) {
         if (err) {
           return err;
