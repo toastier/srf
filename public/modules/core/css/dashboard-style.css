@@ -15016,3 +15016,69 @@ td:hover > div.icon-group {
 /* line 15100, stdin */
 .rocker-switch.on .switch {
   left: 46px; }
+
+/* line 15104, stdin */
+.message {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  color: #31708f;
+  display: block;
+  float: none;
+  clear: both;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  border-radius: 4px; }
+
+/* line 15116, stdin */
+.message hr {
+  border-top-color: #a6e1ec; }
+
+/* line 15120, stdin */
+.message .alert-link {
+  color: #245269; }
+
+/* line 15124, stdin */
+.message.add-label-spacing {
+  margin-top: 26px; }
+
+/* line 15128, stdin */
+.has-success .message {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d; }
+
+/* line 15134, stdin */
+.has-success .message hr {
+  border-top-color: #c9e2b3; }
+
+/* line 15138, stdin */
+.has-success .message .alert-link {
+  color: #2b542c; }
+
+/* line 15142, stdin */
+.has-error .message {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442; }
+
+/* line 15148, stdin */
+.has-error .message hr {
+  border-top-color: #e4b9c0; }
+
+/* line 15152, stdin */
+.has-error .message .alert-link {
+  color: #843534; }
+
+/* line 15156, stdin */
+.has-warning .message {
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+  color: #8a6d3b; }
+
+/* line 15162, stdin */
+.has-warning .message hr {
+  border-top-color: #f7e1b5; }
+
+/* line 15166, stdin */
+.has-warning .message .alert-link {
+  color: #66512c; }

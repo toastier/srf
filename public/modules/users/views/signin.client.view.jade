@@ -1,8 +1,28 @@
 section
   navigation
   .row
-  .col-xs-offset-2.col-xs-8.col-md-offset-5.col-md-2
-    form.signin.form-horizontal(data-ng-submit="signin()")
-      fieldset
-        .text-center.form-group
-          a.btn.btn-workflow(href="/auth/saml") Login with your NetId
+  .col-xs-offset-2.col-xs-8.col-md-offset-4.col-md-4
+    .panel.panel-default
+      .panel-heading
+        h3 Duke Users
+      .panel-body
+        a.btn.btn-login(ng-click="signin()", href="/auth/saml") Login with your NetId
+    .panel.panel-default
+      .panel-heading
+        h3 Applicants
+      .panel-body
+        ng-form(name="vm.signin")
+          .row
+            .col-xs-12.form-group
+              label.control-label Email Address
+              input.form-control(type="text", ng-model="vm.email")
+            .col-xs-12.form-group
+              label.control-label Password
+              input.form-control(type="password", ng-model="vm.password")
+          .row
+            .col-xs-12
+              a.btn.btn-workflow(ng-click="signin()", href="/auth/saml") Login to Your Account
+          .row
+            .col-xs-12
+              p
+                a(ng-click="signup()") Forgot Your Your Password, or Trouble Logging In?

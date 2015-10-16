@@ -470,6 +470,19 @@ exports.adminUpdate = function (req, res) {
   });
 };
 
+exports.emailAddressIsUnique = function (req, res) {
+  User.findOne({email: req.body.email})
+    .exec(function(err, user) {
+      if(err) {
+        //todo handle error
+      }
+      if(user && user._id) {
+        return res.jsonp({unique: false});
+      }
+      return res.jsonp({unique: true});
+    });
+};
+
 /**
  * Masquerade as another user
  * @param req

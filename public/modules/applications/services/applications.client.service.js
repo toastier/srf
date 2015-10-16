@@ -26,6 +26,10 @@
       doPhoneInterview: {
         method: 'GET',
         url: 'applications/:applicationId/conductPhoneInterview'
+      },
+      create: {
+        method: 'POST',
+        url: 'applications/createForUser'
       }
     });
 

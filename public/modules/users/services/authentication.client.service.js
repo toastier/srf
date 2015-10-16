@@ -8,7 +8,7 @@
 
     // service returns a promise
     var User = $q.defer();
-    var resource = $resource('/auth/me', {});
+    var userResource = $resource('/auth/me', {});
 
     // if the user lookup has not happened yet, cached will be falsy, and we do the query
     if (!User.cached) {
@@ -29,10 +29,19 @@
         hasRole: function hasRole(roles) {
           return !!(_.intersection(user.roles, roles).length);
         },
-        refresh: lookupUser
+        refresh: lookupUser,
+        auth: $resource('/auth/login', {}, {
+          login: {
+            method: 'POST'
+          },
+          signup: {
+            method: 'POST',
+            url: '/auth/signup'
+          }
+        })
       };
 
-      resource.get().$promise
+      userResource.get().$promise
         .then(function (result) {
             user = result;
             user.cached = true;

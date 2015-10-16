@@ -1,0 +1,26 @@
+section.row
+  h3.col-md-12.text-center Signup with your email
+  .col-xs-offset-2.col-xs-8.col-md-offset-5.col-md-2
+    form.signin.form-horizontal(data-ng-submit='signup()', novalidate='', autocomplete='off')
+      fieldset
+        .form-group
+          label(for='firstName') First Name
+          input#firstName.form-control(type='text', required='', name='firstName', data-ng-model='credentials.firstName', placeholder='First Name')
+        .form-group
+          label(for='lastName') Last Name
+          input#lastName.form-control(type='text', name='lastName', data-ng-model='credentials.lastName', placeholder='Last Name')
+        .form-group
+          label(for='email') Email
+          input#email.form-control(type='text', name='email', data-ng-model='credentials.email', placeholder='Email')
+        .form-group
+          label(for='username') Username
+          input#username.form-control(type='text', name='username', data-ng-model='credentials.username', placeholder='Username')
+        .form-group
+          label(for='password') Password
+          input#password.form-control(type='password', name='password', data-ng-model='credentials.password', placeholder='Password')
+        .text-center.form-group
+          button.btn.btn-large.btn-primary(type='submit') Sign up
+          |   or 
+          a.show-signup(href='/#!/signin') Sign in
+        .text-center.text-danger(data-ng-show='error')
+          strong {{error}}

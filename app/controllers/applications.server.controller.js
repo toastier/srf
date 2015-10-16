@@ -6,6 +6,7 @@
 var mongoose = require('mongoose');
 var _ = require('lodash');
 var Application = mongoose.model('Application');
+var Applicant = mongoose.model('Applicant');
 
 /**
  * Application middleware
@@ -79,6 +80,90 @@ exports.create = function(req, res) {
 			res.jsonp(application);
 		}
 	});
+};
+
+/**
+ * User create Application
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+exports.createForUser = function(req, res) {
+  var application = new Application(req.body);
+
+  if(!application.user) {
+    return res.send(400, {
+      message: 'no user given'
+    });
+  }
+
+  findApplicantByUserId(application.user);
+
+  /**
+   * create a new Applicant based on data in the Application, call save Application passing the Applicant
+   */
+  function createApplicant() {
+    var name = {
+      firstName: application.firstName,
+      honorific: application.honorific,
+      middleName: application.middleName,
+      lastName: application.lastName
+    };
+    var applicant = new Applicant({
+      user: application.user,
+      name: name
+    });
+
+    applicant.save(function(err) {
+      if (err) {
+        return res.send(400, {
+          message: getErrorMessage(err)
+        });
+      } else {
+        saveApplication(applicant);
+      }
+    });
+  }
+
+  /**
+   * find an existing Applicant for the given User._id, if one is found call saveApplication(), passing the Applicant,
+   * if not found, call createApplicant()
+   * @param id
+   */
+  function findApplicantByUserId(id) {
+    Applicant.findById(id)
+      .exec(function (err, foundApplicant) {
+        if (err) {
+          return err;
+        }
+
+        if(foundApplicant && foundApplicant._id) {
+          saveApplication(foundApplicant);
+        } else {
+          createApplicant();
+        }
+      });
+  }
+
+  /**
+   * save the Application and return the response
+   * @param applicant
+   */
+  function saveApplication(applicant) {
+    application.applicant = applicant._id;
+
+    application.save(function(err, result) {
+      if (err) {
+        return res.send(400, {
+          message: getErrorMessage(err)
+        });
+      }
+      if (result) {
+        return res.jsonp(result);
+      }
+    });
+  }
+
 };
 
 /**

@@ -85,6 +85,10 @@ gulp.task('nodemon', function () {
     .on('restart');
 });
 
+gulp.task('setDevEnv', function() {
+  process.env.NODE_ENV = 'development';
+});
+
 gulp.task('transpileSass', function() {
   gulp.src(gulpConfig.sassFile)
     //.pipe($.sourcemaps.init())
@@ -115,6 +119,8 @@ gulp.task('watch', function() {
 
 // Default task(s).
 gulp.task('default', ['compileJade', 'transpileSass', 'lint', 'watch', 'launchBrowser']);
+
+gulp.task('dev', ['setDevEnv', 'compileJade', 'transpileSass', 'lint', 'watch', 'launchBrowser']);
 
 // Lint task(s).
 gulp.task('lint', ['eslint', 'csslint']);

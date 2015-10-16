@@ -1,5 +1,5 @@
-var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema;
 
 var applicantModel = new Schema({
     name: {
@@ -15,11 +15,6 @@ var applicantModel = new Schema({
       honorific: {type: String},
       suffix: {type: String}
     },
-    // this will be a pointer to the Positions schema TODO
-    positionAppliedFor: {
-      positionName: {type: String}
-    },
-    //},
     applicantPositions: [{
       positionName: {type: String},
       dateExpectedCompletion: {type: Date},
@@ -71,48 +66,13 @@ var applicantModel = new Schema({
       primary: {type: String, default: 'Not specified'},
       specific: {type: String}
     },
-    status: {
-      current: {type: Boolean},
-      confidential: {type: Boolean},  //TODO this shouldn't be part of hiring lifecycle
-      // TODO revise mock data, reconsider with substatus
-      hiringStatus: {
-        submitted: {
-          date: {type: Date},
-          note: {type: String}
-        },
-        phoneScreen: {
-          date: {type: Date},
-          note: {type: String}
-        },
-        campusVisit: {
-          date: {type: Date},
-          note: {type: String}
-        },
-        offered: {
-          date: {type: Date},
-          note: {type: String}
-        },
-        hired: {
-          date: {type: Date},
-          note: {type: String}
-        },
-        rejected: {
-          date: {type: Date},
-          note: {type: String}
-        }
-      }
-    },
     dateCreated: {
       type: Date,
       default: Date.now
+    },
+    user: {
+      type: Schema.Types.ObjectId
     }
-    // User is what has been causing the ObjectId cast error on create (2015-09-04)
-    //user: {
-    //    displayName: {
-    //        type: String,
-    //        default: 'Doris DuSon'
-    //    }
-    //}
   }
 );
 

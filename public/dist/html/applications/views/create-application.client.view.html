@@ -1,1 +1,1 @@
-<section><navigation></navigation><div class="row"><div class="col-xs-12"><application-form-dual-selector></application-form-dual-selector></div></div></section>
+<section><navigation></navigation><div class="row"><div class="col-xs-12"><application-form-dual-selector ng-if="vm.user.hasRole(['admin', 'committee member'])"></application-form-dual-selector><application-form-self-service ng-if="!vm.user.hasRole(['admin', 'committee member'])"></application-form-self-service></div></div></section>
