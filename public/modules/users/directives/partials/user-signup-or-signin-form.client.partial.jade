@@ -1,49 +1,59 @@
-ng-form(name="directiveVm.userSignupOrLoginForm")
+ng-form(name="vm.userForm")
   .row
-    .col-md-6.form-group(ng-class="{ 'has-success': directiveVm.userSignupOrLoginForm.email.$valid, 'has-warning': directiveVm.userSignupOrLoginForm.email.$invalid && directiveVm.userSignupOrLoginForm.email.$dirty}")
+    .col-md-6.form-group(ng-class="{ 'has-success': vm.userForm.email.$valid, 'has-warning': vm.userForm.email.$invalid && vm.userForm.email.$dirty}")
       label.control-label Email Address
       .input-group
-        input.form-control(name="email", type="email", du-validate-email, ng-model="directiveVm.user.email", required)
+        input.form-control(name="email", type="email", du-validate-email, ng-model="vm.user.email", required)
         .input-group-addon
           i.fa.fa-envelope
-    .col-md-6.form-group(ng-show="directiveVm.userSignupOrLoginForm.email.$dirty", ng-class="{ 'has-success': directiveVm.userSignupOrLoginForm.email.$valid, 'has-warning': directiveVm.userSignupOrLoginForm.email.$invalid && directiveVm.userSignupOrLoginForm.email.$dirty}")
-      .add-label-spacing.message  {{ directiveVm.emailStatusMessage }}
-  .row(ng-show="directiveVm.userSignupOrLoginForm.email.$valid")
-    .col-md-6.form-group(ng-class="{'has-success': directiveVm.passwordIsStrong }")
+    .col-md-6.form-group(ng-show="vm.userForm.email.$dirty", ng-class="{ 'has-success': vm.userForm.email.$valid, 'has-warning': vm.userForm.email.$invalid && vm.userForm.email.$dirty}")
+      .add-label-spacing.message  {{ vm.emailStatusMessage() }}
+
+  .row(ng-show="vm.userForm.email.$valid")
+    .col-md-6.form-group(ng-class="{'has-success': vm.passwordIsStrong }")
       label.control-label Password
       .input-group
-        input.form-control(type="password", name="password", ng-model="directiveVm.user.password", required, ng-change="directiveVm.checkPassword()")
+        input.form-control(type="password", name="password", ng-model="vm.user.password", required)
         .input-group-addon
           i.fa.fa-key
-    .col-md-6.form-group(ng-show="directiveVm.userSignupOrLoginForm.password.$dirty", ng-class="{'has-success': directiveVm.passwordIsStrong }")
-      .add-label-spacing.message {{ directiveVm.passwordStatusMessage }}
-  .row(ng-show="directiveVm.passwordIsStrong && directiveVm.emailIsUnique")
-    .col-md-6.form-group(ng-class="{'has-success': directiveVm.passwordsMatch && directiveVm.userSignupOrLoginForm.password.$valid}")
+    .col-md-6.form-group(ng-show="vm.userForm.password.$dirty", ng-class="{'has-success': vm.passwordIsStrong }")
+      .add-label-spacing.message {{ vm.checkPassword() }}
+
+  .row(ng-show="vm.passwordIsStrong && vm.emailIsUnique && vm.userForm.email.$valid")
+    .col-md-6.form-group(ng-class="{'has-success': vm.passwordsMatch && vm.userForm.password.$valid}")
       label.control-label Confirm Password
       .input-group
-        input.form-control(type="password", name="passwordConfirm", ng-model="directiveVm.user.passwordConfirm", ng-required="directiveVm.emailIsUnique", ng-change="directiveVm.checkPasswordsMatch()")
+        input.form-control(type="password", name="passwordConfirm", ng-model="vm.user.passwordConfirm", ng-required="vm.emailIsUnique")
         .input-group-addon
           i.fa.fa-key
-    .col-md-6.form-group(ng-show="directiveVm.userSignupOrLoginForm.passwordConfirm.$dirty", ng-class="{'has-success': directiveVm.passwordsMatch && directiveVm.userSignupOrLoginForm.password.$valid}")
-      .add-label-spacing.message {{ directiveVm.passwordConfirmStatusMessage }}
-  .row
-    .col-md-2.form-group(ng-show="directiveVm.emailIsUnique")
+    .col-md-6.form-group(ng-show="vm.userForm.passwordConfirm.$dirty", ng-class="{'has-success': vm.passwordsMatch && vm.userForm.password.$valid}")
+      .add-label-spacing.message {{ vm.checkPasswordConfirm() }}
+
+  .row(ng-show="vm.userIsNew() && vm.userForm.password.$valid && vm.passwordsMatch")
+    .col-md-2.form-group
       label.control-label Title
-      input.form-control(name="honorific", type="text", ng-model="directiveVm.user.honorific", required)
-    .col-md-3.form-group(ng-show="directiveVm.emailIsUnique")
+      input.form-control(name="honorific", type="text", ng-model="vm.user.honorific", required)
+    .col-md-3.form-group
       label.control-label First Name
-      input.form-control(name="firstName", type="text", ng-model="directiveVm.user.firstName", required)
-    .col-md-3.form-group(ng-show="directiveVm.emailIsUnique")
+      input.form-control(name="firstName", type="text", ng-model="vm.user.firstName", required)
+    .col-md-3.form-group
       label.control-label Middle Name
-      input.form-control(name="middleName", type="text", ng-model="directiveVm.user.middleName")
-    .col-md-4.form-group(ng-show="directiveVm.emailIsUnique")
+      input.form-control(name="middleName", type="text", ng-model="vm.user.middleName")
+    .col-md-4.form-group
       label.control-label Last Name
-      input.form-control(name="lastName", type="text", ng-model="directiveVm.user.lastName", required)
+      input.form-control(name="lastName", type="text", ng-model="vm.user.lastName", required)
 
   .row
-    .col-md-12
-      button.btn.btn-login(ng-if="!directiveVm.emailIsUnique" ng-click="directiveVm.signin()") Looks like you've been here before, Login
+    .col-md-6
+      button.btn.btn-login(
+        ng-if="!vm.userIsNew() && vm.userForm.email.$valid && !vm.checkingEmail",
+        ng-click="vm.signin()",
+        ng-disabled="!vm.userForm.password.$valid"
+        ) Step 1: Looks like you've been here before, Login
       button.btn.btn-default.btn-workflow(
-        ng-show="directiveVm.emailIsUnique",
-        ng-click="directiveVm.signup()",
-        ng-disabled="directiveVm.userSignupOrLoginForm.$invalid || directiveVm.checkingEmail || !directiveVm.emailIsUnique") Step 1: Save Your Details
+        ng-show="vm.userIsNew() && !vm.checkingEmail",
+        ng-click="vm.signup()",
+        ng-disabled="vm.userForm.$invalid || vm.checkingEmail || !vm.emailIsUnique"
+        ) Step 1: Create Your Profile
+    .co-md-6(ng-show="vm.failedLogin")
+      a(ng-click="vm.recoverPassword()", ng-href="#") Trouble logging in? Click here to recover your forgotten password.

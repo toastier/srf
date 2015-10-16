@@ -22,7 +22,7 @@
       },
       checkPasswordStrength: function (password) {
         //@todo implement a password strength strategy
-        return (password && angular.isString(password) && password.length > 5);
+        return (password && angular.isString(password) && password.length > 6);
       }
     };
 

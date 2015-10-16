@@ -1,6 +1,6 @@
 /**
  * @ngdoc directive
- * @scope directiveVm
+ * @scope vm
  * @example
    <user-signup-or-signin-form user="vm.user"></user-signup-or-signin-form>
  */
@@ -20,112 +20,137 @@
         user: '='
       },
       controller: UserSignupOrSigninFormController,
-      controllerAs: 'directiveVm',
+      controllerAs: 'vm',
       bindToController: true
     };
 
-    function UserSignupOrSigninFormController($scope, Messages, Users, _ ) {
-      var directiveVm = this;
-      directiveVm.emailIsUnique = true;
-      directiveVm.emailStatusMessage = '';
-      directiveVm.passwordStatusMessage = '';
-      directiveVm.passwordConfirmStatusMessage = '';
-      directiveVm.checkPassword = checkPassword;
-      directiveVm.checkPasswordsMatch = checkPasswordsMatch;
-      directiveVm.checkPasswordStrength = checkPasswordStrength;
-      directiveVm.checkingEmail = false;
-      directiveVm.debounceEmail = '';
-      directiveVm.options = {};
-      directiveVm.passwordIsStrong = false;
-      directiveVm.passwordsMatch = false;
-      directiveVm.signin = signin;
-      directiveVm.signup = signup;
+    function UserSignupOrSigninFormController($scope, Messages, Users, _, utility ) {
+      var vm = this;
+      vm.emailIsUnique = null;
+      vm.emailStatusMessage = emailStatusMessage;
+      vm.passwordStatusMessage = '';
+      vm.passwordConfirmStatusMessage = '';
+      vm.checkPassword = checkPassword;
+      vm.checkPasswordConfirm = checkPasswordConfirm;
+      vm.checkingEmail = false;
+      vm.userIsNew = userIsNew;
+      vm.debounceEmail = '';
+      vm.options = {};
+      vm.passwordIsStrong = false;
+      vm.passwordsMatch = false;
+      vm.signin = signin;
+      vm.signup = signup;
+      vm.checkEmailDebounced = utility.debounce(checkEmail, 1000, false);
+      vm.failedLogin = false;
+      vm.recoverPassword = recoverPassword;
 
       activate();
 
       function activate() {
 
         /**
-         * checks to see if the email is unique.  Called only by the $scope.$watch so that we can debounce it
-         * @param email
+         * watch the user email, and if it is valid, check to see if it is unique, using the checkEmailDebounced method
          */
-        function checkEmail(email) {
-          Users.checkEmail({email: email}).$promise
-            .then(function (emailIsUnique) {
-              directiveVm.emailIsUnique = emailIsUnique.unique;
-              directiveVm.checkingEmail = false;
-              if(directiveVm.emailIsUnique && directiveVm.userSignupOrLoginForm.email.$valid) {
-                directiveVm.emailStatusMessage = 'Email is OK';
-              } else if(!directiveVm.emailIsUnique && directiveVm.userSignupOrLoginForm.email.$valid) {
-                directiveVm.emailStatusMessage = 'An account exists with this email address';
-              } else if(directiveVm.userSignupOrLoginForm.email.$invalid && directiveVm.userSignupOrLoginForm.email.$dirty) {
-                directiveVm.emailStatusMessage = 'Email is invalid';
-              } else {
-                directiveVm.emailStatusMessage = '';
-              }
-            })
-            .catch(function(err) {
-              Messages.addMessage(err.data.message, 'error', 'Error checking email');
-              directiveVm.checkingEmail = false;
-            });
-        }
-
-        $scope.$watch('directiveVm.user.email', _.debounce(function (newVal) {
-          directiveVm.debounceEmail = newVal;
-          checkEmail(directiveVm.debounceEmail);
-        }, 1000));
+        $scope.$watch('vm.user.email', function(newVal) {
+          if(vm.userForm.email.$valid && vm.userForm.email.$dirty) {
+            vm.checkingEmail = true;
+            vm.checkEmailDebounced(newVal);
+          } else {
+            vm.checkingEmail = false;
+            vm.emailIsUnique = null;
+          }
+        });
       }
 
-      function checkPasswordsMatch() {
-        directiveVm.passwordsMatch = Users.checkPasswordsMatch(directiveVm.user.password, directiveVm.user.passwordConfirm);
-        if (!directiveVm.passwordsMatch) {
-          directiveVm.passwordConfirmStatusMessage = 'Passwords do not match';
-        } else {
-          directiveVm.passwordConfirmStatusMessage = 'Passwords match';
+      /**
+       * checks to see if the email is unique.  Called only by the $scope.$watch so that we can debounce it
+       * @param email
+       */
+      function checkEmail(email) {
+        if(!vm.userForm.email.$valid) {
+          return false;
         }
+        Users.checkEmail({email: email}).$promise
+          .then(function (emailIsUnique) {
+            vm.emailIsUnique = emailIsUnique.unique;
+            vm.checkingEmail = false;
+
+          })
+          .catch(function(err) {
+            Messages.addMessage(err.data.message, 'error', 'Error checking email');
+            vm.checkingEmail = false;
+          });
       }
 
-      function checkPasswordStrength() {
-        directiveVm.passwordIsStrong = Users.checkPasswordStrength(directiveVm.user.password);
-        if (!directiveVm.passwordIsStrong) {
-          directiveVm.passwordStatusMessage = 'Password is weak';
+      function emailStatusMessage() {
+        if(vm.checkingEmail) {
+          return 'Validating email...';
+        } else if (vm.emailIsUnique && vm.userForm.email.$valid) {
+          return 'Email is valid';
+        } else if(!vm.emailIsUnique && vm.userForm.email.$valid) {
+          return 'An account exists with this email address';
+        } else if(vm.userForm.email.$invalid && vm.userForm.email.$dirty) {
+          return 'Email is invalid';
+        }
+
+        return '';
+      }
+
+      function checkPasswordConfirm() {
+        vm.passwordsMatch = Users.checkPasswordsMatch(vm.user.password, vm.user.passwordConfirm);
+        if (!vm.passwordsMatch) {
+          return 'Passwords do not match';
         } else {
-          directiveVm.passwordStatusMessage = 'Password is OK';
+          return 'Passwords match';
         }
       }
 
       function checkPassword() {
-        checkPasswordsMatch();
-        checkPasswordStrength();
+        vm.passwordIsStrong = Users.checkPasswordStrength(vm.user.password);
+        if (!vm.passwordIsStrong) {
+          return 'Password is weak';
+        } else {
+          return 'Password is OK';
+        }
+      }
+
+      function userIsNew() {
+        return vm.userForm.email.$valid && vm.emailIsUnique;
       }
 
       function updateUser(user) {
-        directiveVm.user._id = user._id;
-        directiveVm.user.honorific = user.honorific;
-        directiveVm.user.firstName = user.firstName;
-        directiveVm.user.middleName = user.middleName;
-        directiveVm.user.lastName = user.lastName;
-        directiveVm.user.displayName = user.displayName;
-        directiveVm.user.roles = user.roles;
-        delete directiveVm.password;
-        delete directiveVm.passwordConfirm;
+        vm.user._id = user._id;
+        vm.user.honorific = user.honorific;
+        vm.user.firstName = user.firstName;
+        vm.user.middleName = user.middleName;
+        vm.user.lastName = user.lastName;
+        vm.user.displayName = user.displayName;
+        vm.user.roles = user.roles;
+        delete vm.password;
+        delete vm.passwordConfirm;
+      }
+
+      function recoverPassword() {
+        Messages.addMessage('A message has been sent to your email account with instructions on how to recover your forgotten password');
       }
 
       function signin() {
-        directiveVm.user.username = directiveVm.user.email;
-        directiveVm.user.auth.signin(directiveVm.user).$promise
+        vm.user.username = vm.user.email;
+        vm.user.auth.signin(vm.user).$promise
           .then(function (user) {
+            Messages.addMessage('Welcome back ' + user.honorific + ' ' + user.lastName + ', you are now logged in.', 'success', 'Welcome Back');
             updateUser(user);
           })
           .catch(function (err) {
             Messages.addMessage(err.data.message, 'error', 'Problem Signing in', 'dev');
+            vm.failedLogin = true;
           });
         //@todo sign user in
       }
 
       function signup() {
-        directiveVm.user.username = directiveVm.user.email;
-        directiveVm.user.auth.signup(directiveVm.user).$promise
+        vm.user.username = vm.user.email;
+        vm.user.auth.signup(vm.user).$promise
           .then(function(user){
             updateUser(user);
           })
