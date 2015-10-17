@@ -42,9 +42,13 @@ var applicationModel = new Schema({
       type: Boolean,
       default: null
     },
-    newApplicant: {
+    isNewApplication: {
       type: Boolean,
       default: true
+    },
+    submitted: {
+      type: Boolean,
+      default: false
     },
     reviewPhase: {
       proceedToPhoneInterview: {

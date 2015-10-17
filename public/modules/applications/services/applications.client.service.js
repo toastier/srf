@@ -30,6 +30,10 @@
       create: {
         method: 'POST',
         url: 'applications/createForUser'
+      },
+      checkForExistingUserApplication: {
+        method: 'GET',
+        url: 'applications/forOpeningForUser/:openingId'
       }
     });
 
