@@ -3,7 +3,7 @@
   function Navigation() {
 
     var breadcrumbs = function () {
-      var crumbs = [{title: 'Dashboard', url: '#!/dashboards', uiRoute: '#!/dashboards'}];
+      var crumbs = [];
 
       var get = function () {
         return crumbs;
@@ -18,7 +18,7 @@
       };
 
       var clear = function () {
-        crumbs.splice(1, crumbs.length);
+        crumbs.splice(0, crumbs.length);
       };
 
       return {
