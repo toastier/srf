@@ -14,6 +14,8 @@
     vm.submitApplication = submitApplication;
     vm.uploadFile = uploadFile;
     vm.previousApplicationSubmitted = null;
+    vm.removeCoverLetter = removeCoverLetter;
+    vm.removeCv = removeCv;
 
     activate();
 
@@ -83,6 +85,11 @@
     }
 
     function uploadFile(file, type) {
+      if (type === 'coverLetter') {
+        vm.coverLetterFile = file;
+      } else {
+        vm.cvFile = file;
+      }
       vm.application.uploadFile(file)
         .then(function (response) {
           if(type === 'coverLetter') {
@@ -91,6 +98,18 @@
             vm.application.cv = response.data.fileId;
           }
         });
+    }
+
+    function removeCoverLetter() {
+      vm.coverLetterFile = null;
+      vm.application.coverLetter = null;
+      //@todo delete the file from Mongo
+    }
+
+    function removeCv() {
+      vm.cvFile = null;
+      vm.application.cv = null;
+      //@todo delete teh file from Mongo
     }
 
     function submitApplication() {

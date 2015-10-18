@@ -1138,6 +1138,14 @@ a {
   }
 }
 
+.btn-upload {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f093';
+  }
+}
+
 form {
   button.btn {
     //margin: 10px 10px 0;
