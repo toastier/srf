@@ -104,7 +104,15 @@
           }
       },
       {
-        field: 'race.declined', label: 'declined', format: 'checkMark',
+        field: 'race.other', label: 'Other', format: 'checkMark',
+          filterable: {
+            name: 'other',
+            field: 'other',
+            matchType: 'trueFalse'
+          }
+      },
+      {
+        field: 'race.declined', label: 'Declined', format: 'checkMark',
           filterable: {
             name: 'declined',
             field: 'declined',
