@@ -58,9 +58,31 @@
       ng-form(name="vm.fileUploads")
         .row
           .col-md-6
-            .button.btn.btn-save(ngf-select="vm.uploadFile($file, 'coverLetter')") Step 2: Upload Cover Letter
+            .row
+              .col-md-5
+                .button.btn.btn-upload(ngf-select="vm.uploadFile($file, 'coverLetter')", ng-disabled="vm.coverLetterFile") Cover Letter
+              .col-md-7(ng-if="vm.coverLetterFile")
+                i.fa.fa-file &nbsp;
+                | {{ vm.coverLetterFile.name }} &nbsp;
+                a.with-icon.remove.no-text(ng-click="vm.removeCoverLetter()")
+            .row(ng-show="vm.coverLetterFile.progress >= 0")
+              .col-xs-12 &nbsp;
+              .col-xs-12
+                .progress
+                  .progress-bar.progress-bar-success.progress-bar-striped(style="width:{{vm.coverLetterFile.progress}}%", ng-bind="vm.coverLetterFile.progress + '%'")
           .col-md-6
-            .button.btn.btn-save(ngf-select="vm.uploadFile($file, 'cv')") Step 3: Upload Cv
+            .row
+              .col-md-5
+                .button.btn.btn-upload(ngf-select="vm.uploadFile($file, 'cv')", ng-disabled="vm.cvFile") Curriculum Vitae
+              .col-md-7(ng-if="vm.cvFile")
+                i.fa.fa-file &nbsp;
+                | {{ vm.cvFile.name }} &nbsp;
+                a.with-icon.remove.no-text(ng-click="vm.removeCv()")
+            .row(ng-show="vm.cvFile.progress >= 0")
+              .col-xs-12 &nbsp;
+              .col-xs-12
+                .progress
+                  .progress-bar.progress-bar-success.progress-bar-striped(style="width:{{vm.cvFile.progress}}%", ng-bind="vm.cvFile.progress + '%'")
   .row(ng-if="vm.application.coverLetter && vm.application.cv")
     .col-md-12
       button.btn.btn-save(ng-click="vm.submitApplication()") Step 4: Submit Your Application
