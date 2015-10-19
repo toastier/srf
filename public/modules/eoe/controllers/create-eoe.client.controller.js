@@ -52,15 +52,11 @@
         { code: 'white', description: 'White' },
         { code: 'other', description: 'Other' }
       ];
-    }
-
-    function getRaces() {
-      vm.options.races = [
-        { code: 'native', description: 'American Indian or Alaskan Native' },
-        { code: 'black', description: 'Black or Afranic American' },
-        { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander' },
-        { code: 'white', description: 'White' },
-        { code: 'other', description: 'Other' }
+      vm.options.vetClasses = [
+        { code: 'disabled', description: 'Disabled Veteran' },
+        { code: 'recent', description: 'Recently Separated Veteran' },
+        { code: 'active', description: 'Active Duty Wartime or Campaign Badge Veteran' },
+        { code: 'medal', description: 'Armed Forces Service Medal Veteran' }
       ];
     }
 
@@ -71,6 +67,7 @@
     }
 
     function saveEoe() {
+      console.log('Saving EOE...');
       vm.eoe.$save()
         .then(function (result) {
           Messages.addMessage('The Eoe "' + result.name + '" was saved.', 'success');
@@ -123,7 +120,7 @@
     function activate() {
       setupEoe();
       setupNavigation();
-      getRaces();
+      getValueLists();
     }
   }
 })();
