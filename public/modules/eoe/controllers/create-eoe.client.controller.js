@@ -16,11 +16,16 @@
     vm.saveEoe = saveEoe;
     //vm.saveEoeDisability = saveEoeDisability;
     vm.options = { };
+    vm.declineOff = declineOff;
 
     activate();
 
     function cancel() {
       //Eoe.();
+    }
+
+    function declineOff() {
+      vm.eoe.race.declined= false;
     }
 
     function disableSaveButton() {

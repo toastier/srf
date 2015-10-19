@@ -7,7 +7,7 @@ var eoeVeteranModel = new Schema({
         ref: 'Opening'
     },
     veteran: {
-        type: String, enum: ['yes-id', 'yes-not-id', 'no']
+        type: String, enum: ['yes-id', 'yes-not-id', 'no', 'declined']
     },
     vetClass: {
         disabled: {
