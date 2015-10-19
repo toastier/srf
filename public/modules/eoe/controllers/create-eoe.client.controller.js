@@ -67,6 +67,7 @@
     }
 
     function saveEoe() {
+      console.log('Saving EOE...');
       vm.eoe.$save()
         .then(function (result) {
           Messages.addMessage('The Eoe "' + result.name + '" was saved.', 'success');

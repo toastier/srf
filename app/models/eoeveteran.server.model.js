@@ -10,7 +10,18 @@ var eoeVeteranModel = new Schema({
         type: String, enum: ['yes-id', 'yes-not-id', 'no']
     },
     vetClass: {
-        type: String, enum: ['disabled', 'recent', 'active', 'medal']
+        disabled: {
+            type: Boolean
+        },
+        recent: {
+            type: Boolean
+        },
+        active: {
+            type: Boolean
+        },
+        medal: {
+            type: Boolean
+        }
     },
     dateCreated: {
         type: Date,

@@ -47,7 +47,7 @@ exports.create = function(req, res) {
 	//eoeDemographic.user = req.user;
 	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran', 'vetClass']));
 	var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
-
+	// TODO refactor this...it works but it's sloppy
 	eoeDemographic.save(function(err) {
 		if (err) {
 			return res.send(400, {
@@ -55,7 +55,26 @@ exports.create = function(req, res) {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoeDemographic);
+			eoeDisability.save(function(err) {
+				if (err) {
+					return res.send(400, {
+						// this doesn't work, dumping errorHandler into its own controller
+						message: getErrorMessage(err)
+					});
+				} else {
+					eoeVeteran.save(function(err) {
+						if (err) {
+							return res.send(400, {
+								// this doesn't work, dumping errorHandler into its own controller
+								message: getErrorMessage(err)
+							});
+						} else {
+							res.jsonp((_.merge(eoeDemographic, [eoeDisability, eoeVeteran])));
+						}
+					});
+				}
+			});
+
 		}
 	});
 
@@ -63,28 +82,28 @@ exports.create = function(req, res) {
 	 * Create an EOE Disability record
 	 */
 
-	eoeDisability.save(function(err) {
-		if (err) {
-			return res.send(400, {
-				// this doesn't work, dumping errorHandler into its own controller
-				message: getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(eoeDisability);
-		}
-	});
+	//eoeDisability.save(function(err) {
+	//	if (err) {
+	//		return res.send(400, {
+	//			// this doesn't work, dumping errorHandler into its own controller
+	//			message: getErrorMessage(err)
+	//		});
+	//	} else {
+	//		//res.jsonp(eoeDisability);
+	//	}
+	//});
 
 
-	eoeVeteran.save(function(err) {
-		if (err) {
-			return res.send(400, {
-				// this doesn't work, dumping errorHandler into its own controller
-				message: getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(eoeVeteran);
-		}
-	});
+	//eoeVeteran.save(function(err) {
+	//	if (err) {
+	//		return res.send(400, {
+	//			// this doesn't work, dumping errorHandler into its own controller
+	//			message: getErrorMessage(err)
+	//		});
+	//	} else {
+	//		res.jsonp(eoeVeteran);
+	//	}
+	//});
 };
 
 
