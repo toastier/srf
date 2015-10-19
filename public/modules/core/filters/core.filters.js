@@ -4,7 +4,8 @@
     .module('core')
     .filter('standardDate', standardDate)
     .filter('checkMark', checkMark)
-    .filter('trimmed', trimmed);
+    .filter('trimmed', trimmed)
+    .filter('humanize', humanize);
 
   function standardDate($filter) {
     var angularDateFilter = $filter('date');
@@ -31,6 +32,17 @@
         'length': 200,
         'separator': /,? +/
       });
+    };
+  }
+
+  function humanize() {
+    return function (input) {
+      var words = input.match(/[A-Za-z][a-z]*/g);
+      return words.map(capitalize).join(' ');
+
+      function capitalize(word) {
+        return word.charAt(0).toUpperCase() + word.substring(1);
+      }
     };
   }
 })();
