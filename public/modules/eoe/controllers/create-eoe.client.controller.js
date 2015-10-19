@@ -71,7 +71,7 @@
       vm.eoe.$save()
         .then(function (result) {
           Messages.addMessage('The Eoe "' + result.name + '" was saved.', 'success');
-          //Eoe.listEoe();
+          Eoe.listEoe();
         })
         .catch(function (error) {
           Messages.addMessage('There was a problem saving the Eoe ' + error.data.message, 'error');
