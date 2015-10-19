@@ -1,0 +1,31 @@
+.col-xs-12
+  h3.collapsible-trigger(ng-click="vm.toggleOpening()", ng-class="{'target-collapsed': vm.isCollapsed, 'target-not-collapsed': !vm.isCollapsed}") Opening: {{ vm.opening.name }}
+  .panel.panel-default
+    .panel-body(collapse="vm.isCollapsed")
+      .row
+        .col-md-9.form-group
+          label.control-label Opening Title
+          .form-control-static(type='text', data-ng-bind='vm.opening.name')
+        .col-md-3(ng-if="vm.user.hasRole(['admin', 'committee member'])")
+          label.control-label Date Requested
+          .form-control-static(ng-bind="vm.opening.dateRequested | date")
+      .row
+        .col-md-3
+          .row
+            .col-md-12(ng-if="vm.user.hasRole(['admin', 'committee member'])")
+              label.control-label Posting Date
+              .form-control-static(ng-bind="vm.opening.datePosted | date")
+            .col-md-12
+              label.control-label Opening Date
+              .form-control-static(ng-bind="vm.opening.dateStart | date")
+            .col-md-12
+              label.control-label Closing Date
+              .form-control-static(ng-bind="vm.opening.dateClose | date")
+            .col-md-12.form-group(ng-if="vm.user.hasRole(['admin', 'committee member'])")
+              label.control-label Is this an active Opening?&nbsp;
+                span(type="checkbox", ng-bind="vm.opening.isActive | checkMark")
+        .col-md-9
+          .row
+            .col-md-12.form-group
+              label.control-label Details
+              .form-control-static(data-ng-bind='vm.opening.details')
