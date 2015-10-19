@@ -7,8 +7,10 @@
           .col-md-12.form-group
             label.control-label Race
             .col-md-12.control-group(data-ng-repeat='race in vm.options.races')
-              input.checkbox-inline(type="checkbox", ng-model=('vm.eoe.race[race.code]'), checklist-value='race.description')
-              span {{race.description}}
+              .checkbox
+                label
+                  input.checkbox-inline(type="checkbox", ng-model=('vm.eoe.race[race.code]'), checklist-value='race.description')
+                  span {{race.description}}
     .row
       .col-md-12
         .row
@@ -32,16 +34,15 @@
         .row
           .col-md-12.form-group
             label.control-label Ethnicity
-              p Are you Hispanic?
               .col-md-12.control-group
                 .radio
                   label
                     input.radio#hispanic(type='radio', value='h', ng-model='vm.eoe.ethnicity')
-                    span Yes
+                    span Hispanic or Latino
                 .radio
                   label
                     input.radio#nothispanic(type='radio', value='n', ng-model='vm.eoe.ethnicity')
-                    span No
+                    span Not Hispanic or Latino
                 .radio
                   label
                     input.radio#decline(type='radio', value='d', ng-model='vm.eoe.ethnicity')

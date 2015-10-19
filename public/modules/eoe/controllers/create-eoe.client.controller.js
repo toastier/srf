@@ -47,7 +47,7 @@
           });
       vm.options.races = [
         { code: 'native', description: 'American Indian or Alaskan Native' },
-        { code: 'black', description: 'Black or Afranic American' },
+        { code: 'black', description: 'Black or African American' },
         { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander' },
         { code: 'white', description: 'White' },
         { code: 'other', description: 'Other' }
