@@ -1,4 +1,16 @@
 section
   navigation
+  h3 Applicant Info
+  .panel.panel-default
+    .panel-body
+      .row
+        du-display-field(field-model="vm.application.opening.honorific", field-label="Title", field-columns="2")
+        du-display-field(field-model="vm.application.firstName", field-label="First Name")
+        du-display-field(field-model="vm.application.middleName", field-label="Middle Name")
+        du-display-field(field-model="vm.application.lastName", field-label="Last Name", field-columns="4")
+        du-display-field(field-model="vm.application.submitted", field-label="Submitted", field-format="checkMark")
+        du-display-field(field-model="vm.application.isNewApplication", field-label="New Application?")
   .row
-    .col-xs-12 {{ vm.application }}
+    du-opening-view-smart-component(opening-id="vm.application.opening._id", start-collapsed='true')
+  .row
+    pre.col-xs-12 {{ vm.application | json }}
