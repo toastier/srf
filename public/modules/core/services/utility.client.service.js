@@ -4,7 +4,7 @@
     .module('core')
     .service('utility', utility);
 
-  function utility() {
+  function utility($q, $timeout) {
     /**
      * sets an index
      * @param obj the object from which we want to set the index
@@ -69,9 +69,42 @@
       }
     }
 
+    /**
+     * debounce a function
+     * @param func
+     * @param wait
+     * @param immediate
+     * @returns {Function}
+     */
+    function debounce(func, wait, immediate) {
+      var timeout;
+      var deferred = $q.defer();
+      return function() {
+        var context = this, args = arguments;
+        var later = function() {
+          timeout = null;
+          if(!immediate) {
+            deferred.resolve(func.apply(context, args));
+            deferred = $q.defer();
+          }
+        };
+        var callNow = immediate && !timeout;
+        if ( timeout ) {
+          $timeout.cancel(timeout);
+        }
+        timeout = $timeout(later, wait);
+        if (callNow) {
+          deferred.resolve(func.apply(context,args));
+          deferred = $q.defer();
+        }
+        return deferred.promise;
+      };
+    }
+
     return {
       setIndex: setIndex,
-      getIndex: getIndex
+      getIndex: getIndex,
+      debounce: debounce
     };
   }
 })();

@@ -128,10 +128,10 @@ exports.createForUser = function(req, res) {
   /**
    * find an existing Applicant for the given User._id, if one is found call saveApplication(), passing the Applicant,
    * if not found, call createApplicant()
-   * @param id
+   * @param userId
    */
-  function findApplicantByUserId(id) {
-    Applicant.findById(id)
+  function findApplicantByUserId(userId) {
+    Applicant.findOne({user: userId})
       .exec(function (err, foundApplicant) {
         if (err) {
           return err;
@@ -185,6 +185,23 @@ exports.delete = function (req, res) {
   });
 };
 
+/**
+ * Find and return an existing Application for the authenticated User and given Opening if one exists. Otherwise return
+ * empty
+ * @param req
+ * @param res
+ */
+exports.findForUserForOpening = function (req, res) {
+  Application.findOne({user: req.user._id, opening: req.opening._id})
+    .exec(function(err, application){
+      if(err) {
+        return res.send(400, {
+          message: 'Error looking for existing Applications for User and Opening'
+        });
+      }
+      return res.jsonp(application);
+    });
+};
 
 /**
  * Application Authorization Middleware

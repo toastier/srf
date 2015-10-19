@@ -37,6 +37,10 @@
           signup: {
             method: 'POST',
             url: '/auth/signup'
+          },
+          signin: {
+            method: 'POST',
+            url: '/auth/signin'
           }
         })
       };

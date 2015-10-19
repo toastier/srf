@@ -3,9 +3,9 @@
 /**
  * Module dependencies.
  */
-var users = require('../../app/controllers/users')
-  , applications = require('../../app/controllers/applications')
-  , uploads = require('../../app/controllers/uploads.server.controller');
+var users = require('../../app/controllers/users');
+var applications = require('../../app/controllers/applications');
+var openings = require('../../app/controllers/openings.server.controller');
 
 module.exports = function (app) {
   // Application Routes
@@ -15,6 +15,9 @@ module.exports = function (app) {
 
   app.route('/applications/createForUser')
     .post(users.requiresLogin, users.hasAuthorization(['user']), applications.createForUser);
+
+  app.route('/applications/forOpeningForUser/:openingId')
+    .get(users.requiresLogin, users.hasAuthorization(['user']), applications.findForUserForOpening);
 
   app.route('/applications/iAmReviewer')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.iAmReviewer);
@@ -35,4 +38,5 @@ module.exports = function (app) {
 
   // Finish by binding the application middleware
   app.param('applicationId', applications.applicationByID);
+  app.param('openingId', openings.openingByID);
 };

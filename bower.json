@@ -23,6 +23,7 @@
     "lodash": "~3.10.1",
     "ngSticky": "~1.7.9",
     "ng-currency": "~0.8.9",
-    "ng-file-upload": "~9.0.7"
+    "ng-file-upload": "~9.0.7",
+    "animate-sass": "~0.6.4"
   }
 }

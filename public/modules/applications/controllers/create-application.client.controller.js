@@ -4,7 +4,7 @@
     .module('applications')
     .controller('CreateApplicationController', CreateApplicationController);
   
-  function CreateApplicationController($scope, $stateParams, resolvedAuth, Messages, Application, Applicant, Opening, Navigation, _ ) {
+  function CreateApplicationController($scope, $state, $stateParams, resolvedAuth, Messages, Application, Applicant, Opening, Navigation, _ ) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.application = new Application();
@@ -13,6 +13,7 @@
     vm.saveApplication = saveApplication;
     vm.submitApplication = submitApplication;
     vm.uploadFile = uploadFile;
+    vm.previousApplicationSubmitted = null;
 
     activate();
 
@@ -33,7 +34,7 @@
         vm.application.applicant = null;
 
         $scope.$watch('vm.user', function(newVal) {
-          updateApplicationUserInfo(newVal);
+          processUser(newVal);
         }, true);
 
         return true;
@@ -41,6 +42,36 @@
 
       setupNavigation();
       getValueLists();
+    }
+
+    /**
+     * Check to see if the User already has an Application for this Opening
+     * @param user
+     */
+    function processUser(user) {
+      Application.checkForExistingUserApplication({openingId: $stateParams.openingId}).$promise
+        .then(function(application) {
+          if(application._id) {
+            if(application.submitted) {
+              //@todo make this message stick around longer
+              Messages.addMessage('Our records indicate that you have already applied for this Opening.  You may only ' +
+                'apply once for any given Opening.');
+              vm.previousApplicationSubmitted = true;
+              $state.go('main.listOpenings');
+            } else {
+              //@todo make this message stick around longer
+              Messages.addMessage('Looks like you had previously started an Application for this Opening. ' +
+                'we have loaded that Application so that you can complete and submit it.');
+              vm.previousApplicationSubmitted = false;
+              vm.application = application;
+            }
+          } else {
+            updateApplicationUserInfo(user);
+          }
+        })
+        .catch(function (err) {
+          Messages.addMessage(err.data.message, 'error');
+        });
     }
 
     function updateApplicationUserInfo(user) {
@@ -63,12 +94,14 @@
     }
 
     function submitApplication() {
+      vm.application.submitted = true;
       Application.update(vm.application).$promise
         .then(function (saveResponse) {
           Messages.addMessage('The Application for ' + saveResponse.firstName + ' ' + saveResponse.lastName + ' was Submitted.');
           Opening.listCurrentOpenings();
         })
         .catch(function (err) {
+          vm.application.submitted = false;
           Messages.addMessage(err.data.message, 'error');
         });
     }
