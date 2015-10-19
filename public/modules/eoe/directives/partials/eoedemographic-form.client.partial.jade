@@ -5,16 +5,6 @@
       .col-md-12
         .row
           .col-md-12.form-group
-            label.control-label Race
-            .col-md-12.control-group(data-ng-repeat='race in vm.options.races')
-              .checkbox
-                label
-                  input.checkbox-inline(type="checkbox", ng-model=('vm.eoe.race[race.code]'), checklist-value='race.description')
-                  span {{race.description}}
-    .row
-      .col-md-12
-        .row
-          .col-md-12.form-group
             label.control-label Gender
               .col-md-12.control-group
                 .radio
@@ -47,3 +37,18 @@
                   label
                     input.radio#decline(type='radio', value='d', ng-model='vm.eoe.ethnicity')
                     span Decline to answer
+    .row
+      .col-md-12
+        .row
+          .col-md-12.form-group
+            label.control-label Race
+            .col-md-12.control-group(data-ng-repeat='race in vm.options.races')
+              .checkbox
+                label
+                  input.checkbox-inline(type="checkbox", ng-model=('vm.eoe.race[race.code]'), checklist-value='race.description')
+                  span {{race.description}}
+            .col-md-12.control-group
+              .radio
+                label
+                  input.radio#decline(type='radio', value='true', ng-model='vm.eoe.race.declined')
+                  span Decline to answer

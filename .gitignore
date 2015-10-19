@@ -12,3 +12,4 @@ typings/
 app/data/uploads/cv/*
 app/data/uploads/*.*
 app/data/uploads/coverLetter/*
+public/modules/core/css/dashboard-style.css
