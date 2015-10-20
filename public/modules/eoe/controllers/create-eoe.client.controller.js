@@ -24,9 +24,17 @@
       //Eoe.();
     }
 
-    function declineOff() {
-      vm.eoe.race.declined= false;
+    function declineToAnswer() {
+        alert('decline selected');
+        for(var race in vm.eoe.race) {
+          race[race] = false;
+        };
     }
+
+    function declineOff() {
+      console.log('Decline off');
+    }
+
 
     function disableSaveButton() {
       return angular.isUndefined(vm.eoeForm) || vm.eoeForm.$invalid || vm.eoeForm.$pristine;
