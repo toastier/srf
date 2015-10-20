@@ -17,6 +17,7 @@
     //vm.saveEoeDisability = saveEoeDisability;
     vm.options = { };
     vm.declineOff = declineOff;
+    vm.declineAnswer = declineAnswer;
 
     activate();
 
@@ -24,15 +25,27 @@
       //Eoe.();
     }
 
-    function declineToAnswer() {
-        alert('decline selected');
-        for(var race in vm.eoe.race) {
-          race[race] = false;
-        };
-    }
 
     function declineOff() {
       console.log('Decline off');
+      if (vm.eoe.race.declined === 'true') {
+        for(var race in vm.eoe.race) {
+          if (vm.eoe.race[race] === true) {
+            console.log('race is ', vm.eoe.race[race])
+            vm.eoe.race.declined = false;
+          }
+        }
+      }
+    }
+
+    function declineAnswer() {
+      console.log('Decline...');
+      for(var race in vm.eoe.race) {
+        if (race !== 'declined') {
+          vm.eoe.race[race] = false;
+        }
+      }
+      console.log('decline value is', vm.eoe.race.declined);
     }
 
 
