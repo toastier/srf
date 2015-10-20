@@ -13,7 +13,7 @@
                 .col-md-12.control-group
                   .checkbox(data-ng-repeat='vetClass in vm.options.vetClasses')
                     label
-                      input.checkbox-inline(type="checkbox", ng-model=('vm.eoe.vetClass[vetClass.code]'), checklist-value='vetClass.description')
+                      input.checkbox-inline(type="checkbox", ng-model=('vm.eoe.vetClass[vetClass.code]'), ng-click="vm.eoe.veteran = ((vm.eoe.vetClass[vetClass.code]===true) ? 'yes-id' : vm.eoe.veteran)" checklist-value='vetClass.description')
                       span {{vetClass.description}}
             .radio
               label

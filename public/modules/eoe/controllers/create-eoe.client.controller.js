@@ -19,6 +19,7 @@
     vm.declineOff = declineOff;
     vm.flagOff = flagOff;
     vm.declineAnswer = declineAnswer;
+    vm.setSelection = setSelection;
 
     activate();
 
@@ -35,6 +36,13 @@
             vm.eoe.race.declined = false;
           }
         }
+      }
+    }
+
+   function setSelection($event, key, value) {
+      var checkbox = $event.target;
+      if (checkbox.checked) {
+        key = value;
       }
     }
 
