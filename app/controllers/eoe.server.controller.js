@@ -43,9 +43,9 @@ exports.create = function(req, res) {
 	console.log('creating EOE record...');
 	req.body.opening = mongoose.Types.ObjectId('561410fc5a6e72be05f95c76');
 	console.log(req.body);
-	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass']));
+	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
 	//eoeDemographic.user = req.user;
-	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran', 'vetClass']));
+	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran', 'vetClass', 'vetDecline']));
 	var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
 	// TODO refactor this...it works but it's sloppy
 	eoeDemographic.save(function(err) {

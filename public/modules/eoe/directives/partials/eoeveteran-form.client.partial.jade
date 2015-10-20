@@ -17,13 +17,13 @@
                       span {{vetClass.description}}
             .radio
               label
-                input.radio#yesNotId(type='radio', value='yes-not-id', ng-model='vm.eoe.veteran')
+                input.radio#yesNotId(type='radio', ng-change="vm.declineAnswer(vm.eoe.vetClass)", value='yes-not-id', ng-model='vm.eoe.veteran')
                 strong I am a protected veteran, but I choose not to self-identify the classifications to which I belong
             .radio
               label
-                input.radio#no(type='radio', value='no', ng-model='vm.eoe.veteran')
+                input.radio#no(type='radio', value='no', ng-change="vm.declineAnswer(vm.eoe.vetClass)", ng-model='vm.eoe.veteran')
                 span I am NOT a protected veteran
             .radio
               label
-                input.radio#decline(type='radio', value='declined', ng-model='vm.eoe.veteran', ng-change="vm.declineAnswer(vm.eoe.vetClass)")
+                input.radio#decline(type='radio', value='declined', ng-change="vm.declineAnswer(vm.eoe.vetClass)", ng-model='vm.eoe.veteran')
                 span I decline to answer

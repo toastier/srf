@@ -17,6 +17,7 @@
     //vm.saveEoeDisability = saveEoeDisability;
     vm.options = { };
     vm.declineOff = declineOff;
+    vm.flagOff = flagOff;
     vm.declineAnswer = declineAnswer;
 
     activate();
@@ -37,6 +38,19 @@
       }
     }
 
+    // Set flag to FALSE if any of the options are true,
+    // i.e, set Decline To Answer to false if any preceding options are true
+    function flagOff(flag, options) {
+      if (flag === 'true') {
+        for(var option in options) {
+          if (options[option] === true) {
+            flag = false;
+          }
+        }
+      }
+    }
+
+    // Set all options to false TODO pass an array of values to ignore instead of hardcoded 'declined'
     function declineAnswer(options) {
       for(var option in options) {
         if (option !== 'declined') {
