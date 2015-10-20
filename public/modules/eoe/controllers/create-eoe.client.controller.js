@@ -27,7 +27,6 @@
 
 
     function declineOff() {
-      console.log('Decline off');
       if (vm.eoe.race.declined === 'true') {
         for(var race in vm.eoe.race) {
           if (vm.eoe.race[race] === true) {
@@ -38,14 +37,12 @@
       }
     }
 
-    function declineAnswer() {
-      console.log('Decline...');
-      for(var race in vm.eoe.race) {
-        if (race !== 'declined') {
-          vm.eoe.race[race] = false;
+    function declineAnswer(options) {
+      for(var option in options) {
+        if (option !== 'declined') {
+          options[option] = false;
         }
       }
-      console.log('decline value is', vm.eoe.race.declined);
     }
 
 

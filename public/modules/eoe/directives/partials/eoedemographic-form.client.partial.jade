@@ -49,5 +49,5 @@
                   span {{race.description}}
               .radio
                 label
-                  input.radio#decline(type='radio', ng-change="vm.declineAnswer()", value='true', ng-model='vm.eoe.race.declined')
+                  input.radio#decline(type='radio', ng-change="vm.declineAnswer(vm.eoe.race)", value='true', ng-model='vm.eoe.race.declined')
                   span I decline to answer
