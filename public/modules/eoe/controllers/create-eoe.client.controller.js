@@ -1,3 +1,8 @@
+/* EEO classification details sources:
+ - http://www.eeoc.gov/employers/eeo1survey/2007instructions.cfm
+ - http://www.dol.gov/vets/contractor/main.htm
+ */
+
 (function () {
   'use strict';
   angular
@@ -93,23 +98,28 @@
       vm.options.races = [{
           code: 'native',
           description: 'American Indian or Alaskan Native',
-          detail: 'A person having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands.'
+          detail: 'Having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment'
          },
-        { code: 'black', description: 'Black or African American' },
-        { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander' },
-        { code: 'white', description: 'White' },
+          {
+          code: 'asian',
+          description: 'Asian',
+          detail: 'Having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam'
+         },
+        { code: 'black', description: 'Black or African American', detail: 'Having origins in any of the black racial groups of Africa' },
+        { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander', detail: 'Having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands' },
+        { code: 'white', description: 'White', detail:'A person having origins in any of the original peoples of Europe, the Middle East, or North Africa' },
         { code: 'other', description: 'Other' }
       ];
-      vm.options.vetClasses = [
+        vm.options.vetClasses = [
         { code: 'disabled', description: 'Disabled Veteran' },
-        { code: 'recent', description: 'Recently Separated Veteran' },
-        { code: 'active', description: 'Active Duty Wartime or Campaign Badge Veteran' },
-        { code: 'medal', description: 'Armed Forces Service Medal Veteran' }
+        { code: 'recent', description: 'Recently Separated Veteran', detail: 'Discharged or released from active duty within 36 months' },
+        { code: 'active', description: 'Active Duty Wartime or Campaign Badge Veteran', detail: 'Served on active duty in the U.S. military during a war or in a campaign or expedition for which a campaign badge is awarded' },
+        { code: 'medal', description: 'Armed Forces Service Medal Veteran', detail: 'While serving on active duty in the Armed Forces, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.' }
       ];
       vm.options.ethnicities = [{
           code: 'hispanic',
           description: 'Hispanic or Latino',
-          detail: 'A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
+          detail: 'Of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
       }]
     }
 

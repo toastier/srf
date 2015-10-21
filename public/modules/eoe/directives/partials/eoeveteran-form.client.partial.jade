@@ -15,6 +15,7 @@
                     label
                       input.checkbox-inline(type="checkbox", ng-model=('vm.eoe.vetClass[vetClass.code]'), ng-click="vm.eoe.veteran = ((vm.eoe.vetClass[vetClass.code]===true) ? 'yes-id' : vm.eoe.veteran)" checklist-value='vetClass.description')
                       span {{vetClass.description}}
+                      i.fa.fa-info-circle.fa-fw(ng-show='{{vetClass.detail}}',  tooltip='{{vetClass.detail}}', tooltip-trigger="click", tooltip-animation="true", tooltip-placement="right")
             .radio
               label
                 input.radio#yesNotId(type='radio', ng-change="vm.declineAnswer(vm.eoe.vetClass)", value='yes-not-id', ng-model='vm.eoe.veteran')
