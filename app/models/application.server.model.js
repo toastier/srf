@@ -50,6 +50,10 @@ var applicationModel = new Schema({
       type: Boolean,
       default: false
     },
+    dateCreated: {
+      type: Date,
+      default: Date.now
+    },
     reviewPhase: {
       proceedToPhoneInterview: {
         type: Boolean,

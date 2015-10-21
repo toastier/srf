@@ -1029,3 +1029,21 @@ td {
     }
   }
 }
+
+//
+// Collapsible Widgets
+// -----------------------------------------------------
+
+.collapsible-trigger {
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f152';
+    transition: all 0.5s;
+  }
+  &.target-not-collapsed {
+    &:after {
+      transform: rotate(90deg);
+    }
+  }
+
+}

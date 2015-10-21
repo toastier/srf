@@ -15948,11 +15948,39 @@ td:hover > div.icon-group {
   width: 96%;
   z-index: 10; }
 
+<<<<<<< HEAD
 /* line 16328, stdin */
 body {
   -webkit-backface-visibility: hidden; }
 
 /* line 16332, stdin */
+=======
+/* line 16318, stdin */
+.collapsible-trigger:after {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  text-decoration: inherit;
+  margin-left: 4px;
+  content: '\f152';
+  transition: all 0.5s; }
+
+/* line 16334, stdin */
+.collapsible-trigger.target-not-collapsed:after {
+  transform: rotate(90deg); }
+
+/* line 16338, stdin */
+body {
+  -webkit-backface-visibility: hidden; }
+
+/* line 16342, stdin */
+>>>>>>> develop
 .animated, #masterUI > ui-view {
   -webkit-animation-duration: 0.5s;
   -moz-animation-duration: 0.5s;
@@ -15963,7 +15991,11 @@ body {
   -o-animation-fill-mode: both;
   animation-fill-mode: both; }
 
+<<<<<<< HEAD
 /* line 16343, stdin */
+=======
+/* line 16353, stdin */
+>>>>>>> develop
 .animated.hinge, #masterUI > ui-view.hinge {
   -webkit-animation-duration: 1s;
   -moz-animation-duration: 1s;
