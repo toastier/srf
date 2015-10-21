@@ -1055,6 +1055,14 @@ a {
   }
 }
 
+.btn-manage, .sliders {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f1de';
+  }
+}
+
 .btn-logout {
   @extend .btn-action;
   &:after {

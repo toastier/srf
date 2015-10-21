@@ -15,7 +15,8 @@
       controllerAs: 'vm',
       bindToController: true,
       scope: {
-        reviewPhase: '='
+        reviewPhase: '=',
+        proceedToReviewPhase: '@'
       }
     };
 
@@ -30,6 +31,7 @@
       vm.deleteComment = deleteComment;
       vm.reviewIsCommentable = reviewIsCommentable;
       vm.reviewIsEditable = reviewIsEditable;
+      vm.reviewPhaseStatus = '';
       vm.saveAndCompleteReview = saveAndCompleteReview;
       vm.saveComment = saveComment;
       vm.saveReview = saveReview;
@@ -145,16 +147,48 @@
           });
       }
 
-      function reviewIsCommentable(review) {
-        return review.reviewWorksheet.complete;
-      }
-
-      function reviewIsEditable(review) {
-        return vm.user.isMe(review.reviewer) && !review.reviewWorksheet.complete;
+      function getReviewPhaseStatus() {
+        if(reviewPhaseIsComplete()) {
+          return 'Complete';
+        }
+        if(!reviewPhaseIsOpen()) {
+          return 'Closed';
+        }
+        if(reviewPhaseIsOpen()) {
+          return 'Open';
+        }
       }
 
       function commentIsEditable(review, comment) {
-        return vm.user.isMe(comment.commenter) && review.reviewWorksheet.complete;
+        return vm.user.isMe(comment.commenter) && !reviewIsEditable(review) && reviewPhaseIsOpen();
+      }
+
+      function proceedToReviewPhase() {
+        return (vm.proceedToReviewPhase === 'true');
+      }
+
+      function reviewPhaseIsComplete () {
+        return (vm.reviewPhase.proceedToPhoneInterview === true || vm.reviewPhase.proceedToPhoneInterview === false);
+      }
+
+      function reviewPhaseIsOpen () {
+        return proceedToReviewPhase() && !reviewPhaseIsComplete();
+      }
+
+      function reviewIsComplete(review) {
+        return !!review.reviewWorksheet.complete;
+      }
+
+      function reviewIsCommentable(review) {
+        return !reviewIsEditable(review) && reviewPhaseIsOpen();
+      }
+
+      function reviewIsEditable(review) {
+        return vm.user.isMe(review.reviewer) && reviewPhaseIsOpen() && !reviewIsComplete(review);
+      }
+
+      function setReviewPhaseStatus() {
+        vm.reviewPhaseStatus = getReviewPhaseStatus();
       }
 
       function activate() {
@@ -162,6 +196,12 @@
         Authentication.promise.then(function(user) {
           vm.user = user;
         });
+
+        $scope.$watch('vm.reviewPhase', function (newVal) {
+          if(!_.isUndefined(newVal)) {
+            setReviewPhaseStatus();
+          }
+        }, true);
 
       }
     }

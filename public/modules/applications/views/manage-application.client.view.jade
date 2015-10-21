@@ -1,15 +1,19 @@
 section
   navigation
-  h3 Opening: {{ vm.application.opening.name }} &nbsp;
-    i.fa(ng-class="{'fa-toggle-right': (!vm.application.opening.isOpen), 'fa-toggle-down': (!!vm.application.opening.isOpen)}", ng-click="vm.application.opening.isOpen = !vm.application.opening.isOpen")
-  .col-xs-12.well(collapse="!vm.application.opening.isOpen")
-    .row
-      .col-xs-12(ng-bind="vm.application.opening | json")
-  h3 Applicant: {{ vm.application.applicant.name.firstName + ' ' + vm.application.applicant.name.lastName }} &nbsp;
-    i.fa(ng-class="{'fa-toggle-right': (!vm.application.applicant.isOpen), 'fa-toggle-down': (!!vm.application.applicant.isOpen)}", ng-click="vm.application.applicant.isOpen = !vm.application.applicant.isOpen")
-  .col-xs-12.well(collapse="!vm.application.applicant.isOpen")
-    .row
-      .col-xs-12(ng-bind="vm.application.applicant | json")
+  h2 Applicant:&nbsp;
+    span(du-spaced-and-conditional, sc-value="{{ vm.application.honorific }}")
+    span(du-spaced-and-conditional, sc-value="{{ vm.application.firstName }}")
+    span(du-spaced-and-conditional, sc-value="{{ vm.application.middleName }}")
+    span(du-spaced-and-conditional, sc-value="{{ vm.application.lastName }}")
+  .panel.panel-default
+    .panel-body
+      .row
+        du-display-field(field-model="vm.application.isNewApplication", field-label="New Application?")
+        du-display-field(field-model="vm.application.dateCreated", field-label="Created", field-format="standardDate")
+        du-display-field(field-model="vm.application.submitted", field-label="Submitted", field-format="checkMark")
+        du-display-field(field-model="vm.application.dateSubmitted", field-label="Date Submitted", field-format="standardDate")
+  .row
+    du-opening-view-smart-component(opening-id="vm.application.opening._id", start-collapsed='true')
   h3 Application Workflow
   .col-xs-12
     .row.well

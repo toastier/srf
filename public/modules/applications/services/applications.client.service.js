@@ -209,6 +209,12 @@
        */
       viewApplication: function (applicationObject) {
         $state.go('main.viewApplication', {applicationId: applicationObject._id});
+      },
+      /**
+       * @param applicationObject
+       */
+      manageApplication: function (applicationObject) {
+        $state.go('main.manageApplication', {applicationId: applicationObject._id});
       }
     };
     
