@@ -7,5 +7,5 @@
             .input-group-addon
               i.fa.fa-times-circle(ng-click="vm.application.removeReview(review)")
               | &nbsp; Reviewer
-            select.form-control(ng-options="committeeMember._id as committeeMember.displayName for committeeMember in reviewPhase.options.committeeMembers", ng-model="review.reviewer")
+            select.form-control(ng-options="committeeMember._id as committeeMember.displayName for committeeMember in reviewPhase.options.committeeMembers", ng-model="review.reviewer._id")
 

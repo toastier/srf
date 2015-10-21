@@ -12,12 +12,14 @@ module.exports = function (app) {
     .post(users.emailAddressIsUnique);
   app.route('/users/me').get(users.me);
   app.route('/users/me/update').get(users.update);
+  app.route('/users/committeeMembers/optionList')
+    .get(users.requiresLogin, users.hasAuthorization(['admin', 'manager', 'committee member']), users.committeeMembersOptionList);
   app.route('/users/info/:userId')
     .get(users.requiresLogin, users.hasAuthorization(['admin', 'committee member']), users.getInfo);
   app.route('/users')
-    .put(users.requiresLogin, users.hasAuthorization(['admin']), users.adminUpdate)
-    .post(users.requiresLogin, users.hasAuthorization(['admin']), users.adminCreate)
-    .get(users.requiresLogin, users.hasAuthorization(['admin']), users.list);
+    .put(users.requiresLogin, users.hasAuthorization(['admin', 'manager']), users.adminUpdate)
+    .post(users.requiresLogin, users.hasAuthorization(['admin', 'manager']), users.adminCreate)
+    .get(users.requiresLogin, users.hasAuthorization(['admin', 'manager']), users.list);
   app.route('/users/password').post(users.changePassword);
   app.route('/users/accounts').delete(users.removeOAuthProvider);
   app.route('/roles').get(users.requiresLogin, users.hasAuthorization(['admin']), users.roles);

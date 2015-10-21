@@ -7,6 +7,7 @@
   function ApplicationReviewController($state, $stateParams, resolvedAuth, Application, Messages, Navigation) {
 
     var vm = this;
+    vm.user = resolvedAuth;
 
     activate();
 

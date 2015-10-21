@@ -435,6 +435,22 @@ exports.list = function (req, res) {
   });
 };
 
+exports.committeeMembersOptionList = function (req, res) {
+  User.find({roles: 'committee member'})
+    .sort('lastName')
+    .select('displayName lastName _id')
+    .exec(function(err, committeeMembers) {
+      if(err) {
+        res.send(400,
+          {
+            message: 'An error occurred while retrieving the committee members from the server'
+          });
+      } else {
+        res.jsonp(committeeMembers);
+      }
+    });
+};
+
 /**
  * Modify User details - privileged method for Admin(s) (authorization in router)
  */

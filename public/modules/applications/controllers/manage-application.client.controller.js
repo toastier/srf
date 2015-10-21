@@ -28,18 +28,7 @@
         });
 
       setupNavigation();
-      //getValueLists();
     }
-
-    //function getValueLists() {
-    //  Users.query({roles: 'committee member'}).$promise
-    //    .then(function(result) {
-    //      vm.options.committeeMembers = result;
-    //    })
-    //    .catch(function(error) {
-    //      Messages.addMessage(error.data.message, 'error');
-    //    });
-    //}
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation

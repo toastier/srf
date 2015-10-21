@@ -132,7 +132,7 @@
     function masquerade(user) {
       Masquerade.do(user).$promise.then(function () {
         vm.authentication.refresh();
-        $state.go('home');
+        $state.go('main.home');
       });
     }
 

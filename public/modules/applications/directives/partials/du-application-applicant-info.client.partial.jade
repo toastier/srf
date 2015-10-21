@@ -1,0 +1,13 @@
+section
+  h2 Applicant:&nbsp;
+    span(du-spaced-and-conditional, sc-value="{{ vm.application.honorific }}")
+    span(du-spaced-and-conditional, sc-value="{{ vm.application.firstName }}")
+    span(du-spaced-and-conditional, sc-value="{{ vm.application.middleName }}")
+    span(du-spaced-and-conditional, sc-value="{{ vm.application.lastName }}")
+  .panel.panel-default
+    .panel-body
+      .row
+        du-display-field(field-model="vm.application.isNewApplication", field-label="New Application?")
+        du-display-field(field-model="vm.application.dateCreated", field-label="Created", field-format="standardDate")
+        du-display-field(field-model="vm.application.submitted", field-label="Submitted", field-format="checkMark")
+        du-display-field(field-model="vm.application.dateSubmitted", field-label="Date Submitted", field-format="standardDate")

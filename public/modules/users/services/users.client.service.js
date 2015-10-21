@@ -8,7 +8,8 @@
   function User($resource) {
     var user = $resource('users/:userId', {userId: '@_id'}, {
       update: {
-        method: 'PUT'
+        method: 'PUT',
+        url: '/users'
       },
       checkEmail: {
         method: 'POST',
@@ -17,6 +18,11 @@
       getInfo: {
         method: 'GET',
         url: '/users/info/:userId'
+      },
+      committeeMembersOptionList: {
+        method: 'GET',
+        url: '/users/committeeMembers/optionList',
+        isArray: true
       }
     });
 
