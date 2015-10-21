@@ -1,12 +1,14 @@
 .panel.panel-default
   .panel-heading.large Voluntary Self-Identification of Gender, Race & Ethnicity
   .panel-body
+
     .row
       .col-md-12
         .row
           .col-md-12.form-group
             label.control-label Gender
-              .col-md-12.control-group
+            i.icon-info-sign(tooltip="Do you know your gender")
+            .col-md-12.control-group
                 .radio
                   label
                     input.radio#female(type='radio', value='f', ng-model='vm.eoe.gender')
