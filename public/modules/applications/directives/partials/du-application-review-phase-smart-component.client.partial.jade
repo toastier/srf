@@ -1,0 +1,66 @@
+//@todo remove comments prior to production release
+//@todo adjust layout as comment button can be pushed slightly below the footer nav
+.col-xs-12
+  h2 Review Phase
+  h3 Proceed to Phone Interview? {{ vm.application.reviewPhase.proceedToPhoneInterview | checkMark }}
+  .panel.panel-default(ng-repeat="review in vm.reviewPhase.reviews", ng-class="{'panel-success': review.reviewWorksheet.complete }")
+    .panel-heading
+      .row
+        .col-xs-12
+          h4
+            strong {{ review.reviewer.displayName }}
+            span(ng-if="review.reviewWorksheet.complete") &nbsp;completed the review on {{ review.reviewWorksheet.dateCompleted | standardDateAtTime }}
+            span(ng-if="!review.reviewWorksheet.complete") &nbsp;is an assigned Reviewer. This review is incomplete.
+    .panel-body
+      .row
+        .col-xs-12
+          //.row
+          //  .col-xs-12
+          //    p Has the Reviewer completed the Review Worksheet? {{ review.reviewWorksheet.complete | checkMark }}
+          h4 Review Worksheet &nbsp;
+            i.fa.fa-edit(ng-if="vm.reviewIsEditable(review) && !review.editing", ng-click="vm.editReview(review)")
+      .row
+        du-display-field(ng-if="!review.editing", field-model="review.reviewWorksheet.body", field-label="{{ null }}", field-columns="12")
+        .col-xs-12.ng-form(ng-if="review.editing")
+          .row
+            .col-xs-12.form-group
+              label.control-label Body
+              textarea.form-control(name='body', type="text", ng-model="review.reviewWorksheet.bodyBuffer", rows="8")
+            .col-xs-12
+              button.btn.btn-default.btn-undo(ng-click="vm.cancelReviewChanges(review)") Cancel Changes
+              button.btn.btn-save(ng-click="vm.saveReview(review)") Save Changes
+              button.btn.btn-workflow(ng-click="vm.saveAndCompleteReview(review)") Save and Mark Review Worksheet as Complete
+      .row
+        .col-xs-12
+          h4 Comments &nbsp;
+        .col-xs-12(ng-repeat="comment in review.reviewWorksheet.comments")
+          .col-xs-12(ng-if="!comment.editing")
+            .row
+              .panel.panel-default
+                .panel-heading
+                  .row
+                    .col-md-10
+                      strong {{ comment.commenter.displayName }}&nbsp;
+                      | commented on {{ comment.dateCreated | standardDateAtTime }}
+                      span(ng-if="comment.dateCreated !== comment.dateUpdated") &nbsp;
+                        i.fa.fa-clock-o(tooltip="updated {{ comment.dateUpdated | standardDateAtTime }}")
+                    .col-md-2.text-right(ng-if="vm.commentIsEditable(review, comment)")
+                      //a.with-icon.no-text.edit
+                      button(ng-click="vm.editComment(comment)").btn.btn-sm.btn-edit Edit
+                .panel-body
+                  .col-md-12 {{ comment.comment }}
+          .col-xs-12.well(ng-if="comment.editing")
+              .row
+                .col-xs-12.form-group
+                  textarea.form-control(ng-model="comment.commentBuffer")
+              .row
+                .col-xs-12.text-right
+                  .btn-group
+                    button.btn.btn-default.btn-delete(ng-if="comment._id", ng-click="vm.deleteComment(review, comment)") Remove Comment
+                    button.btn.btn-default.btn-undo(ng-click="vm.cancelCommentChanges(review, comment)") Cancel Changes
+                    button.btn.btn-default.btn-save(ng-click="vm.saveComment(review, comment)") Save Comment
+        .col-xs-12.text-right
+          button.btn.btn-default.btn-primary(ng-if="vm.reviewIsCommentable(review)", ng-click="vm.addComment(review)") Comment
+  //.well
+  //  .row
+  //    pre.col-xs-12 {{ vm.reviewPhase | json }}

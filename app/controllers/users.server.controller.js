@@ -77,7 +77,6 @@ exports.signup = function (req, res) {
 
 /**
  * Privileged function allowing Admin Users to create Users
- * @todo secure for Admin use only
  * @param req
  * @param res
  */
@@ -437,8 +436,7 @@ exports.list = function (req, res) {
 };
 
 /**
- * Modify User details - privileged method for Admin(s)
- * @todo add authorization to this method
+ * Modify User details - privileged method for Admin(s) (authorization in router)
  */
 exports.adminUpdate = function (req, res) {
   // Init Variables
@@ -513,4 +511,22 @@ exports.masquerade = function(req, res) {
 
 exports.roles = function (req, res) {
   res.jsonp(userRoles);
+};
+
+exports.getInfo = function (req, res) {
+  //User.findOne({
+  //  _id: id
+  //}).exec(function (err, user) {
+  //  if (err) return (err);
+  //  if (!user) return (new Error('Failed to load User ' + id));
+  //  req.profile = user;
+  //  next();
+  //});
+  var safeProfile = {
+    _id: req.profile._id,
+    displayName: req.profile.displayName,
+    firstName: req.profile.firstName,
+    lastName: req.profile.lastName
+  };
+  res.jsonp(safeProfile);
 };

@@ -12,6 +12,8 @@ module.exports = function (app) {
     .post(users.emailAddressIsUnique);
   app.route('/users/me').get(users.me);
   app.route('/users/me/update').get(users.update);
+  app.route('/users/info/:userId')
+    .get(users.requiresLogin, users.hasAuthorization(['admin', 'committee member']), users.getInfo);
   app.route('/users')
     .put(users.requiresLogin, users.hasAuthorization(['admin']), users.adminUpdate)
     .post(users.requiresLogin, users.hasAuthorization(['admin']), users.adminCreate)

@@ -15,6 +15,9 @@ exports.applicationByID = function (req, res, next, id) {
   Application.findById(id)
     .populate('applicant')
     .populate('opening')
+    .populate('reviewPhase.reviews.reviewer')
+    //@todo make the return of the commenter safe - currently returning tmi
+    .populate('reviewPhase.reviews.reviewWorksheet.comments.commenter')
     .exec(function (err, application) {
       if (err) {
         return next(err);
@@ -38,6 +41,187 @@ exports.applicationByID = function (req, res, next, id) {
 exports.conductReview = function (req, res) {
   if (isReviewer(req)) {
     return res.jsonp(req.application);
+  } else {
+    return res.send(400, {
+      message: 'You are not an assigned Reviewer for this Application'
+    });
+  }
+};
+
+/**
+ * Deletes an application.reviewPhase.reviews.reviewWorksheet.comments object
+ * @param req
+ * @param res
+ */
+exports.deleteComment = function(req, res) {
+  var review = req.body.review;
+  var comment = req.body.comment;
+  var deleted = false;
+  var index;
+  var match = false;
+
+  _.forEach(req.application.reviewPhase.reviews, function(existingReview) {
+    if(!match && existingReview._id.toString() === review._id) {
+      _.forEach(existingReview.reviewWorksheet.comments, function(existingComment) {
+        if(!match && existingComment._id.toString() === comment._id) {
+          index = existingReview.reviewWorksheet.comments.indexOf(existingComment);
+          match = true;
+        }
+      });
+      if(match && !_.isUndefined(index)) {
+          existingReview.reviewWorksheet.comments.splice(index, 1);
+          deleted = true;
+      }
+    }
+  });
+
+  if(deleted) {
+    req.application.save(function(err, application){
+      if(err) {
+        res.send(400, 'An error occurred while deleting the comment.');
+      } else {
+        res.jsonp(application);
+      }
+    });
+  } else {
+    res.send(400, {message: 'Nothing was deleted'});
+  }
+
+};
+
+/**
+ * Saves a new comment on application.reviewPhase.reviews.reviewWorksheet, or updates an existing comment
+ * @todo Ensure comment can only be updated by the commenter
+ * @param req
+ * @param res
+ */
+exports.saveComment = function(req, res) {
+  var review = req.body.review;
+  var comment = req.body.comment;
+  var mode = 'update';
+  var existingReview = req.application.reviewPhase.reviews.id(review._id);
+
+  comment.commenter = req.user._id;
+
+  if(!comment._id) {
+    mode = 'add';
+  }
+
+  if(mode === 'add'){
+    var commentAdded = false;
+
+    if(existingReview) {
+      comment = new Comment(comment);
+      existingReview.reviewWorksheet.comments.push(comment);
+      comment = existingReview.reviewWorksheet.comments[existingReview.reviewWorksheet.comments.length - 1];
+      commentAdded = true;
+    }
+
+    if(commentAdded) {
+      saveApplication();
+    } else {
+      sendResponse(400, {
+        message: 'Problem Adding the Comment on the Server'
+      });
+    }
+
+  } else {
+
+    var commentUpdated = false;
+    var existingComment = existingReview.reviewWorksheet.comments.id(comment._id);
+
+    if(existingComment) {
+      if(comment.dateUpdated) {
+        delete comment.dateUpdated;
+      }
+      comment = new Comment(comment);
+      _.extend(existingComment, comment);
+      commentUpdated = true;
+    }
+
+    if (commentUpdated) {
+      saveApplication();
+    } else {
+      sendResponse({
+        message: 'Problem Updating the Comment on the Server'
+      });
+    }
+  }
+
+  function saveApplication () {
+    req.application.save(function(err, application) {
+      if(err) {
+        sendResponse({
+          message: 'Problem Saving the Comment on the Server'
+        });
+      } else {
+        sendResponse(null, application);
+      }
+    });
+  }
+
+  function sendResponse(err) {
+    if (err) {
+      res.send(400, err);
+    } else {
+
+      comment.commenter = {
+        _id: req.user._id,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        displayName: req.user.displayName
+      };
+      res.jsonp(comment);
+    }
+  }
+};
+
+/**
+ * Saves a Review
+ * authorization for the assigned reviewer only
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+exports.saveReview = function (req, res) {
+  var review = req.body.review;
+
+  function updateReviewContent (next) {
+    var updated = false;
+
+    var existingReview = req.application.reviewPhase.reviews.id(review._id);
+    if (existingReview && req.user._id === existingReview.reviewer._id.toString()) {
+      existingReview.reviewWorksheet.body = review.reviewWorksheet.body;
+      if(review.reviewWorksheet.complete) {
+        existingReview.reviewWorksheet.dateCompleted = Date.now();
+      } else {
+        existingReview.reviewWorksheet.dateCompleted = null;
+      }
+      existingReview.reviewWorksheet.complete = review.reviewWorksheet.complete;
+      updated = existingReview;
+    }
+
+    if (updated) {
+      req.application.save(function(err, application) {
+        if(err) {
+          res.send(400, err);
+        }
+        next(application);
+      });
+    } else {
+      res.send(400, {
+        message: 'The review was not updated'
+      });
+    }
+  }
+
+  function returnReview (application) {
+    var updatedReview = application.reviewPhase.reviews.id(review._id);
+    res.jsonp(updatedReview);
+  }
+
+  if (isReviewer(req)) {
+    updateReviewContent(returnReview);
   } else {
     return res.send(400, {
       message: 'You are not an assigned Reviewer for this Application'
@@ -362,9 +546,19 @@ function isPhoneInterviewer(req) {
 function isReviewer(req) {
   var reviewerFound = false;
   _.forEach(req.application.reviewPhase.reviews, function(review) {
-    if((req.user._id === review.reviewer.toString()) && !reviewerFound) {
+    if((req.user._id === review.reviewer._id.toString()) && !reviewerFound) {
       reviewerFound = true;
     }
   });
   return reviewerFound;
+}
+
+function Comment(comment) {
+  if (!comment) {
+    comment = {};
+  }
+  this.comment = comment.comment || '';
+  this.commenter = comment.commenter || undefined;
+  this.dateCreated = comment.dateCreated || Date.now();
+  this.dateUpdated = Date.now();
 }
