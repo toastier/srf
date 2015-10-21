@@ -7,7 +7,6 @@
         .row
           .col-md-12.form-group
             label.control-label Gender
-            i.icon-info-sign(tooltip="Do you know your gender")
             .col-md-12.control-group
                 .radio
                   label
@@ -27,10 +26,11 @@
           .col-md-12.form-group
             label.control-label Ethnicity
               .col-md-12.control-group
-                .radio
+                .radio(data-ng-repeat='ethnicity in vm.options.ethnicities')
                   label
                     input.radio#hispanic(type='radio', value='h', ng-model='vm.eoe.ethnicity')
-                    span Hispanic or Latino
+                    span {{ethnicity.description}}
+                    i.fa.fa-info-circle.fa-fw(tooltip='{{ethnicity.detail}}', tooltip-trigger="click", tooltip-animation="true", tooltip-placement="right")
                 .radio
                   label
                     input.radio#nothispanic(type='radio', value='n', ng-model='vm.eoe.ethnicity')
@@ -49,6 +49,7 @@
                 label
                   input.checkbox-inline(type="checkbox", ng-change="vm.declineOff()", ng-model=('vm.eoe.race[race.code]'), checklist-value='race.description')
                   span {{race.description}}
+                  i.fa.fa-info-circle.fa-fw(tooltip='{{race.detail}}', tooltip-trigger="click", tooltip-animation="true", tooltip-placement="right")
               .radio
                 label
                   input.radio#decline(type='radio', ng-change="vm.declineAnswer(vm.eoe.race)", value='true', ng-model='vm.eoe.race.declined')

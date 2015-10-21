@@ -90,8 +90,11 @@
           .catch(function(error) {
             Messages.addMessage(error.data.message, 'error');
           });
-      vm.options.races = [
-        { code: 'native', description: 'American Indian or Alaskan Native' },
+      vm.options.races = [{
+          code: 'native',
+          description: 'American Indian or Alaskan Native',
+          detail: 'A person having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands.'
+         },
         { code: 'black', description: 'Black or African American' },
         { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander' },
         { code: 'white', description: 'White' },
@@ -103,6 +106,11 @@
         { code: 'active', description: 'Active Duty Wartime or Campaign Badge Veteran' },
         { code: 'medal', description: 'Armed Forces Service Medal Veteran' }
       ];
+      vm.options.ethnicities = [{
+          code: 'hispanic',
+          description: 'Hispanic or Latino',
+          detail: 'A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
+      }]
     }
 
     function fillPositionInfo() {

@@ -11307,6 +11307,23 @@ td:hover > div.icon-group {
     width: 96%;
     z-index: 10; }
 
+.collapsible-trigger:after {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  text-decoration: inherit;
+  margin-left: 4px;
+  content: '\f152';
+  transition: all 0.5s; }
+.collapsible-trigger.target-not-collapsed:after {
+  transform: rotate(90deg); }
+
 body {
   -webkit-backface-visibility: hidden; }
 
