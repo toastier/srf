@@ -26,8 +26,10 @@
 
   function checkMark() {
     return function (input) {
-      if (input === 1 || input === true) {
+      if (input === 1 || input === true || input === 'true') {
         return '\u2713';
+      } else if (input === null || input === undefined) {
+        return 'Undetermined';
       } else {
         return '\u2718';
       }

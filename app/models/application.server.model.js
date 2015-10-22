@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var fs = require('fs');
-var grid = require('gridfs-stream');;
+var grid = require('gridfs-stream');
 
 var applicationModel = new Schema({
     honorific: {
