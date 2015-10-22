@@ -25,6 +25,9 @@ var eoeDemographicModel = new Schema({
         white: {
             type: Boolean
         },
+        other: {
+            type: Boolean
+        },
         declined: {
             type: Boolean
         }

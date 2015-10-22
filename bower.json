@@ -24,6 +24,7 @@
     "ngSticky": "~1.7.9",
     "ng-currency": "~0.8.9",
     "ng-file-upload": "~9.0.7",
-    "animate-sass": "~0.6.4"
+    "animate-sass": "~0.6.4",
+    "angular-ui": "~0.4.0"
   }
 }

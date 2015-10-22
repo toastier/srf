@@ -2139,6 +2139,21 @@ p.no-records {
 }
 
 
+//
+// Tooltip
+
+.tooltip.customClass .tooltip-inner {
+  color: #3a3e5c;
+  background-color: #e3e3e3;
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  width: 100% !important;
+  text-align: left;
+}
+/* Hide arrow */
+.tooltip.customClass .tooltip-arrow {
+  display: none;
+}
+
 
 
 
