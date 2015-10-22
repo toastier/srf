@@ -1,0 +1,10 @@
+.panel.panel-default
+  .panel-heading(ng-if="vm.heading")
+    h4 {{ vm.heading }}
+  .panel-body
+    .row(ng-if="vm.fileMetadata.filename")
+      du-display-field(field-model="vm.fileMetadata.filename", field-label="File Name", field-columns="6")
+      du-display-field(field-model="vm.fileMetadata.uploadDate", field-label="Uploaded", field-columns="6", field-format="standardDate")
+    .row(ng-if="!vm.fileMetadata.filename")
+      .col-xs-12
+        .alert.alert-info No matching file was found

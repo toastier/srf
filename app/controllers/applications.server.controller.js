@@ -3,15 +3,20 @@
 /**
  * Module dependencies.
  */
+var config = require('../../config/config');
 var mongoose = require('mongoose');
+var mongo = mongoose.mongo;
+var grid = require('gridfs-stream');
 var _ = require('lodash');
 var Application = mongoose.model('Application');
 var Applicant = mongoose.model('Applicant');
+var async = require('async');
 
 /**
  * Application middleware
  */
 exports.applicationByID = function (req, res, next, id) {
+
   Application.findById(id)
     .populate('applicant')
     .populate('opening')
@@ -19,6 +24,7 @@ exports.applicationByID = function (req, res, next, id) {
     //@todo make the return of the commenter safe - currently returning tmi
     .populate('reviewPhase.reviews.reviewWorksheet.comments.commenter')
     .exec(function (err, application) {
+
       if (err) {
         return next(err);
       }
@@ -27,9 +33,60 @@ exports.applicationByID = function (req, res, next, id) {
         return next(new Error('Failed to load application ' + id));
       }
 
-      req.application = application;
-      next();
+      getFiles(application);
+
     });
+
+  function getFiles (application) {
+    async.parallel([
+      function(callback) {
+        getFileMetadata(application.cv, callback, application, 'cv');
+      },
+      function(callback) {
+        getFileMetadata(application.coverLetter, callback, application, 'coverLetter');
+      }
+    ], function (err, results) {
+      if (err) {
+        console.log(err);
+        next(err);
+      } else {
+        application._doc.cvFileMeta = results[0];
+        application._doc.coverLetterFileMeta = results[1];
+        req.application = application;
+        next();
+      }
+    });
+  }
+
+  /**
+   * Returns metadata for the given file
+   * @param fileId
+   * @param callback
+   * @param application
+   * @param fileType
+   */
+  function getFileMetadata (fileId, callback, application, fileType) {
+    var connection = mongoose.createConnection(config.db);
+    connection.once('open', function () {
+      var gfs = grid(connection.db, mongo);
+      gfs.findOne({_id: fileId}, function (err, file) {
+        if (err) {
+          //@todo handle error
+          console.log(err);
+        } else {
+          //console.log(file);
+          //if(fileType === 'cv') {
+          //  application.cvFileMeta = file;
+          //} else if(fileType === 'coverLetter') {
+          //  application.coverLetterFileMeta = file;
+          //}
+          callback(null, file);
+        }
+      });
+    });
+  }
+
+
 };
 
 /**
