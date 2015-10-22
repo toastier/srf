@@ -14,23 +14,7 @@
                     p Disabilities include, but are not limited to:
                     .row-fluid
                         ul
-                            li Blindness
-                            li Deafness
-                            li Cancer
-                            li Diabetes
-                            li Autism
-                            li Cerebral palsy
-                            li HIV/AIDS
-                            li Schizophrenia
-                            li Muscular dystrophy
-                            li Bipolar disorder
-                            li Major depression
-                            li Multiple sclerosis (MS)
-                            li Missing limbs or partially missing limbs
-                            li Post-traumatic stress disorder (PTSD)
-                            li Obsessive compulsive disorder
-                            li Impairments requiring the use of a wheelchair
-                            li Intellectual disability (previously called mental retardation)
+                            li(ng-repeat='disability in vm.options.disabilities'){{ disability.description }}
          .row
             .col-md-12
                 .row
