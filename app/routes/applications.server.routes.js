@@ -17,7 +17,7 @@ module.exports = function (app) {
     .post(users.requiresLogin, users.hasAuthorization(['user']), applications.createForUser);
 
   app.route('/applications/forOpeningForUser/:openingId')
-    .get(users.requiresLogin, users.hasAuthorization(['user']), applications.findForUserForOpening);
+    .get(applications.findForUserForOpening); //@todo look at security on this
 
   app.route('/applications/iAmReviewer')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.iAmReviewer);
@@ -30,6 +30,15 @@ module.exports = function (app) {
 
   app.route('/applications/:applicationId/conductReview')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.conductReview);
+
+  app.route('/applications/:applicationId/saveReview/:reviewId')
+    .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.saveReview);
+
+  app.route('/applications/:applicationId/saveComment')
+    .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.saveComment);
+
+  app.route('/applications/:applicationId/deleteComment')
+    .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.deleteComment);
 
   app.route('/applications/:applicationId')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.read)

@@ -16,7 +16,7 @@
         activate();
 
         function activate() {
-          Users.query({roles: 'committee member'}).$promise
+          Users.committeeMembersOptionList().$promise
             .then(function(result) {
               reviewPhase.options.committeeMembers = result;
             })

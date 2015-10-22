@@ -1035,6 +1035,7 @@ td {
 // -----------------------------------------------------
 
 .collapsible-trigger {
+  cursor: pointer;
   &:after {
     @include font-awesome-icon-after;
     content: '\f152';

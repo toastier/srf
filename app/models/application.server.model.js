@@ -50,6 +50,9 @@ var applicationModel = new Schema({
       type: Boolean,
       default: false
     },
+    dateSubmitted: {
+      type: Date
+    },
     dateCreated: {
       type: Date,
       default: Date.now
@@ -71,12 +74,31 @@ var applicationModel = new Schema({
               default: false
             },
             body: {type: String},
+            dateAssigned: {
+              type: Date
+            },
+            dateUpdated: {
+              type: Date
+            },
+            dateCompleted: {
+              type: Date
+            },
             comments: [
-              {commenter: {
-                type: Schema.ObjectId,
-                ref: 'User'
-              },
-                comment: {type: String}
+              {
+                commenter: {
+                  type: Schema.ObjectId,
+                  ref: 'User'
+                },
+                comment: {
+                  type: String
+                },
+                dateCreated: {
+                  type: Date,
+                  default: Date.now
+                },
+                dateUpdated: {
+                  type: Date
+                }
               }
             ]
           }

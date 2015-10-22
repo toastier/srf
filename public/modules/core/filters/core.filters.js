@@ -3,6 +3,7 @@
   angular
     .module('core')
     .filter('standardDate', standardDate)
+    .filter('standardDateAtTime', standardDateAtTime)
     .filter('checkMark', checkMark)
     .filter('trimmed', trimmed)
     .filter('humanize', humanize);
@@ -15,6 +16,13 @@
     };
   }
 
+  function standardDateAtTime($filter) {
+    var angularDateFilter = $filter('date');
+    return function (input) {
+      input = input || '';
+      return angularDateFilter(input, 'MMM dd, yyyy @ hh:mm a');
+    };
+  }
 
   function checkMark() {
     return function (input) {

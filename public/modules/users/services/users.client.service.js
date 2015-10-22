@@ -6,13 +6,23 @@
     .factory('Roles', Role);
   // User service used for communicating with the users REST endpoint
   function User($resource) {
-    var user = $resource('users', {}, {
+    var user = $resource('users/:userId', {userId: '@_id'}, {
       update: {
-        method: 'PUT'
+        method: 'PUT',
+        url: '/users'
       },
       checkEmail: {
         method: 'POST',
         url: '/users/checkEmail'
+      },
+      getInfo: {
+        method: 'GET',
+        url: '/users/info/:userId'
+      },
+      committeeMembersOptionList: {
+        method: 'GET',
+        url: '/users/committeeMembers/optionList',
+        isArray: true
       }
     });
 

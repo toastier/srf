@@ -29,6 +29,9 @@
         hasRole: function hasRole(roles) {
           return !!(_.intersection(user.roles, roles).length);
         },
+        isMe: function isMe(givenUser) {
+          return givenUser._id === user._id;
+        },
         refresh: lookupUser,
         auth: $resource('/auth/login', {}, {
           login: {

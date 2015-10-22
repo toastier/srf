@@ -23,6 +23,21 @@
         method: 'GET',
         url: 'applications/:applicationId/conductReview'
       },
+      saveReview: {
+        method: 'POST',
+        url: 'applications/:applicationId/saveReview/:reviewId',
+        params: {
+          reviewId: '@review._id'
+        }
+      },
+      saveComment: {
+        method: 'POST',
+        url: 'applications/:applicationId/saveComment'
+      },
+      deleteComment: {
+        method: 'POST',
+        url: 'applications/:applicationId/deleteComment'
+      },
       doPhoneInterview: {
         method: 'GET',
         url: 'applications/:applicationId/conductPhoneInterview'
@@ -194,6 +209,12 @@
        */
       viewApplication: function (applicationObject) {
         $state.go('main.viewApplication', {applicationId: applicationObject._id});
+      },
+      /**
+       * @param applicationObject
+       */
+      manageApplication: function (applicationObject) {
+        $state.go('main.manageApplication', {applicationId: applicationObject._id});
       }
     };
     
