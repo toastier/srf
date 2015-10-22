@@ -2,22 +2,29 @@
   .panel-heading.large Protected Veteran Self-Identification
   .panel-body
     p If you believe you belong to any of the categories of protected veterans listed below, please check the appropriate boxes. We request this information in order to measure the effectiveness of the outreach and positive recruitment efforts we undertake pursuant to VEVRAA.
-  .row
-    .col-md-12
-      .row
-        .col-md-12.form-group
-          .radio
-            label
-              input.radio#yesId(type='radio', value='yes-id', ng-model='vm.eoe.veteran')
-              strong I identify as one or more of the classifications of protected veterans:
-              .col-md-12.control-group(data-ng-repeat='vetClass in vm.options.vetClasses')
-                input.checkbox-inline(type="checkbox", ng-model=('vm.eoe.vetClass[vetClass.code]'), checklist-value='vetClass.description')
-                span {{vetClass.description}}
-          .radio
-            label
-              input.radio#yesNotId(type='radio', value='yes-not-id', ng-model='vm.eoe.veteran')
-              strong I am a protected veteran, but I choose not to self-identify the classifications to which I belong
-          .radio
-            label
-              input.radio#no(type='radio', value='no', ng-model='vm.eoe.veteran')
-              span I am NOT a protected veteran
+    .row
+      .col-md-12
+        .row
+          .col-md-12.form-group
+            .radio
+              label
+                input.radio#yesId(type='radio', value='yes-id', ng-model='vm.eoe.veteran')
+                strong I identify as one or more of the classifications of protected veterans:
+                .col-md-12.control-group
+                  .checkbox(data-ng-repeat='vetClass in vm.options.vetClasses')
+                    label
+                      input.checkbox-inline(type="checkbox", ng-model=('vm.eoe.vetClass[vetClass.code]'), ng-click="vm.eoe.veteran = ((vm.eoe.vetClass[vetClass.code]===true) ? 'yes-id' : vm.eoe.veteran)" checklist-value='vetClass.description')
+                      span {{vetClass.description}}
+                      i.fa.fa-info-circle.fa-fw(ng-show='vetClass.detail',  tooltip='{{vetClass.detail}}', tooltip-class="customClass", tooltip-animation="true", tooltip-placement="right")
+            .radio
+              label
+                input.radio#yesNotId(type='radio', ng-change="vm.declineAnswer(vm.eoe.vetClass)", value='yes-not-id', ng-model='vm.eoe.veteran')
+                strong I am a protected veteran, but I choose not to self-identify the classifications to which I belong
+            .radio
+              label
+                input.radio#no(type='radio', value='no', ng-change="vm.declineAnswer(vm.eoe.vetClass)", ng-model='vm.eoe.veteran')
+                span I am NOT a protected veteran
+            .radio
+              label
+                input.radio#decline(type='radio', value='declined', ng-change="vm.declineAnswer(vm.eoe.vetClass)", ng-model='vm.eoe.veteran')
+                span I decline to answer

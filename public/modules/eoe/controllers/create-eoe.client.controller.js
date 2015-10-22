@@ -1,3 +1,8 @@
+/* EEO classification details sources:
+ - http://www.eeoc.gov/employers/eeo1survey/2007instructions.cfm
+ - http://www.dol.gov/vets/contractor/main.htm
+ */
+
 (function () {
   'use strict';
   angular
@@ -16,12 +21,57 @@
     vm.saveEoe = saveEoe;
     //vm.saveEoeDisability = saveEoeDisability;
     vm.options = { };
+    vm.declineOff = declineOff;
+    vm.flagOff = flagOff;
+    vm.declineAnswer = declineAnswer;
+    vm.setSelection = setSelection;
 
     activate();
 
     function cancel() {
       //Eoe.();
     }
+
+
+    function declineOff() {
+      if (vm.eoe.race.declined === 'true') {
+        for(var race in vm.eoe.race) {
+          if (vm.eoe.race[race] === true) {
+            console.log('race is ', vm.eoe.race[race])
+            vm.eoe.race.declined = false;
+          }
+        }
+      }
+    }
+
+   function setSelection($event, key, value) {
+      var checkbox = $event.target;
+      if (checkbox.checked) {
+        key = value;
+      }
+    }
+
+    // Set flag to FALSE if any of the options are true,
+    // i.e, set Decline To Answer to false if any preceding options are true
+    function flagOff(flag, options) {
+      if (flag === 'true') {
+        for(var option in options) {
+          if (options[option] === true) {
+            flag = false;
+          }
+        }
+      }
+    }
+
+    // Set all options to false TODO pass an array of values to ignore instead of hardcoded 'declined'
+    function declineAnswer(options) {
+      for(var option in options) {
+        if (option !== 'declined') {
+          options[option] = false;
+        }
+      }
+    }
+
 
     function disableSaveButton() {
       return angular.isUndefined(vm.eoeForm) || vm.eoeForm.$invalid || vm.eoeForm.$pristine;
@@ -45,19 +95,32 @@
           .catch(function(error) {
             Messages.addMessage(error.data.message, 'error');
           });
-      vm.options.races = [
-        { code: 'native', description: 'American Indian or Alaskan Native' },
-        { code: 'black', description: 'Black or Afranic American' },
-        { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander' },
-        { code: 'white', description: 'White' },
+      vm.options.races = [{
+          code: 'native',
+          description: 'American Indian or Alaskan Native',
+          detail: 'Having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment'
+         },
+          {
+          code: 'asian',
+          description: 'Asian',
+          detail: 'Having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam'
+         },
+        { code: 'black', description: 'Black or African American', detail: 'Having origins in any of the black racial groups of Africa' },
+        { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander', detail: 'Having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands' },
+        { code: 'white', description: 'White', detail:'A person having origins in any of the original peoples of Europe, the Middle East, or North Africa' },
         { code: 'other', description: 'Other' }
       ];
-      vm.options.vetClasses = [
+        vm.options.vetClasses = [
         { code: 'disabled', description: 'Disabled Veteran' },
-        { code: 'recent', description: 'Recently Separated Veteran' },
-        { code: 'active', description: 'Active Duty Wartime or Campaign Badge Veteran' },
-        { code: 'medal', description: 'Armed Forces Service Medal Veteran' }
+        { code: 'recent', description: 'Recently Separated Veteran', detail: 'Discharged or released from active duty within 36 months' },
+        { code: 'active', description: 'Active Duty Wartime or Campaign Badge Veteran', detail: 'Served on active duty in the U.S. military during a war or in a campaign or expedition for which a campaign badge is awarded' },
+        { code: 'medal', description: 'Armed Forces Service Medal Veteran', detail: 'While serving on active duty in the Armed Forces, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.' }
       ];
+      vm.options.ethnicities = [{
+          code: 'hispanic',
+          description: 'Hispanic or Latino',
+          detail: 'Of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
+      }]
     }
 
     function fillPositionInfo() {
@@ -71,7 +134,7 @@
       vm.eoe.$save()
         .then(function (result) {
           Messages.addMessage('The Eoe "' + result.name + '" was saved.', 'success');
-          //Eoe.listEoe();
+          Eoe.listEoe();
         })
         .catch(function (error) {
           Messages.addMessage('There was a problem saving the Eoe ' + error.data.message, 'error');
