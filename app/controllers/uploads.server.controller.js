@@ -43,6 +43,25 @@ exports.uploadFile = function (req, res) {
 };
 
 /**
+ * Returns metadata for the given file
+ * @param fileId
+ */
+exports.getFileMetadata = function (fileId) {
+  var connection = mongoose.createConnection(config.db);
+  connection.once('open', function () {
+    var gfs = grid(connection.db, mongo);
+    gfs.findOne({_id: fileId}, function (err, file) {
+      if (err) {
+        //@todo handle error
+        console.log(err);
+      } else {
+        return file;
+      }
+    });
+  });
+};
+
+/**
  * Handles uploading a coverLetter and inserting into FSGird Mongo Storage
  * @param req
  * @param res
@@ -124,3 +143,23 @@ exports.uploadCvAndCoverLetter = function (req, res, next) {
     }
   });
 };
+
+/**
+ * Streams a file from GridFS
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.getFileById = function (req, res, next) {
+  var readStream = gridfs.createReadStream({
+    _id: req.params.fileId
+  });
+  req.on('error', function (err) {
+    res.send(500, err);
+  });
+  readStream.on('error', function (err) {
+    res.send(500, err);
+  });
+  readStream.pipe(res);
+};
+
