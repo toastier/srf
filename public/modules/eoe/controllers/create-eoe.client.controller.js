@@ -120,7 +120,26 @@
           code: 'hispanic',
           description: 'Hispanic or Latino',
           detail: 'Of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
-      }]
+      }];
+    vm.options.disabilities = [
+        { description: 'Blindness'},
+        { description: 'Deafness'},
+        { description: 'Cancer'},
+        { description: 'Diabetes'},
+        { description: 'Autism'},
+        { description: 'Cerebral palsy'},
+        { description: 'HIV/AIDS'},
+        { description: 'Schizophrenia'},
+        { description: 'Muscular dystrophy'},
+        { description: 'Bipolar disorder'},
+        { description: 'Major depression'},
+        { description: 'Multiple sclerosis (MS)'},
+        { description: 'Missing limbs or partially missing limbs'},
+        { description: 'Post-traumatic stress disorder (PTSD)'},
+        { description: 'Obsessive compulsive disorder'},
+        { description: 'Impairments requiring the use of a wheelchair'},
+        { description: 'Intellectual disability (previously called mental retardation)'}
+        ]
     }
 
     function fillPositionInfo() {

@@ -13,24 +13,8 @@
                     p You are considered to have a disability if you have a physical or mental impairment or medical condition that substantially limits a major life activity, or if you have a history or record of such an impairment or medical condition.
                     p Disabilities include, but are not limited to:
                     .row-fluid
-                        ul
-                            li Blindness
-                            li Deafness
-                            li Cancer
-                            li Diabetes
-                            li Autism
-                            li Cerebral palsy
-                            li HIV/AIDS
-                            li Schizophrenia
-                            li Muscular dystrophy
-                            li Bipolar disorder
-                            li Major depression
-                            li Multiple sclerosis (MS)
-                            li Missing limbs or partially missing limbs
-                            li Post-traumatic stress disorder (PTSD)
-                            li Obsessive compulsive disorder
-                            li Impairments requiring the use of a wheelchair
-                            li Intellectual disability (previously called mental retardation)
+                        .col-xs-12.col-sm-6.col-md-4.col-lg-3(ng-repeat='disability in vm.options.disabilities')
+                            li {{disability.description}}
          .row
             .col-md-12
                 .row
@@ -40,12 +24,12 @@
                                 .radio
                                     label
                                         input.radio#yes(type='radio', value='y', ng-model='vm.eoe.disability')
-                                        strong Yes
+                                        span Yes
                                         span , I have a disability (or previously had a disability)
                                 .radio
                                     label
                                         input.radio#no(type='radio', value='n', ng-model='vm.eoe.disability')
-                                        strong No
+                                        span No
                                         span , I don't have a disability
                                 .radio
                                     label
