@@ -9,7 +9,7 @@
             .radio
               label
                 input.radio#yesId(type='radio', value='yes-id', ng-model='vm.eoe.veteran')
-                strong I identify as one or more of the classifications of protected veterans:
+                span I identify as one or more of the classifications of protected veterans:
                 .col-md-12.control-group
                   .checkbox(data-ng-repeat='vetClass in vm.options.vetClasses')
                     label
@@ -19,7 +19,7 @@
             .radio
               label
                 input.radio#yesNotId(type='radio', ng-change="vm.declineAnswer(vm.eoe.vetClass)", value='yes-not-id', ng-model='vm.eoe.veteran')
-                strong I am a protected veteran, but I choose not to self-identify the classifications to which I belong
+                span I am a protected veteran, but I choose not to self-identify the classifications to which I belong
             .radio
               label
                 input.radio#no(type='radio', value='no', ng-change="vm.declineAnswer(vm.eoe.vetClass)", ng-model='vm.eoe.veteran')
