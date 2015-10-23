@@ -22,6 +22,7 @@
 
     function duGridFileMetadataViewController(Uploads, $scope, $window, $sce, _) {
       var vm = this;
+
       vm.fileVisible = false;
       vm.hideFile = hideFile;
       vm.showFile = showFile;
@@ -54,6 +55,7 @@
         $scope.$watch('vm.fileMetadata', function (newVal) {
           if(_.isObject(newVal)) {
             newVal.url = $sce.trustAsResourceUrl('/uploads/file/' + newVal._id);
+            newVal.downloadUrl = $sce.trustAsResourceUrl('/uploads/file/download/' + newVal._id);
           }
         });
       }

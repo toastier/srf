@@ -10,7 +10,7 @@
             .fa.fa-eye(ng-if="!vm.fileVisible", ng-click="vm.showFile()")
             .fa.fa-eye-slash(ng-if="vm.fileVisible", ng-click="vm.hideFile()")
           | &nbsp;
-          .fa.fa-download(ng-click="vm.downloadFile()")
+          a.with-icon.no-text.download(ng-href="{{ vm.fileMetadata.downloadUrl }}")
       du-display-field(field-model="vm.fileMetadata.length", field-label="File Size", field-format="fileSize", field-columns="2")
       du-display-field(field-model="vm.fileMetadata.uploadDate", field-label="Uploaded", field-format="standardDate", field-columns="2")
       du-display-field(field-model="vm.fileMetadata.mimeType", field-label="File Type", field-columns="3", field-format="fileType")

@@ -145,6 +145,16 @@ exports.uploadCvAndCoverLetter = function (req, res, next) {
   });
 };
 
+exports.setHeadersForEmbed = function (req, res, next) {
+  res.set('X-Frame-Options', 'SAMEORIGIN');
+  next();
+};
+
+exports.setHeadersForDownload = function (req, res, next) {
+  res.set('Content-Disposition', 'attachment');
+  next();
+};
+
 /**
  * Streams a file from GridFS
  * @param req
@@ -169,7 +179,12 @@ exports.getFileById = function (req, res, next) {
         });
         //@todo detect file type and set headers appropriately
         res.set('Content-Type', mime.lookup(fileMeta.filename));
-        res.set('X-Frame-Options', 'SAMEORIGIN');
+
+        // check if the file is to be downloaded and set the Content-Disposition http header accordingly
+        var contentDisposition = res.get('Content-Disposition');
+        if (contentDisposition && contentDisposition === 'attachment') {
+          res.set('Content-Disposition', 'attachment; ' + 'filename="' + fileMeta.filename + '"');
+        }
 
         req.on('error', function (err) {
           res.send(500, err);

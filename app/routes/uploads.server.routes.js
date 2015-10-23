@@ -7,6 +7,15 @@ module.exports = function(app) {
   app.route('/uploads/file')
     .post(uploads.uploadFile); //route called to add file to existing application
 
+  app.route('/uploads/file/download/:fileId')
+    .get(users.requiresLogin
+      , users.hasAuthorization(['admin', 'manager', 'committee member'])
+      , uploads.setHeadersForDownload
+      , uploads.getFileById);
+
   app.route('/uploads/file/:fileId')
-    .get(users.requiresLogin, users.hasAuthorization(['admin', 'manager', 'committee member']), uploads.getFileById);
+    .get(users.requiresLogin
+      , users.hasAuthorization(['admin', 'manager', 'committee member'])
+      , uploads.setHeadersForEmbed
+      , uploads.getFileById);
 };
