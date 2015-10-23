@@ -4,6 +4,8 @@
     .module('core')
     .filter('standardDate', standardDate)
     .filter('standardDateAtTime', standardDateAtTime)
+    .filter('fileSize', fileSize)
+    .filter('fileType', fileType)
     .filter('checkMark', checkMark)
     .filter('trimmed', trimmed)
     .filter('humanize', humanize);
@@ -21,6 +23,35 @@
     return function (input) {
       input = input || '';
       return angularDateFilter(input, 'MMM dd, yyyy @ hh:mm a');
+    };
+  }
+
+  function fileSize() {
+    return function (input) {
+      if (input === null || input === undefined || input === true || input === false) {
+        return 'file size not given';
+      }
+
+      if(angular.isNumber(input)) {
+        input = input / 1024;
+        input = Math.floor(input);
+        input.toString(10);
+        input = input + 'k';
+      }
+
+      return input;
+    };
+  }
+
+  function fileType() {
+    return function (input) {
+      if (angular.isString(input)) {
+        switch (input) {
+          case 'application/pdf':
+            input = 'Acrobat PDF';
+        }
+      }
+      return input;
     };
   }
 

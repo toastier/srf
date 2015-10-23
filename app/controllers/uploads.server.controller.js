@@ -3,6 +3,7 @@
 var config = require('../../config/config');
 var mongoose = require('mongoose');
 var mongo = mongoose.mongo;
+var mime = require('mime');
 var formidable = require('formidable');
 var fs = require('fs');
 var grid = require('gridfs-stream');
@@ -144,6 +145,16 @@ exports.uploadCvAndCoverLetter = function (req, res, next) {
   });
 };
 
+exports.setHeadersForEmbed = function (req, res, next) {
+  res.set('X-Frame-Options', 'SAMEORIGIN');
+  next();
+};
+
+exports.setHeadersForDownload = function (req, res, next) {
+  res.set('Content-Disposition', 'attachment');
+  next();
+};
+
 /**
  * Streams a file from GridFS
  * @param req
@@ -151,15 +162,40 @@ exports.uploadCvAndCoverLetter = function (req, res, next) {
  * @param next
  */
 exports.getFileById = function (req, res, next) {
-  var readStream = gridfs.createReadStream({
-    _id: req.params.fileId
-  });
-  req.on('error', function (err) {
-    res.send(500, err);
-  });
-  readStream.on('error', function (err) {
-    res.send(500, err);
-  });
-  readStream.pipe(res);
-};
 
+  var connection = mongoose.createConnection(config.db);
+  connection.once('open', function () {
+
+    var gfs = grid(connection.db, mongo);
+
+    gfs.findOne({_id: req.params.fileId}, function (err, fileMeta) {
+      if (err) {
+        //@todo handle error
+        console.log(err);
+      } else {
+
+        var readStream = gfs.createReadStream({
+          _id: req.params.fileId
+        });
+        //@todo detect file type and set headers appropriately
+        res.set('Content-Type', mime.lookup(fileMeta.filename));
+
+        // check if the file is to be downloaded and set the Content-Disposition http header accordingly
+        var contentDisposition = res.get('Content-Disposition');
+        if (contentDisposition && contentDisposition === 'attachment') {
+          res.set('Content-Disposition', 'attachment; ' + 'filename="' + fileMeta.filename + '"');
+        }
+
+        req.on('error', function (err) {
+          res.send(500, err);
+        });
+
+        readStream.on('error', function (err) {
+          res.send(500, err);
+        });
+
+        readStream.pipe(res);
+      }
+    });
+  });
+};

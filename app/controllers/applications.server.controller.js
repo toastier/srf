@@ -11,6 +11,7 @@ var _ = require('lodash');
 var Application = mongoose.model('Application');
 var Applicant = mongoose.model('Applicant');
 var async = require('async');
+var mime = require('mime');
 
 /**
  * Application middleware
@@ -74,6 +75,7 @@ exports.applicationByID = function (req, res, next, id) {
           //@todo handle error
           console.log(err);
         } else {
+          file.mimeType = mime.lookup(file.filename);
           //console.log(file);
           //if(fileType === 'cv') {
           //  application.cvFileMeta = file;
