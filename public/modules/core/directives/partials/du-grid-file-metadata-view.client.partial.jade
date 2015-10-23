@@ -3,8 +3,20 @@
     h4 {{ vm.heading }}
   .panel-body
     .row(ng-if="vm.fileMetadata.filename")
-      du-display-field(field-model="vm.fileMetadata.filename", field-label="File Name", field-columns="6")
-      du-display-field(field-model="vm.fileMetadata.uploadDate", field-label="Uploaded", field-columns="6", field-format="standardDate")
+      .col-md-5.form-group
+        label.control-label File Name
+        .form-control-static {{ vm.fileMetadata.filename }}&nbsp;
+          span(ng-if="vm.fileMetadata.mimeType === 'Acrobat PDF'")
+            .fa.fa-eye(ng-if="!vm.fileVisible", ng-click="vm.showFile()")
+            .fa.fa-eye-slash(ng-if="vm.fileVisible", ng-click="vm.hideFile()")
+          | &nbsp;
+          .fa.fa-download(ng-click="vm.downloadFile()")
+      du-display-field(field-model="vm.fileMetadata.length", field-label="File Size", field-format="fileSize", field-columns="2")
+      du-display-field(field-model="vm.fileMetadata.uploadDate", field-label="Uploaded", field-format="standardDate", field-columns="2")
+      du-display-field(field-model="vm.fileMetadata.mimeType", field-label="File Type", field-columns="3", field-format="fileType")
+    .row(ng-show="vm.fileVisible")
+      .col-md-12
+        object(ng-attr-data="{{ vm.fileMetadata.url ? vm.fileMetadata.url : '' }}", alt="pdf", du-embedded-file-as-object, width="100%", height="600px")
     .row(ng-if="!vm.fileMetadata.filename")
       .col-xs-12
         .alert.alert-info No matching file was found
