@@ -11,7 +11,7 @@ var _ = require('lodash');
 var Application = mongoose.model('Application');
 var Applicant = mongoose.model('Applicant');
 var async = require('async');
-var mime = require('mime');
+var mime = require('mime-types');
 
 /**
  * Application middleware
@@ -33,26 +33,34 @@ exports.applicationByID = function (req, res, next, id) {
       if (!application) {
         return next(new Error('Failed to load application ' + id));
       }
-
-      getFiles(application);
-
+      //if there is a cv or coverLetter attached, we need to fetch the associated file metadata
+      if(application.cv || application.coverLetter) {
+        getFiles(application);
+      } else {
+        req.application = application;
+        next();
+      }
     });
 
   function getFiles (application) {
     async.parallel([
       function(callback) {
-        getFileMetadata(application.cv, callback, application, 'cv');
+        getFileMetadata(application.cv, callback);
       },
       function(callback) {
-        getFileMetadata(application.coverLetter, callback, application, 'coverLetter');
+        getFileMetadata(application.coverLetter, callback);
       }
     ], function (err, results) {
       if (err) {
         console.log(err);
         next(err);
       } else {
-        application._doc.cvFileMeta = results[0];
-        application._doc.coverLetterFileMeta = results[1];
+        if(results[0]) {
+          application._doc.cvFileMeta = results[0];
+        }
+        if(results[1]){
+          application._doc.coverLetterFileMeta = results[1];
+        }
         req.application = application;
         next();
       }
@@ -75,13 +83,12 @@ exports.applicationByID = function (req, res, next, id) {
           //@todo handle error
           console.log(err);
         } else {
-          file.mimeType = mime.lookup(file.filename);
-          //console.log(file);
-          //if(fileType === 'cv') {
-          //  application.cvFileMeta = file;
-          //} else if(fileType === 'coverLetter') {
-          //  application.coverLetterFileMeta = file;
-          //}
+          //if there is no fileId given, gfs.findOne will have returned null, if not we are going to
+          //lookup the metadata on the file and add it as file.metadata
+          if (file !== null) {
+            file.mimeType = mime.lookup(file.filename);
+          }
+          //call back to the async#parallel in fn getFiles
           callback(null, file);
         }
       });
@@ -542,6 +549,10 @@ exports.update = function (req, res) {
   var application = req.application;
 
   application = _.extend(application, req.body);
+
+  if(application.submitted && !application.dateSubmitted) {
+    application.dateSubmitted = Date.now();
+  }
 
   application.save(function (err) {
     if (err) {

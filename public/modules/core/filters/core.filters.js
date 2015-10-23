@@ -49,6 +49,12 @@
         switch (input) {
           case 'application/pdf':
             input = 'Acrobat PDF';
+            break;
+          case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+            input = 'MS Word XML';
+            break;
+          case 'application/msword':
+            input = 'MS Word';
         }
       }
       return input;
@@ -57,7 +63,7 @@
 
   function checkMark() {
     return function (input) {
-      if (input === 1 || input === true || input === 'true') {
+      if (input === 1 || input === true || input === 'true' || input === '\u2713') {
         return '\u2713';
       } else if (input === null || input === undefined) {
         return 'Undetermined';

@@ -36,7 +36,9 @@
         vm.application.applicant = null;
 
         $scope.$watch('vm.user', function(newVal) {
-          processUser(newVal);
+          if(vm.user._id) {
+            processUser(newVal);
+          }
         }, true);
 
         return true;
