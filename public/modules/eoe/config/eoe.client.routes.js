@@ -17,7 +17,7 @@
           }
         })
         .state('main.createEoe', {
-          url: '/eoe/create',
+          url: '/eoe/create/:applicationId',
           templateUrl: 'modules/eoe/views/create-eoe.client.view.html',
           controller: 'CreateEoeController',
           controllerAs: 'vm',

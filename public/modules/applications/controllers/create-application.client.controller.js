@@ -122,7 +122,7 @@
           Messages.addMessage('The Application for ' + saveResponse.firstName + ' ' + saveResponse.lastName + ' was Submitted.');
           //Opening.listCurrentOpenings();
             console.log($location.path);
-            $location.path('/eoe/create');
+            $location.path('/eoe/create/' + saveResponse._id);
         })
         .catch(function (err) {
           vm.application.submitted = false;

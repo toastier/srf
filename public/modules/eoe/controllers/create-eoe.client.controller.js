@@ -9,8 +9,12 @@
     .module('eoe')
     .controller('CreateEoeController', CreateEoeController);
 
+
   /* @ngInject */
-  function CreateEoeController(Messages, Navigation, Opening, Eoe, _) {
+  function CreateEoeController(Messages, Navigation, Application, Opening, Eoe, $stateParams,  _) {
+
+    checkExistingEoe($stateParams.applicationId);
+
     /* jshint validthis: true */
     var vm = this;
 
@@ -32,6 +36,14 @@
       //Eoe.();
     }
 
+    function checkExistingEoe() {
+        Application.get({
+            applicationId: $stateParams.applicationId
+        }).$promise.then(function (result) {
+                console.log(result);
+            });
+
+    }
 
     function declineOff() {
       if (vm.eoe.race.declined === 'true') {
