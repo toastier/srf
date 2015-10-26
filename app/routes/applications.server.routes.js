@@ -7,6 +7,10 @@ var users = require('../../app/controllers/users');
 var applications = require('../../app/controllers/applications.server.controller');
 var openings = require('../../app/controllers/openings.server.controller');
 
+var isCurrentUser = function() {
+  return true;
+}
+
 module.exports = function (app) {
   // Application Routes
   app.route('/applications')
@@ -30,7 +34,7 @@ module.exports = function (app) {
 
   app.route('/applications/:applicationId/conductReview')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.conductReview);
-
+  
   app.route('/applications/:applicationId/saveReview/:reviewId')
     .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.saveReview);
 
@@ -41,7 +45,7 @@ module.exports = function (app) {
     .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.deleteComment);
 
   app.route('/applications/:applicationId')
-    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.read)
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member', isCurrentUser]), applications.read)
     .put(applications.update)//@todo this is a big security no no.  Need to fix
     .delete(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), applications.delete);
 
