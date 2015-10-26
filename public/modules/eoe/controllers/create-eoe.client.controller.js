@@ -88,13 +88,13 @@
     }
 
     function getValueLists() {
-      Opening.query().$promise
-          .then(function(result) {
-            vm.options.openings = result;
-          })
-          .catch(function(error) {
-            Messages.addMessage(error.data.message, 'error');
-          });
+      //Opening.query().$promise
+      //    .then(function(result) {
+      //      vm.options.openings = result;
+      //    })
+      //    .catch(function(error) {
+      //      Messages.addMessage(error.data.message, 'error');
+      //    });
       vm.options.races = [{
           code: 'native',
           description: 'American Indian or Alaskan Native',
