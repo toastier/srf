@@ -6,6 +6,7 @@
 var users = require('../../app/controllers/users');
 var applications = require('../../app/controllers/applications.server.controller');
 var openings = require('../../app/controllers/openings.server.controller');
+var uploads = require('../../app/controllers/uploads.server.controller');
 
 module.exports = function (app) {
   // Application Routes
@@ -39,6 +40,15 @@ module.exports = function (app) {
 
   app.route('/applications/:applicationId/deleteComment')
     .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.deleteComment);
+
+  app.route('/applications/:applicationId/removeFile/:fileId')
+    .put(users.requiresLogin
+      , users.hasAuthorization(['manager', 'admin', 'user'])
+      , applications.hasAuthorization //check that user is privileged user, or is the owner of the application
+      , applications.removeFile //remove the file from req.application
+      , uploads.deleteFile //delete the file from Mongo
+      , applications.update //update the application
+  );
 
   app.route('/applications/:applicationId')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.read)

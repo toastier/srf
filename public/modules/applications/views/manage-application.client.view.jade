@@ -3,9 +3,9 @@ section
   du-application-applicant-info(application="vm.application")
   .row
     .col-xs-12
-      du-grid-file-metadata-view(heading="Cover Letter", file-metadata="vm.application.coverLetterFileMeta")
+      du-grid-file-metadata-view(heading="Cover Letter", file-metadata="vm.application.coverLetterFileMeta", remove-file-method="vm.removeFile(fileId)")
     .col-xs-12
-      du-grid-file-metadata-view(heading="Curriculum Vitae", file-metadata="vm.application.cvFileMeta")
+      du-grid-file-metadata-view(heading="Curriculum Vitae", file-metadata="vm.application.cvFileMeta", remove-file-method="vm.removeFile(fileId)")
   .row
     du-opening-view-smart-component(opening-id="vm.application.opening._id", start-collapsed='true')
   h2 Application Workflow

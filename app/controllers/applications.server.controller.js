@@ -461,12 +461,14 @@ exports.findForUserForOpening = function (req, res) {
  * @returns {*}
  */
 exports.hasAuthorization = function (req, res, next) {
-  if (req.application.user.id !== req.user.id) {
+  if ((_.intersection(req.user.roles, ['admin', 'manager']).length)
+  || (req.application.user.id === req.user.id)) {
+    next();
+  } else {
     return res.send(403, {
       message: 'User is not authorized'
     });
   }
-  next();
 };
 
 /**
@@ -563,6 +565,30 @@ exports.update = function (req, res) {
       res.jsonp(application);
     }
   });
+};
+
+/**
+ * middleware removes cover letter from req.application Object
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.removeFile = function (req, res, next) {
+  var fileId = req.params.fileId;
+  var matched = false;
+  if(req.application.coverLetter && req.application.coverLetter.toString() === fileId) {
+    matched = true;
+    req.application.coverLetter = null;
+  } else if(req.application.cv && req.application.cv.toString() === fileId) {
+    matched = true;
+    req.application.cv = null;
+  }
+
+  if (matched) {
+    next();
+  } else {
+    res.send(400, {message: 'The given file is not part of this application'});
+  }
 };
 
 /**

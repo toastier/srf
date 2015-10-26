@@ -199,3 +199,21 @@ exports.getFileById = function (req, res, next) {
     });
   });
 };
+
+exports.deleteFile = function(req, res, next) {
+  var fileId = req.params.fileId;
+  var connection = mongoose.createConnection(config.db);
+  connection.once('open', function () {
+
+    var gfs = grid(connection.db, mongo);
+
+    gfs.remove({_id: fileId}, function(err) {
+      if(err) {
+        res.send(400, {message: 'An error occurred while deleting the file'});
+      }
+      next();
+    });
+
+  });
+
+};

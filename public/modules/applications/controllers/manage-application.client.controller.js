@@ -10,6 +10,7 @@
     vm.cancel = Application.listApplications;
     vm.options = {};
     vm.remove = remove;
+    vm.removeFile = removeFile;
     vm.toggleSwitch = toggleSwitch;
     vm.update = update;
     vm.view = view;
@@ -28,6 +29,28 @@
         });
 
       setupNavigation();
+    }
+
+    function removeFile(fileId) {
+      Application.removeFile({
+        applicationId: $stateParams.applicationId,
+        fileId: fileId
+      }).$promise
+        .then(function() {
+          if(vm.application.cv === fileId) {
+          vm.application.cv = null;
+          vm.application.cvFileMeta = null;
+          }
+          if(vm.application.coverLetter === fileId) {
+            vm.application.coverLetter = null;
+            vm.application.coverLetterFileMeta = null;
+          }
+        })
+        .catch(function (err) {
+          Messages.addMessage(err.data.message, 'error');
+        });
+
+
     }
 
     function setupNavigation() {

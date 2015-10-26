@@ -49,6 +49,14 @@
       checkForExistingUserApplication: {
         method: 'GET',
         url: 'applications/forOpeningForUser/:openingId'
+      },
+      removeFile: {
+        method: 'PUT',
+        url: 'applications/:applicationId/removeFile/:fileId',
+        params: {
+          applicationId: '@applicationId',
+          fileId: '@fileId'
+        }
       }
     });
 

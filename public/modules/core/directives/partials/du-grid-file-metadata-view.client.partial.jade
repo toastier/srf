@@ -4,8 +4,11 @@
   .panel-body
     .row(ng-if="vm.fileMetadata.filename")
       .col-md-5.form-group
-        label.control-label File Name
-        .form-control-static {{ vm.fileMetadata.filename }}&nbsp;
+        label.control-label
+          | File Name
+        .form-control-static
+          a.with-icon.no-text.remove(ng-click="vm.removeFile()")
+          | {{ vm.fileMetadata.filename }}&nbsp;
           span(ng-if="vm.fileMetadata.mimeType === 'Acrobat PDF'")
             .fa.fa-eye(ng-if="!vm.fileVisible", ng-click="vm.showFile()")
             .fa.fa-eye-slash(ng-if="vm.fileVisible", ng-click="vm.hideFile()")
