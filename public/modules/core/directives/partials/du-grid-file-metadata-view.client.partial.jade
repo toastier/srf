@@ -7,7 +7,7 @@
         label.control-label
           | File Name
         .form-control-static
-          a.with-icon.no-text.remove(ng-click="vm.removeFile()")
+          a.with-icon.no-text.remove(ng-if="vm.showRemoveOption", ng-click="vm.removeFile()")
           | {{ vm.fileMetadata.filename }}&nbsp;
           span(ng-if="vm.fileMetadata.mimeType === 'Acrobat PDF'")
             .fa.fa-eye(ng-if="!vm.fileVisible", ng-click="vm.showFile()")

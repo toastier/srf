@@ -542,6 +542,22 @@ exports.read = function (req, res) {
   res.jsonp(req.application);
 };
 
+exports.addFile = function (req, res, next) {
+  var application = req.application;
+  var uploadType = req.params.type;
+  if(req.newFileId) {
+
+    if (uploadType === 'cv') {
+      application.cv = req.newFileId;
+    } else if (uploadType === 'coverLetter') {
+      application.coverLetter = req.newFileId;
+    }
+    next();
+  } else {
+    req.send(400, {message: 'An error was encountered while trying to add the file to the application'});
+  }
+};
+
 /**
  * Update an Application
  * @param req
@@ -562,9 +578,70 @@ exports.update = function (req, res) {
         message: getErrorMessage(err)
       });
     } else {
-      res.jsonp(application);
+
+      if(application.cv || application.coverLetter) {
+        getFiles(application);
+      } else {
+        req.application = application;
+        res.jsonp(application);
+      }
+
     }
   });
+
+  function getFiles () {
+    async.parallel([
+      function(callback) {
+        getFileMetadata(application.cv, callback);
+      },
+      function(callback) {
+        getFileMetadata(application.coverLetter, callback);
+      }
+    ], function (err, results) {
+      if (err) {
+        console.log(err);
+      } else {
+        if(results[0]) {
+          application._doc.cvFileMeta = results[0];
+        }
+        if(results[1]){
+          application._doc.coverLetterFileMeta = results[1];
+        }
+        req.application = application;
+        res.jsonp(application);
+      }
+    });
+  }
+
+  /**
+   * Returns metadata for the given file
+   * @param fileId
+   * @param callback
+   * @param application
+   * @param fileType
+   */
+  function getFileMetadata (fileId, callback, application, fileType) {
+    var connection = mongoose.createConnection(config.db);
+    connection.once('open', function () {
+      var gfs = grid(connection.db, mongo);
+      gfs.findOne({_id: fileId}, function (err, file) {
+        if (err) {
+          //@todo handle error
+          console.log(err);
+        } else {
+          //if there is no fileId given, gfs.findOne will have returned null, if not we are going to
+          //lookup the metadata on the file and add it as file.metadata
+          if (file !== null) {
+            file.mimeType = mime.lookup(file.filename);
+          }
+          //call back to the async#parallel in fn getFiles
+          callback(null, file);
+        }
+      });
+    });
+  }
+
+
 };
 
 /**

@@ -50,6 +50,15 @@ module.exports = function (app) {
       , applications.update //update the application
   );
 
+  app.route('/applications/:applicationId/uploadFile/:type')
+    .post(users.requiresLogin
+    , users.hasAuthorization(['manager', 'admin', 'user'])
+    , applications.hasAuthorization
+    , uploads.uploadNewFile
+    , applications.addFile
+    , applications.update
+  );
+
   app.route('/applications/:applicationId')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.read)
     .put(applications.update)//@todo this is a big security no no.  Need to fix

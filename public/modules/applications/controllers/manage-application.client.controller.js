@@ -13,6 +13,7 @@
     vm.removeFile = removeFile;
     vm.toggleSwitch = toggleSwitch;
     vm.update = update;
+    vm.uploadFile = uploadFile;
     vm.view = view;
 
     activate();
@@ -29,6 +30,22 @@
         });
 
       setupNavigation();
+    }
+
+    function uploadFile(file, type) {
+      if (type !== 'coverLetter' && type !== 'cv') {
+        type = 'additionalFiles';
+      }
+      vm.application.uploadFile(file, type)
+        .then(function (response) {
+          if(type === 'coverLetter') {
+            vm.application.coverLetter = response.data.coverLetter;
+            vm.application.coverLetterFileMeta = response.data.coverLetterFileMeta;
+          } else {
+            vm.application.cv = response.data.cv;
+            vm.application.cvFileMeta = response.data.cvFileMeta;
+          }
+        });
     }
 
     function removeFile(fileId) {

@@ -3,9 +3,11 @@ section
   du-application-applicant-info(application="vm.application")
   .row
     .col-xs-12
-      du-grid-file-metadata-view(heading="Cover Letter", file-metadata="vm.application.coverLetterFileMeta", remove-file-method="vm.removeFile(fileId)")
+      du-grid-file-metadata-view(ng-if="vm.application.coverLetter", heading="Cover Letter", file-metadata="vm.application.coverLetterFileMeta", remove-file-method="vm.removeFile(fileId)", show-remove-option='true')
+      du-application-upload-file(ng-if="!vm.application.coverLetter", heading="Cover Letter", upload-method="vm.uploadFile(file, type)", upload-type="coverLetter")
     .col-xs-12
-      du-grid-file-metadata-view(heading="Curriculum Vitae", file-metadata="vm.application.cvFileMeta", remove-file-method="vm.removeFile(fileId)")
+      du-grid-file-metadata-view(ng-if="vm.application.cv", heading="Curriculum Vitae", file-metadata="vm.application.cvFileMeta", remove-file-method="vm.removeFile(fileId)", show-remove-option='true')
+      du-application-upload-file(ng-if="!vm.application.cv", heading="Curriculum Vitae", upload-method="vm.uploadFile(file, type)", upload-type="cv")
   .row
     du-opening-view-smart-component(opening-id="vm.application.opening._id", start-collapsed='true')
   h2 Application Workflow

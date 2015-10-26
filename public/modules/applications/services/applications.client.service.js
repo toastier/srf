@@ -158,13 +158,13 @@
         return this.phoneInterviewPhase.phoneInterviews.length < maxInterviews;
       },
 
-      uploadFile: function(file) {
+      uploadFile: function(file, type) {
         var deferred = $q.defer();
         if(!file) {
           deferred.reject('no file given');
         } else {
           file.upload = Upload.upload({
-            url: '/uploads/file',
+            url: '/applications/' + $stateParams.applicationId + '/uploadFile/' + type,
             method: 'POST',
             data: {
               file: file

@@ -15,6 +15,7 @@
       bindToController: true,
       templateUrl: 'modules/core/directives/partials/du-grid-file-metadata-view.client.partial.html',
       scope: {
+        showRemoveOption: '@',
         removeFileMethod: '&',
         fileMetadata: '=',
         heading: '@'
