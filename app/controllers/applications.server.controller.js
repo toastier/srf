@@ -533,8 +533,11 @@ exports.hasAuthorization = function (req, res, next) {
  * @param res
  */
 exports.iAmReviewer = function (req, res) {
-  Application.find({'reviewPhase.reviews.reviewer': req.user._id})
-    .sort('-postDate')
+  Application.find()
+    .where('reviewPhase.reviews.reviewer').equals(req.user._id)
+    .where('proceedToReview').equals(true)
+    .or([{'reviewPhase.proceedToPhoneInterview': false}, {'reviewPhase.proceedToPhoneInterview': null}])
+    .sort('-dateSubmitted')
     .populate('opening')
     .exec(function(err, applications) {
       if(err) {
@@ -553,8 +556,9 @@ exports.iAmReviewer = function (req, res) {
  * @param res
  */
 exports.iAmPhoneInterviewer = function (req, res) {
-  Application.find({'phoneInterviewPhase.phoneInterviews.interviewer': req.user._id})
-    .sort('-postDate')
+  Application.find()
+    .where('phoneInterviewPhase.phoneInterviews.interviewer').equals(req.user._id)
+    .sort('-dateSubmitted')
     .populate('opening')
     .exec(function(err, applications) {
       if(err) {

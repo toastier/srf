@@ -48,7 +48,7 @@
       }
 
       function iAmReviewer() {
-        vm.componentTitle = 'Applications Where I am a Reviewer';
+        vm.componentTitle = 'Reviews I Need to Complete';
         vm.buttonTitle = 'Review';
         clickFunction = Application.conductReview;
         Application.iAmReviewer().$promise
@@ -58,7 +58,7 @@
       }
 
       function iAmPhoneInterviewer() {
-        vm.componentTitle = 'Applications Where I am a Phone Interviewer';
+        vm.componentTitle = 'Phone Interviews I Need to Conduct';
         vm.buttonTitle = 'Interview';
         clickFunction = Application.conductPhoneInterview;
         Application.iAmPhoneInterviewer().$promise
