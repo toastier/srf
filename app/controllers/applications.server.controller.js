@@ -117,42 +117,71 @@ exports.conductReview = function (req, res) {
 };
 
 /**
- * Deletes an application.reviewPhase.reviews.reviewWorksheet.comments object
+ * Deletes an application.[phase][subjectArray][worksheet].comments[] object
+ * @description
+ * Multipurpose method used to delete comments from reviewWorksheet(s) and phoneInterviewWorksheet(s)
  * @param req
  * @param res
  */
 exports.deleteComment = function(req, res) {
-  var review = req.body.review;
-  var comment = req.body.comment;
-  var deleted = false;
-  var index;
-  var match = false;
+  var comment = req.body.comment
+    , matchingComment
+    , commentAttachedTo;
 
-  _.forEach(req.application.reviewPhase.reviews, function(existingReview) {
-    if(!match && existingReview._id.toString() === review._id) {
-      _.forEach(existingReview.reviewWorksheet.comments, function(existingComment) {
-        if(!match && existingComment._id.toString() === comment._id) {
-          index = existingReview.reviewWorksheet.comments.indexOf(existingComment);
-          match = true;
-        }
-      });
-      if(match && !_.isUndefined(index)) {
-          existingReview.reviewWorksheet.comments.splice(index, 1);
-          deleted = true;
+  if(req.body && req.body.phoneInterview) {
+    commentAttachedTo = 'phoneInterview';
+  } else if(req.body && req.body.review) {
+    commentAttachedTo = 'review';
+  } else {
+    res.send(403, {
+      message: 'The request to update a comment did not contain a review or phone interview'
+    });
+  }
+
+  var phase = commentAttachedTo + 'Phase';
+  var subjectArray = commentAttachedTo + 's';
+  var worksheet = commentAttachedTo + 'Worksheet';
+  /**
+   * @var {Object} subject  The object to which the comment is attached
+   */
+  var subject = req.body[commentAttachedTo];
+  var existingSubject = req.application[phase][subjectArray].id(subject._id);
+
+  var deleted = false;
+
+  if (existingSubject) {
+    matchingComment = existingSubject[worksheet].comments.id(comment._id);
+    if (matchingComment) {
+      if (matchingComment.commenter && matchingComment.commenter._id.toString() === req.user._id) {
+        var comments = existingSubject[worksheet].comments;
+        comments.splice(comments.indexOf(matchingComment));
+        deleted = true;
+      } else {
+        res.send(400, {
+          message: 'The comment does not belong to the authenticated user. Could not perform delete.'
+        });
       }
+    } else {
+      res.send(400, {
+        message: 'No matching comment was found. Could not perform delete.'
+      });
     }
-  });
+  }
 
   if(deleted) {
     req.application.save(function(err, application){
       if(err) {
-        res.send(400, 'An error occurred while deleting the comment.');
+        res.send(400, {
+          message: 'An error occurred while deleting the comment.'
+        });
       } else {
         res.jsonp(application);
       }
     });
   } else {
-    res.send(400, {message: 'Nothing was deleted'});
+    res.send(400, {
+      message: 'Nothing was deleted'
+    });
   }
 
 };
