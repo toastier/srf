@@ -690,9 +690,52 @@ exports.list = function (req, res) {
           message: getErrorMessage(err)
         });
       } else {
-        res.jsonp(applications);
+        res.jsonp(summarizeApplications(applications));
       }
     });
+
+  /**
+   * Computes status and adds to individual applications
+   * @param applications
+   */
+  function summarizeApplications(applications) {
+    _.forEach(applications, function(application) {
+      var status = 'Archived';
+      if(application.proceedToReview) {
+        status = 'Review Phase Open';
+      }
+      if(application.proceedToReview === null) {
+        status = 'Needs Processing';
+      }
+      if(application.proceedToReivew === false) {
+        status = 'Denied prior to Committee Review';
+      }
+      if(application.reviewPhase) {
+        if(application.reviewPhase.proceedToPhoneInterview){
+          status = 'Phone Interview Open';
+        } else if(application.reviewPhase.proceedToPhoneInterview === false) {
+          status = 'Denied after Review Phase';
+        }
+      }
+      if(application.phoneInterviewPhase ) {
+
+        if(application.phoneInterviewPhase.proceedToOnSite) {
+          status = 'On Site Phase Open';
+        } else if(application.phoneInterviewPhase.proceedToOnSite === false) {
+          status = 'Denied after Phone Interview Phase';
+        }
+      }
+      if(application.onSiteVisitPhase.complete) {
+        status = 'Process Complete';
+      }
+      var applicantDisplayName = application.firstName + ' ' + application.lastName;
+      application._doc.isNew = (application.isNewApplication) ? true : false;
+      application._doc.applicantDisplayName = applicantDisplayName;
+      application._doc.status = status;
+      application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
+    });
+    return applications;
+  }
 };
 
 /**

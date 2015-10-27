@@ -144,7 +144,10 @@ var applicationModel = new Schema({
       ]
     },
     onSiteVisitPhase: {
-      type: String
+      complete: {
+        type: Boolean,
+        default: false
+      }
     }
   }
 );
