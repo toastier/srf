@@ -31,14 +31,15 @@
        * @param {Function} actions.actionItems.restrict
        * @param {string} actions.actionItems.attachedTo
        * @param {Function | string} actions.actionItems.method
-       * @param {Boolean | Object=} sortable
-       * @param {Boolean | Object=} filterable
+       * @param {Boolean | Object=} sortable Whether column should be sortable
+       * @param {Boolean | Object=} filterable Whether a filter should be created for the column
        * @param {string} filterable.name
        * @param {string} filterable.field
        * @param {string} filterable.matchType
+       * @param {Boolean} hidden Whether to hide from table display
        * @constructor
        */
-      var ColumnDefinition = function(field, label, actions, sortable, filterable) {
+      var ColumnDefinition = function(field, label, actions, sortable, filterable, hidden) {
         /** @type string | null **/
         this.field = field || null;
         /** @type string | null **/
@@ -49,6 +50,8 @@
         this.sortable = sortable || null;
         /** @type Boolean | null **/
         this.filterable = filterable || null;
+        /** @type Boolean **/
+        this.hidden = hidden || false;
       };
 
       /**

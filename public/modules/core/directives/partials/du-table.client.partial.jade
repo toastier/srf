@@ -2,7 +2,7 @@ du-filtering(ng-if="!vm.noFilteringDirective")
 table.table.table-striped
   thead(du-sorting-header)
   tr(ng-repeat="item in vm.collection.paginated")
-    td(ng-repeat="column in vm.collection.columnDefinitions")
+    td(ng-if="!column.hidden", ng-repeat="column in vm.collection.columnDefinitions")
       .icon-group.size-medium(ng-if="column.actions.restrict(item)")
         a.with-icon(
           ng-if="actionItem.restrict()",
@@ -11,6 +11,9 @@ table.table.table-striped
           ng-click="duTable.callMethod(item, actionItem.method, actionItem.attachedTo)"
         )
       span(ng-if="!column.format") {{ duTable.getIndex(item, column.field) }}
+      span(ng-if="column.format === 'summary'")
+        span.badge(ng-if="duTable.getIndex(item, 'isNew')") new
+        | &nbsp;{{ duTable.getIndex(item, column.field) }}
       span(ng-if="column.format === 'currency'") {{ duTable.getIndex(item, column.field) | currency }}
       span(ng-if="column.format === 'date'") {{ duTable.getIndex(item, column.field) | standardDate }}
       span(ng-if="column.format === 'standardDate'") {{ duTable.getIndex(item, column.field) | standardDate }}
