@@ -1,5 +1,4 @@
 //@todo remove comments prior to production release
-//@todo adjust layout as comment button can be pushed slightly below the footer nav
 .col-xs-12
   h2 Phone Interview Phase {{ vm.phoneInterviewPhaseModel.phoneInterviewPhaseStatus }}
   h3 Proceed to On Site Visit? {{ vm.phoneInterviewPhaseModel.data.proceedToOnSite | checkMark }}
@@ -17,7 +16,7 @@
           //.row
           //  .col-xs-12
           //    p Has the PhoneInterviewer completed the PhoneInterview Worksheet? {{ phoneInterview.phoneInterviewWorksheet.complete | checkMark }}
-          h4 PhoneInterview Worksheet &nbsp;
+          h4 Phone Interview Worksheet &nbsp;
             i.fa.fa-edit(ng-if="vm.phoneInterviewPhaseModel.phoneInterviewIsEditable(phoneInterview) && !phoneInterview.editing", ng-click="vm.phoneInterviewPhaseModel.editPhoneInterview(phoneInterview)")
       .row
         du-display-field(ng-if="!phoneInterview.editing", field-model="phoneInterview.phoneInterviewWorksheet.body", field-label="{{ null }}", field-columns="12")

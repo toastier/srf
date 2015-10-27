@@ -11,8 +11,6 @@
 
     activate();
 
-    ////////////////
-
     function activate() {
       Navigation.clear();
       Navigation.viewTitle.set('Conduct Review');
@@ -27,6 +25,10 @@
         });
     }
 
+    /**
+     * removes phoneInterviews which are not assigned to the authenticated user
+     * @param application
+     */
     function pruneReviews(application) {
       var reviews = application.reviewPhase.reviews;
       angular.forEach(reviews, function(review) {

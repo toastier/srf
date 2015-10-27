@@ -283,7 +283,7 @@ exports.savePhoneInterview = function(req, res) {
 
     if (existingPhoneInterview && req.user._id === existingPhoneInterview.interviewer._id.toString()) {
       existingPhoneInterview.phoneInterviewWorksheet.body = phoneInterview.phoneInterviewWorksheet.body;
-      if(existingPhoneInterview.phoneInterviewWorksheet.complete) {
+      if(phoneInterview.phoneInterviewWorksheet.complete) {
         existingPhoneInterview.phoneInterviewWorksheet.dateCompleted = Date.now();
       } else {
         existingPhoneInterview.phoneInterviewWorksheet.dateCompleted = null;
