@@ -161,7 +161,7 @@
         .then(function (saveResponse) {
           Messages.addMessage('The Application for ' + saveResponse.firstName + ' ' + saveResponse.lastName + ' was Submitted.');
           //Opening.listCurrentOpenings();
-            console.log($location.path);
+            console.log($location.path());
             $location.path('/eoe/create/' + saveResponse._id);
         })
         .catch(function (err) {
