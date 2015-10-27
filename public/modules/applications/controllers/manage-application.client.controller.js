@@ -120,6 +120,7 @@
     }
 
     function update () {
+      vm.application.isNewApplication = false;
 
       vm.application.$update()
         .then(function() {

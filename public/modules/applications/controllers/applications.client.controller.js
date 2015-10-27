@@ -31,8 +31,8 @@
           }
         ]
       }},
-      {field: 'newApplicant', label: 'New?', filterable: false, sortable: true, type: 'checkMark'},
-      {field: 'honorific', label: 'Hon', filterable: { size: 3 }, sortable: true },
+      {field: 'isNewApplication', label: 'New?', filterable: false, sortable: true, format: 'checkMark'},
+      {field: 'dateSubmitted', label: 'Submitted On', filterable: false, sortable: true, format: 'standardDate'},
       {field: 'firstName', label: 'First Name', filterable: true, sortable: true },
       {field: 'lastName', label: 'Last Name', filterable: true, sortable: true },
       {field: 'reviewPhase.reviews.reviewer.displayName', label: 'Reviewers', filterable: true, sortable: false}
@@ -51,7 +51,7 @@
     }
 
 
-    var initialSortOrder = ['+position.name'];
+    var initialSortOrder = ['-isNewApplication', '-dateSubmitted'];
 
     activate();
 
