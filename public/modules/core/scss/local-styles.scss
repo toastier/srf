@@ -773,7 +773,7 @@ label.checkbox-inline {
 .navigation {
   z-index: 1000;
   &.stuck {
-   background-color: $duke-white;
+   background-color: rgba(255, 255, 255, 0.8);
     border-bottom: 1px solid $duke-smoke;
   }
 }
@@ -1009,6 +1009,7 @@ td {
   > ui-view {
     position: absolute;
     width: 96%;
+    margin-bottom: 50px;
     @extend .animated;
     z-index: 10;
     &.ng-enter {
