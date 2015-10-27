@@ -12,7 +12,7 @@
     vm.allowManage = allowManage;
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
-      {field: 'opening.name', label: 'Opening', sortable: true, filterable: true, actions: {
+      {field: 'summary', label: 'Summary', sortable: true, filterable: false, format: 'summary', actions: {
         restrict: allowView,
         actionItems: [
           {
@@ -31,11 +31,13 @@
           }
         ]
       }},
-      {field: 'isNewApplication', label: 'New?', filterable: false, sortable: true, format: 'checkMark'},
+      {field: 'opening.name', hidden: true, label: 'Opening', filterable: true, sortable: false},
+      {field: 'firstName', hidden: true, label: 'First Name', filterable: true, sortable: false },
+      {field: 'lastName', hidden: true, label: 'Last Name', filterable: true, sortable: false },
+      {field: 'status', label: 'Application Status', filterable: true, sortable: true},
+      {field: 'reviewPhase.reviews.reviewer.displayName', label: 'Reviewers', filterable: true, sortable: true},
       {field: 'dateSubmitted', label: 'Submitted On', filterable: false, sortable: true, format: 'standardDate'},
-      {field: 'firstName', label: 'First Name', filterable: true, sortable: true },
-      {field: 'lastName', label: 'Last Name', filterable: true, sortable: true },
-      {field: 'reviewPhase.reviews.reviewer.displayName', label: 'Reviewers', filterable: true, sortable: false}
+      {field: 'isNewApplication', label: 'New?', filterable: false, sortable: true, format: 'checkMark'}
     ];
 
     function allowEdit () {
