@@ -60,7 +60,9 @@ module.exports = function (app) {
   );
 
   app.route('/applications/:applicationId')
-    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.read)
+    .get(users.hasAuthorization(['manager', 'admin', 'committee member', 'user'])
+      , applications.hasAuthorization,
+      applications.read)
     .put(applications.update)//@todo this is a big security no no.  Need to fix
     .delete(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), applications.delete);
 
@@ -68,3 +70,4 @@ module.exports = function (app) {
   app.param('applicationId', applications.applicationByID);
   app.param('openingId', openings.openingByID);
 };
+users.hasAuthorization(['manager', 'admin', 'user'])
