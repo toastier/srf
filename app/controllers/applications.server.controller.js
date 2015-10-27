@@ -158,16 +158,37 @@ exports.deleteComment = function(req, res) {
 };
 
 /**
- * Saves a new comment on application.reviewPhase.reviews.reviewWorksheet, or updates an existing comment
+ * Saves a new comment on application.[phase][subjectArray][worksheet], or updates an existing comment
+ * @description
+ * Used to add comments to reviews and phoneInterviews
  * @todo Ensure comment can only be updated by the commenter
  * @param req
  * @param res
  */
 exports.saveComment = function(req, res) {
-  var review = req.body.review;
   var comment = req.body.comment;
   var mode = 'update';
-  var existingReview = req.application.reviewPhase.reviews.id(review._id);
+
+  var commentAttachedTo;
+
+  if(req.body && req.body.phoneInterview) {
+    commentAttachedTo = 'phoneInterview';
+  } else if(req.body && req.body.review) {
+    commentAttachedTo = 'review';
+  } else {
+    res.send(403, {
+      message: 'The request to update a comment did not contain a review or phone interview'
+    });
+  }
+
+  var phase = commentAttachedTo + 'Phase';
+  var subjectArray = commentAttachedTo + 's';
+  var worksheet = commentAttachedTo + 'Worksheet';
+  /**
+   * @var {Object} subject  The object to which the comment is attached
+   */
+  var subject = req.body[commentAttachedTo];
+  var existingSubject = req.application[phase][subjectArray].id(subject._id);
 
   comment.commenter = req.user._id;
 
@@ -178,10 +199,10 @@ exports.saveComment = function(req, res) {
   if(mode === 'add'){
     var commentAdded = false;
 
-    if(existingReview) {
+    if(existingSubject) {
       comment = new Comment(comment);
-      existingReview.reviewWorksheet.comments.push(comment);
-      comment = existingReview.reviewWorksheet.comments[existingReview.reviewWorksheet.comments.length - 1];
+      existingSubject[worksheet].comments.push(comment);
+      comment = existingSubject[worksheet].comments[existingSubject[worksheet].comments.length - 1];
       commentAdded = true;
     }
 
@@ -196,7 +217,7 @@ exports.saveComment = function(req, res) {
   } else {
 
     var commentUpdated = false;
-    var existingComment = existingReview.reviewWorksheet.comments.id(comment._id);
+    var existingComment = existingSubject[worksheet].comments.id(comment._id);
 
     if(existingComment) {
       if(comment.dateUpdated) {
