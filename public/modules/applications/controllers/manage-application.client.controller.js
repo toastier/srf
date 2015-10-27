@@ -66,8 +66,6 @@
         .catch(function (err) {
           Messages.addMessage(err.data.message, 'error');
         });
-
-
     }
 
     function setupNavigation() {

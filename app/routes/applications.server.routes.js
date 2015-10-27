@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-var users = require('../../app/controllers/users');
+var users = require('../../app/controllers/users.server.controller');
 var applications = require('../../app/controllers/applications.server.controller');
 var openings = require('../../app/controllers/openings.server.controller');
 var uploads = require('../../app/controllers/uploads.server.controller');
@@ -42,8 +42,8 @@ module.exports = function (app) {
     .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.deleteComment);
 
   app.route('/applications/:applicationId/removeFile/:fileId')
-    .put(users.requiresLogin
-      , users.hasAuthorization(['manager', 'admin', 'user'])
+    .put(
+      users.hasAuthorization(['manager', 'admin', 'user'])
       , applications.hasAuthorization //check that user is privileged user, or is the owner of the application
       , applications.removeFile //remove the file from req.application
       , uploads.deleteFile //delete the file from Mongo
@@ -51,8 +51,8 @@ module.exports = function (app) {
   );
 
   app.route('/applications/:applicationId/uploadFile/:type')
-    .post(users.requiresLogin
-    , users.hasAuthorization(['manager', 'admin', 'user'])
+    .post(
+    users.hasAuthorization(['manager', 'admin', 'user'])
     , applications.hasAuthorization
     , uploads.uploadNewFile
     , applications.addFile

@@ -14,7 +14,11 @@
       scope: {
         uploadMethod: '&',
         heading: '@',
-        uploadType: '@'
+        uploadType: '@',
+        fileMetadata: '=',
+        fileModel: '=',
+        showRemoveOption: '@',
+        removeFileMethod: '&'
       },
       controller: duApplicationUploadFileController,
       controllerAs: 'vm',
@@ -23,6 +27,11 @@
 
     function duApplicationUploadFileController() {
       var vm = this;
+      vm.removeFile = removeFile;
+
+      function removeFile () {
+        vm.removeFileMethod({fileId: vm.fileMetadata._id});
+      }
 
       activate();
 

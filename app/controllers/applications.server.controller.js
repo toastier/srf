@@ -448,9 +448,65 @@ exports.findForUserForOpening = function (req, res) {
         return res.send(400, {
           message: 'Error looking for existing Applications for User and Opening'
         });
+      } else {
+        if (application && (application.cv || application.coverLetter)) {
+          getFiles(application);
+        } else {
+          return res.jsonp(application);
+        }
       }
-      return res.jsonp(application);
     });
+
+  function getFiles (application) {
+    async.parallel([
+      function(callback) {
+        getFileMetadata(application.cv, callback);
+      },
+      function(callback) {
+        getFileMetadata(application.coverLetter, callback);
+      }
+    ], function (err, results) {
+      if (err) {
+        console.log(err);
+      } else {
+        if(results[0]) {
+          application._doc.cvFileMeta = results[0];
+        }
+        if(results[1]){
+          application._doc.coverLetterFileMeta = results[1];
+        }
+        res.jsonp(application);
+      }
+    });
+  }
+
+  /**
+   * Returns metadata for the given file
+   * @param fileId
+   * @param callback
+   * @param application
+   * @param fileType
+   */
+  function getFileMetadata (fileId, callback, application, fileType) {
+    var connection = mongoose.createConnection(config.db);
+    connection.once('open', function () {
+      var gfs = grid(connection.db, mongo);
+      gfs.findOne({_id: fileId}, function (err, file) {
+        if (err) {
+          //@todo handle error
+          console.log(err);
+        } else {
+          //if there is no fileId given, gfs.findOne will have returned null, if not we are going to
+          //lookup the metadata on the file and add it as file.metadata
+          if (file !== null) {
+            file.mimeType = mime.lookup(file.filename);
+          }
+          //call back to the async#parallel in fn getFiles
+          callback(null, file);
+        }
+      });
+    });
+  }
 };
 
 /**
@@ -462,7 +518,7 @@ exports.findForUserForOpening = function (req, res) {
  */
 exports.hasAuthorization = function (req, res, next) {
   if ((_.intersection(req.user.roles, ['admin', 'manager']).length)
-  || (req.application.user.id === req.user.id)) {
+  || (req.application.user.toString() === req.user._id)) {
     next();
   } else {
     return res.send(403, {

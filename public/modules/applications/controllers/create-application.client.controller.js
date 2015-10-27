@@ -14,8 +14,7 @@
     vm.submitApplication = submitApplication;
     vm.uploadFile = uploadFile;
     vm.previousApplicationSubmitted = null;
-    vm.removeCoverLetter = removeCoverLetter;
-    vm.removeCv = removeCv;
+    vm.removeFile = removeFile;
 
     activate();
 
@@ -86,33 +85,74 @@
       vm.application.user = user._id;
     }
 
+    //function uploadFile(file, type) {
+    //  if (type === 'coverLetter') {
+    //    vm.coverLetterFile = file;
+    //  } else {
+    //    vm.cvFile = file;
+    //  }
+    //  vm.application.uploadFile(file)
+    //    .then(function (response) {
+    //      if(type === 'coverLetter') {
+    //        vm.application.coverLetter = response.data.fileId;
+    //      } else {
+    //        vm.application.cv = response.data.fileId;
+    //      }
+    //    });
+    //}
+
     function uploadFile(file, type) {
-      if (type === 'coverLetter') {
-        vm.coverLetterFile = file;
-      } else {
-        vm.cvFile = file;
+      if (type !== 'coverLetter' && type !== 'cv') {
+        type = 'additionalFiles';
       }
-      vm.application.uploadFile(file)
+      if (type === 'coverLetter') {
+        vm.application.coverLetter = file;
+      } else if(type === 'cv') {
+        vm.application.cv = file;
+      }
+      vm.application.uploadFile(file, type, vm.application._id)
         .then(function (response) {
           if(type === 'coverLetter') {
-            vm.application.coverLetter = response.data.fileId;
+            vm.application.coverLetter = response.data.coverLetter;
+            vm.application.coverLetterFileMeta = response.data.coverLetterFileMeta;
           } else {
-            vm.application.cv = response.data.fileId;
+            vm.application.cv = response.data.cv;
+            vm.application.cvFileMeta = response.data.cvFileMeta;
           }
         });
     }
 
-    function removeCoverLetter() {
-      vm.coverLetterFile = null;
-      vm.application.coverLetter = null;
-      //@todo delete the file from Mongo
+    function removeFile(fileId) {
+      Application.removeFile({
+        applicationId: vm.application._id,
+        fileId: fileId
+      }).$promise
+        .then(function() {
+          if(vm.application.cv === fileId) {
+            vm.application.cv = null;
+            vm.application.cvFileMeta = null;
+          }
+          if(vm.application.coverLetter === fileId) {
+            vm.application.coverLetter = null;
+            vm.application.coverLetterFileMeta = null;
+          }
+        })
+        .catch(function (err) {
+          Messages.addMessage(err.data.message, 'error');
+        });
     }
 
-    function removeCv() {
-      vm.cvFile = null;
-      vm.application.cv = null;
-      //@todo delete teh file from Mongo
-    }
+    //function removeCoverLetter() {
+    //  vm.coverLetterFile = null;
+    //  vm.application.coverLetter = null;
+    //  //@todo delete the file from Mongo
+    //}
+    //
+    //function removeCv() {
+    //  vm.cvFile = null;
+    //  vm.application.cv = null;
+    //  //@todo delete teh file from Mongo
+    //}
 
     function submitApplication() {
       vm.application.submitted = true;
