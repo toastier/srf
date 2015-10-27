@@ -49,6 +49,14 @@
       checkForExistingUserApplication: {
         method: 'GET',
         url: 'applications/forOpeningForUser/:openingId'
+      },
+      removeFile: {
+        method: 'PUT',
+        url: 'applications/:applicationId/removeFile/:fileId',
+        params: {
+          applicationId: '@applicationId',
+          fileId: '@fileId'
+        }
       }
     });
 
@@ -150,13 +158,15 @@
         return this.phoneInterviewPhase.phoneInterviews.length < maxInterviews;
       },
 
-      uploadFile: function(file) {
+      uploadFile: function(file, type, applicationId) {
+        applicationId = applicationId || $stateParams.applicationId;
         var deferred = $q.defer();
         if(!file) {
           deferred.reject('no file given');
         } else {
+
           file.upload = Upload.upload({
-            url: '/uploads/file',
+            url: '/applications/' + applicationId + '/uploadFile/' + type,
             method: 'POST',
             data: {
               file: file

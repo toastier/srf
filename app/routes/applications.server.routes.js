@@ -3,9 +3,10 @@
 /**
  * Module dependencies.
  */
-var users = require('../../app/controllers/users');
+var users = require('../../app/controllers/users.server.controller');
 var applications = require('../../app/controllers/applications.server.controller');
 var openings = require('../../app/controllers/openings.server.controller');
+var uploads = require('../../app/controllers/uploads.server.controller');
 
 var isCurrentUser = function() {
   return true;
@@ -44,8 +45,28 @@ module.exports = function (app) {
   app.route('/applications/:applicationId/deleteComment')
     .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.deleteComment);
 
+  app.route('/applications/:applicationId/removeFile/:fileId')
+    .put(
+      users.hasAuthorization(['manager', 'admin', 'user'])
+      , applications.hasAuthorization //check that user is privileged user, or is the owner of the application
+      , applications.removeFile //remove the file from req.application
+      , uploads.deleteFile //delete the file from Mongo
+      , applications.update //update the application
+  );
+
+  app.route('/applications/:applicationId/uploadFile/:type')
+    .post(
+    users.hasAuthorization(['manager', 'admin', 'user'])
+    , applications.hasAuthorization
+    , uploads.uploadNewFile
+    , applications.addFile
+    , applications.update
+  );
+
   app.route('/applications/:applicationId')
-    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member', isCurrentUser]), applications.read)
+    .get(users.hasAuthorization(['manager', 'admin', 'committee member', 'user'])
+      , applications.hasAuthorization,
+      applications.read)
     .put(applications.update)//@todo this is a big security no no.  Need to fix
     .delete(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), applications.delete);
 
@@ -53,3 +74,4 @@ module.exports = function (app) {
   app.param('applicationId', applications.applicationByID);
   app.param('openingId', openings.openingByID);
 };
+users.hasAuthorization(['manager', 'admin', 'user'])

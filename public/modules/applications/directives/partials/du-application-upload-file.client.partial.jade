@@ -1,0 +1,17 @@
+.panel.panel-default
+  .panel-heading(ng-if="vm.heading")
+    h4 {{ vm.heading }}
+  .panel-body
+    .row
+      .col-md-6(ng-if="!vm.fileMetadata")
+        .button.btn.btn-upload(ngf-select="vm.uploadMethod({file: $file, type: vm.uploadType})") Upload File
+      .col-md-6(ng-if="vm.fileMetadata")
+        a.with-icon.no-text.remove(ng-if="vm.showRemoveOption", ng-click="vm.removeFile()")
+        i.fa.fa-file &nbsp;
+        | {{ vm.fileMetadata.filename }} &nbsp;
+      .col-md-6(ng-show="vm.fileModel.progress >= 0")
+        .progress
+          .progress-bar.progress-bar-success.progress-bar-striped(style="width:{{vm.fileModel.progress}}%", ng-bind="vm.fileModel.progress + '%'")
+      .col-md-6(ng-show="vm.fileMetadata")
+        .progress
+          .progress-bar.progress-bar-success.progress-bar-striped(style="width:100%") File Upload Complete
