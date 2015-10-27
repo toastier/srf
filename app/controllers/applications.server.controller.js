@@ -24,6 +24,8 @@ exports.applicationByID = function (req, res, next, id) {
     .populate('reviewPhase.reviews.reviewer')
     //@todo make the return of the commenter safe - currently returning tmi
     .populate('reviewPhase.reviews.reviewWorksheet.comments.commenter')
+    .populate('phoneInterviewPhase.phoneInterviews.interviewer')
+    .populate('phoneInterviewPhase.phoneInterviews.phoneInterviewWorksheet.comments.commenter')
     .exec(function (err, application) {
 
       if (err) {
@@ -240,6 +242,56 @@ exports.saveComment = function(req, res) {
       res.jsonp(comment);
     }
   }
+};
+
+exports.savePhoneInterview = function(req, res) {
+  var phoneInterview = req.body.phoneInterview;
+
+  if(isPhoneInterviewer(req)) {
+    updatePhoneInterviewContent(returnPhoneInterview);
+  } else {
+    return res.send(400, {
+      message: 'You are not an assigned Phone Interviewer for this Application'
+    });
+  }
+
+  function updatePhoneInterviewContent (next) {
+    var updated = false;
+
+    var existingPhoneInterview = req.application.phoneInterviewPhase.phoneInterviews.id(phoneInterview._id);
+
+    if (existingPhoneInterview && req.user._id === existingPhoneInterview.interviewer._id.toString()) {
+      existingPhoneInterview.phoneInterviewWorksheet.body = phoneInterview.phoneInterviewWorksheet.body;
+      if(existingPhoneInterview.phoneInterviewWorksheet.complete) {
+        existingPhoneInterview.phoneInterviewWorksheet.dateCompleted = Date.now();
+      } else {
+        existingPhoneInterview.phoneInterviewWorksheet.dateCompleted = null;
+      }
+      existingPhoneInterview.phoneInterviewWorksheet.complete = phoneInterview.phoneInterviewWorksheet.complete;
+      updated = existingPhoneInterview;
+    }
+
+    if (updated) {
+      req.application.save(function(err, application) {
+        if(err) {
+          res.send(400, err);
+        }
+        next(application);
+      });
+    } else {
+      res.send(400, {
+        message: 'The phone interview was not updated'
+      });
+    }
+  }
+
+  function returnPhoneInterview (application) {
+    var updatedPhoneInterview = application.phoneInterviewPhase.phoneInterviews.id(phoneInterview._id);
+    res.jsonp(updatedPhoneInterview);
+  }
+
+
+
 };
 
 /**
@@ -764,7 +816,7 @@ function getErrorMessage(err) {
 function isPhoneInterviewer(req) {
   var interviewerFound = false;
   _.forEach(req.application.phoneInterviewPhase.phoneInterviews, function(phoneInterview) {
-    if((req.user._id === phoneInterview.interviewer.toString()) && !interviewerFound) {
+    if((req.user._id === phoneInterview.interviewer._id.toString()) && !interviewerFound) {
       interviewerFound = true;
     }
   });

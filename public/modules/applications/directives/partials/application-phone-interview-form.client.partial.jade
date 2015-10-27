@@ -7,4 +7,4 @@
             .input-group-addon
               i.fa.fa-times-circle(ng-click="vm.application.removePhoneInterview(phoneInterview)")
               | &nbsp; Phone Interviewer
-            select.form-control(ng-options="committeeMember._id as committeeMember.displayName for committeeMember in phoneInterviewPhase.options.committeeMembers", ng-model="phoneInterview.interviewer")
+            select.form-control(ng-options="committeeMember._id as committeeMember.displayName for committeeMember in phoneInterviewPhase.options.committeeMembers", ng-model="phoneInterview.interviewer._id")

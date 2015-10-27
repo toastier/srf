@@ -116,12 +116,21 @@ var applicationModel = new Schema({
             type: Schema.ObjectId,
             ref: 'User'
           },
-          interviewWorksheet: {
+          phoneInterviewWorksheet: {
             complete: {
               type: Boolean,
               default: false
             },
             body: {type: String},
+            dateAssigned: {
+              type: Date
+            },
+            dateUpdated: {
+              type: Date
+            },
+            dateCompleted: {
+              type: Date
+            },
             comments: [
               {commenter: {
                 type: Schema.ObjectId,
