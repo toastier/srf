@@ -33,7 +33,7 @@ module.exports = function (app) {
     .post(users.hasAuthorization(['manager', 'admin', 'committee member']), applications.savePhoneInterview);
 
   app.route('/applications/:applicationId/conductReview')
-    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.conductReview);
+    .get(users.hasAuthorization(['manager', 'admin', 'committee member']), applications.conductReview);
 
   app.route('/applications/:applicationId/saveReview/:reviewId')
     .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.saveReview);
