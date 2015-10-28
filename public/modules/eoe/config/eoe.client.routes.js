@@ -27,17 +27,17 @@
             }
           }
         })
-        .state('main.viewEoe', {
-          url: '/eoe/:eoeId',
-          templateUrl: 'modules/eoe/views/view-eoe.client.view.html',
-          controller: 'ViewEoeController',
-          controllerAs: 'vm',
-          resolve: {
-            resolvedAuth: function(resolvedAuth) {
-              return resolvedAuth;
-            }
-          }
-        });
+        //.state('main.viewEoe', {
+        //  url: '/eoe/:eoeId',
+        //  templateUrl: 'modules/eoe/views/view-eoe.client.view.html',
+        //  controller: 'ViewEoeController',
+        //  controllerAs: 'vm',
+        //  resolve: {
+        //    resolvedAuth: function(resolvedAuth) {
+        //      return resolvedAuth;
+        //    }
+        //  }
+        //});
     }
   ]);
 })();

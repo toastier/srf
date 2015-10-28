@@ -9,6 +9,6 @@ var users = require('../../app/controllers/users'),
 module.exports = function(app) {
 	// EOE Routes
 	app.route('/eoe')
-		.get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), eoe.list)
-		.post(users.requiresLogin, users.hasAuthorization(['user']), eoe.create);
+		.get(users.hasAuthorization(['manager', 'admin', 'committee member']), eoe.list)
+		.post(users.hasAuthorization(['user']), eoe.create);
 };

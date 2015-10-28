@@ -50,6 +50,10 @@
         method: 'GET',
         url: 'applications/forOpeningForUser/:openingId'
       },
+      checkForExistingEoe : {
+        method: 'GET',
+        url: 'applications/eoeProvided/:applicationId'
+      },
       removeFile: {
         method: 'PUT',
         url: 'applications/:applicationId/removeFile/:fileId',

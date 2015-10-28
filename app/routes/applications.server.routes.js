@@ -24,6 +24,9 @@ module.exports = function (app) {
   app.route('/applications/forOpeningForUser/:openingId')
     .get(applications.findForUserForOpening); //@todo look at security on this
 
+  app.route('/applications/eoeProvided/:applicationId')
+      .get(applications.eoeProvided);
+
   app.route('/applications/iAmReviewer')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.iAmReviewer);
 

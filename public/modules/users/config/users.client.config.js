@@ -15,7 +15,7 @@
                     $location.path('signin');
                     break;
                   case 403:
-                    Messages.addMessage('You are not authorized to access the underlying data. Details: Url Requested: "' + rejection.config.url + '"" method: "' + rejection.config.method + '"', 'warn');
+                    Messages.addMessage('You are not authorized to access the underlying data. Details: Url Requested: "' + rejection.config.url + '"" method: "' + rejection.config.method + '"', 'warn', 'Warning', '', {showButton: true, showDuration: 0});
                     $location.path('home');
 
                     // Add unauthorized behaviour

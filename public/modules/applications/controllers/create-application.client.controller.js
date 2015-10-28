@@ -156,19 +156,20 @@
 
     function submitApplication() {
       vm.application.submitted = true;
-      vm.application.eoeProvided = true;
+      //vm.application.eoeProvided = true;
       Application.update(vm.application).$promise
-        .then(function (saveResponse) {
-          Messages.addMessage('The Application for ' + saveResponse.firstName + ' ' + saveResponse.lastName + ' was Submitted.');
-          //Opening.listCurrentOpenings();
+          .then(function (saveResponse) {
+            Messages.addMessage('The Application for ' + saveResponse.firstName + ' ' + saveResponse.lastName + ' was Submitted.', 'info', 'Application Submitted', { 'closeButton' : true, 'showDuration' : 0, 'hideDuration' : 5000 });
+            //Opening.listCurrentOpenings();
             console.log($location.path());
             $location.path('/eoe/create/' + saveResponse._id);
-        })
-        .catch(function (err) {
-          vm.application.submitted = false;
-          Messages.addMessage(err.data.message, 'error');
-        });
+          })
+          .catch(function (err) {
+            vm.application.submitted = false;
+            Messages.addMessage(err.data.message, 'error');
+          });
     }
+
 
     function createApplication() {
       vm.application.user = vm.user._id;

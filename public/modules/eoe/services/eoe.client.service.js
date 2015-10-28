@@ -19,7 +19,7 @@
         $state.go('main.viewEoe', {eoeId: $stateParams.eoeId});
       },
       createEoe: function () {
-        $state.go('main.createEoe');
+        $state.go('main.createEoe', {applicationID: $stateParams.applicationID});
       }
     };
 

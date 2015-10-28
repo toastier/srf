@@ -13,15 +13,23 @@
   /* @ngInject */
   function CreateEoeController(Messages, Navigation, Application, Opening, Eoe, $stateParams,  _) {
 
-    checkExistingEoe($stateParams.applicationId);
+    //checkExistingEoe($stateParams.applicationId);
+      Application.checkForExistingEoe({applicationId: $stateParams.applicationId}).$promise
+          .then(function(application) {
+              if (application._id) {
+                  console.log('This already exists!')
+              }
+          });
+          //.catch(function (err) {
+          //        Messages.addMessage(err.data.message, 'error');
+          //    }))
+
 
     /* jshint validthis: true */
     var vm = this;
 
     vm.disableSaveButton = disableSaveButton;
-    vm.cancel = cancel;
     vm.eoe = new Eoe();
-    vm.eoe.disability = 'Yes';
     vm.saveEoe = saveEoe;
     //vm.saveEoeDisability = saveEoeDisability;
     vm.options = { };
@@ -32,18 +40,9 @@
 
     activate();
 
-    function cancel() {
-      //Eoe.();
-    }
 
-    function checkExistingEoe() {
-        Application.get({
-            applicationId: $stateParams.applicationId
-        }).$promise.then(function (result) {
-                console.log(result);
-            });
 
-    }
+
 
     function declineOff() {
       if (vm.eoe.race.declined === 'true') {
@@ -188,10 +187,6 @@
       vm.eoe.isActive = true;
     }
 
-    function toggleDatePicker(event, datePicker) {
-      var datePickerOpenName = datePicker + 'Open';
-      vm.datePickerStates[datePickerOpenName] = !vm.datePickerStates[datePickerOpenName];
-    }
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
