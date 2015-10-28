@@ -443,16 +443,17 @@ exports.delete = function (req, res) {
  * @param res
  */
 exports.eoeProvided = function (req, res) {
-    Application.findOne({_id: ObjectId(req.application._id)})
+    Application.findOne({_id: req.application._id})
         .exec(function (err, application) {
             console.log('executing eoeProvided for ', application._id);
             console.log('eoeProvided is', application.eoeProvided);
             if (err) {
                 return res.send(400, {
-                    message: 'Error looking for existing Applications for User and Opening'
+                    message: 'Error looking for existing Application'
                 });
             }
             else {
+                return res.jsonp(application);
             }
         });
 };
