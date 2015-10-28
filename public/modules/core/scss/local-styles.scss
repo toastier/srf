@@ -1039,7 +1039,7 @@ td {
   cursor: pointer;
   &:after {
     @include font-awesome-icon-after;
-    content: '\f152';
+    content: '\f18e';
     transition: all 0.5s;
   }
   &.target-not-collapsed {

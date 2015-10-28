@@ -636,9 +636,14 @@ exports.hasAuthorization = function (req, res, next) {
  */
 exports.iAmReviewer = function (req, res) {
   Application.find()
-    .where('reviewPhase.reviews.reviewer').equals(req.user._id)
-    .where('proceedToReview').equals(true)
-    .or([{'reviewPhase.proceedToPhoneInterview': false}, {'reviewPhase.proceedToPhoneInterview': null}])
+    .where('proceedToReview').equals(true) //Review Phase activated
+    .where('reviewPhase.proceedToPhoneInterview').equals(null) //Next Phase not determined
+    .elemMatch('reviewPhase.reviews', {
+      reviewer: req.user._id,
+      'reviewWorksheet.complete': false
+    })
+    //.where('reviewPhase.reviews.reviewer').equals(req.user._id)
+    //.or([{'reviewPhase.proceedToPhoneInterview': false}, {'reviewPhase.proceedToPhoneInterview': null}])
     .sort('-dateSubmitted')
     .populate('opening')
     .exec(function(err, applications) {
@@ -653,13 +658,18 @@ exports.iAmReviewer = function (req, res) {
 };
 
 /**
- * Get Applications wehre Authenticated User is the Phone Interviewer
+ * Get Applications where Authenticated User is the Phone Interviewer, and the Phone Interview needs to be completed
  * @param req
  * @param res
  */
 exports.iAmPhoneInterviewer = function (req, res) {
   Application.find()
-    .where('phoneInterviewPhase.phoneInterviews.interviewer').equals(req.user._id)
+    .where('reviewPhase.proceedToPhoneInterview').equals(true) //Phone Interview Phase enabled
+    .where('phoneInterviewPhase.proceedToOnSite').equals(null) //Next Phase not determined
+    .elemMatch('phoneInterviewPhase.phoneInterviews', {
+      interviewer: req.user._id,
+      'phoneInterviewWorksheet.complete': false
+    })//user is an Assigned Phone Interviewer, and the interview is not completed
     .sort('-dateSubmitted')
     .populate('opening')
     .exec(function(err, applications) {

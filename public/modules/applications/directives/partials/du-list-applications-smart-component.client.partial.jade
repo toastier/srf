@@ -1,4 +1,6 @@
-.panel.panel-default
+.panel.panel-default(
+  ng-class="{'panel-success': vm.applications.length && vm.componentTitle !== 'All Open Applications' }"
+  )
   .panel-heading {{ vm.componentTitle }}
   .panel-body
     ul.list-group(ng-if="!!vm.applications.length")
@@ -6,8 +8,16 @@
         .row
           .col-xs-12
             .row
-              .col-md-8 {{ application.honorific + ' ' + application.firstName + ' ' + application.lastName + ' | ' + application.opening.name }}
+              .col-md-8
+                .row
+                  .col-xs-12
+                    strong {{ application.honorific + ' ' + application.firstName + ' ' + application.lastName }}
+                .row
+                  .col-xs-12.small {{application.opening.name }}
+                .row
+                  .col-xs-12
+                    span.label.label-info Submitted: {{ application.dateSubmitted | standardDate }}
               .col-md-4.text-right
-                .btn.btn-sm.btn-edit(ng-click="vm.clickAction(application)") {{ vm.buttonTitle }}
+                .btn.btn-sm.btn-primary(ng-click="vm.clickAction(application)") {{ vm.buttonTitle }}
     .alert.alert-info(ng-if="!vm.applications.length") No matching Applications
 

@@ -1,5 +1,5 @@
 .col-xs-12
-  h3.collapsible-trigger(ng-click="vm.toggleOpening()", ng-class="{'target-collapsed': vm.isCollapsed, 'target-not-collapsed': !vm.isCollapsed}") Opening: {{ vm.opening.name }}
+  h2.collapsible-trigger(ng-click="vm.toggleOpening()", ng-class="{'target-collapsed': vm.isCollapsed, 'target-not-collapsed': !vm.isCollapsed}") Opening: {{ vm.opening.name }}
   .panel.panel-default
     .panel-body(collapse="vm.isCollapsed")
       .row
