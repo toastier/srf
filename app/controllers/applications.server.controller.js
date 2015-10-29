@@ -453,6 +453,12 @@ exports.eoeProvided = function (req, res) {
                 });
             }
             else {
+                if (application.eoeProvided) {
+                    console.log('It exists already!');
+                }
+                else {
+                    console.log('Need to set the flag!');
+                }
                 return res.jsonp(application);
             }
         });

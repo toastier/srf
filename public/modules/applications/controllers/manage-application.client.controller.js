@@ -103,7 +103,6 @@
       }
     }
 
-
     function remove () {
 
       vm.application.$remove()

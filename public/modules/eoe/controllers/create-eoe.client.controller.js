@@ -16,8 +16,12 @@
     //checkExistingEoe($stateParams.applicationId);
       Application.checkForExistingEoe({applicationId: $stateParams.applicationId}).$promise
           .then(function(application) {
-              if (application._id) {
-                  console.log('This already exists!')
+              if (application.eoeProvided) {
+                  console.log('The EOE flag value is ', application.eoeProvided);
+              }
+              else {
+                  console.log('The EOE flag value isnt set yet for ', application._id);
+                  setEoeProvided(application);
               }
           });
           //.catch(function (err) {
@@ -37,11 +41,22 @@
     vm.flagOff = flagOff;
     vm.declineAnswer = declineAnswer;
     vm.setSelection = setSelection;
+      vm.setEoeProvided = setEoeProvided;
 
     activate();
 
 
-
+  function setEoeProvided(application) {
+      application.update({
+          eoeProvided: true
+      }).$promise
+          .then(function() {
+              console.log('Eoe Provided flag set.');
+          })
+          .catch(function (err) {
+              Messages.addMessage(err.data.message, 'error');
+          });
+  }
 
 
     function declineOff() {
