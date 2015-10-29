@@ -560,8 +560,20 @@ exports.eoeProvided = function (req, res) {
                 }
                 else {
                     console.log('Need to set the flag!');
+
+                    application.eoeProvided = true;
+                    application.save(function (err) {
+                        if (err) {
+                            return res.send(400, {
+                                message: getErrorMessage(err)
+                            });
+                        } else {
+                            req.application = application;
+                            res.jsonp(application);
+                        }
+
+                    });
                 }
-                return res.jsonp(application);
             }
         });
 };

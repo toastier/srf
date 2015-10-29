@@ -21,7 +21,7 @@
               }
               else {
                   console.log('The EOE flag value isnt set yet for ', application._id);
-                  setEoeProvided(application);
+                  setEoeProvided(application._id);
               }
           });
           //.catch(function (err) {
@@ -41,22 +41,23 @@
     vm.flagOff = flagOff;
     vm.declineAnswer = declineAnswer;
     vm.setSelection = setSelection;
-      vm.setEoeProvided = setEoeProvided;
+    //vm.setEoeProvided = setEoeProvided;
 
     activate();
 
 
-  function setEoeProvided(application) {
-      application.update({
-          eoeProvided: true
-      }).$promise
-          .then(function() {
-              console.log('Eoe Provided flag set.');
-          })
-          .catch(function (err) {
-              Messages.addMessage(err.data.message, 'error');
-          });
-  }
+  //function setEoeProvided(applicationId) {
+  //
+  //    application.update({
+  //        eoeProvided: true
+  //    }).$promise
+  //        .then(function() {
+  //            console.log('Eoe Provided flag set.');
+  //        })
+  //        .catch(function (err) {
+  //            Messages.addMessage(err.data.message, 'error');
+  //        });
+  //}
 
 
     function declineOff() {
