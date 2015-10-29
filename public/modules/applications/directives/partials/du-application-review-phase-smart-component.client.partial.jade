@@ -17,15 +17,17 @@
           //.row
           //  .col-xs-12
           //    p Has the Reviewer completed the Review Worksheet? {{ review.reviewWorksheet.complete | checkMark }}
-          h4 Review Worksheet &nbsp;
+          h3.underline Review Worksheet &nbsp;
             i.fa.fa-edit(ng-if="vm.reviewPhaseModel.reviewIsEditable(review) && !review.editing", ng-click="vm.reviewPhaseModel.editReview(review)")
       .row
-        du-display-field(ng-if="!review.editing", field-model="review.reviewWorksheet.body", field-label="{{ null }}", field-columns="12")
+        //du-display-field(ng-if="!review.editing", field-model="review.reviewWorksheet.body", field-label="{{ null }}", field-columns="12")
+        du-worksheet-view-smart-component(ng-if="!review.editing", worksheet-fields="review.reviewWorksheet.body.fields")
         .col-xs-12.ng-form(ng-if="review.editing")
+          du-worksheet-edit-smart-component(worksheet-fields="review.reviewWorksheet.bodyBuffer.fields")
           .row
-            .col-xs-12.form-group
-              label.control-label Body
-              textarea.form-control(name='body', ng-model="review.reviewWorksheet.bodyBuffer", rows="8")
+            //.col-xs-12.form-group
+            //  label.control-label Body
+            //  textarea.form-control(name='body', ng-model="review.reviewWorksheet.bodyBuffer", rows="8")
             .col-xs-12
               button.btn.btn-default.btn-undo(ng-click="vm.reviewPhaseModel.cancelReviewChanges(review)") Cancel Changes
               button.btn.btn-save(ng-click="vm.reviewPhaseModel.saveReview(review)") Save Changes
