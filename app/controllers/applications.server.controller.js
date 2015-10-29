@@ -10,6 +10,7 @@ var grid = require('gridfs-stream');
 var _ = require('lodash');
 var Application = mongoose.model('Application');
 var Applicant = mongoose.model('Applicant');
+var WorksheetField = mongoose.model('WorksheetField');
 var async = require('async');
 var mime = require('mime-types');
 
@@ -420,19 +421,102 @@ exports.conductPhoneInterview = function (req, res) {
  */
 exports.create = function(req, res) {
 	var application = new Application(req.body);
-	application.user = req.user;
+  //@todo query to get worksheetFields
+  WorksheetField
+    .find({appliesTo: 'reviewWorksheet'})
+    .sort('order')
+    .exec(function(err, result) {
+      if (err) {
+        res.send(500, err);
+      } else {
+        createBodyFields(result);
+      }
+    });
 
-	application.save(function(err) {
-		if (err) {
-			return res.send(400, {
-				// this doesn't work, dumping errorHandler into its own controller
-				message: getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(application);
-		}
-	});
+  //@todo create bodyFields
+  function createBodyFields(worksheetFields) {
+    var bodyFields = [];
+    if(worksheetFields && worksheetFields.length) {
+      _.forEach(worksheetFields, function (worksheetField) {
+        bodyFields.push(new BodyField(worksheetField));
+      });
+    }
+    if (bodyFields.length) {
+      appendBodyFieldsToApplication(bodyFields);
+    } else {
+      res.send(400, {message: 'Problem adding body fields to application'});
+    }
+  }
+
+  //@todo append bodyFields to application
+  function appendBodyFieldsToApplication(bodyFields) {
+    application.reviewPhase.reviews.push( new Review());
+    application.reviewPhase.reviews.push( new Review());
+
+    _.forEach(application.reviewPhase.reviews, function (review) {
+      review.reviewWorksheet.body.fields = bodyFields;
+    });
+
+    createApplication();
+  }
+
+  function createApplication() {
+    application.user = req.user;
+
+    application.save(function(err) {
+      if (err) {
+        return res.send(400, {
+          // this doesn't work, dumping errorHandler into its own controller
+          message: getErrorMessage(err)
+        });
+      } else {
+        res.jsonp(application);
+      }
+    });
+  }
 };
+
+function addWorksheetFields(application, worksheetType, callback) {
+
+  WorksheetField
+    .find({appliesTo: worksheetType})
+    .sort('order')
+    .exec(function(err, result) {
+      if (err) {
+        callback(err, null)
+      } else {
+        createBodyFields(result);
+      }
+    });
+
+  //@todo create bodyFields
+  function createBodyFields(worksheetFields) {
+    var bodyFields = [];
+    if(worksheetFields && worksheetFields.length) {
+      _.forEach(worksheetFields, function (worksheetField) {
+        bodyFields.push(new BodyField(worksheetField));
+      });
+    }
+    if (bodyFields.length) {
+      appendBodyFieldsToApplication(bodyFields);
+    } else {
+      callback({message: 'Problem adding body fields to application'}, null);
+    }
+  }
+
+  //@todo append bodyFields to application
+  function appendBodyFieldsToApplication(bodyFields) {
+    application.reviewPhase.reviews.push( new Review());
+    application.reviewPhase.reviews.push( new Review());
+
+    _.forEach(application.reviewPhase.reviews, function (review) {
+      review.reviewWorksheet.body.fields = bodyFields;
+    });
+
+    //success! we execute the callback
+    callback(null, application);
+  }
+}
 
 /**
  * User create Application
@@ -450,6 +534,26 @@ exports.createForUser = function(req, res) {
   }
 
   findApplicantByUserId(application.user);
+
+  /**
+   * find an existing Applicant for the given User._id, if one is found call saveApplication(), passing the Applicant,
+   * if not found, call createApplicant()
+   * @param userId
+   */
+  function findApplicantByUserId(userId) {
+    Applicant.findOne({user: userId})
+      .exec(function (err, foundApplicant) {
+        if (err) {
+          return err;
+        }
+
+        if(foundApplicant && foundApplicant._id) {
+          saveApplication(foundApplicant);
+        } else {
+          createApplicant();
+        }
+      });
+  }
 
   /**
    * create a new Applicant based on data in the Application, call save Application passing the Applicant
@@ -478,42 +582,31 @@ exports.createForUser = function(req, res) {
   }
 
   /**
-   * find an existing Applicant for the given User._id, if one is found call saveApplication(), passing the Applicant,
-   * if not found, call createApplicant()
-   * @param userId
-   */
-  function findApplicantByUserId(userId) {
-    Applicant.findOne({user: userId})
-      .exec(function (err, foundApplicant) {
-        if (err) {
-          return err;
-        }
-
-        if(foundApplicant && foundApplicant._id) {
-          saveApplication(foundApplicant);
-        } else {
-          createApplicant();
-        }
-      });
-  }
-
-  /**
    * save the Application and return the response
    * @param applicant
    */
   function saveApplication(applicant) {
     application.applicant = applicant._id;
 
-    application.save(function(err, result) {
+    addWorksheetFields(application, 'reviewWorksheet', doSave);
+
+    function doSave(err, resultApplication) {
+
       if (err) {
-        return res.send(400, {
-          message: getErrorMessage(err)
+        res.send(500, err);
+      } else {
+        resultApplication.save(function(err, result) {
+          if (err) {
+            return res.send(400, {
+              message: getErrorMessage(err)
+            });
+          }
+          if (result) {
+            return res.jsonp(result);
+          }
         });
       }
-      if (result) {
-        return res.jsonp(result);
-      }
-    });
+    }
   }
 
 };
@@ -949,4 +1042,29 @@ function Comment(comment) {
   this.commenter = comment.commenter || undefined;
   this.dateCreated = comment.dateCreated || Date.now();
   this.dateUpdated = Date.now();
+}
+
+function BodyField(field) {
+  if (!_.isObject(field)) {
+    field = {};
+  }
+  this.name = _.isString(field.name) ? field.name : null;
+  this.label = _.isString(field.label) ? field.label : null;
+  this.description = _.isString(field.description) ? field.description : null;
+  this.fieldType = _.isString(field.fieldType) ? field.fieldType : null;
+  this.selectOptions = _.isArray(field.selectOptions) ? field.selectOptions : [];
+  this.order = _.isNumber(field.order) ? field.order : 0;
+  this.response = null;
+}
+
+function Review() {
+  this.reviewer = null;
+  this.reviewWorksheet = {};
+  this.reviewWorksheet.complete = false;
+  this.body = {};
+  this.body.fields = [];
+  this.dateAssigned = null;
+  this.dateUpdated = null;
+  this.dateCompleted = null;
+  this.comments = [];
 }
