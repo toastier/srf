@@ -1,0 +1,23 @@
+section
+  navigation
+  .col-xs-12
+    .row(as-sortable="vm.dragControlListeners", ng-model="vm.worksheetFields")
+      .item-group(ng-repeat="worksheetField in vm.worksheetFields", as-sortable-item)
+        .item-group-actions
+          i.fa.fa-times-circle-o.pin-top(ng-click="vm.deleteField(worksheetField)")
+          br
+          i.fa.fa-edit(ng-click="vm.openAddFieldModal(worksheetField)")
+        .item-group-contents
+          .col-xs-12
+            h3 {{ worksheetField.label + ' (' + worksheetField.name + ')' }}
+          .col-xs-12(ng-if="worksheetField.description")
+            h4
+             em {{ worksheetField.description }}
+          .col-xs-12(ng-if="worksheetField.adminDescription")
+            h4 ( {{ worksheetField.adminDescription }} )
+          .col-xs-12
+            .label.label-default Order: {{ worksheetField.order }}
+            .label.label-default Applies To: {{ worksheetField.getAppliesToHumanName() }}
+            .label.label-default Field Type: {{ worksheetField.getFieldTypeHumanName() }}
+        .item-group-actions(as-sortable-item-handle)
+          i.fa.fa-arrows-v

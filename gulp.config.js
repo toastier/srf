@@ -27,6 +27,7 @@ module.exports = function () {
   var cssDestination = modulesDir + 'core/css/';
   var jadeFiles = [
     modulesDir + '**/views/*.jade',
+    modulesDir + '**/partials/*.jade',
     modulesDir + '**/views/partials/*.jade',
     modulesDir + '**/directives/*.jade',
     modulesDir + '**/directives/partials/*.jade'
