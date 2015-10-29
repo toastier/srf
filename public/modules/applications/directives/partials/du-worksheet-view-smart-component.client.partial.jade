@@ -1,0 +1,11 @@
+.col-xs-12(ng-repeat="worksheetField in vm.worksheetFields | orderBy : order")
+  h3(ng-bind="worksheetField.label")
+  .row
+    .col-xs-12(ng-if="worksheetField.description")
+      em(ng-bind="worksheetField.description")
+  .row
+    .col-xs-12
+      .well.well-sm(ng-if="worksheetField.response")
+        .row
+          .col-xs-12.pre(ng-bind="worksheetField.response")
+//pre.col-xs-12 {{ vm.worksheetFields | json }}

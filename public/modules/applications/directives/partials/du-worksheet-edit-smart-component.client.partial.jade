@@ -1,0 +1,25 @@
+.row(ng-repeat="worksheetField in vm.worksheetFields | orderBy : order")
+  .col-xs-12
+    h3(ng-bind="worksheetField.label")
+  .col-xs-12(ng-if="worksheetField.description")
+    em(ng-bind="worksheetField.description")
+  .col-md-12.form-group(ng-if="worksheetField.fieldType === 'input'")
+    input.form-control(
+    type="text",
+    ng-model="worksheetField.response"
+    )
+  .col-md-12.form-group(ng-if="worksheetField.fieldType === 'textarea'")
+    textarea.form-control(
+    rows="7",
+    ng-model="worksheetField.response"
+    )
+  .col-md-12.form-group(ng-if="worksheetField.fieldType === 'select'")
+    select.form-control(
+    ng-options="worksheetField.selectOptions",
+    ng-model="worksheetField.response"
+    )
+  .col-md-12.form-group(ng-if="worksheetField.fieldType === 'checkbox'")
+    checkbox.form-control(
+    ng-model="worksheetField.response"
+    )
+//pre.col-xs-12 {{ vm.worksheetFields | json }}
