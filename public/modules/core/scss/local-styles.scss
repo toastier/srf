@@ -1099,3 +1099,21 @@ td {
   background-color: $duke-whisp;
 }
 
+//
+// Underline Style
+// -----------------------------------------------------
+
+h1, h2, h3, h4, h5 {
+  &.underline {
+    border-bottom: 1px solid $duke-smoke;
+  }
+}
+
+//
+// Retain Formatting
+// -----------------------------------------------------
+
+.pre {
+  white-space: pre;
+}
+
