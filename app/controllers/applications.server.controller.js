@@ -24,6 +24,8 @@ exports.applicationByID = function (req, res, next, id) {
     .populate('reviewPhase.reviews.reviewer')
     //@todo make the return of the commenter safe - currently returning tmi
     .populate('reviewPhase.reviews.reviewWorksheet.comments.commenter')
+    .populate('phoneInterviewPhase.phoneInterviews.interviewer')
+    .populate('phoneInterviewPhase.phoneInterviews.phoneInterviewWorksheet.comments.commenter')
     .exec(function (err, application) {
 
       if (err) {
@@ -115,57 +117,107 @@ exports.conductReview = function (req, res) {
 };
 
 /**
- * Deletes an application.reviewPhase.reviews.reviewWorksheet.comments object
+ * Deletes an application.[phase][subjectArray][worksheet].comments[] object
+ * @description
+ * Multipurpose method used to delete comments from reviewWorksheet(s) and phoneInterviewWorksheet(s)
  * @param req
  * @param res
  */
 exports.deleteComment = function(req, res) {
-  var review = req.body.review;
-  var comment = req.body.comment;
-  var deleted = false;
-  var index;
-  var match = false;
+  var comment = req.body.comment
+    , matchingComment
+    , commentAttachedTo;
 
-  _.forEach(req.application.reviewPhase.reviews, function(existingReview) {
-    if(!match && existingReview._id.toString() === review._id) {
-      _.forEach(existingReview.reviewWorksheet.comments, function(existingComment) {
-        if(!match && existingComment._id.toString() === comment._id) {
-          index = existingReview.reviewWorksheet.comments.indexOf(existingComment);
-          match = true;
-        }
-      });
-      if(match && !_.isUndefined(index)) {
-          existingReview.reviewWorksheet.comments.splice(index, 1);
-          deleted = true;
+  if(req.body && req.body.phoneInterview) {
+    commentAttachedTo = 'phoneInterview';
+  } else if(req.body && req.body.review) {
+    commentAttachedTo = 'review';
+  } else {
+    res.send(403, {
+      message: 'The request to update a comment did not contain a review or phone interview'
+    });
+  }
+
+  var phase = commentAttachedTo + 'Phase';
+  var subjectArray = commentAttachedTo + 's';
+  var worksheet = commentAttachedTo + 'Worksheet';
+  /**
+   * @var {Object} subject  The object to which the comment is attached
+   */
+  var subject = req.body[commentAttachedTo];
+  var existingSubject = req.application[phase][subjectArray].id(subject._id);
+
+  var deleted = false;
+
+  if (existingSubject) {
+    matchingComment = existingSubject[worksheet].comments.id(comment._id);
+    if (matchingComment) {
+      if (matchingComment.commenter && matchingComment.commenter._id.toString() === req.user._id) {
+        var comments = existingSubject[worksheet].comments;
+        comments.splice(comments.indexOf(matchingComment));
+        deleted = true;
+      } else {
+        res.send(400, {
+          message: 'The comment does not belong to the authenticated user. Could not perform delete.'
+        });
       }
+    } else {
+      res.send(400, {
+        message: 'No matching comment was found. Could not perform delete.'
+      });
     }
-  });
+  }
 
   if(deleted) {
     req.application.save(function(err, application){
       if(err) {
-        res.send(400, 'An error occurred while deleting the comment.');
+        res.send(400, {
+          message: 'An error occurred while deleting the comment.'
+        });
       } else {
         res.jsonp(application);
       }
     });
   } else {
-    res.send(400, {message: 'Nothing was deleted'});
+    res.send(400, {
+      message: 'Nothing was deleted'
+    });
   }
 
 };
 
 /**
- * Saves a new comment on application.reviewPhase.reviews.reviewWorksheet, or updates an existing comment
+ * Saves a new comment on application.[phase][subjectArray][worksheet], or updates an existing comment
+ * @description
+ * Used to add comments to reviews and phoneInterviews
  * @todo Ensure comment can only be updated by the commenter
  * @param req
  * @param res
  */
 exports.saveComment = function(req, res) {
-  var review = req.body.review;
   var comment = req.body.comment;
   var mode = 'update';
-  var existingReview = req.application.reviewPhase.reviews.id(review._id);
+
+  var commentAttachedTo;
+
+  if(req.body && req.body.phoneInterview) {
+    commentAttachedTo = 'phoneInterview';
+  } else if(req.body && req.body.review) {
+    commentAttachedTo = 'review';
+  } else {
+    res.send(403, {
+      message: 'The request to update a comment did not contain a review or phone interview'
+    });
+  }
+
+  var phase = commentAttachedTo + 'Phase';
+  var subjectArray = commentAttachedTo + 's';
+  var worksheet = commentAttachedTo + 'Worksheet';
+  /**
+   * @var {Object} subject  The object to which the comment is attached
+   */
+  var subject = req.body[commentAttachedTo];
+  var existingSubject = req.application[phase][subjectArray].id(subject._id);
 
   comment.commenter = req.user._id;
 
@@ -176,10 +228,10 @@ exports.saveComment = function(req, res) {
   if(mode === 'add'){
     var commentAdded = false;
 
-    if(existingReview) {
+    if(existingSubject) {
       comment = new Comment(comment);
-      existingReview.reviewWorksheet.comments.push(comment);
-      comment = existingReview.reviewWorksheet.comments[existingReview.reviewWorksheet.comments.length - 1];
+      existingSubject[worksheet].comments.push(comment);
+      comment = existingSubject[worksheet].comments[existingSubject[worksheet].comments.length - 1];
       commentAdded = true;
     }
 
@@ -194,7 +246,7 @@ exports.saveComment = function(req, res) {
   } else {
 
     var commentUpdated = false;
-    var existingComment = existingReview.reviewWorksheet.comments.id(comment._id);
+    var existingComment = existingSubject[worksheet].comments.id(comment._id);
 
     if(existingComment) {
       if(comment.dateUpdated) {
@@ -240,6 +292,56 @@ exports.saveComment = function(req, res) {
       res.jsonp(comment);
     }
   }
+};
+
+exports.savePhoneInterview = function(req, res) {
+  var phoneInterview = req.body.phoneInterview;
+
+  if(isPhoneInterviewer(req)) {
+    updatePhoneInterviewContent(returnPhoneInterview);
+  } else {
+    return res.send(400, {
+      message: 'You are not an assigned Phone Interviewer for this Application'
+    });
+  }
+
+  function updatePhoneInterviewContent (next) {
+    var updated = false;
+
+    var existingPhoneInterview = req.application.phoneInterviewPhase.phoneInterviews.id(phoneInterview._id);
+
+    if (existingPhoneInterview && req.user._id === existingPhoneInterview.interviewer._id.toString()) {
+      existingPhoneInterview.phoneInterviewWorksheet.body = phoneInterview.phoneInterviewWorksheet.body;
+      if(phoneInterview.phoneInterviewWorksheet.complete) {
+        existingPhoneInterview.phoneInterviewWorksheet.dateCompleted = Date.now();
+      } else {
+        existingPhoneInterview.phoneInterviewWorksheet.dateCompleted = null;
+      }
+      existingPhoneInterview.phoneInterviewWorksheet.complete = phoneInterview.phoneInterviewWorksheet.complete;
+      updated = existingPhoneInterview;
+    }
+
+    if (updated) {
+      req.application.save(function(err, application) {
+        if(err) {
+          res.send(400, err);
+        }
+        next(application);
+      });
+    } else {
+      res.send(400, {
+        message: 'The phone interview was not updated'
+      });
+    }
+  }
+
+  function returnPhoneInterview (application) {
+    var updatedPhoneInterview = application.phoneInterviewPhase.phoneInterviews.id(phoneInterview._id);
+    res.jsonp(updatedPhoneInterview);
+  }
+
+
+
 };
 
 /**
@@ -562,8 +664,16 @@ exports.hasAuthorization = function (req, res, next) {
  * @param res
  */
 exports.iAmReviewer = function (req, res) {
-  Application.find({'reviewPhase.reviews.reviewer': req.user._id})
-    .sort('-postDate')
+  Application.find()
+    .where('proceedToReview').equals(true) //Review Phase activated
+    .where('reviewPhase.proceedToPhoneInterview').equals(null) //Next Phase not determined
+    .elemMatch('reviewPhase.reviews', {
+      reviewer: req.user._id,
+      'reviewWorksheet.complete': false
+    })
+    //.where('reviewPhase.reviews.reviewer').equals(req.user._id)
+    //.or([{'reviewPhase.proceedToPhoneInterview': false}, {'reviewPhase.proceedToPhoneInterview': null}])
+    .sort('-dateSubmitted')
     .populate('opening')
     .exec(function(err, applications) {
       if(err) {
@@ -577,13 +687,19 @@ exports.iAmReviewer = function (req, res) {
 };
 
 /**
- * Get Applications wehre Authenticated User is the Phone Interviewer
+ * Get Applications where Authenticated User is the Phone Interviewer, and the Phone Interview needs to be completed
  * @param req
  * @param res
  */
 exports.iAmPhoneInterviewer = function (req, res) {
-  Application.find({'phoneInterviewPhase.phoneInterviews.interviewer': req.user._id})
-    .sort('-postDate')
+  Application.find()
+    .where('reviewPhase.proceedToPhoneInterview').equals(true) //Phone Interview Phase enabled
+    .where('phoneInterviewPhase.proceedToOnSite').equals(null) //Next Phase not determined
+    .elemMatch('phoneInterviewPhase.phoneInterviews', {
+      interviewer: req.user._id,
+      'phoneInterviewWorksheet.complete': false
+    })//user is an Assigned Phone Interviewer, and the interview is not completed
+    .sort('-dateSubmitted')
     .populate('opening')
     .exec(function(err, applications) {
       if(err) {
@@ -613,9 +729,52 @@ exports.list = function (req, res) {
           message: getErrorMessage(err)
         });
       } else {
-        res.jsonp(applications);
+        res.jsonp(summarizeApplications(applications));
       }
     });
+
+  /**
+   * Computes status and adds to individual applications
+   * @param applications
+   */
+  function summarizeApplications(applications) {
+    _.forEach(applications, function(application) {
+      var status = 'Archived';
+      if(application.proceedToReview) {
+        status = 'Review Phase Open';
+      }
+      if(application.proceedToReview === null) {
+        status = 'Needs Processing';
+      }
+      if(application.proceedToReivew === false) {
+        status = 'Denied prior to Committee Review';
+      }
+      if(application.reviewPhase) {
+        if(application.reviewPhase.proceedToPhoneInterview){
+          status = 'Phone Interview Open';
+        } else if(application.reviewPhase.proceedToPhoneInterview === false) {
+          status = 'Denied after Review Phase';
+        }
+      }
+      if(application.phoneInterviewPhase ) {
+
+        if(application.phoneInterviewPhase.proceedToOnSite) {
+          status = 'On Site Phase Open';
+        } else if(application.phoneInterviewPhase.proceedToOnSite === false) {
+          status = 'Denied after Phone Interview Phase';
+        }
+      }
+      if(application.onSiteVisitPhase.complete) {
+        status = 'Process Complete';
+      }
+      var applicantDisplayName = application.firstName + ' ' + application.lastName;
+      application._doc.isNew = (application.isNewApplication) ? true : false;
+      application._doc.applicantDisplayName = applicantDisplayName;
+      application._doc.status = status;
+      application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
+    });
+    return applications;
+  }
 };
 
 /**
@@ -789,7 +948,7 @@ function getErrorMessage(err) {
 function isPhoneInterviewer(req) {
   var interviewerFound = false;
   _.forEach(req.application.phoneInterviewPhase.phoneInterviews, function(phoneInterview) {
-    if((req.user._id === phoneInterview.interviewer.toString()) && !interviewerFound) {
+    if((req.user._id === phoneInterview.interviewer._id.toString()) && !interviewerFound) {
       interviewerFound = true;
     }
   });

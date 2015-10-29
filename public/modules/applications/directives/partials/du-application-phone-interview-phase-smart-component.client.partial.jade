@@ -1,0 +1,66 @@
+//@todo remove comments prior to production release
+.col-xs-12
+  h2 Phone Interview Phase {{ vm.phoneInterviewPhaseModel.phoneInterviewPhaseStatus }}
+  h3 Proceed to On Site Visit? {{ vm.phoneInterviewPhaseModel.data.proceedToOnSite | checkMark }}
+  .panel.panel-default(ng-repeat="phoneInterview in vm.phoneInterviewPhaseModel.data.phoneInterviews", ng-class="{'panel-success': phoneInterview.phoneInterviewWorksheet.complete }")
+    .panel-heading
+      .row
+        .col-xs-12
+          h4
+            strong {{ phoneInterview.interviewer.displayName }}
+            span(ng-if="phoneInterview.phoneInterviewWorksheet.complete") &nbsp;completed the Phone Interview on {{ phoneInterview.phoneInterviewWorksheet.dateCompleted | standardDateAtTime }}
+            span(ng-if="!phoneInterview.phoneInterviewWorksheet.complete") &nbsp;is an assigned Phone Interviewer. This Phone Interview is incomplete.
+    .panel-body
+      .row
+        .col-xs-12
+          //.row
+          //  .col-xs-12
+          //    p Has the PhoneInterviewer completed the PhoneInterview Worksheet? {{ phoneInterview.phoneInterviewWorksheet.complete | checkMark }}
+          h4 Phone Interview Worksheet &nbsp;
+            i.fa.fa-edit(ng-if="vm.phoneInterviewPhaseModel.phoneInterviewIsEditable(phoneInterview) && !phoneInterview.editing", ng-click="vm.phoneInterviewPhaseModel.editPhoneInterview(phoneInterview)")
+      .row
+        du-display-field(ng-if="!phoneInterview.editing", field-model="phoneInterview.phoneInterviewWorksheet.body", field-label="{{ null }}", field-columns="12")
+        .col-xs-12.ng-form(ng-if="phoneInterview.editing")
+          .row
+            .col-xs-12.form-group
+              label.control-label Body
+              textarea.form-control(name='body', ng-model="phoneInterview.phoneInterviewWorksheet.bodyBuffer", rows="8")
+            .col-xs-12
+              button.btn.btn-default.btn-undo(ng-click="vm.phoneInterviewPhaseModel.cancelPhoneInterviewChanges(phoneInterview)") Cancel Changes
+              button.btn.btn-save(ng-click="vm.phoneInterviewPhaseModel.savePhoneInterview(phoneInterview)") Save Changes
+              button.btn.btn-workflow(ng-click="vm.phoneInterviewPhaseModel.saveAndCompletePhoneInterview(phoneInterview)") Save and Mark PhoneInterview Worksheet as Complete
+      .row
+        .col-xs-12
+          h4 Comments &nbsp;
+        .col-xs-12(ng-repeat="comment in phoneInterview.phoneInterviewWorksheet.comments")
+          .col-xs-12(ng-if="!comment.editing")
+            .row
+              .panel.panel-default
+                .panel-heading
+                  .row
+                    .col-md-10
+                      strong {{ comment.commenter.displayName }}&nbsp;
+                      | commented on {{ comment.dateCreated | standardDateAtTime }}
+                      span(ng-if="comment.dateCreated !== comment.dateUpdated") &nbsp;
+                        i.fa.fa-clock-o(tooltip="updated {{ comment.dateUpdated | standardDateAtTime }}")
+                    .col-md-2.text-right(ng-if="vm.phoneInterviewPhaseModel.commentIsEditable(phoneInterview, comment)")
+                      //a.with-icon.no-text.edit
+                      button(ng-click="vm.phoneInterviewPhaseModel.editComment(comment)").btn.btn-sm.btn-edit Edit
+                .panel-body
+                  .col-md-12 {{ comment.comment }}
+          .col-xs-12.well(ng-if="comment.editing")
+              .row
+                .col-xs-12.form-group
+                  textarea.form-control(ng-model="comment.commentBuffer")
+              .row
+                .col-xs-12.text-right
+                  .btn-group
+                    button.btn.btn-default.btn-delete(ng-if="comment._id", ng-click="vm.phoneInterviewPhaseModel.deleteComment(phoneInterview, comment)") Remove Comment
+                    button.btn.btn-default.btn-undo(ng-click="vm.phoneInterviewPhaseModel.cancelCommentChanges(phoneInterview, comment)") Cancel Changes
+                    button.btn.btn-default.btn-save(ng-click="vm.phoneInterviewPhaseModel.saveComment(phoneInterview, comment)") Save Comment
+        .col-xs-12.text-right
+          button.btn.btn-default.btn-primary(ng-if="vm.phoneInterviewPhaseModel.phoneInterviewIsCommentable(phoneInterview)", ng-click="vm.phoneInterviewPhaseModel.addComment(phoneInterview)") Comment
+
+  //.well
+  //  .row
+  //    pre.col-xs-12 {{ vm.phoneInterviewPhaseModel.phoneInterviewPhase | json }}

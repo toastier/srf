@@ -9,7 +9,15 @@ module.exports = function(app) {
 	app.route('/app-info').get(core.appInfo);
 
 	function handle403(err, req, res, next) {
-		if (err.status !== 403) return next();
+		if (err.status !== 403) {
+			var message = err.message;
+			if (message) {
+				res.send(500, {
+					message: message
+				});
+			}
+			return next(err);
+		}
 		res.send('403 error');
 	}
 

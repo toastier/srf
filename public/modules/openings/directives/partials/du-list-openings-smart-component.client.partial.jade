@@ -3,4 +3,16 @@
   .panel-body
      ul.list-group
        li.list-group-item(ng-repeat="opening in vm.openings")
-        a(ng-click="opening.viewOpening(opening)") {{ opening.name }}
+        .row
+          .col-md-8
+            .row
+              .col-xs-12
+                strong {{ opening.name }}
+            .row
+              .col-xs-12
+                span.label.label-info Opened: {{ opening.dateStart | standardDate }}
+                span.label.label-info Closes: {{ opening.dateClose | standardDate }}
+          .col-md-4.text-right
+            .row
+              .col-xs-12
+                button.btn.btn-sm.btn-view(ng-click="opening.viewOpening(opening)") View

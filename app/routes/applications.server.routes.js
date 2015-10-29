@@ -36,9 +36,12 @@ module.exports = function (app) {
   app.route('/applications/:applicationId/conductPhoneInterview')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.conductPhoneInterview);
 
+  app.route('/applications/:applicationId/savePhoneInterview/:phoneInterviewId')
+    .post(users.hasAuthorization(['manager', 'admin', 'committee member']), applications.savePhoneInterview);
+
   app.route('/applications/:applicationId/conductReview')
-    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.conductReview);
-  
+    .get(users.hasAuthorization(['manager', 'admin', 'committee member']), applications.conductReview);
+
   app.route('/applications/:applicationId/saveReview/:reviewId')
     .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.saveReview);
 

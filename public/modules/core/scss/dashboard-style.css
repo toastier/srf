@@ -11347,7 +11347,7 @@ td:hover > div.icon-group {
     display: inline-block;
     text-decoration: inherit;
     margin-left: 4px;
-    content: '\f152';
+    content: '\f18e';
     transition: all 0.5s; }
   .collapsible-trigger.target-not-collapsed:after {
     transform: rotate(90deg); }

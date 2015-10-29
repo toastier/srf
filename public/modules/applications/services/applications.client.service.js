@@ -42,6 +42,13 @@
         method: 'GET',
         url: 'applications/:applicationId/conductPhoneInterview'
       },
+      savePhoneInterview: {
+        method: 'POST',
+        url: 'applications/:applicationId/savePhoneInterview/:phoneInterviewId',
+        params: {
+          phoneInterviewId: '@phoneInterview._id'
+        }
+      },
       create: {
         method: 'POST',
         url: 'applications/createForUser'

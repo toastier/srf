@@ -25,7 +25,7 @@
           .row
             .col-xs-12.form-group
               label.control-label Body
-              textarea.form-control(name='body', type="text", ng-model="review.reviewWorksheet.bodyBuffer", rows="8")
+              textarea.form-control(name='body', ng-model="review.reviewWorksheet.bodyBuffer", rows="8")
             .col-xs-12
               button.btn.btn-default.btn-undo(ng-click="vm.reviewPhaseModel.cancelReviewChanges(review)") Cancel Changes
               button.btn.btn-save(ng-click="vm.reviewPhaseModel.saveReview(review)") Save Changes
