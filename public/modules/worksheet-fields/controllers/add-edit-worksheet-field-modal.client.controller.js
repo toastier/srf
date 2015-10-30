@@ -12,6 +12,7 @@
     vm.options = {};
     vm.options.appliesToOptions = WorksheetField.getAppliesToOptions();
     vm.options.fieldTypeOptions = WorksheetField.getFieldTypeOptions();
+    vm.removeSelectOption = removeSelectOption;
     vm.saveField = saveField;
     vm.cancel = cancel;
     vm.newOption = '';
@@ -42,6 +43,11 @@
     function cancel() {
       vm.worksheetField = vm.worksheetFieldOriginal;
       $modalInstance.dismiss(false);
+    }
+
+    function removeSelectOption(option) {
+      var options = vm.worksheetField.selectOptions;
+      options.splice(options.indexOf(option), 1);
     }
 
     function saveField() {

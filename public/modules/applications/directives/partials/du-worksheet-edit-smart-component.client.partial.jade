@@ -8,6 +8,11 @@
     type="text",
     ng-model="worksheetField.response"
     )
+  .col-md-12.form-group(ng-if="worksheetField.fieldType === 'textarea-simple'")
+    textarea.form-control(
+    rows="3",
+    ng-model="worksheetField.response"
+    )
   .col-md-12.form-group(ng-if="worksheetField.fieldType === 'textarea'")
     div(
     text-angular
@@ -19,8 +24,11 @@
     ng-model="worksheetField.response"
     )
       option(value="") --Choose--
-  .col-md-12.form-group(ng-if="worksheetField.fieldType === 'checkbox'")
-    checkbox.form-control(
-    ng-model="worksheetField.response"
-    )
+  .col-md-12.checkbox(ng-if="worksheetField.fieldType === 'checkbox'")
+    label
+      input(
+      type="checkbox",
+      ng-model="worksheetField.response"
+      )
+      | Yes
 //pre.col-xs-12 {{ vm.worksheetFields | json }}

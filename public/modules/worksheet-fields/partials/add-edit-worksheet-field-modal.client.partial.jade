@@ -39,8 +39,8 @@
           ng-model="vm.worksheetField.label",
           required
           )
-          .small The Heading for the field, typically in the form of a question.
-        .col-xs-6.form-group
+          .small The Heading for the field when shown on the worksheet, typically in the form of a question.
+        .col-xs-6.form-group(ng-if="vm.worksheetField.fieldType === 'select'")
           label.control-label Add Options
           .input-group
             input.form-control(
@@ -51,8 +51,12 @@
             btn.btn-add.no-text.input-group-addon(
             ng-click="vm.addSelectOption()"
             )
-        .col-md-6
-          .chip(ng-repeat="option in vm.worksheetField.selectOptions") {{ option }}
+        .col-md-6.form-group(ng-if="vm.worksheetField.fieldType === 'select'")
+          label.control-label Select List Options
+          .alert.alert-warning(ng-if="!vm.worksheetField.selectOptions.length") No options set.
+          .chip(ng-repeat="option in vm.worksheetField.selectOptions")
+            i.with-icon.remove.no-text(ng-click="vm.removeSelectOption(option)")
+            | &nbsp; {{ option }}
         .col-xs-12.form-group
           label.control-label Administrative Description
           textarea.form-control(
@@ -68,7 +72,7 @@
           rows="3",
           ng-model="vm.worksheetField.description"
           )
-          .small To be shown on the worksheet along with the label
+          .small To be displayed on the worksheet, directly below the Label / Question.
 .modal-footer
   .row
     .col-xs-12

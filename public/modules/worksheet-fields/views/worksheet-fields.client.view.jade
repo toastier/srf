@@ -7,6 +7,8 @@ section
           i.fa.fa-times-circle-o.pin-top(ng-click="vm.deleteField(worksheetField)")
           br
           i.fa.fa-edit(ng-click="vm.openAddFieldModal(worksheetField)")
+          br
+          i.fa.fa-files-o.pin-bottom(ng-click="vm.cloneWorksheetField(worksheetField)")
         .item-group-contents
           .col-xs-12
             h3 {{ worksheetField.label + ' (' + worksheetField.name + ')' }}

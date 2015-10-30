@@ -122,7 +122,7 @@
     function update () {
       vm.application.isNewApplication = false;
 
-      vm.application.$update()
+      vm.application.$managementUpdate()
         .then(function() {
           Messages.addMessage('The Application has been updated', 'success');
         })

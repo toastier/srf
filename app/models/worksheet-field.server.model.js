@@ -26,7 +26,7 @@ var worksheetFieldModel = new Schema({
       'textarea',
       'select',
       'checkbox',
-      'radio'
+      'textarea-simple'
     ]
   },
   selectOptions: [

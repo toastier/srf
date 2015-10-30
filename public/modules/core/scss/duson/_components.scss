@@ -715,9 +715,10 @@ button.btn-filtering {
 // Anchor Element Icons
 // -----------------------------------------------------
 
-a {
+a, i {
   &.with-icon {
     color: inherit;
+    cursor: pointer;
     &:hover {
       text-decoration: inherit;
       color: $duke-blue-link-light;

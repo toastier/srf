@@ -10,6 +10,7 @@
     vm.user = resolvedAuth;
     vm.worksheetFields = [];
     vm.WorksheetField = new WorksheetField();
+    vm.cloneWorksheetField = cloneWorksheetField;
     vm.collectionOrderChanged = false;
     vm.deleteField = deleteField;
     vm.dragControlListeners = {
@@ -30,11 +31,19 @@
     }
 
     function deleteField(field) {
-      var fieldToDelete = angular.copy(field);
       field.$delete()
         .then(function() {
           getData();
           Messages.addMessage('The field was deleted');
+        });
+    }
+
+    function cloneWorksheetField(field) {
+      var cloneField = angular.copy(field);
+      delete cloneField._id;
+      cloneField.$save()
+        .then(function() {
+          getData();
         });
     }
 

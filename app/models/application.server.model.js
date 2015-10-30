@@ -93,6 +93,7 @@ var applicationModel = new Schema({
                     enum: [
                       'input',
                       'textarea',
+                      'textarea-simple',
                       'select',
                       'checkbox',
                       'radio'

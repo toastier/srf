@@ -41,11 +41,11 @@
 
       function getFieldTypeOptions () {
         return [
-          new Option('Text', 'input'),
-          new Option('Multi-line Text', 'textarea'),
-          new Option('Select List', 'select'),
           new Option('Checkbox', 'checkbox'),
-          new Option('Radio Buttons', 'radio')
+          new Option('Select List', 'select'),
+          new Option('Text: Multi-line Rich Text', 'textarea'),
+          new Option('Text: Multi-line Simple Text', 'textarea-simple'),
+          new Option('Text: Single-line', 'input')
         ];
       }
 

@@ -9,6 +9,9 @@
       update: {
         method: 'PUT'
       },
+      managementUpdate: {
+        method: 'PUT'
+      },
       iAmReviewer: {
         method: 'GET',
         isArray: true,
