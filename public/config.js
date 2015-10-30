@@ -4,7 +4,7 @@
 var ApplicationConfiguration = (function() {
 	// Init module configuration options
 	var applicationModuleName = 'faculty-recruitment-system';
-	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies', 'ngAnimate', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'ui.utils', 'ui.select', 'toastr', 'sticky', 'ng-currency', 'ngFileUpload', 'as.sortable'];
+	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies', 'ngAnimate', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'ui.utils', 'ui.select', 'toastr', 'sticky', 'ng-currency', 'ngFileUpload', 'as.sortable', 'textAngular'];
 
 	// Add a new vertical module
 	var registerModule = function(moduleName) {
