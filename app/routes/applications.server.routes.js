@@ -27,6 +27,12 @@ module.exports = function (app) {
   app.route('/applications/eoeProvided/:applicationId')
       .get(applications.eoeProvided);
 
+  //app.route('/applications/:applicationId/setEoeProvided')
+  //    .put(users.hasAuthorization(['manager', 'admin', 'user'])
+  //    , applications.hasAuthorization //check that user is privileged user, or is the owner of the application
+  //    , applications.setEoeProvided);
+
+
   app.route('/applications/iAmReviewer')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.iAmReviewer);
 

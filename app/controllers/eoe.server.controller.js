@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 	EoeDemographic = mongoose.model('EoeDemographic'),
 	EoeDisability = mongoose.model('EoeDisability'),
 	EoeVeteran = mongoose.model('EoeVeteran'),
+	Application = mongoose.model('Application'),
 	//errorHandler = 	require('./errors.server.controller'), //this doesn't work
 	_ = require('lodash');
 
@@ -36,7 +37,7 @@ var getErrorMessage = function(err) {
 };
 
 /**
- * Create a EOE Demographic record
+ * Create EOE records
  */
 // TODO use better method to parse out req.body
 exports.create = function(req, res) {
@@ -47,6 +48,7 @@ exports.create = function(req, res) {
 	//eoeDemographic.user = req.user;
 	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran', 'vetClass', 'vetDecline']));
 	var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
+	var application = Application.findById(req.body.applicationId);
 	// TODO refactor this...it works but it's sloppy
 	eoeDemographic.save(function(err) {
 		if (err) {
@@ -69,7 +71,25 @@ exports.create = function(req, res) {
 								message: getErrorMessage(err)
 							});
 						} else {
-							res.jsonp((_.merge(eoeDemographic, [eoeDisability, eoeVeteran])));
+
+							// ADDED
+							//(function() {
+								var application = req.application;
+
+								application = _.extend(application, req.application.body);
+
+								application.eoeProvided = true;
+
+								application.save(function (err) {
+									if (err) {
+										return res.send(400, {
+											message: getErrorMessage(err)
+										});
+									} else {
+										res.jsonp((_.merge(eoeDemographic, [eoeDisability, eoeVeteran])));									}
+								});
+							//})
+
 						}
 					});
 				}

@@ -5,19 +5,19 @@
     function ($stateProvider) {
       // Eoe state routing
       $stateProvider
-        .state('main.listEoe', {
-          url: '/eoe',
-          templateUrl: 'modules/eoe/views/list-eoe.client.view.html',
-          controller: 'ListEoeController',
-          controllerAs: 'vm',
-          resolve: {
-            resolvedAuth: function(resolvedAuth) {
-              return resolvedAuth;
-            }
-          }
-        })
+        //.state('main.listEoe', {
+        //  url: '/eoe',
+        //  templateUrl: 'modules/eoe/views/list-eoe.client.view.html',
+        //  controller: 'ListEoeController',
+        //  controllerAs: 'vm',
+        //  resolve: {
+        //    resolvedAuth: function(resolvedAuth) {
+        //      return resolvedAuth;
+        //    }
+        //  }
+        //})
         .state('main.createEoe', {
-          url: '/eoe/create/:applicationId',
+          url: '/eoe/:applicationId',
           templateUrl: 'modules/eoe/views/create-eoe.client.view.html',
           controller: 'CreateEoeController',
           controllerAs: 'vm',

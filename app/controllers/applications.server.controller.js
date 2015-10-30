@@ -555,24 +555,25 @@ exports.eoeProvided = function (req, res) {
                 });
             }
             else {
-                if (application.eoeProvided) {
+                if (application.eoeProvided === true) {
                     console.log('It exists already!');
+                    res.jsonp(true)
                 }
                 else {
                     console.log('Need to set the flag!');
-
-                    application.eoeProvided = true;
-                    application.save(function (err) {
-                        if (err) {
-                            return res.send(400, {
-                                message: getErrorMessage(err)
-                            });
-                        } else {
-                            req.application = application;
-                            res.jsonp(application);
-                        }
-
-                    });
+                    res.jsonp(false);
+                    //application.eoeProvided = true;
+                    //application.save(function (err) {
+                    //    if (err) {
+                    //        return res.send(400, {
+                    //            message: getErrorMessage(err)
+                    //        });
+                    //    } else {
+                    //        req.application = application;
+                    //        res.jsonp(false);
+                    //    }
+                    //
+                    //});
                 }
             }
         });
@@ -813,6 +814,33 @@ exports.addFile = function (req, res, next) {
     req.send(400, {message: 'An error was encountered while trying to add the file to the application'});
   }
 };
+
+
+/**
+ * Update an Application with eoeProvided flag=true
+ * @param req
+ * @param res
+ */
+//exports.setEoeProvided = function (req, res) {
+//    var application = req.application;
+//
+//    application = _.extend(application, req.body);
+//
+//    application.eoeProvided = true;
+//
+//    application.save(function (err) {
+//        if (err) {
+//            return res.send(400, {
+//                message: getErrorMessage(err)
+//            });
+//        } else {
+//            req.application = application;
+//            res.jsonp(application);
+//        }
+//    });
+//}
+
+
 
 /**
  * Update an Application
