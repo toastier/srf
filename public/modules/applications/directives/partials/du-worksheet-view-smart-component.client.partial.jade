@@ -7,5 +7,5 @@
     .col-xs-12
       .well.well-sm(ng-if="worksheetField.response")
         .row
-          .col-xs-12.pre(ng-bind="worksheetField.response")
+          .col-xs-12(ng-bind-html="worksheetField.response")
 //pre.col-xs-12 {{ vm.worksheetFields | json }}

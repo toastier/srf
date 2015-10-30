@@ -1052,7 +1052,7 @@ function BodyField(field) {
   this.label = _.isString(field.label) ? field.label : null;
   this.description = _.isString(field.description) ? field.description : null;
   this.fieldType = _.isString(field.fieldType) ? field.fieldType : null;
-  this.selectOptions = _.isArray(field.selectOptions) ? field.selectOptions : [];
+  this.selectOptions = (field.selectOptions) ? field.selectOptions : [];
   this.order = _.isNumber(field.order) ? field.order : 0;
   this.response = null;
 }

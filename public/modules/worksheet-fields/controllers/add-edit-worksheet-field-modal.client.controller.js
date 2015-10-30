@@ -4,15 +4,17 @@
     .module('worksheetFields')
     .controller('AddEditWorksheetFieldModalController', AddEditWorksheetFieldModalController);
 
-  function AddEditWorksheetFieldModalController($modalInstance, Messages, WorksheetField, existingWorksheetField) {
+  function AddEditWorksheetFieldModalController($modalInstance, Messages, WorksheetField, existingWorksheetField, _) {
 
     var vm = this;
     vm.modalTitle = 'Add a Worksheet Field';
+    vm.addSelectOption = addSelectOption;
     vm.options = {};
     vm.options.appliesToOptions = WorksheetField.getAppliesToOptions();
     vm.options.fieldTypeOptions = WorksheetField.getFieldTypeOptions();
     vm.saveField = saveField;
     vm.cancel = cancel;
+    vm.newOption = '';
 
     activate();
 
@@ -25,6 +27,16 @@
       }
 
       vm.worksheetField = angular.copy(vm.worksheetFieldOriginal);
+    }
+
+    function addSelectOption() {
+      if (vm.newOption) {
+        if(!_.isArray(vm.worksheetField.selectOptions)) {
+          vm.worksheetField.selectOptions = [];
+        }
+        vm.worksheetField.selectOptions.push(vm.newOption);
+        vm.newOption = '';
+      }
     }
 
     function cancel() {

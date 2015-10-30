@@ -40,6 +40,19 @@
           required
           )
           .small The Heading for the field, typically in the form of a question.
+        .col-xs-6.form-group
+          label.control-label Add Options
+          .input-group
+            input.form-control(
+            name="optionAdder"
+            type="text"
+            ng-model="vm.newOption"
+            )
+            btn.btn-add.no-text.input-group-addon(
+            ng-click="vm.addSelectOption()"
+            )
+        .col-md-6
+          .chip(ng-repeat="option in vm.worksheetField.selectOptions") {{ option }}
         .col-xs-12.form-group
           label.control-label Administrative Description
           textarea.form-control(

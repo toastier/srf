@@ -9,15 +9,16 @@
     ng-model="worksheetField.response"
     )
   .col-md-12.form-group(ng-if="worksheetField.fieldType === 'textarea'")
-    textarea.form-control(
-    rows="7",
+    div(
+    text-angular
     ng-model="worksheetField.response"
     )
   .col-md-12.form-group(ng-if="worksheetField.fieldType === 'select'")
     select.form-control(
-    ng-options="worksheetField.selectOptions",
+    ng-options="selectOption for selectOption in worksheetField.selectOptions",
     ng-model="worksheetField.response"
     )
+      option(value="") --Choose--
   .col-md-12.form-group(ng-if="worksheetField.fieldType === 'checkbox'")
     checkbox.form-control(
     ng-model="worksheetField.response"
