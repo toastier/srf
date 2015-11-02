@@ -189,7 +189,9 @@
 
     function saveEoe() {
       console.log('Saving EOE...');
-      vm.eoe.$save()
+      vm.eoe.applicationId = $stateParams.applicationId;
+      Eoe.create(vm.eoe).$promise
+        //vm.eoe.$save()
         .then(function (result) {
           Messages.addMessage('The Eoe "' + result._id + '" was saved.', 'success');
           //vm.setEoeProvided();

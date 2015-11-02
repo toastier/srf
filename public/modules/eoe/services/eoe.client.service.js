@@ -8,6 +8,11 @@
     var Eoe = $resource('eoe/:eoeId', {eoeId: '@_id'}, {
       update: {
         method: 'PUT'
+      },
+      create: {
+        method: 'POST',
+        url: 'eoe/create/:applicationId',
+        params: { applicationId : '@applicationId'}
       }
     });
 

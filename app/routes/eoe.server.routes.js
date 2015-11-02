@@ -12,8 +12,8 @@ module.exports = function(app) {
 	app.route('/eoe')
 		.get(users.hasAuthorization(['manager', 'admin', 'committee member']), eoe.list)
 		.post(users.hasAuthorization(['user']), eoe.create);
-	app.route('/eoe/:applicationId')
-		.get(users.hasAuthorization(['manager', 'admin', 'committee member']), eoe.list)
+	app.route('/eoe/create/:applicationId')
+		//.get(users.hasAuthorization(['manager', 'admin', 'committee member']), eoe.list)
 		.post(users.hasAuthorization(['user']), eoe.create);
 	// Finish by binding the application middleware
 	app.param('applicationId', applications.applicationByID);

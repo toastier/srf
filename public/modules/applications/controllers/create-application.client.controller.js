@@ -162,7 +162,7 @@
             Messages.addMessage('The Application for ' + saveResponse.firstName + ' ' + saveResponse.lastName + ' was Submitted.', 'info', 'Application Submitted', { 'closeButton' : true, 'showDuration' : 0, 'hideDuration' : 5000 });
             //Opening.listCurrentOpenings();
             console.log($location.path());
-            $location.path('/eoe/create/' + saveResponse._id);
+            $location.path('/eoe/' + saveResponse._id);
           })
           .catch(function (err) {
             vm.application.submitted = false;
