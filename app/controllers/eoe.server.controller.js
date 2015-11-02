@@ -8,6 +8,7 @@ var mongoose = require('mongoose'),
 	EoeDisability = mongoose.model('EoeDisability'),
 	EoeVeteran = mongoose.model('EoeVeteran'),
 	Application = mongoose.model('Application'),
+	Opening = mongoose.model('Opening'),
 	//errorHandler = 	require('./errors.server.controller'), //this doesn't work
 	_ = require('lodash');
 
@@ -42,10 +43,12 @@ var getErrorMessage = function(err) {
 // TODO use better method to parse out req.body
 exports.create = function(req, res) {
 	console.log('creating EOE record...');
-	req.body.opening = mongoose.Types.ObjectId('561410fc5a6e72be05f95c76');
+	var application = Application.findById(req.body.applicationId);
+	//var opening = Opening.findById(application.openingId);
+	//req.body.opening = mongoose.Types.ObjectId('561410fc5a6e72be05f95c76');
+
 	console.log(req.body);
 	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
-	//eoeDemographic.user = req.user;
 	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran', 'vetClass', 'vetDecline']));
 	var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
 	var application = Application.findById(req.body.applicationId);
@@ -98,32 +101,6 @@ exports.create = function(req, res) {
 		}
 	});
 
-	/**
-	 * Create an EOE Disability record
-	 */
-
-	//eoeDisability.save(function(err) {
-	//	if (err) {
-	//		return res.send(400, {
-	//			// this doesn't work, dumping errorHandler into its own controller
-	//			message: getErrorMessage(err)
-	//		});
-	//	} else {
-	//		//res.jsonp(eoeDisability);
-	//	}
-	//});
-
-
-	//eoeVeteran.save(function(err) {
-	//	if (err) {
-	//		return res.send(400, {
-	//			// this doesn't work, dumping errorHandler into its own controller
-	//			message: getErrorMessage(err)
-	//		});
-	//	} else {
-	//		res.jsonp(eoeVeteran);
-	//	}
-	//});
 };
 
 
@@ -148,14 +125,7 @@ exports.list = function(req, res) {
 /**
  * Eoe middleware
  */
-exports.eoeByID = function(req, res, next, id) {
-	Eoe.findById(id).populate('user', 'displayName').exec(function(err, eoe) {
-		if (err) return next(err);
-		if (!eoe) return next(new Error('Failed to load eoe ' + id));
-		req.eoe = eoe;
-		next();
-	});
-};
+
 
 /**
  * Eoe authorization middleware

@@ -555,13 +555,13 @@ exports.eoeProvided = function (req, res) {
                 });
             }
             else {
-                if (application.eoeProvided === true) {
-                    console.log('It exists already!');
-                    res.jsonp(true)
-                }
-                else {
-                    console.log('Need to set the flag!');
-                    res.jsonp(false);
+                //if (application.eoeProvided === true) {
+                //    console.log('It exists already!');
+                //    res.jsonp(false)
+                //}
+                //else {
+                //    console.log('Need to set the flag!');
+                    res.jsonp(application);
                     //application.eoeProvided = true;
                     //application.save(function (err) {
                     //    if (err) {
@@ -575,7 +575,7 @@ exports.eoeProvided = function (req, res) {
                     //
                     //});
                 }
-            }
+
         });
 };
 
