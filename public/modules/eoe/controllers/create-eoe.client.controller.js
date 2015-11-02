@@ -11,19 +11,26 @@
 
 
   /* @ngInject */
-  function CreateEoeController(Messages, Navigation, Application, Opening, Eoe, $stateParams,  _) {
+  function CreateEoeController(Messages, Navigation, Application, Opening, Eoe, $state, $stateParams,  _) {
       var vm = this;
 
       //checkExistingEoe($stateParams.applicationId);
       Application.checkForExistingEoe({applicationId: $stateParams.applicationId}).$promise
-          .then(function(application) {
-              vm.application = application;
-              if (application.eoeProvided) {
-                  console.log('The EOE flag value is ', application.eoeProvided);
-                  alert('STOP AND DO SOMETHING!');
-              }
+          .then(function(result) {
+              //vm.application = application;
+              //if (application.eoeProvided) {
+              //    console.log('The EOE flag value is ', application.eoeProvided);
+              //    alert('STOP AND DO SOMETHING!');
+              //}
+              //else {
+                 if (result.$resolved === true) {
+                     console.log('The EOE flag value is ', result);
+                     Messages.addMessage('EOE data has already been submitted for this application and cannot be altered once submitted.');
+                     $state.go('main.listOpenings');
+                 }
+
               else {
-                  console.log('The EOE flag value isnt set yet for ', application._id);
+                  console.log('The EOE flag value isnt set yet');
                   //setEoeProvided(application._id);
                   //var vm = this;
 
@@ -188,26 +195,43 @@
     }
 
     function saveEoe() {
-      console.log('Saving EOE...');
-      vm.eoe.applicationId = $stateParams.applicationId;
-      Eoe.create(vm.eoe).$promise
-        //vm.eoe.$save()
-        .then(function (result) {
-          Messages.addMessage('The Eoe "' + result._id + '" was saved.', 'success');
-          //vm.setEoeProvided();
-          //Eoe.listEoe();
-        })
-        .catch(function (error) {
-          Messages.addMessage('There was a problem saving the Eoe ' + error.data.message, 'error');
-        });
-      //vm.eoeDisability.$save()
-      //  .then(function (result) {
-      //    Messages.addMessage('The Eoe disability data "' + result.name + '" was saved.', 'success');
-      //    //Eoe.listEoe();
-      //  })
-      //  .catch(function (error) {
-      //    Messages.addMessage('There was a problem saving the Eoe Disability ' + error.data.message, 'error');
-      //  });
+        Application.checkForExistingEoe({applicationId: $stateParams.applicationId}).$promise
+            .then(function (application) {
+                vm.application = application;
+                application.eoeProvided.$promise
+                    .then(function (result) {
+                        if (result === true) {
+
+                            console.log('The EOE flag value is ', result);
+                            alert('STOP AND DO SOMETHING!');
+                        }
+                        else {
+                            console.log('The EOE flag value isnt set yet for ', application._id);
+                            //setEoeProvided(application._id);
+
+                            console.log('Saving EOE...');
+                            vm.eoe.applicationId = $stateParams.applicationId;
+                            Eoe.create(vm.eoe).$promise
+                                //vm.eoe.$save()
+                                .then(function (result) {
+                                    Messages.addMessage('The Eoe "' + result._id + '" was saved.', 'success');
+                                    //vm.setEoeProvided();
+                                    //Eoe.listEoe();
+                                })
+                                .catch(function (error) {
+                                    Messages.addMessage('There was a problem saving the Eoe ' + error.data.message, 'error');
+                                });
+                            //vm.eoeDisability.$save()
+                            //  .then(function (result) {
+                            //    Messages.addMessage('The Eoe disability data "' + result.name + '" was saved.', 'success');
+                            //    //Eoe.listEoe();
+                            //  })
+                            //  .catch(function (error) {
+                            //    Messages.addMessage('There was a problem saving the Eoe Disability ' + error.data.message, 'error');
+                            //  });
+                        }
+                    })
+            })
     }
 
     function calculateDates () {
