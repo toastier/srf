@@ -9,8 +9,9 @@
       update: {
         method: 'PUT'
       },
-      managementUpdate: {
-        method: 'PUT'
+      manage: {
+        method: 'PUT',
+        url: 'applications/:applicationId/manage'
       },
       iAmReviewer: {
         method: 'GET',

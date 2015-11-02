@@ -1,5 +1,14 @@
 section
   navigation
+  .col-xs-12.angular-filtering
+    .col-md-6.form-group
+      .input-group
+        .input-group-addon Worksheet to Manage
+        select.form-control(
+          ng-options="option.value as option.name for option in vm.options.appliesToOptions",
+          ng-model="vm.selectedWorksheetType",
+          ng-change="vm.switchWorksheetType()"
+        )
   .col-xs-12
     .row(as-sortable="vm.dragControlListeners", ng-model="vm.worksheetFields")
       .item-group(ng-repeat="worksheetField in vm.worksheetFields", as-sortable-item)

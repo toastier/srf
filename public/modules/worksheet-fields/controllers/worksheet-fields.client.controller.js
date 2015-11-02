@@ -10,8 +10,11 @@
     vm.user = resolvedAuth;
     vm.worksheetFields = [];
     vm.WorksheetField = new WorksheetField();
+    vm.options = {};
+    vm.options.appliesToOptions = WorksheetField.getAppliesToOptions();
     vm.cloneWorksheetField = cloneWorksheetField;
     vm.collectionOrderChanged = false;
+    vm.switchWorksheetType = getData;
     vm.deleteField = deleteField;
     vm.dragControlListeners = {
       orderChanged: sortableOrderChanged
@@ -19,6 +22,7 @@
     vm.fieldsNotReordered = fieldsNotReordered;
     vm.openAddFieldModal = openAddFieldModal;
     vm.saveAll = saveAll;
+    vm.selectedWorksheetType = 'reviewWorksheet';
     var orderChanged = false;
 
     activate();
@@ -59,7 +63,7 @@
     }
 
     function getData() {
-      WorksheetField.query().$promise
+      WorksheetField.byType({appliesTo: vm.selectedWorksheetType}).$promise
         .then(function(worksheetFields) {
           vm.worksheetFields = worksheetFields;
         })
@@ -79,6 +83,9 @@
           resolve: {
             existingWorksheetField: function () {
               return existingWorksheetField;
+            },
+            selectedWorksheetType: function () {
+              return vm.selectedWorksheetType;
             }
           }
         }

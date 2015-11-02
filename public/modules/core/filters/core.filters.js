@@ -10,6 +10,7 @@
     .filter('standardDateAtTime', standardDateAtTime)
     .filter('trimmed', trimmed)
     .filter('yesNo', yesNo)
+    .filter('yesNoNoDecision', yesNoNoDecision)
   ;
 
   function standardDate($filter) {
@@ -71,6 +72,18 @@
         return 'Undetermined';
       } else {
         return '\u2718';
+      }
+    };
+  }
+
+  function yesNoNoDecision() {
+    return function (input) {
+      if (input === 1 || input === true || input === 'true' || input === '\u2713') {
+        return 'Yes';
+      } else if (input === null || input === undefined) {
+        return 'No Decision';
+      } else {
+        return 'No';
       }
     };
   }

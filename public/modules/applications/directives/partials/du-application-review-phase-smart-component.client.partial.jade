@@ -1,8 +1,7 @@
 //@todo remove comments prior to production release
-//@todo adjust layout as comment button can be pushed slightly below the footer nav
 .col-xs-12
   h2 Review Phase {{ vm.reviewPhaseModel.reviewPhaseStatus }}
-  h3 Proceed to Phone Interview? {{ vm.reviewPhaseModel.data.proceedToPhoneInterview | checkMark }}
+  h3 Proceed to Phone Interview? {{ vm.reviewPhaseModel.data.proceedToPhoneInterview | yesNoNoDecision }}
   .panel.panel-default(ng-repeat="review in vm.reviewPhaseModel.data.reviews", ng-class="{'panel-success': review.reviewWorksheet.complete }")
     .panel-heading
       .row
@@ -14,27 +13,22 @@
     .panel-body
       .row
         .col-xs-12
-          //.row
-          //  .col-xs-12
-          //    p Has the Reviewer completed the Review Worksheet? {{ review.reviewWorksheet.complete | checkMark }}
-          h3.underline Review Worksheet &nbsp;
+          h3 Review Worksheet &nbsp;
             i.fa.fa-edit(ng-if="vm.reviewPhaseModel.reviewIsEditable(review) && !review.editing", ng-click="vm.reviewPhaseModel.editReview(review)")
-      .row
-        //du-display-field(ng-if="!review.editing", field-model="review.reviewWorksheet.body", field-label="{{ null }}", field-columns="12")
-        du-worksheet-view-smart-component(ng-if="!review.editing", worksheet-fields="review.reviewWorksheet.body.fields")
-        .col-xs-12.ng-form(ng-if="review.editing")
-          du-worksheet-edit-smart-component(worksheet-fields="review.reviewWorksheet.bodyBuffer.fields")
-          .row
-            //.col-xs-12.form-group
-            //  label.control-label Body
-            //  textarea.form-control(name='body', ng-model="review.reviewWorksheet.bodyBuffer", rows="8")
-            .col-xs-12
-              button.btn.btn-default.btn-undo(ng-click="vm.reviewPhaseModel.cancelReviewChanges(review)") Cancel Changes
-              button.btn.btn-save(ng-click="vm.reviewPhaseModel.saveReview(review)") Save Changes
-              button.btn.btn-workflow(ng-click="vm.reviewPhaseModel.saveAndCompleteReview(review)") Save and Mark Review Worksheet as Complete
+          .panel.panel-default(ng-if="!review.editing")
+            .panel-body
+              du-worksheet-view-smart-component(worksheet-fields="review.reviewWorksheet.body.fields")
+          .panel.panel-default(ng-if="review.editing")
+            .panel-body
+              du-worksheet-edit-smart-component(worksheet-fields="review.reviewWorksheet.bodyBuffer.fields")
+              .row
+                .col-xs-12
+                  button.btn.btn-default.btn-undo(ng-click="vm.reviewPhaseModel.cancelReviewChanges(review)") Cancel Changes
+                  button.btn.btn-save(ng-click="vm.reviewPhaseModel.saveReview(review)") Save Changes
+                  button.btn.btn-workflow(ng-click="vm.reviewPhaseModel.saveAndCompleteReview(review)") Save and Mark Review Worksheet as Complete
       .row
         .col-xs-12
-          h4 Comments &nbsp;
+          h3 Search Committee Comments &nbsp;
         .col-xs-12(ng-repeat="comment in review.reviewWorksheet.comments")
           .col-xs-12(ng-if="!comment.editing")
             .row
@@ -63,7 +57,6 @@
                     button.btn.btn-default.btn-save(ng-click="vm.reviewPhaseModel.saveComment(review, comment)") Save Comment
         .col-xs-12.text-right
           button.btn.btn-default.btn-primary(ng-if="vm.reviewPhaseModel.reviewIsCommentable(review)", ng-click="vm.reviewPhaseModel.addComment(review)") Comment
-
   //.well
   //  .row
   //    pre.col-xs-12 {{ vm.reviewPhaseModel.reviewPhase | json }}

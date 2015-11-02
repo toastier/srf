@@ -4,7 +4,7 @@
     .module('worksheetFields')
     .controller('AddEditWorksheetFieldModalController', AddEditWorksheetFieldModalController);
 
-  function AddEditWorksheetFieldModalController($modalInstance, Messages, WorksheetField, existingWorksheetField, _) {
+  function AddEditWorksheetFieldModalController($modalInstance, Messages, WorksheetField, existingWorksheetField, selectedWorksheetType, _) {
 
     var vm = this;
     vm.modalTitle = 'Add a Worksheet Field';
@@ -26,6 +26,7 @@
       } else {
         vm.worksheetFieldOriginal = new WorksheetField();
       }
+      vm.worksheetFieldOriginal.appliesTo = angular.copy(selectedWorksheetType);
 
       vm.worksheetField = angular.copy(vm.worksheetFieldOriginal);
     }

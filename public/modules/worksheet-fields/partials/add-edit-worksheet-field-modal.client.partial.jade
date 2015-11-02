@@ -19,7 +19,8 @@
           name="name",
           ng-options="appliesTo.value as appliesTo.name for appliesTo in vm.options.appliesToOptions",
           ng-model="vm.worksheetField.appliesTo",
-          required
+          required,
+          disabled
           )
             option(value="") --Choose--
         .col-md-3.form-group
@@ -40,7 +41,7 @@
           required
           )
           .small The Heading for the field when shown on the worksheet, typically in the form of a question.
-        .col-xs-6.form-group(ng-if="vm.worksheetField.fieldType === 'select'")
+        .col-md-4.form-group(ng-if="vm.worksheetField.fieldType === 'select'")
           label.control-label Add Options
           .input-group
             input.form-control(
@@ -51,12 +52,13 @@
             btn.btn-add.no-text.input-group-addon(
             ng-click="vm.addSelectOption()"
             )
-        .col-md-6.form-group(ng-if="vm.worksheetField.fieldType === 'select'")
+        .col-md-8.form-group(ng-if="vm.worksheetField.fieldType === 'select'")
           label.control-label Select List Options
-          .alert.alert-warning(ng-if="!vm.worksheetField.selectOptions.length") No options set.
-          .chip(ng-repeat="option in vm.worksheetField.selectOptions")
-            i.with-icon.remove.no-text(ng-click="vm.removeSelectOption(option)")
-            | &nbsp; {{ option }}
+          .form-control-static
+            .chip(ng-repeat="option in vm.worksheetField.selectOptions")
+              i.with-icon.remove.no-text(ng-click="vm.removeSelectOption(option)")
+              | &nbsp; {{ option }}
+            .alert.alert-warning(ng-if="!vm.worksheetField.selectOptions.length") No options set.
         .col-xs-12.form-group
           label.control-label Administrative Description
           textarea.form-control(

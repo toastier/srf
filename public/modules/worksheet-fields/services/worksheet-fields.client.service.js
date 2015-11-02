@@ -8,6 +8,14 @@
       var worksheetField = $resource('/worksheetFields/:worksheetFieldId', {worksheetFieldId: '@_id'}, {
         update: {
           method: 'PUT'
+        },
+        byType: {
+          method: 'GET',
+          isArray: true,
+          url: '/worksheetFields/byType/:appliesTo',
+          params: {
+            appliesTo: '@appliesTo'
+          }
         }
       });
 

@@ -9,6 +9,9 @@ module.exports = function(app) {
     .get(users.hasAuthorization(['admin', 'manager']), worksheetFields.list)
     .post(users.hasAuthorization(['admin', 'manager']), worksheetFields.create);
 
+  app.route('/worksheetFields/byType/:type')
+    .get(users.hasAuthorization(['admin', 'manager']), worksheetFields.byType);
+
   app.route('/worksheetFields/:worksheetFieldId')
     .put(users.hasAuthorization(['admin', 'manager']), worksheetFields.update)
     .delete(users.hasAuthorization(['admin', 'manager']), worksheetFields.delete);

@@ -45,6 +45,21 @@ exports.list = function (req, res) {
     });
 };
 
+exports.byType = function (req, res) {
+  WorksheetField
+    .find()
+    .where('appliesTo').equals(req.params.type)
+    .exec(function (err, worksheetFields) {
+      if (err) {
+        return res.send(400, {
+          message: err
+        });
+      } else {
+        res.jsonp(worksheetFields);
+      }
+    });
+};
+
 exports.create = function (req, res) {
   var worksheetField = new WorksheetField(req.body);
 
