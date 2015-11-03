@@ -4,11 +4,15 @@
     "browser": false
   },
   "rules": {
+    "no-shadow": 0,
     "no-use-before-define": [2, "nofunc"],
-    "strict": [2, "global"],
+    "strict": 0,
     "quotes": [1, "single"],
     "camelcase": [2, {"properties": "never"}],
     "no-trailing-spaces": [2, { "skipBlankLines": true }],
     "no-underscore-dangle": 0
+  },
+  "globals": {
+    "angular": true
   }
 }

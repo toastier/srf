@@ -4,6 +4,7 @@
     "browser": false
   },
   "rules": {
+    "no-shadow": 0,
     "no-use-before-define": [2, "nofunc"],
     "strict": [2, "global"],
     "quotes": [1, "single"],
