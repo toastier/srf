@@ -27,10 +27,10 @@ section
     tbody
       tr(data-ng-repeat='race in vm.options.races')
         td.col-xs-4 {{ race.description }}
-        td.col-xs-3 0
+        td.col-xs-3 {{ vm.raceCount(race.code, vm.eoeData) }}
         td.col-xs-3 0
         td.col-xs-2 0
-      //tr(data-ng-repeat='demographicData in vm.eoeData')
-      //  td.col-xs-12 {{ demographicData.race }}
+      tr(data-ng-repeat='demographicData in vm.eoeData')
+        td.col-xs-12 {{ demographicData.race }}
 
 

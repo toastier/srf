@@ -4,7 +4,7 @@
     .module('eoe')
     .controller('ListEoeController', ListEoeController);
 
-  function ListEoeController($scope, $state, Navigation, Eoe, CollectionModel, Messages, resolvedAuth) {
+  function ListEoeController($scope, $state, Navigation, Eoe, CollectionModel, Messages, resolvedAuth, _) {
     var vm = this;
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
@@ -13,7 +13,7 @@
     vm.isActiveYes = true;
     vm.isActiveNo = false;
     vm.setIsActive = setIsActive;
-    vm.eoeData = [];
+    vm.raceCount = raceCount;
     vm.options = { };
 
     function allowView () {
@@ -23,6 +23,12 @@
 
     function allowEdit () {
       return vm.user.hasRole(['admin']);
+    }
+
+    function raceCount(code, eoeData) {
+      return _.filter(eoeData, function(data) {
+        return (data.race[code] === true)
+      }).length;
     }
 
     function setIsActive (source) {
