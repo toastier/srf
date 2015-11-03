@@ -178,7 +178,8 @@
             //            if (result === true) {
 
                             console.log('The EOE flag value is set ');
-                            alert('STOP AND DO SOMETHING!');
+                            Messages.addMessage('EOE data already submitted for this application');
+                            $state.go('main.listOpenings');
                         }
                         else {
                             console.log('The EOE flag value isnt set yet for ', result._id);
