@@ -43,68 +43,81 @@ var getErrorMessage = function(err) {
 // TODO use better method to parse out req.body
 exports.create = function(req, res) {
 	console.log('creating EOE record...');
-	var application = Application.findById(req.body.applicationId)
-		.exec(function (err, applicant) {
-			if (err) return next(err);
-			if (!applicant) return next(new Error('Failed to load applicant ' + id));
-			req.applicant = applicant;
-		};
-	//var opening = Opening.findById(application.openingId);
-	//req.body.opening = mongoose.Types.ObjectId('561410fc5a6e72be05f95c76');
-	req.body.opening = mongoose.Types.ObjectId(application.openingId)
-	console.log(req.body);
-	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
-	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran', 'vetClass', 'vetDecline']));
-	var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
-	var application = Application.findById(req.body.applicationId);
-	// TODO refactor this...it works but it's sloppy
-	eoeDemographic.save(function(err) {
-		if (err) {
-			return res.send(400, {
-				// this doesn't work, dumping errorHandler into its own controller
-				message: getErrorMessage(err)
-			});
-		} else {
-			eoeDisability.save(function(err) {
+	//Application.findById(req.body.applicationId)
+	//	.exec(function (err, application) {
+	//		if (err) return next(err);
+	//		if (!application) return next(new Error('Failed to load application ' + id));
+	//		req.application = application;
+	//		req.body.opening = mongoose.Types.ObjectId(req.application.openingId);
+	//		return req;
+	//	})
+	//	.then(function(req) {
+			//var opening = Opening.findById(application.openingId);
+			//req.body.opening = mongoose.Types.ObjectId('561410fc5a6e72be05f95c76');
+			console.log(req.body);
+	//var application = Application.findById(req.body.applicationId)
+	//	.exec(function (err, application) {
+	//		if (err) return next(err);
+	//		if (!application) return next(new Error('Failed to load application ' + id));
+	//		req.application = application;
+	//		req.body.opening = mongoose.Types.ObjectId(req.application.openingId);
+	//	})
+	//	.$promise
+	//	.then(
+			req.body.opening = req.application.opening._id;
+			var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
+			var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran', 'vetClass', 'vetDecline']));
+			var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
+
+			// TODO refactor this...it works but it's sloppy
+			eoeDemographic.save(function (err) {
 				if (err) {
 					return res.send(400, {
 						// this doesn't work, dumping errorHandler into its own controller
 						message: getErrorMessage(err)
 					});
 				} else {
-					eoeVeteran.save(function(err) {
+					eoeDisability.save(function (err) {
 						if (err) {
 							return res.send(400, {
 								// this doesn't work, dumping errorHandler into its own controller
 								message: getErrorMessage(err)
 							});
 						} else {
+							eoeVeteran.save(function (err) {
+								if (err) {
+									return res.send(400, {
+										// this doesn't work, dumping errorHandler into its own controller
+										message: getErrorMessage(err)
+									});
+								} else {
 
-							// ADDED
-							//(function() {
-								var application = req.application;
+									// ADDED
+									//(function() {
+									var application = req.application;
 
-								application = _.extend(application, req.application.body);
+									application = _.extend(application, req.application.body);
 
-								application.eoeProvided = true;
+									application.eoeProvided = true;
 
-								application.save(function (err) {
-									if (err) {
-										return res.send(400, {
-											message: getErrorMessage(err)
-										});
-									} else {
-										res.jsonp((_.merge(eoeDemographic, [eoeDisability, eoeVeteran])));									}
-								});
-							//})
+									application.save(function (err) {
+										if (err) {
+											return res.send(400, {
+												message: getErrorMessage(err)
+											});
+										} else {
+											res.jsonp((_.merge(eoeDemographic, [eoeDisability, eoeVeteran])));
+										}
+									});
+									//})
 
+								}
+							});
 						}
 					});
+
 				}
 			});
-
-		}
-	});
 
 };
 
