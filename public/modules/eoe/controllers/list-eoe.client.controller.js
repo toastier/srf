@@ -13,6 +13,8 @@
     vm.isActiveYes = true;
     vm.isActiveNo = false;
     vm.setIsActive = setIsActive;
+    vm.eoeData = [];
+    vm.options = { };
 
     function allowView () {
       return true;
@@ -41,6 +43,24 @@
       }
       vm.collection.filterCollection();
     }
+
+
+    vm.options.races = [{
+      code: 'native',
+      description: 'American Indian or Alaskan Native',
+      detail: 'Having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment'
+    },
+      {
+        code: 'asian',
+        description: 'Asian',
+        detail: 'Having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam'
+      },
+      { code: 'black', description: 'Black or African American', detail: 'Having origins in any of the black racial groups of Africa' },
+      { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander', detail: 'Having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands' },
+      { code: 'white', description: 'White', detail:'A person having origins in any of the original peoples of Europe, the Middle East, or North Africa' },
+      { code: 'other', description: 'Other' }
+    ];
+
 
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
@@ -136,52 +156,52 @@
     function activate () {
 
       // if the user is not logged in, or is logged in but doesn't have rights
-      if(!vm.user._id || !vm.user.hasRole(['admin', 'committee member'])) {
-        // modify the columnDefinitions to limit what they see, remove 'active' and 'posting'
-        vm.columnDefinitions.splice(3,2);
-        Eoe.listCurrent().$promise
-            .then(function (result) {
+      //if(!vm.user._id || !vm.user.hasRole(['admin', 'committee member'])) {
+      //  // modify the columnDefinitions to limit what they see, remove 'active' and 'posting'
+      //  vm.columnDefinitions.splice(3,2);
+      //  Eoe.listCurrent().$promise
+      //      .then(function (result) {
+      //
+      //        new CollectionModel('ListEoeControllerPublic', result, vm.columnDefinitions, initialSortOrder)
+      //            .then(function (collection) {
+      //              vm.collection = collection;
+      //            });
+      //      })
+      //      .catch(function (err) {
+      //        Messages.addMessage(err.data.message, 'error');
+      //      });
+      //  setupPublicNavigation();
+      //  return 'done';
+      //}
 
-              new CollectionModel('ListEoeControllerPublic', result, vm.columnDefinitions, initialSortOrder)
-                  .then(function (collection) {
-                    vm.collection = collection;
-                  });
-            })
-            .catch(function (err) {
-              Messages.addMessage(err.data.message, 'error');
-            });
-        setupPublicNavigation();
-        return 'done';
-      }
-
-      Eoe.query().$promise
+      Eoe.query()
+          .$promise
           .then(function(result) {
-            Messages.addMessage('Openings Loaded', 'success', null, 'dev');
-
-            new CollectionModel('EoeController', result, vm.columnDefinitions, initialSortOrder)
-                .then(function(collection) {
-                  vm.collection = collection;
-
-                  // watch for change when filters are cleared, and set UI variables/controls appropriately
-                  $scope.$watch('vm.collection.filterCriteria.isActive', function(newValue) {
-                    switch (newValue) {
-                      case true:
-                        vm.isActiveYes = true;
-                        vm.isActiveNo = false;
-                        break;
-                      case false:
-                        vm.isActiveNo = true;
-                        vm.isActiveYes = false;
-                        break;
-                      default:
-                        vm.isActiveYes = null;
-                        vm.isActiveNo = null;
-                    }
-                  });
-                })
-                .catch(function(err) {
-                  Messages.addMessage(err.data.message, 'error');
-                });
+                  vm.eoeData = result;
+            //new CollectionModel('EoeController', result, vm.columnDefinitions, initialSortOrder)
+            //    .then(function(collection) {
+            //      vm.collection = collection;
+            //
+            //      // watch for change when filters are cleared, and set UI variables/controls appropriately
+            //      $scope.$watch('vm.collection.filterCriteria.isActive', function(newValue) {
+            //        switch (newValue) {
+            //          case true:
+            //            vm.isActiveYes = true;
+            //            vm.isActiveNo = false;
+            //            break;
+            //          case false:
+            //            vm.isActiveNo = true;
+            //            vm.isActiveYes = false;
+            //            break;
+            //          default:
+            //            vm.isActiveYes = null;
+            //            vm.isActiveNo = null;
+            //        }
+            //      });
+            //    })
+            //    .catch(function(err) {
+            //      Messages.addMessage(err.data.message, 'error');
+            //    });
 
           });
       setupNavigation();
