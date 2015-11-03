@@ -62,6 +62,12 @@ module.exports = function (app) {
     , applications.update
   );
 
+  app.route('/applications/forOpening/:opening/:isActive')
+    .get(
+      users.hasAuthorization(['manager', 'admin', 'committee member'])
+      , applications.forOpening
+    );
+
   app.route('/applications/:applicationId/manage')
     .put(
     users.hasAuthorization(['manager', 'admin'])

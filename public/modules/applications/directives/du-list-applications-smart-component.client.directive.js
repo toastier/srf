@@ -20,13 +20,14 @@
       controller: duListApplicationsSmartComponentController,
       controllerAs: 'vm',
       scope: {
-        viewMode: '@'
+        viewMode: '@',
+        openingId: '='
       },
       bindToController: true,
       replace: true
     };
 
-    function duListApplicationsSmartComponentController(Authentication, Application) {
+    function duListApplicationsSmartComponentController($scope, Authentication, Application, _) {
       var vm = this;
       vm.clickAction = clickAction;
 
@@ -76,6 +77,38 @@
           });
       }
 
+      function activeForOpening() {
+        vm.componentTitle = 'Open Applications';
+        vm.buttonTitle = 'View';
+        $scope.$watch('vm.openingId', function (newVal) {
+          if(_.isString(newVal)) {
+            Application.forOpening({
+              openingId: vm.openingId,
+              isActive: true
+            }).$promise
+              .then(function (applications) {
+                vm.applications = applications;
+              });
+          }
+        });e
+      }
+
+      function inactiveForOpening() {
+        vm.componentTitle = 'Closed Applications';
+        vm.buttonTitle = 'View';
+        $scope.$watch('vm.openingId', function (newVal) {
+          if(_.isString(newVal)) {
+            Application.forOpening({
+              openingId: vm.openingId,
+              isActive: false
+            }).$promise
+              .then(function (applications) {
+                vm.applications = applications;
+              });
+          }
+        });
+      }
+
       function activate() {
         vm.componentTitle = 'Applications';
         vm.buttonTitle = 'Edit';
@@ -89,6 +122,12 @@
                   break;
                 case 'iAmPhoneInterviewer':
                   iAmPhoneInterviewer();
+                  break;
+                case 'activeForOpening':
+                  activeForOpening();
+                  break;
+                case 'inactiveForOpening':
+                  inactiveForOpening();
                   break;
                 default:
                   allApplications();

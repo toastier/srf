@@ -107,7 +107,6 @@ exports.conductPhoneInterview = function (req, res) {
  */
 exports.create = function(req, res) {
 	var application = new Application(req.body);
-  //@todo query to get worksheetFields
   WorksheetField
     .find({appliesTo: 'reviewWorksheet'})
     .sort('order')
@@ -119,7 +118,6 @@ exports.create = function(req, res) {
       }
     });
 
-  //@todo create bodyFields
   function createBodyFields(worksheetFields) {
     var bodyFields = [];
     if(worksheetFields && worksheetFields.length) {
@@ -134,7 +132,6 @@ exports.create = function(req, res) {
     }
   }
 
-  //@todo append bodyFields to application
   function appendBodyFieldsToApplication(bodyFields) {
     application.reviewPhase.reviews.push( new Review());
     application.reviewPhase.reviews.push( new Review());
@@ -225,6 +222,7 @@ exports.createForUser = function(req, res) {
     });
   }
 
+  //noinspection ProblematicWhitespace
   /**
    * save the Application and return the response
    * @param applicant
@@ -343,18 +341,49 @@ exports.deleteComment = function(req, res) {
 };
 
 /**
+ * Find and send JSON array of applications for an Opening
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.forOpening = function (req, res, next) {
+  var isActive = (req.params.isActive === 'true');
+  var query = Application.find({opening: req.params.opening});
+  if (isActive) {
+    query = query
+      .where('proceedToReview').ne(false)
+      .where('reviewPhase.proceedToPhoneInterview').ne(false)
+      .where('phoneInterviewPhase.proceedToOnSite').ne(false);
+  } else {
+    query = query
+      .or([
+        {proceedToReview: false},
+        {'reviewPhase.proceedToPhoneInterview': false},
+        {'phoneInterviewPhase.proceedToOnSite': false}
+      ]);
+  }
+
+  query
+    .exec(function(err, opening) {
+      if (err) {
+        next(err);
+      } else {
+        res.jsonp(opening);
+      }
+    });
+};
+
+/**
  * Find and return an existing Application for the authenticated User and given Opening if one exists. Otherwise return
  * empty
  * @param req
  * @param res
  */
-exports.forOpeningForUser = function (req, res) {
+exports.forOpeningForUser = function (req, res, next) {
   Application.findOne({user: req.user._id, opening: req.opening._id})
     .exec(function(err, application){
       if(err) {
-        return res.send(400, {
-          message: 'Error looking for existing Applications for User and Opening'
-        });
+        return next(err);
       } else {
         if (application && (application.cv || application.coverLetter)) {
           getFiles(application)
@@ -362,61 +391,13 @@ exports.forOpeningForUser = function (req, res) {
               sendResponse(null, result, res);
             })
             .catch(function(err) {
-              sendResponse(err, null, res);
+              return next(err);
             });
         } else {
           sendResponse(null, application, res);
         }
       }
     });
-
-  //function getFiles (application) {
-  //  async.parallel([
-  //    function(callback) {
-  //      getFileMetadata(application.cv, callback);
-  //    },
-  //    function(callback) {
-  //      getFileMetadata(application.coverLetter, callback);
-  //    }
-  //  ], function (err, results) {
-  //    if (err) {
-  //      console.log(err);
-  //    } else {
-  //      if(results[0]) {
-  //        application._doc.cvFileMeta = results[0];
-  //      }
-  //      if(results[1]){
-  //        application._doc.coverLetterFileMeta = results[1];
-  //      }
-  //      res.jsonp(application);
-  //    }
-  //  });
-  //}
-  //
-  ///**
-  // * Returns metadata for the given file
-  // * @param fileId
-  // * @param callback
-  // * @param application
-  // * @param fileType
-  // */
-  //function getFileMetadata (fileId, callback, application, fileType) {
-  //
-  //    gfs.findOne({_id: fileId}, function (err, file) {
-  //      if (err) {
-  //        //@todo handle error
-  //        console.log(err);
-  //      } else {
-  //        //if there is no fileId given, gfs.findOne will have returned null, if not we are going to
-  //        //lookup the metadata on the file and add it as file.metadata
-  //        if (file !== null) {
-  //          file.mimeType = mime.lookup(file.filename);
-  //        }
-  //        //call back to the async#parallel in fn getFiles
-  //        callback(null, file);
-  //      }
-  //    });
-  //}
 };
 
 /**
@@ -431,9 +412,8 @@ exports.hasAuthorization = function (req, res, next) {
   || (req.application.user.toString() === req.user._id)) {
     next();
   } else {
-    return res.send(403, {
-      message: 'User is not authorized'
-    });
+    var err = new Error('User is not authorized', 403);
+    return next(err);
   }
 };
 
@@ -447,8 +427,8 @@ exports.manage = function (req, res) {
 
   var application = req.application
     , updatedApplication = req.body
-    , shouldSetupReviewWorksheet = !!(updatedApplication.proceedToReview && !application.proceedToReview)
-    , shouldSetupPhoneInterviewWorksheet = !!(updatedApplication.reviewPhase.proceedToPhoneInterview && !application.reviewPhase.proceedToPhoneInterview);
+    , shouldSetupReviewWorksheet = (updatedApplication.proceedToReview)
+    , shouldSetupPhoneInterviewWorksheet = (updatedApplication.reviewPhase.proceedToPhoneInterview);
 
   application = _.extend(application, updatedApplication);
 
@@ -461,8 +441,6 @@ exports.manage = function (req, res) {
       .catch(function (err) {
         sendResponse(err);
       });
-  } else {
-    addPhoneInterviewWorksheetFields();
   }
 
   function addPhoneInterviewWorksheetFields () {
@@ -599,7 +577,7 @@ exports.list = function (req, res) {
       if(application.proceedToReview === null) {
         status = 'Needs Processing';
       }
-      if(application.proceedToReivew === false) {
+      if(application.proceedToReview === false) {
         status = 'Denied prior to Committee Review';
       }
       if(application.reviewPhase) {
@@ -913,7 +891,7 @@ exports.update = function (req, res) {
 };
 
 /**
- * Add fields to a worksheet.
+ * Add fields to a worksheet.  It will only add the fields if the existing fields array is missing or empty.
  * @param {mongoose.model} application
  * @param {String} worksheetType
  * @returns {deferred.promise|{then}}
@@ -928,7 +906,6 @@ function addWorksheetFields(application, worksheetType) {
     .sort('order')
     .exec(function(err, result) {
       if (err) {
-        //callback(err, null);
         deferred.reject(err);
       } else {
         createBodyFields(result);
@@ -968,12 +945,18 @@ function addWorksheetFields(application, worksheetType) {
       }
 
       _.forEach(application[phaseName][reviewArray], function (review) {
-        review[worksheetType].body = {};
-        review[worksheetType].body.fields = bodyFields;
+        //if the body object does not exist for the review, add it.
+        if(!_.isObject(review[worksheetType].body)) {
+          review[worksheetType].body = {};
+        }
+        var fields = review[worksheetType].body.fields;
+        //if the fields array does not exist or is not populated, we populate it.
+        if(!fields || !_.isArray(fields) || !fields.length) {
+          review[worksheetType].body.fields = bodyFields;
+        }
       });
 
       deferred.resolve(application);
-      var foo = 'bar';
 
     } else {
       deferred.reject('error: phase specified does not exist');

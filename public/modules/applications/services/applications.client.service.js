@@ -68,7 +68,17 @@
           applicationId: '@applicationId',
           fileId: '@fileId'
         }
+      },
+      forOpening: {
+        method: 'GET',
+        url: 'applications/forOpening/:openingId/:isActive',
+        params: {
+          openingId: '@openingId',
+          isActive: '@isActive'
+        },
+        isArray: true
       }
+
     });
 
     var maxReviews = 2;
