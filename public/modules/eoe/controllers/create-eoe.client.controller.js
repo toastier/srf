@@ -168,40 +168,28 @@
     }
 
     function saveEoe() {
-        Application.checkForExistingEoe({applicationId: $stateParams.applicationId}).$promise
+        Application.checkForExistingEoe({applicationId: $stateParams.applicationId})
+            .$promise
             .then(function(result) {
                 if (result.eoeProvided) {
-            //.then(function (application) {
-            //    vm.application = application;
-            //    application.eoeProvided.$promise
-            //        .then(function (result) {
-            //            if (result === true) {
-
-                            console.log('The EOE flag value is set ');
-                            Messages.addMessage('EOE data already submitted for this application');
+                    Messages.addMessage('EOE data already submitted for this application');
+                    $state.go('main.listOpenings');
+                }
+                else {
+                    console.log('Saving EOE...');
+                    vm.eoe.applicationId = $stateParams.applicationId;
+                    Eoe.create(vm.eoe)
+                        .$promise
+                        .then(function (result) {
+                            Messages.addMessage('Thank you for submitted your confidential EOE information.');
                             $state.go('main.listOpenings');
-                        }
-                        else {
-                            console.log('The EOE flag value isnt set yet for ', result._id);
-                            //setEoeProvided(application._id);
-
-                            console.log('Saving EOE...');
-                            vm.eoe.applicationId = $stateParams.applicationId;
-                            Eoe.create(vm.eoe).$promise
-                                //vm.eoe.$save()
-                                .then(function (result) {
-                                    Messages.addMessage('The Eoe "' + result._id + '" was saved.', 'success');
-                                    //vm.setEoeProvided();
-                                    //Eoe.listEoe();
-                                })
-                                .catch(function (error) {
-                                    Messages.addMessage('There was a problem saving the Eoe ' + error.data.message, 'error');
-                                });
-
-                        }
-                    })
-            //})
-    }
+                        })
+                        .catch(function (error) {
+                            Messages.addMessage('There was a problem saving the Eoe ' + error.data.message, 'error');
+                        });
+                }
+            })
+        }
 
     function calculateDates () {
       vm.eoe.calculateDates();
