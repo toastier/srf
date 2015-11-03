@@ -9,6 +9,10 @@
       update: {
         method: 'PUT'
       },
+      manage: {
+        method: 'PUT',
+        url: 'applications/:applicationId/manage'
+      },
       iAmReviewer: {
         method: 'GET',
         isArray: true,

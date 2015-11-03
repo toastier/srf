@@ -13,7 +13,9 @@ module.exports = {
     lib: {
       css: [
         'public/lib/angular-ui-select/dist/select.css',
-        'public/lib/angular-toastr/dist/angular-toastr.css'
+        'public/lib/angular-toastr/dist/angular-toastr.css',
+        'public/lib/ng-sortable/dist/ng-sortable.css',
+        'public/lib/textAngular/dist/textAngular.css'
       ],
       js: [
         'public/lib/angular/angular.js',
@@ -30,7 +32,11 @@ module.exports = {
         'public/lib/lodash/lodash.js',
         'public/lib/ngSticky/lib/sticky.js',
         'public/lib/ng-currency/dist/ng-currency.js',
-        'public/lib/ng-file-upload/ng-file-upload.js'
+        'public/lib/ng-file-upload/ng-file-upload.js',
+        'public/lib/ng-sortable/dist/ng-sortable.js',
+        'public/lib/textAngular/dist/textAngular-rangy.min.js',
+        'public/lib/textAngular/dist/textAngular-sanitize.min.js',
+        'public/lib/textAngular/dist/textAngular.min.js'
       ]
     },
     css: [

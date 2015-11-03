@@ -1,7 +1,7 @@
 .col-xs-12
   h2.collapsible-trigger(ng-click="vm.toggleOpening()", ng-class="{'target-collapsed': vm.isCollapsed, 'target-not-collapsed': !vm.isCollapsed}") Opening: {{ vm.opening.name }}
-  .panel.panel-default
-    .panel-body(collapse="vm.isCollapsed")
+  .panel.panel-default(collapse="vm.isCollapsed")
+    .panel-body
       .row
         .col-md-9.form-group
           label.control-label Opening Title

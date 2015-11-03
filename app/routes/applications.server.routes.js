@@ -22,7 +22,7 @@ module.exports = function (app) {
     .post(users.requiresLogin, users.hasAuthorization(['user']), applications.createForUser);
 
   app.route('/applications/forOpeningForUser/:openingId')
-    .get(applications.findForUserForOpening); //@todo look at security on this
+    .get(applications.forOpeningForUser); //@todo look at security on this
 
   app.route('/applications/eoeProvided/:applicationId')
       .get(applications.eoeProvided);
@@ -73,6 +73,12 @@ module.exports = function (app) {
     , uploads.uploadNewFile
     , applications.addFile
     , applications.update
+  );
+
+  app.route('/applications/:applicationId/manage')
+    .put(
+    users.hasAuthorization(['manager', 'admin'])
+    , applications.manage
   );
 
   app.route('/applications/:applicationId')

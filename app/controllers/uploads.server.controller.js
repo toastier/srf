@@ -6,7 +6,9 @@ var mongo = mongoose.mongo;
 var mime = require('mime-types');
 var formidable = require('formidable');
 var fs = require('fs');
-var grid = require('gridfs-stream');
+var Grid = require('gridfs-stream');
+Grid.mongo = mongoose.mongo;
+var gfs = new Grid(mongoose.connection.db);
 var async = require('async');
 var _ = require('lodash');
 
@@ -15,7 +17,7 @@ var _ = require('lodash');
  * @param req
  * @param res
  * @param next
- * @todo split this out to distinguish between cv and coverLetter uploads
+ * @todo consider combining with #uploadFile method
  */
 exports.uploadNewFile = function (req, res, next) {
   var form = new formidable.IncomingForm();
@@ -24,11 +26,7 @@ exports.uploadNewFile = function (req, res, next) {
   form.parse(req, function (err, fields, files) {
     if (!err) {
       console.log('File uploaded : ' + files.file.path);
-      grid.mongo = mongo;
-      var connection = mongoose.createConnection(config.db);
-      connection.once('open', function () {
 
-        var gfs = grid( connection.db, mongo);
         var writeStream = gfs.createWriteStream({
           filename: files.file.name
         });
@@ -41,8 +39,6 @@ exports.uploadNewFile = function (req, res, next) {
             next();
           });
         });
-
-      });
     }
   });
 };
@@ -51,8 +47,7 @@ exports.uploadNewFile = function (req, res, next) {
  * Handles uploading a cv and inserting into FSGrid Mongo Storage
  * @param req
  * @param res
- * @param next
- * @todo split this out to distinguish between cv and coverLetter uploads
+ * @todo consider combining with #uploadNewFile method
  */
 exports.uploadFile = function (req, res) {
   var form = new formidable.IncomingForm();
@@ -61,21 +56,15 @@ exports.uploadFile = function (req, res) {
   form.parse(req, function (err, fields, files) {
     if (!err) {
       console.log('File uploaded : ' + files.file.path);
-      grid.mongo = mongo;
-      var connection = mongoose.createConnection(config.db);
-      connection.once('open', function () {
-        var gfs = grid( connection.db, mongo);
         var writeStream = gfs.createWriteStream({
           filename: files.file.name
         });
         fs.createReadStream(files.file.path).pipe(writeStream);
-
         writeStream.on('close', function (gfsFile) {
           fs.unlink(files.file.path, function () {
             res.jsonp({fileId: gfsFile._id});
           });
         });
-      });
     }
   });
 };
@@ -149,57 +138,43 @@ exports.setHeadersForDownload = function (req, res, next) {
  */
 exports.getFileById = function (req, res, next) {
 
-  var connection = mongoose.createConnection(config.db);
-  connection.once('open', function () {
+  gfs.findOne({_id: req.params.fileId}, function (err, fileMeta) {
+    if (err) {
+      //@todo handle error
+      console.log(err);
+    } else {
 
-    var gfs = grid(connection.db, mongo);
+      var readStream = gfs.createReadStream({
+        _id: req.params.fileId
+      });
+      //@todo detect file type and set headers appropriately
+      res.set('Content-Type', mime.lookup(fileMeta.filename));
 
-    gfs.findOne({_id: req.params.fileId}, function (err, fileMeta) {
-      if (err) {
-        //@todo handle error
-        console.log(err);
-      } else {
-
-        var readStream = gfs.createReadStream({
-          _id: req.params.fileId
-        });
-        //@todo detect file type and set headers appropriately
-        res.set('Content-Type', mime.lookup(fileMeta.filename));
-
-        // check if the file is to be downloaded and set the Content-Disposition http header accordingly
-        var contentDisposition = res.get('Content-Disposition');
-        if (contentDisposition && contentDisposition === 'attachment') {
-          res.set('Content-Disposition', 'attachment; ' + 'filename="' + fileMeta.filename + '"');
-        }
-
-        req.on('error', function (err) {
-          res.send(500, err);
-        });
-
-        readStream.on('error', function (err) {
-          res.send(500, err);
-        });
-
-        readStream.pipe(res);
+      // check if the file is to be downloaded and set the Content-Disposition http header accordingly
+      var contentDisposition = res.get('Content-Disposition');
+      if (contentDisposition && contentDisposition === 'attachment') {
+        res.set('Content-Disposition', 'attachment; ' + 'filename="' + fileMeta.filename + '"');
       }
-    });
+
+      req.on('error', function (err) {
+        res.send(500, err);
+      });
+
+      readStream.on('error', function (err) {
+        res.send(500, err);
+      });
+
+      readStream.pipe(res);
+    }
   });
 };
 
 exports.deleteFile = function(req, res, next) {
   var fileId = req.params.fileId;
-  var connection = mongoose.createConnection(config.db);
-  connection.once('open', function () {
-
-    var gfs = grid(connection.db, mongo);
-
     gfs.remove({_id: fileId}, function(err) {
       if(err) {
         res.send(400, {message: 'An error occurred while deleting the file'});
       }
       next();
     });
-
-  });
-
 };

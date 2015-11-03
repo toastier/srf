@@ -235,10 +235,11 @@ div.radio-switch {
       &.users > a:before { content: '\f0c0';}
       &.add-user > a:before { content: '\f234';}
       //Faculty Recruitment System
-      &.openings > a:before { content: '\f115';}
+      &.openings > a:before { content: '\f07c';}
       &.positions > a:before, &.archive > a:before { content: '\f187';}
       &.applicants > a:before { content: '\f007';}
-      &.applications > a:before, &.file > a:before { content: '\f0f6';}
+      &.applications > a:before, &.file > a:before { content: '\f15c';}
+      &.worksheet-fields > a:before { content: '\f03a';}
 
 
       // when opened
@@ -714,9 +715,10 @@ button.btn-filtering {
 // Anchor Element Icons
 // -----------------------------------------------------
 
-a {
+a, i {
   &.with-icon {
     color: inherit;
+    cursor: pointer;
     &:hover {
       text-decoration: inherit;
       color: $duke-blue-link-light;

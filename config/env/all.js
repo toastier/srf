@@ -16,7 +16,9 @@ module.exports = {
 				'public/lib/bootstrap/dist/css/bootstrap.css',
 				'public/modules/**/css/*.css',
 				'public/lib/angular-ui-select/dist/select.css',
-				'public/lib/angular-toastr/dist/angular-toastr.css'
+				'public/lib/angular-toastr/dist/angular-toastr.css',
+				'public/lib/ng-sortable/dist/ng-sortable.css',
+				'public/lib/ng-sortable/dist/ng-sortable-style.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -29,7 +31,8 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-ui-select/dist/select.js',
-				'public/lib/angular-toastr/dist/angular-toastr.js'
+				'public/lib/angular-toastr/dist/angular-toastr.js',
+				'public/lib/ng-sortable/dist/ng-sortable.js'
 			]
 		},
 		css: [

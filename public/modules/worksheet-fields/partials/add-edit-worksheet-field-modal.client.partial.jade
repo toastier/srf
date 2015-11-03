@@ -1,0 +1,82 @@
+.modal-header
+  h3.modal-title {{ vm.modalTitle + ': ' + vm.worksheetField.name }}
+.modal-body
+  .row
+    .col-xs-12
+      ng-form(name="worksheetFieldForm")
+        .col-md-6.form-group
+          label.control-label Name
+          input.form-control(
+          name="name",
+          type="text",
+          ng-model="vm.worksheetField.name",
+          required
+          )
+          .small A name for administrative use.
+        .col-md-3.form-group
+          label.control-label Applies To
+          select.form-control(
+          name="name",
+          ng-options="appliesTo.value as appliesTo.name for appliesTo in vm.options.appliesToOptions",
+          ng-model="vm.worksheetField.appliesTo",
+          required,
+          disabled
+          )
+            option(value="") --Choose--
+        .col-md-3.form-group
+          label.control-label Field Type
+          select.form-control(
+          name="fieldType",
+          ng-options="fieldType.value as fieldType.name for fieldType in vm.options.fieldTypeOptions",
+          ng-model="vm.worksheetField.fieldType",
+          required
+          )
+            option(value="") --Choose--
+        .col-xs-12.form-group
+          label.control-label Label / Question
+          input.form-control(
+          name="labelQuestion",
+          type="text",
+          ng-model="vm.worksheetField.label",
+          required
+          )
+          .small The Heading for the field when shown on the worksheet, typically in the form of a question.
+        .col-md-4.form-group(ng-if="vm.worksheetField.fieldType === 'select'")
+          label.control-label Add Options
+          .input-group
+            input.form-control(
+            name="optionAdder"
+            type="text"
+            ng-model="vm.newOption"
+            )
+            btn.btn-add.no-text.input-group-addon(
+            ng-click="vm.addSelectOption()"
+            )
+        .col-md-8.form-group(ng-if="vm.worksheetField.fieldType === 'select'")
+          label.control-label Select List Options
+          .form-control-static
+            .chip(ng-repeat="option in vm.worksheetField.selectOptions")
+              i.with-icon.remove.no-text(ng-click="vm.removeSelectOption(option)")
+              | &nbsp; {{ option }}
+            .alert.alert-warning(ng-if="!vm.worksheetField.selectOptions.length") No options set.
+        .col-xs-12.form-group
+          label.control-label Administrative Description
+          textarea.form-control(
+          name="adminDescription",
+          rows="3",
+          ng-model="vm.worksheetField.adminDescription"
+          )
+          .small Shown only on the configuration screen
+        .col-xs-12.form-group
+          label.control-label Description
+          textarea.form-control(
+          name="description",
+          rows="3",
+          ng-model="vm.worksheetField.description"
+          )
+          .small To be displayed on the worksheet, directly below the Label / Question.
+.modal-footer
+  .row
+    .col-xs-12
+      button.btn.btn-cancel(ng-click="vm.cancel()") Cancel
+      button.btn.btn-save(ng-click="vm.saveField()") Save Field

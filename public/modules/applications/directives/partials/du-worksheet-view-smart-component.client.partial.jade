@@ -1,0 +1,19 @@
+.row(ng-repeat="worksheetField in vm.worksheetFields | orderBy : order")
+  .col-xs-12
+    h3(ng-bind="worksheetField.label")
+    .row
+      .col-xs-12(ng-if="worksheetField.description")
+        em(ng-bind="worksheetField.description")
+    .row
+      .col-xs-12
+        .well.well-sm(ng-if="worksheetField.response || !worksheetField.response && worksheetField.fieldType === 'checkbox'")
+          .row
+            .col-xs-12(
+              ng-if="worksheetField.fieldType !== 'checkbox'",
+              ng-bind-html="worksheetField.response"
+            )
+            .col-xs-12(
+              ng-if="worksheetField.fieldType === 'checkbox'",
+              ng-bind="worksheetField.response | yesNo"
+            )
+//pre.col-xs-12 {{ vm.worksheetFields | json }}

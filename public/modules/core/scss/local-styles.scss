@@ -871,6 +871,29 @@ td {
     font-size: 14px;
     line-height: 1;
     box-sizing: border-box;
+
+    i {
+      cursor: pointer;
+      color: $duke-smoke;
+      &:hover {
+        color: $duke-coal;
+      }
+    }
+
+    .pin-top-left {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .pin-top {
+      position: absolute;
+      top: 5px;
+    }
+    .pin-bottom {
+      position: absolute;
+      bottom: 5px;
+    }
   }
 
   .item-group-contents {
@@ -896,6 +919,29 @@ td {
       }
     }
   }
+}
+
+//
+// Headings used in item-group-contents
+// -----------------------------------------------------
+
+.item-group-contents {
+  h3 {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+  h4 {
+    margin-top: 3px;
+    margin-bottom: 6px;
+  }
+}
+
+//
+// Labels used in item-group-contents
+// -----------------------------------------------------
+
+.badge, .label {
+  margin-right: 4px;
 }
 
 //
@@ -1005,29 +1051,29 @@ td {
 // -----------------------------------------------------
 
 #masterUI {
-  @include transition(all 1s);
+  //@include transition(all 1s);
   > ui-view {
-    position: absolute;
-    width: 96%;
+    //position: absolute;
+    //width: 96%;
     margin-bottom: 50px;
-    @extend .animated;
+    //@extend .animated;
     z-index: 10;
-    &.ng-enter {
-      @extend .fadeIn;
-    }
-    &.ng-leave {
-      @extend .fadeOut;
-    }
-    > section {
-      .animated {
-        &.ng-enter {
-          @extend .fadeIn;
-        }
-        &.ng-leave {
-          @extend .fadeOut;
-        }
-      }
-    }
+    //&.ng-enter {
+    //  @extend .fadeIn;
+    //}
+    //&.ng-leave {
+    //  @extend .fadeOut;
+    //}
+    //> section {
+    //  .animated {
+    //    &.ng-enter {
+    //      @extend .fadeIn;
+    //    }
+    //    &.ng-leave {
+    //      @extend .fadeOut;
+    //    }
+    //  }
+    //}
   }
 }
 
@@ -1047,5 +1093,31 @@ td {
       transform: rotate(90deg);
     }
   }
-
 }
+
+//
+// Sortable Stuff
+// -----------------------------------------------------
+
+.as-sortable-placeholder {
+  background-color: $duke-whisp;
+}
+
+//
+// Underline Style
+// -----------------------------------------------------
+
+h1, h2, h3, h4, h5 {
+  &.underline {
+    border-bottom: 1px solid $duke-smoke;
+  }
+}
+
+//
+// Retain Formatting
+// -----------------------------------------------------
+
+.pre {
+  white-space: pre;
+}
+

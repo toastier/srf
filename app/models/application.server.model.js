@@ -77,7 +77,48 @@ var applicationModel = new Schema({
               type: Boolean,
               default: false
             },
-            body: {type: String},
+            body: {
+              fields: [
+                {
+                  name: {
+                    type: String,
+                    required: true
+                  },
+                  label: String,
+                  adminDescription: String,
+                  description: String,
+                  dateCreated: {
+                    type: Date,
+                    default: Date.now
+                  },
+                  fieldType: {
+                    type: String,
+                    required: true,
+                    enum: [
+                      'input',
+                      'textarea',
+                      'textarea-simple',
+                      'select',
+                      'checkbox',
+                      'radio'
+                    ]
+                  },
+                  selectOptions: [
+                    {
+                      type: String
+                    }
+                  ],
+                  order: {
+                    type: Number,
+                    min: 0,
+                    default: 0
+                  },
+                  response: {
+                    type: Schema.Types.Mixed
+                  }
+                }
+              ]
+            },
             dateAssigned: {
               type: Date
             },
@@ -125,7 +166,48 @@ var applicationModel = new Schema({
               type: Boolean,
               default: false
             },
-            body: {type: String},
+            body: {
+              fields: [
+                {
+                  name: {
+                    type: String,
+                    required: true
+                  },
+                  label: String,
+                  adminDescription: String,
+                  description: String,
+                  dateCreated: {
+                    type: Date,
+                    default: Date.now
+                  },
+                  fieldType: {
+                    type: String,
+                    required: true,
+                    enum: [
+                      'input',
+                      'textarea',
+                      'textarea-simple',
+                      'select',
+                      'checkbox',
+                      'radio'
+                    ]
+                  },
+                  selectOptions: [
+                    {
+                      type: String
+                    }
+                  ],
+                  order: {
+                    type: Number,
+                    min: 0,
+                    default: 0
+                  },
+                  response: {
+                    type: Schema.Types.Mixed
+                  }
+                }
+              ]
+            },
             dateAssigned: {
               type: Date
             },

@@ -2,13 +2,16 @@
   'use strict';
   angular
     .module('core')
-    .filter('standardDate', standardDate)
-    .filter('standardDateAtTime', standardDateAtTime)
+    .filter('checkMark', checkMark)
     .filter('fileSize', fileSize)
     .filter('fileType', fileType)
-    .filter('checkMark', checkMark)
+    .filter('humanize', humanize)
+    .filter('standardDate', standardDate)
+    .filter('standardDateAtTime', standardDateAtTime)
     .filter('trimmed', trimmed)
-    .filter('humanize', humanize);
+    .filter('yesNo', yesNo)
+    .filter('yesNoNoDecision', yesNoNoDecision)
+  ;
 
   function standardDate($filter) {
     var angularDateFilter = $filter('date');
@@ -69,6 +72,28 @@
         return 'Undetermined';
       } else {
         return '\u2718';
+      }
+    };
+  }
+
+  function yesNoNoDecision() {
+    return function (input) {
+      if (input === 1 || input === true || input === 'true' || input === '\u2713') {
+        return 'Yes';
+      } else if (input === null || input === undefined) {
+        return 'No Decision';
+      } else {
+        return 'No';
+      }
+    };
+  }
+
+  function yesNo() {
+    return function (input) {
+      if (input === 1 || input === true || input === 'true' || input === '\u2713') {
+        return 'Yes';
+      } else {
+        return 'No';
       }
     };
   }

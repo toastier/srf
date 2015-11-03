@@ -26,7 +26,18 @@ angular.module(ApplicationConfiguration.applicationModuleName)
   .config(function (toastrConfig) {
     toastrConfig.timeOut = 1500;
     toastrConfig.positionClass = 'toast-top-right';
-  });
+  })
+  .config(['$provide', function ($provide) {
+    $provide.decorator('taOptions', ['$delegate', function(taOptions) {
+      taOptions.toolbar = [
+        ['h1', 'h2', 'h3', 'h4', 'p', 'quote'],
+        ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
+        ['justifyLeft', 'justifyCenter', 'indent', 'outdent'],
+        ['insertLink']
+      ];
+      return taOptions;
+    }]);
+  }]);
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function () {
