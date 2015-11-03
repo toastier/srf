@@ -14,3 +14,5 @@ app/data/uploads/*.*
 app/data/uploads/coverLetter/*
 public/modules/core/*/*.css*
 public/modules/core/css/dashboard-style.css
+public/modules/core/scss/dashboard-style.css
+public/modules/core/scss/dashboard-style.css.map
