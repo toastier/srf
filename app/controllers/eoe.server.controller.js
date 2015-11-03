@@ -43,10 +43,15 @@ var getErrorMessage = function(err) {
 // TODO use better method to parse out req.body
 exports.create = function(req, res) {
 	console.log('creating EOE record...');
-	var application = Application.findById(req.body.applicationId);
+	var application = Application.findById(req.body.applicationId)
+		.exec(function (err, applicant) {
+			if (err) return next(err);
+			if (!applicant) return next(new Error('Failed to load applicant ' + id));
+			req.applicant = applicant;
+		};
 	//var opening = Opening.findById(application.openingId);
 	//req.body.opening = mongoose.Types.ObjectId('561410fc5a6e72be05f95c76');
-
+	req.body.opening = mongoose.Types.ObjectId(application.openingId)
 	console.log(req.body);
 	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
 	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran', 'vetClass', 'vetDecline']));
