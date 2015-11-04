@@ -14,6 +14,9 @@
         nav.title = Navigation.viewTitle.get();
         nav.buttons = Navigation.actions.get('buttons');
         nav.dropdownItems = Navigation.actions.get('dropdownItems');
+        nav.status = {
+          isOpen: false
+        };
 
       },
       controllerAs: 'nav',
