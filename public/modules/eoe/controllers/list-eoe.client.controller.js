@@ -104,6 +104,59 @@
         }
       ];
 
+    vm.eoeData = {
+      byGender: {},
+      byEthnicity: {},
+      byRace: { 'multiple': 0, 'declined' : 0},
+      byDisability: {}
+    };
+
+    function parseDemographic(result) {
+      var demographicData = (_.find(result, function(data) {
+        return data.type = "demographic";
+      })).data;
+      _.forEach(vm.options.genders, function(gender) {
+        var genderCount=_.size(_.filter(demographicData, function(rec) {
+          return rec.gender === gender.code;
+        }));
+        console.log(gender.description + ' count is ' + genderCount);
+        vm.eoeData.byGender[gender.code] = { "count": genderCount, "label" : gender.description};
+      });
+      _.forEach(vm.options.ethnicities, function(ethnicity) {
+        var ethnicityCount=_.size(_.filter(demographicData, function(rec) {
+          return rec.ethnicity === ethnicity.code;
+        }));
+        console.log(ethnicity.description + ' count is ' + ethnicityCount);
+        vm.eoeData.byEthnicity[ethnicity.code] = {"count" : ethnicityCount, "label" : ethnicity.description};
+      });
+      _.forEach(vm.options.races, function(race) {
+        var raceCount=_.size(_.filter(demographicData, function(rec) {
+          return rec.race[race.code] === true;
+        }));
+        console.log(race.description + ' count is ' + raceCount);
+        vm.eoeData.byRace[race.code] = { "count" : raceCount, "label" : race.description };
+      });
+      vm.eoeData.byRace.multiple = _.size(_.filter(demographicData, function(rec) {
+        return _.size(_.keys(_.pick(rec.race, _.identity))) > 1;
+      }));
+    }
+
+    function parseDisability(result) {
+      var disabilityData = (_.find(result, function(data) {
+        return data.type === "disability";
+      })).data;
+      _.forEach(vm.options.disabilities, function(option) {
+        var disabilityCount=_.size(_.filter(disabilityData, function(rec) {
+          return rec.disability === option.code;
+        }));
+        console.log(option.description + ' count is ' + disabilityCount);
+        vm.eoeData.byDisability[option.code] = { "count": disabilityCount, "label" : option.description};
+      });
+    }
+
+    function parseVeteran(result) {
+
+    }
 
 
     function setupNavigation() {
@@ -122,65 +175,16 @@
       Eoe.query()
           .$promise
           .then(function(result) {
-                var demographicData = (_.find(result, function(data) {
-                  return data.type = "demographic";
-                })).data;
-                vm.eoeData = { byGender: {}, byEthnicity: {}, byRace: { 'multiple': 0, 'declined' : 0} };
-                 _.forEach(vm.options.genders, function(gender) {
-                   var genderCount=_.size(_.filter(demographicData, function(rec) {
-                     return rec.gender === gender.code;
-                   }));
-                   console.log(gender.description + ' count is ' + genderCount);
-                   vm.eoeData.byGender[gender.code] = { "count": genderCount, "label" : gender.description};
-                 });
-                _.forEach(vm.options.ethnicities, function(ethnicity) {
-                  var ethnicityCount=_.size(_.filter(demographicData, function(rec) {
-                    return rec.ethnicity === ethnicity.code;
-                  }));
-                  console.log(ethnicity.description + ' count is ' + ethnicityCount);
-                  vm.eoeData.byEthnicity[ethnicity.code] = {"count" : ethnicityCount, "label" : ethnicity.description};
-                });
-                _.forEach(vm.options.races, function(race) {
-                  var raceCount=_.size(_.filter(demographicData, function(rec) {
-                    return rec.race[race.code] === true;
-                  }));
-                  console.log(race.description + ' count is ' + raceCount);
-                  vm.eoeData.byRace[race.code] = { "count" : raceCount, "label" : race.description };
-                });
-                vm.eoeData.byRace.multiple = _.size(_.filter(demographicData, function(rec) {
-                    return _.size(_.keys(_.pick(rec.race, _.identity))) > 1;
-                  }));
-            //new CollectionModel('EoeController', result, vm.columnDefinitions, initialSortOrder)
-            //    .then(function(collection) {
-            //      vm.collection = collection;
-            //
-            //      // watch for change when filters are cleared, and set UI variables/controls appropriately
-            //      $scope.$watch('vm.collection.filterCriteria.isActive', function(newValue) {
-            //        switch (newValue) {
-            //          case true:
-            //            vm.isActiveYes = true;
-            //            vm.isActiveNo = false;
-            //            break;
-            //          case false:
-            //            vm.isActiveNo = true;
-            //            vm.isActiveYes = false;
-            //            break;
-            //          default:
-            //            vm.isActiveYes = null;
-            //            vm.isActiveNo = null;
-            //        }
-            //      });
-            //    })
-            //    .catch(function(err) {
-            //      Messages.addMessage(err.data.message, 'error');
-            //    });
-
+               parseDemographic(result);
+               parseDisability(result);
+               parseVeteran(result);
           });
       setupNavigation();
     }
     function viewEoe (Eoe) {
       $state.go('main.viewEoe', { EoeId: Eoe._id });
     }
+
 
     activate();
 
