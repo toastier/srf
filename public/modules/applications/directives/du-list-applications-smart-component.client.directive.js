@@ -90,7 +90,7 @@
                 vm.applications = applications;
               });
           }
-        });e
+        });
       }
 
       function inactiveForOpening() {

@@ -105,58 +105,35 @@ exports.conductPhoneInterview = function (req, res) {
  * @param req
  * @param res
  */
-exports.create = function(req, res) {
+exports.create = function(req, res, next) {
 	var application = new Application(req.body);
-  WorksheetField
-    .find({appliesTo: 'reviewWorksheet'})
-    .sort('order')
-    .exec(function(err, result) {
-      if (err) {
-        res.send(500, err);
-      } else {
-        createBodyFields(result);
-      }
-    });
+  var err;
 
-  function createBodyFields(worksheetFields) {
-    var bodyFields = [];
-    if(worksheetFields && worksheetFields.length) {
-      _.forEach(worksheetFields, function (worksheetField) {
-        bodyFields.push(new BodyField(worksheetField));
-      });
+  if(!application.user) {
+    err = new Error('No user was provided');
+    err.status = 400;
+    return next(err);
+  }
+
+  if(!application.applicant) {
+    err = new Error('Applicant was not provided');
+    err.status = 400;
+    return next(err);
+  }
+
+  if(!application.opening) {
+    err = new Error('Opening was not provided');
+    err.status = 400;
+    return next(err);
+  }
+
+  application.save(function(err, result) {
+    if (err) {
+      err.status = 500;
+      return next(err);
     }
-    if (bodyFields.length) {
-      appendBodyFieldsToApplication(bodyFields);
-    } else {
-      res.send(400, {message: 'Problem adding body fields to application'});
-    }
-  }
-
-  function appendBodyFieldsToApplication(bodyFields) {
-    application.reviewPhase.reviews.push( new Review());
-    application.reviewPhase.reviews.push( new Review());
-
-    _.forEach(application.reviewPhase.reviews, function (review) {
-      review.reviewWorksheet.body.fields = bodyFields;
-    });
-
-    createApplication();
-  }
-
-  function createApplication() {
-    application.user = req.user;
-
-    application.save(function(err) {
-      if (err) {
-        return res.send(400, {
-          // this doesn't work, dumping errorHandler into its own controller
-          message: getErrorMessage(err)
-        });
-      } else {
-        res.jsonp(application);
-      }
-    });
-  }
+    res.jsonp(result);
+  });
 };
 
 /**
@@ -165,7 +142,7 @@ exports.create = function(req, res) {
  * @param res
  * @returns {*}
  */
-exports.createForUser = function(req, res) {
+exports.createByUser = function(req, res) {
   var application = new Application(req.body);
 
   if(!application.user) {
@@ -255,19 +232,22 @@ exports.createForUser = function(req, res) {
  * Delete an Application
  * @param req
  * @param res
+ * @param next
  */
-exports.delete = function (req, res) {
+exports.delete = function (req, res, next) {
   var application = req.application;
 
-  application.remove(function (err) {
-    if (err) {
-      return res.send(400, {
-        message: getErrorMessage(err)
+  deleteAndRemoveFiles(application)
+    .then(function() {
+      application.remove(function (err) {
+        if (err) {
+          err.status = 400;
+          return next(err);
+        } else {
+          res.jsonp(application);
+        }
       });
-    } else {
-      res.jsonp(application);
-    }
-  });
+    });
 };
 
 /**
@@ -963,6 +943,46 @@ function addWorksheetFields(application, worksheetType) {
     }
   }
   return deferred.promise;
+}
+
+/**
+ * Delete CV and Cover Letter associated with an application
+ * @param application
+ * @returns {deferred.promise|{then}}
+ */
+function deleteAndRemoveFiles(application) {
+  var deferred = Q.defer();
+
+  if(application.cv) {
+    var fileId = application.cv;
+    doDelete(fileId, application.cv, deleteCoverLetter);
+  } else {
+    deleteCoverLetter();
+  }
+
+  function deleteCoverLetter() {
+    if (application.coverLetter) {
+      var fileId = application.coverLetter;
+      doDelete(fileId, application.coverLetter, done);
+    }
+  }
+
+  function done() {
+    deferred.resolve(application);
+  }
+
+  function doDelete(fileId, fileReference, callback) {
+    gfs.remove({_id: fileId}, function(err) {
+      if(err) {
+        deferred.resolve(err);
+      }
+      fileReference = null;
+      callback();
+    });
+  }
+
+  return deferred.promise;
+
 }
 
 /**

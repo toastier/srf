@@ -4,13 +4,14 @@
     .module('applications')
     .controller('ManageApplicationController', ManageApplicationController);
 
-  function ManageApplicationController ($stateParams, resolvedAuth, Messages, Application, Navigation, _ ) {
+  function ManageApplicationController ($scope, $stateParams, $modal,  resolvedAuth, Messages, Application, Navigation, _ ) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.cancel = Application.listApplications;
     vm.options = {};
     vm.remove = remove;
     vm.removeFile = removeFile;
+    vm.submitApplication = submitApplication;
     vm.toggleSwitch = toggleSwitch;
     vm.update = update;
     vm.uploadFile = uploadFile;
@@ -24,12 +25,20 @@
       }).$promise
         .then(function(result) {
           vm.application = result;
+          if(!vm.application.submitted) {
+            addSubmitApplicationToActions();
+          }
+
         })
         .catch(function(err) {
           Messages.addMessage(err.data.message, 'error');
         });
 
       setupNavigation();
+    }
+
+    function addSubmitApplicationToActions() {
+      Navigation.actions.add({title: 'Submit', method: vm.submitApplication, type: 'button', style: 'btn-workflow'});
     }
 
     function uploadFile(file, type) {
@@ -75,7 +84,8 @@
       var controllerActions = [
         {title: 'Save Changes', method: vm.update, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
         {title: 'View', method: vm.view, type: 'button', style: 'btn-view'},
-        {title: 'Cancel', method: vm.cancel, type: 'button', style: 'btn-cancel'}
+        {title: 'Cancel', method: vm.cancel, type: 'button', style: 'btn-cancel'},
+        {title: 'Delete', method: vm.remove, type: 'button', style: 'btn-delete'}
       ];
 
       var actions = Application.getActions(); // get the actions from the Model
@@ -103,15 +113,48 @@
       }
     }
 
-
     function remove () {
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: 'modules/core/partials/yes-no-modal.client.partial.html',
+        controller: 'YesNoModalController',
+        controllerAs: 'vm',
+        size: 'sm',
+        resolve: {
+          modalTitle: function () {
+            return 'Delete Application';
+          },
+          modalMessage: function () {
+            return 'Deleting the Application will permanently remove the application and file(s) associated with it.  Are you sure you want to do this?';
+          }
+        }
+      });
 
-      vm.application.$remove()
-        .then(function() {
-          Messages.addMessage('The Application was permanently deleted.', 'info');
+      modalInstance.result.then(function (result) {
+        if (result) {
+          vm.application.$remove()
+            .then(function() {
+              Messages.addMessage('The Application was permanently deleted.', 'info');
+              Application.listApplications();
+            })
+            .catch(function(err) {
+              Messages.addMessage(err.data.message, 'error', 'Problem deleting Application');
+            });
+        }
+      });
+    }
+
+    function submitApplication() {
+      vm.application.submitted = true;
+      Application.update(vm.application).$promise
+        .then(function (saveResponse) {
+          Messages.addMessage('The Application for ' + saveResponse.firstName + ' ' + saveResponse.lastName + ' was Submitted.');
+          vm.application = saveResponse;
+          setupNavigation();
         })
-        .catch(function(err) {
-          Messages.addMessage(err.data.message, 'error', 'Problem deleting Application');
+        .catch(function (err) {
+          vm.application.submitted = false;
+          Messages.addMessage(err.data.message, 'error');
         });
     }
 

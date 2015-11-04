@@ -3,8 +3,8 @@
 /**
  * Module dependencies.
  */
-var users = require('../../app/controllers/users'),
-	applicants = require('../../app/controllers/applicants');
+var users = require('../../app/controllers/users.server.controller'),
+	applicants = require('../../app/controllers/applicants.server.controller');
 
 module.exports = function(app) {
 	// Applicant Routes

@@ -11,7 +11,7 @@ section
   .row
     du-opening-view-smart-component(opening-id="vm.application.opening._id", start-collapsed='true')
   h2 Application Workflow
-  .col-xs-12
+  .col-xs-12(ng-if="vm.application.submitted === 'true' || vm.application.submitted === '\u2713'")
     .row.well
       .col-md-4
         label.control-label Proceed to Review?

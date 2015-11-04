@@ -6,11 +6,12 @@
 
 
   /* @ngInject */
-  function ViewOpeningController($stateParams, Messages, Navigation, Opening, Position, resolvedAuth) {
+  function ViewOpeningController($state, $stateParams, _, Messages, Navigation, Opening, Position, resolvedAuth) {
 
     var vm = this;
     vm.user = resolvedAuth;
     vm.cancel = cancel;
+    vm.createApplicationForOpening = createApplicationForOpening;
     vm.getPosition = getPosition;
     vm.openingForm = {};
     vm.options = {};
@@ -19,6 +20,10 @@
 
     function cancel() {
       Opening.listOpenings();
+    }
+
+    function createApplicationForOpening() {
+      $state.go('main.managerCreateApplication', {openingId: $stateParams.openingId});
     }
 
     function getPosition(positionId) {
@@ -48,11 +53,14 @@
       Navigation.clear(); // clear everything in the Navigation
       Navigation.breadcrumbs.add('Openings', '#!/openings', '#!/openings'); // add a breadcrumb
       var actions = Opening.getActions(); // get the actions from the Model
-      if(vm.user.hasRole(['admin'])) {
+      var controllerActions = [];
+      if(vm.user.hasRole(['admin', 'manager'])) {
         actions.splice(0, 2); // for admin and director, splice out actions other than 'edit'
+        controllerActions.push({title: 'Create Application', method: vm.createApplicationForOpening, type: 'button', style: 'btn-add'});
       } else {
         actions.splice(0, actions.length); // for anyone else, splice out everything.
       }
+      actions = _.union(actions, controllerActions);
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
       Navigation.viewTitle.set('View Opening'); // set the page title
     }

@@ -131,6 +131,12 @@ exports.getFileById = function (req, res, next) {
   });
 };
 
+/**
+ * Delete a file from GridFS
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.deleteFile = function(req, res, next) {
   var fileId = req.params.fileId;
     gfs.remove({_id: fileId}, function(err) {

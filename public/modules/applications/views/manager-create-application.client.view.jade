@@ -1,0 +1,81 @@
+section
+  navigation
+  .col-md-12(ng-form="vm.applicationForm")
+    .row
+      h2 Opening Information
+      .row(ng-if="!vm.application._id")
+        .form-group.col-xs-12
+          select.form-control(
+          name="opening"
+          ng-options="opening._id as opening.name for opening in vm.options.openings",
+          ng-model='vm.application.opening',
+          ng-change="vm.setOpening()"
+          required
+          )
+            option(value="") --Choose an Opening--
+      .well(ng-if="vm.application.opening")
+        .row
+          .col-md-6.form-group
+            label.control-label Opening Title
+            .form-control-static(ng-bind="vm.opening.name")
+          .col-md-3.form-group
+            label.control-label Opening Date
+            .form-control-static(ng-bind="vm.opening.dateStart | date")
+          .col-md-3.form-group
+            label.control-label Closing Date
+            .form-control-static(ng-bind="vm.opening.dateClose | date")
+    .row
+      h2 Applicant Information
+      .row(ng-if="!vm.application._id")
+        .form-group.col-xs-12
+          select.form-control(
+          name="applicant",
+          ng-options="applicant._id as applicant.name.honorific + ' ' + applicant.name.firstName + ' ' + applicant.name.lastName for applicant in vm.options.applicants",
+          ng-model='vm.application.applicant',
+          ng-change="vm.setApplicant()"
+          required
+          )
+            option(value="") --Choose--
+      .well(ng-if="vm.application.applicant")
+        .row
+          .col-md-2.form-group
+            label.control-label Title
+            .form-control-static(ng-bind="vm.application.honorific")
+          .col-md-3.form-group
+            label.control-label First Name
+            .form-control-static(ng-bind="vm.application.firstName")
+          .col-md-3.form-group
+            label.control-label Middle Name
+            .form-control-static(ng-bind="vm.application.middleName")
+          .col-md-4.form-group
+            label.control-label Last Name
+            .form-control-static(ng-bind="vm.application.lastName")
+    .row(ng-if="!vm.application._id")
+      .col-xs-12
+        button.btn.btn-workflow(
+          ng-click="vm.managerCreateApplication()",
+          ng-disabled="vm.applicationForm.$invalid"
+        ) Step 1: Confirm Application Details
+    .row(ng-if="vm.application._id")
+      h2 Attached Documents
+    .row(ng-if="vm.application._id")
+      du-application-upload-file(
+      heading="Cover Letter",
+      upload-method="vm.uploadFile(file, type)",
+      upload-type="coverLetter",
+      show-remove-option="true",
+      file-metadata="vm.application.coverLetterFileMeta",
+      remove-file-method="vm.removeFile(fileId)",
+      file-model="vm.application.coverLetter"
+      )
+      du-application-upload-file(
+      heading="Curriculum Vitae",
+      upload-method="vm.uploadFile(file, type)",
+      upload-type="cv",
+      show-remove-option="true",
+      file-metadata="vm.application.cvFileMeta",
+      remove-file-method="vm.removeFile(fileId)"
+      )
+    .row(ng-if="vm.application.coverLetter && vm.application.cv")
+      .col-md-12
+        button.btn.btn-save(ng-click="vm.submitApplication()") Step 2: Submit this Application

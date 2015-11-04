@@ -53,9 +53,13 @@
           phoneInterviewId: '@phoneInterview._id'
         }
       },
+      createByUser: {
+        method: 'POST',
+        url: 'applications/createByUser'
+      },
       create: {
         method: 'POST',
-        url: 'applications/createForUser'
+        url: 'applications/create'
       },
       checkForExistingUserApplication: {
         method: 'GET',
@@ -117,8 +121,8 @@
       viewThisApplication: function () {
         $state.go('main.viewApplication', {applicationId: $stateParams.applicationId});
       },
-      createApplication: function () {
-        $state.go('main.createApplication');
+      managerCreateApplication: function () {
+        $state.go('main.managerCreateApplication');
       }
     };
     
@@ -220,7 +224,7 @@
       },
       getActions: function () {
         var modelActions = [
-          {title: 'Create a New Application', method: methods.createApplication, type: 'button', style: 'btn-add'},
+          {title: 'Create a New Application', method: methods.managerCreateApplication, type: 'button', style: 'btn-add'},
           {title: 'View Application', method: methods.viewThisApplication, type: 'button', style: 'btn-view'},
           {title: 'Edit Application', method: methods.editThisApplication, type: 'button', style: 'btn-edit'}
         ];

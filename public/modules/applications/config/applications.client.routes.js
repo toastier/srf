@@ -26,22 +26,17 @@
             }
           }
         })
-        //.state('main.createApplication.loggedIn', {
-        //  url: '/loggedIn',
-        //  templateUrl: 'modules/applications/views/create-application.client.view.html',
-        //  controller: 'CreateApplicationController',
-        //  controllerAs: 'vm',
-        //  resolve: {
-        //    resolvedAuth: function(resolvedAuth) {
-        //      var newResolvedAuth = resolvedAuth;
-        //      if (!resolvedAuth._id) {
-        //        resolvedAuth.refresh();
-        //        newResolvedAuth = resolvedAuth.promise;
-        //      }
-        //      return newResolvedAuth;
-        //    }
-        //  }
-        //})
+        .state('main.managerCreateApplication', {
+          url: '/applications/managerCreate/:applicantId/:openingId',
+          templateUrl: '/modules/applications/views/manager-create-application.client.view.html',
+          controller: 'ManagerCreateApplicationController',
+          controllerAs: 'vm',
+          resolve: {
+            resolvedAuth: function(resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
+        })
         .state('main.viewApplication', {
           url: '/applications/:applicationId',
           templateUrl: 'modules/applications/views/view-application.client.view.html',
