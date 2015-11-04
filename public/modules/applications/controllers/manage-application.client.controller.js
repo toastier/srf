@@ -4,11 +4,12 @@
     .module('applications')
     .controller('ManageApplicationController', ManageApplicationController);
 
-  function ManageApplicationController ($scope, $stateParams, $modal,  resolvedAuth, Messages, Application, Navigation, _ ) {
+  function ManageApplicationController ($scope, $stateParams, $modal, resolvedAuth, Messages, Application, Navigation, _ ) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.cancel = Application.listApplications;
     vm.options = {};
+    vm.changeOpening = changeOpening;
     vm.remove = remove;
     vm.removeFile = removeFile;
     vm.submitApplication = submitApplication;
@@ -39,6 +40,26 @@
 
     function addSubmitApplicationToActions() {
       Navigation.actions.add({title: 'Submit', method: vm.submitApplication, type: 'button', style: 'btn-workflow'});
+    }
+
+    function changeOpening() {
+      var modalInstance = $modal.open({
+        animate: true,
+        templateUrl: 'modules/openings/partials/change-opening.client.partial.html',
+        controller: 'ChangeOpeningModalController',
+        controllerAs: 'vm',
+        size: 'md',
+        resolve: {
+          currentOpening: function() {
+            return angular.copy(vm.application.opening);
+          }
+        }
+      });
+
+      modalInstance.result.then(function (result) {
+        vm.application.opening = result;
+      });
+
     }
 
     function uploadFile(file, type) {
@@ -85,13 +106,14 @@
         {title: 'Save Changes', method: vm.update, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
         {title: 'View', method: vm.view, type: 'button', style: 'btn-view'},
         {title: 'Cancel', method: vm.cancel, type: 'button', style: 'btn-cancel'},
-        {title: 'Delete', method: vm.remove, type: 'button', style: 'btn-delete'}
+        {title: 'Delete', method: vm.remove, type: 'button', style: 'btn-delete'},
+        {title: 'Change Opening', method: vm.changeOpening, type: 'button', style: 'btn-change'}
       ];
 
       var actions = Application.getActions(); // get the actions from the Model
       actions.splice(0, 3); // splice out the ones we don't want (were taking them all out here)
       actions = _.union(actions, controllerActions); // merge together actions defined in the controller with those from the Model
-      Navigation.actions.addMany(actions); // add the actions to the Navigation service
+      Navigation.actions.addMany(actions, true); // add the actions to the Navigation service
       Navigation.viewTitle.set('Manage Application'); // set the page title
     }
 

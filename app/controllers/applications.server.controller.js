@@ -421,6 +421,8 @@ exports.manage = function (req, res) {
       .catch(function (err) {
         sendResponse(err);
       });
+  } else {
+    addPhoneInterviewWorksheetFields();
   }
 
   function addPhoneInterviewWorksheetFields () {
