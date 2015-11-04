@@ -55,7 +55,7 @@
       code: 'native',
       description: 'American Indian or Alaskan Native',
       detail: 'Having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment'
-    },
+      },
       {
         code: 'asian',
         description: 'Asian',
@@ -64,9 +64,31 @@
       { code: 'black', description: 'Black or African American', detail: 'Having origins in any of the black racial groups of Africa' },
       { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander', detail: 'Having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands' },
       { code: 'white', description: 'White', detail:'A person having origins in any of the original peoples of Europe, the Middle East, or North Africa' },
-      { code: 'other', description: 'Other' }
+      { code: 'other', description: 'Other' },
+      { code: 'declined', description: 'Declined'}
     ];
 
+    vm.options.genders = [
+      { code: 'm', description: 'Male' },
+      { code: 'f', description: 'Female' },
+      { code: 'd', description: 'Declined' }
+    ];
+
+    vm.options.ethnicities = [
+      {
+      code: 'h',
+      description: 'Hispanic or Latino',
+      detail: 'Of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
+    },
+      {
+        code: 'n',
+        description: 'Not Hispanic or Latino'
+      },
+      {
+        code: 'd',
+        description: 'Declined to Answer'
+      }
+    ];
 
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
@@ -183,14 +205,31 @@
       Eoe.query()
           .$promise
           .then(function(result) {
-                vm.eoeData = { byGender: {} };
-                 _.forEach(['m','f','d'], function(gender) {
+                vm.eoeData = { byGender: {}, byEthnicity: {}, byRace: { 'multiple': 0, 'declined' : 0} };
+                 _.forEach(vm.options.genders, function(gender) {
                    var genderCount=_.size(_.filter(result, function(rec) {
-                     return rec.gender === gender;
+                     return rec.gender === gender.code;
                    }));
-                   console.log(gender + ' count is ' + genderCount);
-                   vm.eoeData.byGender[gender] = genderCount;
-                 })
+                   console.log(gender.description + ' count is ' + genderCount);
+                   vm.eoeData.byGender[gender.code] = genderCount;
+                 });
+                _.forEach(vm.options.ethnicities, function(ethnicity) {
+                  var ethnicityCount=_.size(_.filter(result, function(rec) {
+                    return rec.ethnicity === ethnicity.code;
+                  }));
+                  console.log(ethnicity.description + ' count is ' + ethnicityCount);
+                  vm.eoeData.byEthnicity[ethnicity.code] = ethnicityCount;
+                });
+                _.forEach(vm.options.races, function(race) {
+                  var raceCount=_.size(_.filter(result, function(rec) {
+                    return rec.race[race.code] === true;
+                  }));
+                  console.log(race.description + ' count is ' + raceCount);
+                  vm.eoeData.byRace[race.code] = raceCount;
+                });
+                vm.eoeData.byRace.multiple = _.size(_.filter(result, function(rec) {
+                    return _.size(_.keys(_.pick(rec.race, _.identity))) > 1;
+                  }));
             //new CollectionModel('EoeController', result, vm.columnDefinitions, initialSortOrder)
             //    .then(function(collection) {
             //      vm.collection = collection;

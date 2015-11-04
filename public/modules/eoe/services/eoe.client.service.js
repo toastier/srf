@@ -16,6 +16,24 @@
       }
     });
 
+    var valueOptions = {
+      ethnicities: [{
+        code: 'h',
+        description: 'Hispanic or Latino',
+        detail: 'Of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
+        },
+        {
+          code: 'n',
+          description: 'Not Hispanic or Latino'
+        },
+        {
+          code: 'd',
+          description: 'Declined to Answer'
+        }
+          ]
+
+    };
+
     var methods = {
       editThisEoe: function () {
         $state.go('main.editEoe', {eoeId: $stateParams.eoeId});

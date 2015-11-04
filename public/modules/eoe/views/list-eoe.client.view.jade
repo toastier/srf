@@ -17,6 +17,7 @@ section
           //  .row
           //    .col-xs-12
           //      button.btn.btn-default.btn-undo(ng-click="vm.collection.clearFilters()") Clear Filters
+  p (All applications)
   table
     thead
       tr
@@ -26,4 +27,24 @@ section
       tr(data-ng-repeat='(key, value) in vm.eoeData.byGender')
         td.col-xs-6 {{ key }}
         td.col-xs-6 {{ value }}
+  table
+    thead
+      tr
+        th Ethnicity
+        th Count
+    tbody
+      tr(data-ng-repeat='(key, value) in vm.eoeData.byEthnicity')
+        td.col-xs-6 {{ key }}
+        td.col-xs-6 {{ value }}
+  table
+    thead
+      tr
+        th Race
+        th Count
+    tbody
+      tr(data-ng-repeat='(key, value) in vm.eoeData.byRace')
+        td.col-xs-6 {{ key }}
+        td.col-xs-6 {{ value }}
+
+
 

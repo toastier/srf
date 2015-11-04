@@ -91,7 +91,7 @@ exports.create = function(req, res) {
  * List of Eoe
  */
 exports.list = function(req, res) {
-	EoeDemographic.find({"opening" : "561410fc5a6e72be05f95c76"})
+	EoeDemographic.find()
 	.sort('-postDate')
 	.populate('opening')
 	.exec(function(err, eoe) {
