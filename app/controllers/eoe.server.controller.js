@@ -91,18 +91,56 @@ exports.create = function(req, res) {
  * List of Eoe
  */
 exports.list = function(req, res) {
+	var eoeDataSet = [
+		{type : "demographic", data : {} },
+		{type : "disability", data : {} },
+		{type : "veteran", data : {} },1
+	];
+
+	var eoeDataSetAdd = function(subData, type) {
+		var i =  _.findIndex(eoeDataSet, function(subset) {
+			return subset.type === type;
+		});
+		eoeDataSet[i].data = subData;
+	};
+
 	EoeDemographic.find()
 	.sort('-postDate')
 	.populate('opening')
-	.exec(function(err, eoe) {
+	.exec(function(err, eoeDemographic) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoe);
-		}
-	});
+			eoeDataSetAdd(eoeDemographic, "demographic");
+			EoeDisability.find()
+				.sort('-postDate')
+				.populate('opening')
+				.exec(function(err, eoeDisability) {
+					if (err) {
+						return res.send(400, {
+							message: getErrorMessage(err)
+						});
+					} else {
+						eoeDataSetAdd(eoeDisability, "disability");
+						EoeVeteran.find()
+							.sort('-postDate')
+							.populate('opening')
+							.exec(function(err, eoeVeteran) {
+								if (err) {
+									return res.send(400, {
+										message: getErrorMessage(err)
+									});
+								} else {
+									eoeDataSetAdd(eoeVeteran, "veteran");
+									res.jsonp(eoeDataSet);
+								}
+						})
+					}
+				})
+			}
+		});
 };
 
 /**

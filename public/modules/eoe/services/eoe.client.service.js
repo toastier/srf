@@ -65,9 +65,6 @@
       },
       getActions: function () {
         var modelActions = [
-          {title: 'Create a New Eoe', method: methods.createEoe, type: 'button', style: 'btn-add'},
-          {title: 'View Eoe', method: methods.viewThisEoe, type: 'button', style: 'btn-view'},
-          {title: 'Edit Eoe', method: methods.editThisEoe, type: 'button', style: 'btn-edit'}
         ];
         return angular.copy(modelActions);
       }

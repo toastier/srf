@@ -4,7 +4,7 @@
     .module('eoe')
     .controller('ListEoeController', ListEoeController);
 
-  function ListEoeController($scope, $state, Navigation, Eoe, CollectionModel, Messages, resolvedAuth, _) {
+  function ListEoeController($scope, $state, Navigation, Eoe, Messages, resolvedAuth, _) {
     var vm = this;
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
@@ -89,87 +89,22 @@
         description: 'Declined to Answer'
       }
     ];
+    vm.options.disabilities = [
+        {
+        code: 'y',
+        description: 'Yes'
+      },
+        {
+          code: 'n',
+          description: 'No'
+        },
+        {
+          code: 'd',
+          description: 'Declined to Answer'
+        }
+      ];
 
-    /** @type ColumnDefinition[] **/
-    vm.columnDefinitions = [
-      {
-        field: 'opening.name',
-        label: 'Opening',
-        filterable: true
-      },
-      {
-        field: 'gender', label: 'Gender',
-          filterable: {
-            name: 'gender',
-            field: 'gender'
-          }
-      },
-     {
-        field: 'ethnicity', label: 'Hispanic',
-          filterable: {
-            name: 'hispanic',
-            field: 'hispanic'
-          }
-      },
-     {
-        field: 'race.black', label: 'Black', format: 'checkMark',
-          filterable: {
-            name: 'black',
-            field: 'black',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.multiple', label: 'Multiple', format: 'checkMark',
-          filterable: {
-            name: 'multiple',
-            field: 'multiple',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.white', label: 'White', format: 'checkMark',
-          filterable: {
-            name: 'white',
-            field: 'white',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.pacific', label: 'Pacific', format: 'checkMark',
-          filterable: {
-            name: 'pacific',
-            field: 'pacific',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.native', label: 'Native', format: 'checkMark',
-          filterable: {
-            name: 'native',
-            field: 'native',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.other', label: 'Other', format: 'checkMark',
-          filterable: {
-            name: 'other',
-            field: 'other',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.declined', label: 'Declined', format: 'checkMark',
-          filterable: {
-            name: 'declined',
-            field: 'declined',
-            matchType: 'trueFalse'
-          }
-      }
-    ];
 
-    var initialSortOrder = ['+opening'];
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
@@ -183,51 +118,36 @@
 
     function activate () {
       $scope._ = _;
-      // if the user is not logged in, or is logged in but doesn't have rights
-      //if(!vm.user._id || !vm.user.hasRole(['admin', 'committee member'])) {
-      //  // modify the columnDefinitions to limit what they see, remove 'active' and 'posting'
-      //  vm.columnDefinitions.splice(3,2);
-      //  Eoe.listCurrent().$promise
-      //      .then(function (result) {
-      //
-      //        new CollectionModel('ListEoeControllerPublic', result, vm.columnDefinitions, initialSortOrder)
-      //            .then(function (collection) {
-      //              vm.collection = collection;
-      //            });
-      //      })
-      //      .catch(function (err) {
-      //        Messages.addMessage(err.data.message, 'error');
-      //      });
-      //  setupPublicNavigation();
-      //  return 'done';
-      //}
 
       Eoe.query()
           .$promise
           .then(function(result) {
+                var demographicData = (_.find(result, function(data) {
+                  return data.type = "demographic";
+                })).data;
                 vm.eoeData = { byGender: {}, byEthnicity: {}, byRace: { 'multiple': 0, 'declined' : 0} };
                  _.forEach(vm.options.genders, function(gender) {
-                   var genderCount=_.size(_.filter(result, function(rec) {
+                   var genderCount=_.size(_.filter(demographicData, function(rec) {
                      return rec.gender === gender.code;
                    }));
                    console.log(gender.description + ' count is ' + genderCount);
                    vm.eoeData.byGender[gender.code] = { "count": genderCount, "label" : gender.description};
                  });
                 _.forEach(vm.options.ethnicities, function(ethnicity) {
-                  var ethnicityCount=_.size(_.filter(result, function(rec) {
+                  var ethnicityCount=_.size(_.filter(demographicData, function(rec) {
                     return rec.ethnicity === ethnicity.code;
                   }));
                   console.log(ethnicity.description + ' count is ' + ethnicityCount);
                   vm.eoeData.byEthnicity[ethnicity.code] = {"count" : ethnicityCount, "label" : ethnicity.description};
                 });
                 _.forEach(vm.options.races, function(race) {
-                  var raceCount=_.size(_.filter(result, function(rec) {
+                  var raceCount=_.size(_.filter(demographicData, function(rec) {
                     return rec.race[race.code] === true;
                   }));
                   console.log(race.description + ' count is ' + raceCount);
                   vm.eoeData.byRace[race.code] = { "count" : raceCount, "label" : race.description };
                 });
-                vm.eoeData.byRace.multiple = _.size(_.filter(result, function(rec) {
+                vm.eoeData.byRace.multiple = _.size(_.filter(demographicData, function(rec) {
                     return _.size(_.keys(_.pick(rec.race, _.identity))) > 1;
                   }));
             //new CollectionModel('EoeController', result, vm.columnDefinitions, initialSortOrder)

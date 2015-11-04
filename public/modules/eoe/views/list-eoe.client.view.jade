@@ -1,5 +1,6 @@
 section
   navigation
+  p(All applications)
   .row
     .col-xs-12
       .angular-filtering
@@ -18,40 +19,54 @@ section
           //    .col-xs-12
           //      button.btn.btn-default.btn-undo(ng-click="vm.collection.clearFilters()") Clear Filters
   .container
-    p(All applications)
-    table.table-bordered.table-striped.col-xs-12.col-md-8
-      thead
-        tr
-          th.col-xs-8 Gender
-          th.col-xs-4
-            span.pull-right Count
-      tbody
-        tr(data-ng-repeat='(key, value) in vm.eoeData.byGender')
-          td.col-xs-8 {{ value.label }}
-          td.col-xs-4
-            span.pull-right {{ value.count }}
-    table.table-bordered.table-striped.col-xs-12.col-md-8
-      thead
-        tr
-          th.col-xs-8 Ethnicity
-          th.col-xs-4
-            span.pull-right Count
-      tbody
-        tr(data-ng-repeat='(key, value) in vm.eoeData.byEthnicity')
-          td.col-xs-8 {{ value.label }}
-          td.col-xs-4
-            span.pull-right {{ value.count }}
-    table.table-bordered.table-striped.col-xs-12.col-md-8
-      thead
-        tr
-          th.col-xs-8 Race
-          th.col-xs-4
-            span.pull-right Count
-      tbody
-        tr(data-ng-repeat='(key, value) in vm.eoeData.byRace')
-          td.col-xs-8 {{ value.label }}
-          td.col-xs-4
-            span.pull-right {{ value.count }}
+    .panel-body
+      table.table-bordered.table-striped.col-xs-12.col-md-8
+        thead
+          tr
+            th.col-xs-8 Gender
+            th.col-xs-4
+              span.pull-right Count
+        tbody
+          tr(data-ng-repeat='(key, value) in vm.eoeData.byGender')
+            td.col-xs-8 {{ value.label }}
+            td.col-xs-4
+              span.pull-right {{ value.count }}
+    .panel-body
+      table.table-bordered.table-striped.col-xs-12.col-md-8
+        thead
+          tr
+            th.col-xs-8 Ethnicity
+            th.col-xs-4
+              span.pull-right Count
+        tbody
+          tr(data-ng-repeat='(key, value) in vm.eoeData.byEthnicity')
+            td.col-xs-8 {{ value.label }}
+            td.col-xs-4
+              span.pull-right {{ value.count }}
+    .panel-body
+      table.table-bordered.table-striped.col-xs-12.col-md-8
+        thead
+          tr
+            th.col-xs-8 Race
+            th.col-xs-4
+              span.pull-right Count
+        tbody
+          tr(data-ng-repeat='(key, value) in vm.eoeData.byRace')
+            td.col-xs-8 {{ value.label }}
+            td.col-xs-4
+              span.pull-right {{ value.count }}
+    .panel-body
+      table.table-bordered.table-striped.col-xs-12.col-md-8
+        thead
+          tr
+            th.col-xs-8 Disability Status
+            th.col-xs-4
+              span.pull-right Count
+        tbody
+          tr(data-ng-repeat='(key, value) in vm.eoeData.byDisabilityStatus')
+            td.col-xs-8 {{ value.label }}
+            td.col-xs-4
+              span.pull-right {{ value.count }}
 
 
 
