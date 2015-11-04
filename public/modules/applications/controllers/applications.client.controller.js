@@ -77,7 +77,11 @@
       Navigation.clear(); // clear everything in the Navigation
 
       var actions = Application.getActions(); // get the actions from the Model
-      actions.splice(1, 2); // splice out the ones we don't want (were taking them all out here)
+      if (vm.user.hasRole(['admin', 'manager'])) {
+        actions.splice(1, 2); // splice out the ones we don't want (leaving Create New Application)
+      } else {
+        actions = []; // not an admin or manager, so we just set actions to an empty array;
+      }
 
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
       Navigation.viewTitle.set('Applications'); // set the page title

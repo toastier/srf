@@ -36,11 +36,6 @@ var applicantModel = new Schema({
     focalAreas: [{
       focalArea: {type: String}
     }],
-    resume: {
-      dateUploaded: {type: Date},
-      link: {type: String},
-      note: {type: String}
-    },
     emailAddresses: [{
       emailAddress: {type: String},
       primary: {type: Boolean},
@@ -62,10 +57,6 @@ var applicantModel = new Schema({
       country: {type: String}, //TODO enumlist
       primary: {type: Boolean}
     }],
-    source: {
-      primary: {type: String, default: 'Not specified'},
-      specific: {type: String}
-    },
     dateCreated: {
       type: Date,
       default: Date.now

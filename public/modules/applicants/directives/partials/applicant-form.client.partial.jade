@@ -1,88 +1,98 @@
 ng-form(novalidate='')
-  .row
-    .form-group.col-md-1
-      label.control-label(for='honorific') Hon.
-      .controls
-        input#honorific.form-control(type='text', data-ng-model='vm.applicant.name.honorific', required='')
-    .form-group.col-md-4
-      label.control-label(for='first-name') First Name
-      .controls
-        input#first-name.form-control(type='text', data-ng-model='vm.applicant.name.firstName', required='')
-    .form-group.col-md-2
-      label.control-label(for='middle-name') Middle
-      .controls
-        input#middle-name.form-control(type='text', data-ng-model='vm.applicant.name.middleName')
-    .form-group.col-md-4
-      label.control-label(for='last-name') Last Name
-      .controls
-        input#last-name.form-control(type='text', data-ng-model='vm.applicant.name.lastName', required='')
-    .form-group.col-md-1
-      label.control-label(for='suffix') Suff
-      .controls
-        input#suffix.form-control(type='text', data-ng-model='vm.applicant.name.suffix')
+  .panel.panel-default
+    .panel-heading
+      h4 Contact Information
+    .panel-body
+      .form-group.col-md-2
+        label.control-label(for='honorific') Hon.
+        .controls
+          input#honorific.form-control(type='text', data-ng-model='vm.applicant.name.honorific', required='')
+      .form-group.col-md-3
+        label.control-label(for='first-name') First Name
+        .controls
+          input#first-name.form-control(type='text', data-ng-model='vm.applicant.name.firstName', required='')
+      .form-group.col-md-2
+        label.control-label(for='middle-name') Middle
+        .controls
+          input#middle-name.form-control(type='text', data-ng-model='vm.applicant.name.middleName')
+      .form-group.col-md-4
+        label.control-label(for='last-name') Last Name
+        .controls
+          input#last-name.form-control(type='text', data-ng-model='vm.applicant.name.lastName', required='')
+      .form-group.col-md-1
+        label.control-label(for='suffix') Suff
+        .controls
+          input#suffix.form-control(type='text', data-ng-model='vm.applicant.name.suffix')
   .row
     .col-xs-12
-      //h2 Contact Information
       .row
         .col-md-6
-          h3 Email Address&nbsp;
-            a.with-icon.no-text.add(ng-click="vm.applicant.addEmailAddress()")
-          .item-group(ng-repeat="emailAddress in vm.applicant.emailAddresses")
-            .item-group-actions
-              i.fa.fa-times-circle(ng-click="vm.applicant.removeEmailAddress(emailAddress)")
-            .item-group-contents.single-row
-              .row
-                .form-group.col-md-8
-                  input.form-control(type="text", ng-model="emailAddress.emailAddress")
-                .form-group.col-md-4.checkbox-inline
-                  label.checkbox
-                    input(type="checkbox", ng-model="emailAddress.primary")
-                    | Primary?
+          .panel.panel-default
+            .panel-heading
+              h4 Email Addresses&nbsp;
+                a.with-icon.no-text.add(ng-click="vm.applicant.addEmailAddress()")
+            .panel-body
+              .item-group(ng-repeat="emailAddress in vm.applicant.emailAddresses")
+                .item-group-actions
+                  i.fa.fa-times-circle(ng-click="vm.applicant.removeEmailAddress(emailAddress)")
+                .item-group-contents.single-row
+                  .row
+                    .form-group.col-md-8
+                      input.form-control(type="text", ng-model="emailAddress.emailAddress")
+                    .form-group.col-md-4.checkbox-inline
+                      label.checkbox
+                        input(type="checkbox", ng-model="emailAddress.primary")
+                        | Primary?
         .col-md-6
-          h3 Phone Numbers&nbsp;
-            a.with-icon.no-text.add(ng-click="vm.applicant.addPhoneNumber()")
-          .item-group(ng-repeat="phoneNumber in vm.applicant.phoneNumbers")
-            .item-group-actions
-              i.fa.fa-times-circle(ng-click="vm.applicant.removePhoneNumber(phoneNumber)")
-            .item-group-contents.single-row
-              .row
-                .form-group.col-md-8
-                  input#phone-number.form-control(type='text', data-ng-model='phoneNumber.phoneNumber', required)
-                .form-group.col-md-4.checkbox-inline
-                  label.checkbox
-                    input(type="checkbox", ng-model="phoneNumber.primary")
-                    | Primary?
-      .row
-        .col-md-12
-          h3 Addresses&nbsp;
-            a.with-icon.no-text.add(ng-click="vm.applicant.addAddress()")
-          .item-group(ng-repeat="address in vm.applicant.addresses")
-            .item-group-actions
-              i.fa.fa-times-circle(ng-click="vm.applicant.removeAddress(address)")
-            .item-group-contents
-              .row
-                .form-group.col-md-12
-                  label.control-label(for='address1') Address
-                  input#address1.form-control(type='text', data-ng-model='address.address1', required='')
-                  input#address2.form-control(type='text', data-ng-model='address.address2', required='')
-              .row
-                .form-group.col-md-5
-                  label.control-label(for='city') City
-                  input#city.form-control(type='text', data-ng-model='address.city', required='')
-                .form-group.col-md-4
-                  label.control-label(for='state') State
-                  input#state.form-control(type='text', data-ng-model='address.state', required='')
-                .form-group.col-md-3
-                  label.control-label(for='postal-code') Postal Code
-                  input#postal-code.form-control(type='text', data-ng-model='address.postalCode', required='')
-              .row
-                .form-group.col-md-12
-                  label.control-label(for='country') Country
-                  input#country.form-control(type='text', data-ng-model='address.country', value='United States', required='')
-  .row
-    .col-md-12
-      h3 Credentials&nbsp;
+          .panel.panel-default
+            .panel-heading
+              h4 Phone Numbers&nbsp;
+                a.with-icon.no-text.add(ng-click="vm.applicant.addPhoneNumber()")
+            .panel-body
+              .item-group(ng-repeat="phoneNumber in vm.applicant.phoneNumbers")
+                .item-group-actions
+                  i.fa.fa-times-circle(ng-click="vm.applicant.removePhoneNumber(phoneNumber)")
+                .item-group-contents.single-row
+                  .row
+                    .form-group.col-md-8
+                      input#phone-number.form-control(type='text', data-ng-model='phoneNumber.phoneNumber', required)
+                    .form-group.col-md-4.checkbox-inline
+                      label.checkbox
+                        input(type="checkbox", ng-model="phoneNumber.primary")
+                        | Primary?
+  .panel.panel-default
+    .panel-heading
+      h4 Addresses&nbsp;
+        a.with-icon.no-text.add(ng-click="vm.applicant.addAddress()")
+    .panel-body
+      .item-group(ng-repeat="address in vm.applicant.addresses")
+        .item-group-actions
+          i.fa.fa-times-circle(ng-click="vm.applicant.removeAddress(address)")
+        .item-group-contents
+          .row
+            .form-group.col-md-12
+              label.control-label(for='address1') Address
+              input#address1.form-control(type='text', data-ng-model='address.address1', required='')
+              input#address2.form-control(type='text', data-ng-model='address.address2', required='')
+          .row
+            .form-group.col-md-5
+              label.control-label(for='city') City
+              input#city.form-control(type='text', data-ng-model='address.city', required='')
+            .form-group.col-md-4
+              label.control-label(for='state') State
+              input#state.form-control(type='text', data-ng-model='address.state', required='')
+            .form-group.col-md-3
+              label.control-label(for='postal-code') Postal Code
+              input#postal-code.form-control(type='text', data-ng-model='address.postalCode', required='')
+          .row
+            .form-group.col-md-12
+              label.control-label(for='country') Country
+              input#country.form-control(type='text', data-ng-model='address.country', value='United States', required='')
+  .panel.panel-default
+    .panel-heading
+      h4 Credentials&nbsp;
         a.with-icon.no-text.add(ng-click="vm.applicant.addCredential()")
+    .panel-body
       .item-group(ng-repeat="credential in vm.applicant.credentials")
         .item-group-actions
           i.fa.fa-times-circle(ng-click="vm.applicant.removeCredential(credential)")
@@ -97,10 +107,11 @@ ng-form(novalidate='')
             .form-group.col-md-3
               label.control-label(for='year') Year
               input#year.form-control(type='number', data-ng-model='credential.year', required='')
-  .row
-    .col-md-12
-      h3 Positions&nbsp;
+  .panel.panel-default
+    .panel-heading
+      h4 Positions&nbsp;
         a.with-icon.no-text.add(ng-click="vm.applicant.addApplicantPosition()")
+    .panel-body
       .item-group(ng-repeat="position in vm.applicant.applicantPositions")
         .item-group-actions
           i.fa.fa-times-circle(ng-click="vm.applicant.removeApplicantPosition(position)")
@@ -129,25 +140,11 @@ ng-form(novalidate='')
             .form-group.col-md-3
               label.control-label Country
               input.form-control(type="text", ng-model="position.institution.country", required)
-  .row
-    .col-md-12
-      h3 Focal Areas
-    .col-md-12
-      ui-select(multiple ng-model="vm.applicant.focalAreas",  style="width: 300px;")
-        ui-select-match(placeholder="Select Focal Areas") {{$item.focalArea}}
-        ui-select-choices(repeat="option in vm.options.focalAreas | filter:$select.search") {{option.focalArea}}
-
-  .row
-    .col-md-12
-      h3 Referral Source
-      .row
-        .col-md-6.form-group
-          label.control-label(for='primary') Primary
-          select#primary.form-control(data-ng-model='vm.applicant.source.primary', required='')
-            option DUSON posting
-            option Internet posting
-            option Personal
-            option Other
-        .col-md-6.form-group
-          label.control-label(for='specific') Specific
-          input#specific.form-control(type='text', data-ng-model='vm.applicant.source.specific', required='')
+  .panel.panel-default
+    .panel-heading
+      h4 Focal Areas
+    .panel-body
+      .col-md-12
+        ui-select(multiple ng-model="vm.applicant.focalAreas",  style="width: 300px;")
+          ui-select-match(placeholder="Select Focal Areas") {{$item.focalArea}}
+          ui-select-choices(repeat="option in vm.options.focalAreas | filter:$select.search") {{option.focalArea}}

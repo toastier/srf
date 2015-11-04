@@ -329,6 +329,45 @@ exports.deleteComment = function(req, res) {
 exports.forOpening = function (req, res, next) {
   var isActive = (req.params.isActive === 'true');
   var query = Application.find({opening: req.params.opening});
+  query = addActiveConditionsToQuery(query, isActive);
+
+  query
+    .exec(function(err, applications) {
+      if (err) {
+        return next(err);
+      }
+      res.jsonp(applications);
+    });
+};
+
+/**
+ * Find and send JSON array of applications for an Applicant
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.forApplicant = function (req, res, next) {
+  var isActive = (req.params.isActive === 'true');
+  var query = Application.find({applicant: req.params.applicant});
+  query = addActiveConditionsToQuery(query, isActive);
+
+  query
+    .populate('opening')
+    .exec(function(err, applications) {
+      if (err) {
+        return next(err);
+      }
+      res.jsonp(applications);
+    });
+};
+
+/**
+ * Adds conditions (.where) to the query passed in which will limit results to either active or inactive Applications
+ * @param {Query} query
+ * @param isActive
+ * @returns {*}
+ */
+function addActiveConditionsToQuery(query, isActive) {
   if (isActive) {
     query = query
       .where('proceedToReview').ne(false)
@@ -337,27 +376,20 @@ exports.forOpening = function (req, res, next) {
   } else {
     query = query
       .or([
-        {proceedToReview: false},
+        {'proceedToReview': false},
         {'reviewPhase.proceedToPhoneInterview': false},
         {'phoneInterviewPhase.proceedToOnSite': false}
       ]);
   }
-
-  query
-    .exec(function(err, opening) {
-      if (err) {
-        next(err);
-      } else {
-        res.jsonp(opening);
-      }
-    });
-};
+  return query;
+}
 
 /**
  * Find and return an existing Application for the authenticated User and given Opening if one exists. Otherwise return
  * empty
  * @param req
  * @param res
+ * @param next
  */
 exports.forOpeningForUser = function (req, res, next) {
   Application.findOne({user: req.user._id, opening: req.opening._id})

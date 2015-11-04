@@ -103,6 +103,9 @@
      * @type {{listOpenings: Function, getActions: Function}}
      */
     var modelMethods = {
+      viewOpening: function(opening) {
+        $state.go('main.viewOpening', {openingId: opening._id});
+      },
       listCurrentOpenings: function() {
         $state.go('main.listCurrentOpenings');
       },

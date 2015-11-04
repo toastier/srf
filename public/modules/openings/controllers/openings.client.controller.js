@@ -87,7 +87,11 @@
       Navigation.clear(); // clear everything in the Navigation
 
       var actions = Opening.getActions(); // get the actions from the Model
-      actions.splice(1, 2); // splice out the ones we don't want (were taking them all out here)
+      if (vm.user.hasRole(['admin', 'manager'])) {
+        actions.splice(1, 2); // splice out the ones we don't want (leaving create for admin or manager)
+      } else {
+        actions = []; // not admin or manager, so we set actions to an empty array - nothing for you here....
+      }
 
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
       Navigation.viewTitle.set('Openings'); // set the page title
@@ -104,7 +108,7 @@
     function activate () {
 
       // if the user is not logged in, or is logged in but doesn't have rights
-      if(!vm.user._id || !vm.user.hasRole(['admin', 'committee member'])) {
+      if(!vm.user._id || !vm.user.hasRole(['admin', 'manager', 'committee member'])) {
         // modify the columnDefinitions to limit what they see, remove 'active' and 'posting'
         vm.columnDefinitions.splice(3,2);
         Opening.listCurrent().$promise

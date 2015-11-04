@@ -8,6 +8,7 @@
     var vm = this;
     vm.user = resolvedAuth;
     vm.createApplicationForApplicant = createApplicationForApplicant;
+    vm.showContactInformation = showContactInformation;
 
     activate();
 
@@ -40,6 +41,15 @@
       Navigation.viewTitle.set('View Applicant'); // set the page title
     }
 
+    function showContactInformation() {
+      return (
+        vm.applicant.addresses.length ||
+          vm.applicant.phoneNumbers.length ||
+          vm.applicant.focalAreas.length ||
+          vm.applicant.emailAddresses.length ||
+          vm.applicant.applicantPositions.length ||
+          vm.applicant.credentials.length
+      );
+    }
   }
-
 })();

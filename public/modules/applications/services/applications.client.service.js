@@ -81,6 +81,15 @@
           isActive: '@isActive'
         },
         isArray: true
+      },
+      forApplicant: {
+        method: 'GET',
+        url: 'applications/forApplicant/:applicantId/:isActive',
+        params: {
+          applicantId: '@applicantId',
+          isActive: '@isActive'
+        },
+        isArray: true
       }
 
     });
