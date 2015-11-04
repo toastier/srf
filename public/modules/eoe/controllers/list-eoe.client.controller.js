@@ -104,11 +104,38 @@
         }
       ];
 
+    vm.options.veterans = [
+      {
+        code: 'yes-id',
+        description: 'Yes, identify as veteran'
+      },
+      {
+        code: 'yes-not-id',
+        description: 'Yes, but do not identify'
+      },
+      {
+        code: 'no',
+        description: 'No'
+      },
+      {
+        code: 'declined',
+        description: 'Declined to Answer'
+      }
+    ];
+
+    vm.options.vetClasses = [
+      { code: 'disabled', description: 'Disabled Veteran' },
+      { code: 'recent', description: 'Recently Separated Veteran', detail: 'Discharged or released from active duty within 36 months' },
+      { code: 'active', description: 'Active Duty Wartime or Campaign Badge Veteran', detail: 'Served on active duty in the U.S. military during a war or in a campaign or expedition for which a campaign badge is awarded' },
+      { code: 'medal', description: 'Armed Forces Service Medal Veteran', detail: 'While serving on active duty in the Armed Forces, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.' }
+    ];
+
     vm.eoeData = {
       byGender: {},
       byEthnicity: {},
       byRace: { 'multiple': 0, 'declined' : 0},
-      byDisability: {}
+      byDisability: {},
+      byVeteran: {}
     };
 
     function parseDemographic(result) {
@@ -155,9 +182,17 @@
     }
 
     function parseVeteran(result) {
-
+      var veteranData = (_.find(result, function(data) {
+        return data.type === "veteran";
+      })).data;
+      _.forEach(vm.options.veterans, function(option) {
+        var veteranCount=_.size(_.filter(veteranData, function(rec) {
+          return rec.veteran === option.code;
+        }));
+        console.log(option.description + ' count is ' + veteranCount);
+        vm.eoeData.byVeteran[option.code] = { "count": veteranCount, "label" : option.description};
+      });
     }
-
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
