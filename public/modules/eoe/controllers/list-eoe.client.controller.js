@@ -160,7 +160,7 @@
     }
 
     function activate () {
-
+      $scope._ = _;
       // if the user is not logged in, or is logged in but doesn't have rights
       //if(!vm.user._id || !vm.user.hasRole(['admin', 'committee member'])) {
       //  // modify the columnDefinitions to limit what they see, remove 'active' and 'posting'
@@ -183,7 +183,14 @@
       Eoe.query()
           .$promise
           .then(function(result) {
-                  vm.eoeData = result;
+                vm.eoeData = { byGender: {} };
+                 _.forEach(['m','f','d'], function(gender) {
+                   var genderCount=_.size(_.filter(result, function(rec) {
+                     return rec.gender === gender;
+                   }));
+                   console.log(gender + ' count is ' + genderCount);
+                   vm.eoeData.byGender[gender] = genderCount;
+                 })
             //new CollectionModel('EoeController', result, vm.columnDefinitions, initialSortOrder)
             //    .then(function(collection) {
             //      vm.collection = collection;
