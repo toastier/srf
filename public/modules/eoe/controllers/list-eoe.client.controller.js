@@ -211,21 +211,21 @@
                      return rec.gender === gender.code;
                    }));
                    console.log(gender.description + ' count is ' + genderCount);
-                   vm.eoeData.byGender[gender.code] = genderCount;
+                   vm.eoeData.byGender[gender.code] = { "count": genderCount, "label" : gender.description};
                  });
                 _.forEach(vm.options.ethnicities, function(ethnicity) {
                   var ethnicityCount=_.size(_.filter(result, function(rec) {
                     return rec.ethnicity === ethnicity.code;
                   }));
                   console.log(ethnicity.description + ' count is ' + ethnicityCount);
-                  vm.eoeData.byEthnicity[ethnicity.code] = ethnicityCount;
+                  vm.eoeData.byEthnicity[ethnicity.code] = {"count" : ethnicityCount, "label" : ethnicity.description};
                 });
                 _.forEach(vm.options.races, function(race) {
                   var raceCount=_.size(_.filter(result, function(rec) {
                     return rec.race[race.code] === true;
                   }));
                   console.log(race.description + ' count is ' + raceCount);
-                  vm.eoeData.byRace[race.code] = raceCount;
+                  vm.eoeData.byRace[race.code] = { "count" : raceCount, "label" : race.description };
                 });
                 vm.eoeData.byRace.multiple = _.size(_.filter(result, function(rec) {
                     return _.size(_.keys(_.pick(rec.race, _.identity))) > 1;
