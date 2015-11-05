@@ -154,7 +154,7 @@
       if (vm.opening !== "all") {
          demographicData = _.filter(demographicData, function(rec) {
            console.log(rec._id);
-          return (rec.opening._id === opening);
+          return (rec.opening._id === vm.opening);
         });
       };
       _.forEach(vm.options.genders, function(gender) {
@@ -183,10 +183,20 @@
       }));
     }
 
-    function parseDisability(result) {
+    function parseDisability(result, opening) {
       var disabilityData = (_.find(result, function(data) {
         return data.type === "disability";
       })).data;
+      if (vm.opening !== "all") {
+        disabilityData = _.filter(disabilityData, function(rec) {
+          if (rec.opening) {
+            return (rec.opening._id === vm.opening);
+          }
+          else {
+            return false;
+          }
+        });
+      };
       _.forEach(vm.options.disabilities, function(option) {
         var disabilityCount=_.size(_.filter(disabilityData, function(rec) {
           return rec.disability === option.code;
@@ -227,7 +237,7 @@
           .then(function(result) {
                vm.rawData = result;
                parseDemographic(result, vm.opening);
-               parseDisability(result);
+               parseDisability(result, vm.opening);
                parseVeteran(result);
           });
 
