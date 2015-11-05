@@ -210,6 +210,16 @@
       var veteranData = (_.find(result, function(data) {
         return data.type === "veteran";
       })).data;
+      if (vm.opening !== "all") {
+        veteranData = _.filter(veteranData, function(rec) {
+          if (rec.opening) {
+            return (rec.opening._id === vm.opening);
+          }
+          else {
+            return false;
+          }
+        });
+      };
       _.forEach(vm.options.veterans, function(option) {
         var veteranCount=_.size(_.filter(veteranData, function(rec) {
           return rec.veteran === option.code;
