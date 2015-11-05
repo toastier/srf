@@ -5,4 +5,4 @@
     .account-tools(ng-if="footer.user._id") Logged in as {{ footer.user.displayName }}
       a.btn.btn-sm.btn-logout(ng-href="/auth/signout") logout
     .account-tools(ng-if="!footer.user._id")
-      a.btn.btn-sm.btn-default.btn-login(ng-href="/auth/saml") Login
+      button.btn.btn-sm.btn-default.btn-login(ng-click="footer.signin()") Login
