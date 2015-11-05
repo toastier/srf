@@ -4,7 +4,7 @@
     .module('eoe')
     .controller('ListEoeController', ListEoeController);
 
-  function ListEoeController($scope, $state, Navigation, Eoe, Messages, resolvedAuth, _) {
+  function ListEoeController($scope, $state, Navigation, Eoe, Messages, Opening, resolvedAuth, _) {
     var vm = this;
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
@@ -14,6 +14,9 @@
     vm.isActiveNo = false;
     vm.setIsActive = setIsActive;
     vm.raceCount = raceCount;
+    vm.extractData = extractData;
+    vm.rawData = [];
+    vm.opening = "all";
     vm.options = { };
 
     function allowView () {
@@ -29,6 +32,12 @@
       return _.filter(eoeData, function(data) {
         return (data.race[code] === true)
       }).length;
+    }
+
+    function extractData() {
+      parseDemographic(vm.rawData, vm.opening);
+      parseDisability(vm.rawData);
+      parseVeteran(vm.rawData);
     }
 
     function setIsActive (source) {
@@ -138,13 +147,19 @@
       byVeteran: {}
     };
 
-    function parseDemographic(result) {
+    function parseDemographic(result, opening) {
       var demographicData = (_.find(result, function(data) {
-        return data.type = "demographic";
+        return (data.type === "demographic");
       })).data;
+      if (vm.opening !== "all") {
+         demographicData = _.filter(demographicData, function(rec) {
+           console.log(rec._id);
+          return (rec.opening._id === opening);
+        });
+      };
       _.forEach(vm.options.genders, function(gender) {
         var genderCount=_.size(_.filter(demographicData, function(rec) {
-          return rec.gender === gender.code;
+          return (rec.gender === gender.code);
         }));
         console.log(gender.description + ' count is ' + genderCount);
         vm.eoeData.byGender[gender.code] = { "count": genderCount, "label" : gender.description};
@@ -160,7 +175,7 @@
         var raceCount=_.size(_.filter(demographicData, function(rec) {
           return rec.race[race.code] === true;
         }));
-        console.log(race.description + ' count is ' + raceCount);
+        consolelog(race.description + ' count is ' + raceCount);
         vm.eoeData.byRace[race.code] = { "count" : raceCount, "label" : race.description };
       });
       vm.eoeData.byRace.multiple = _.size(_.filter(demographicData, function(rec) {
@@ -206,16 +221,29 @@
 
     function activate () {
       $scope._ = _;
-
+      getValueLists();
       Eoe.query()
           .$promise
           .then(function(result) {
-               parseDemographic(result);
+               vm.rawData = result;
+               parseDemographic(result, vm.opening);
                parseDisability(result);
                parseVeteran(result);
           });
+
       setupNavigation();
     }
+
+    function getValueLists() {
+      Opening.query().$promise
+          .then(function(result) {
+            vm.options.openings = result;
+          })
+          .catch(function(error) {
+            Messages.addMessage(error.data.message, 'error');
+          });
+    }
+
     function viewEoe (Eoe) {
       $state.go('main.viewEoe', { EoeId: Eoe._id });
     }
