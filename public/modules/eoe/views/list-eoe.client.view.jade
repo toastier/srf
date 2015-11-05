@@ -1,22 +1,91 @@
 section
   navigation
+  p(All applications)
+  .col-md-12
+    form.form-horizontal(novalidate='')
+      fieldset
+        .form-group.col-xs-12.col-md-6
+          label.control-label(for='opening') Opening
+          select#opening.form-control(ng-options="opening._id as opening.name for opening in vm.options.openings", ng-change="vm.extractData()", data-ng-model='vm.opening', required='')
+            option(value="all") --All Openings--
   .row
     .col-xs-12
       .angular-filtering
         .col-xs-12
-          ng-form
-            .row
-              .form-group.col-md-4
-                .input-group
-                  .input-group-addon Opening
-                  input.form-control(ng-model='vm.collection.filterCriteria.name', placeholder='Any', ng-change="vm.collection.filterCollection()")
-              .form-group.col-md-8
-                .input-group
-                  .input-group-addon Position
-                  input.form-control(ng-model='vm.collection.filterCriteria.details', placeholder='Any', ng-change="vm.collection.filterCollection()")
-            .row
-              .col-xs-12
-                button.btn.btn-default.btn-undo(ng-click="vm.collection.clearFilters()") Clear Filters
-  .row
-    .col-xs-12
-      du-table
+          //ng-form
+          //  .row
+          //    .form-group.col-md-4
+          //      .input-group
+          //        .input-group-addon Opening
+          //        input.form-control(ng-model='vm.collection.filterCriteria.name', placeholder='Any', ng-change="vm.collection.filterCollection()")
+          //    .form-group.col-md-8
+          //      .input-group
+          //        .input-group-addon Position
+          //        input.form-control(ng-model='vm.collection.filterCriteria.details', placeholder='Any', ng-change="vm.collection.filterCollection()")
+          //  .row
+          //    .col-xs-12
+          //      button.btn.btn-default.btn-undo(ng-click="vm.collection.clearFilters()") Clear Filters
+  .container
+    .panel-body
+      table.table-bordered.table-striped.col-xs-12.col-md-8
+        thead
+          tr
+            th.col-xs-8 Gender
+            th.col-xs-4
+              span.pull-right Count
+        tbody
+          tr(data-ng-repeat='(key, value) in vm.eoeData.byGender')
+            td.col-xs-8 {{ value.label }}
+            td.col-xs-4
+              span.pull-right {{ value.count }}
+    .panel-body
+      table.table-bordered.table-striped.col-xs-12.col-md-8
+        thead
+          tr
+            th.col-xs-8 Ethnicity
+            th.col-xs-4
+              span.pull-right Count
+        tbody
+          tr(data-ng-repeat='(key, value) in vm.eoeData.byEthnicity')
+            td.col-xs-8 {{ value.label }}
+            td.col-xs-4
+              span.pull-right {{ value.count }}
+    .panel-body
+      table.table-bordered.table-striped.col-xs-12.col-md-8
+        thead
+          tr
+            th.col-xs-8 Race
+            th.col-xs-4
+              span.pull-right Count
+        tbody
+          tr(data-ng-repeat='(key, value) in vm.eoeData.byRace')
+            td.col-xs-8 {{ value.label }}
+            td.col-xs-4
+              span.pull-right {{ value.count }}
+    .panel-body
+      table.table-bordered.table-striped.col-xs-12.col-md-8
+        thead
+          tr
+            th.col-xs-8 Disability Status
+            th.col-xs-4
+              span.pull-right Count
+        tbody
+          tr(data-ng-repeat='(key, value) in vm.eoeData.byDisability')
+            td.col-xs-8 {{ value.label }}
+            td.col-xs-4
+              span.pull-right {{ value.count }}
+    .panel-body
+      table.table-bordered.table-striped.col-xs-12.col-md-8
+        thead
+          tr
+            th.col-xs-8 Veteran Status
+            th.col-xs-4
+              span.pull-right Count
+        tbody
+          tr(data-ng-repeat='(key, value) in vm.eoeData.byVeteran')
+            td.col-xs-8 {{ value.label }}
+            td.col-xs-4
+              span.pull-right {{ value.count }}
+
+
+

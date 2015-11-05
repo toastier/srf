@@ -16,6 +16,9 @@ var eoeDemographicModel = new Schema({
         native: {
             type: Boolean
         },
+        asian: {
+            type: Boolean
+        },
         black: {
             type: Boolean
         },

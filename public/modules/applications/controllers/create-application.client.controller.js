@@ -4,7 +4,7 @@
     .module('applications')
     .controller('CreateApplicationController', CreateApplicationController);
   
-  function CreateApplicationController($scope, $state, $stateParams, resolvedAuth, Messages, Application, Applicant, Opening, Navigation, _ ) {
+  function CreateApplicationController($scope, $state, $stateParams, $location, resolvedAuth, Messages, Application, Applicant, Opening, Navigation, _ ) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.application = new Application();
@@ -129,7 +129,8 @@
       Application.update(vm.application).$promise
         .then(function (saveResponse) {
           Messages.addMessage('The Application for ' + saveResponse.firstName + ' ' + saveResponse.lastName + ' was Submitted.');
-          Opening.listCurrentOpenings();
+          //TODO convert this to an EOE method
+          $location.path('/eoe/' + saveResponse._id);
         })
         .catch(function (err) {
           vm.application.submitted = false;

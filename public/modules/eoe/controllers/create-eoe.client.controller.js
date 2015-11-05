@@ -9,31 +9,50 @@
     .module('eoe')
     .controller('CreateEoeController', CreateEoeController);
 
+
   /* @ngInject */
-  function CreateEoeController(Messages, Navigation, Opening, Eoe, _) {
-    /* jshint validthis: true */
-    var vm = this;
+  function CreateEoeController(Messages, Navigation, Application, Opening, Eoe, $state, $stateParams,  _) {
+      var vm = this;
+      Application.checkForExistingEoe({applicationId: $stateParams.applicationId}).$promise
+          .then(function(result) {
+                 if (result.eoeProvided) {
+                     console.log('The EOE flag value is ', result);
+                     Messages.addMessage('EOE data has already been submitted for this application and cannot be altered once submitted.');
+                     $state.go('main.listOpenings');
+                 }
+                 else {
 
-    vm.disableSaveButton = disableSaveButton;
-    vm.cancel = cancel;
-    vm.eoe = new Eoe();
-    vm.eoe.disability = 'Yes';
-    vm.saveEoe = saveEoe;
-    //vm.saveEoeDisability = saveEoeDisability;
-    vm.options = { };
-    vm.declineOff = declineOff;
-    vm.flagOff = flagOff;
-    vm.declineAnswer = declineAnswer;
-    vm.setSelection = setSelection;
+                      vm.disableSaveButton = disableSaveButton;
+                      vm.eoe = new Eoe();
+                      vm.saveEoe = saveEoe;
+                      vm.options = { };
+                      vm.declineOff = declineOff;
+                      vm.flagOff = flagOff;
+                      vm.declineAnswer = declineAnswer;
+                      vm.setSelection = setSelection;
+                      vm.setEoeProvided = setEoeProvided;
 
-    activate();
+                      activate();
 
-    function cancel() {
-      //Eoe.();
-    }
+                  }
+          });
 
 
-    function declineOff() {
+
+      function setEoeProvided(Application, $stateParams) {
+
+          Application.setEoeProvided({applicationId: $stateParams.applicationId}).$promise
+              .then(function() {
+                  console.log('Eoe Provided flag set.');
+              })
+              .catch(function (err) {
+                  Messages.addMessage(err.data.message, 'error');
+              });
+      }
+
+
+
+      function declineOff() {
       if (vm.eoe.race.declined === 'true') {
         for(var race in vm.eoe.race) {
           if (vm.eoe.race[race] === true) {
@@ -88,13 +107,13 @@
     }
 
     function getValueLists() {
-      Opening.query().$promise
-          .then(function(result) {
-            vm.options.openings = result;
-          })
-          .catch(function(error) {
-            Messages.addMessage(error.data.message, 'error');
-          });
+      //Opening.query().$promise
+      //    .then(function(result) {
+      //      vm.options.openings = result;
+      //    })
+      //    .catch(function(error) {
+      //      Messages.addMessage(error.data.message, 'error');
+      //    });
       vm.options.races = [{
           code: 'native',
           description: 'American Indian or Alaskan Native',
@@ -149,24 +168,28 @@
     }
 
     function saveEoe() {
-      console.log('Saving EOE...');
-      vm.eoe.$save()
-        .then(function (result) {
-          Messages.addMessage('The Eoe "' + result.name + '" was saved.', 'success');
-          Eoe.listEoe();
-        })
-        .catch(function (error) {
-          Messages.addMessage('There was a problem saving the Eoe ' + error.data.message, 'error');
-        });
-      //vm.eoeDisability.$save()
-      //  .then(function (result) {
-      //    Messages.addMessage('The Eoe disability data "' + result.name + '" was saved.', 'success');
-      //    //Eoe.listEoe();
-      //  })
-      //  .catch(function (error) {
-      //    Messages.addMessage('There was a problem saving the Eoe Disability ' + error.data.message, 'error');
-      //  });
-    }
+        Application.checkForExistingEoe({applicationId: $stateParams.applicationId})
+            .$promise
+            .then(function(result) {
+                if (result.eoeProvided) {
+                    Messages.addMessage('EOE data already submitted for this application');
+                    $state.go('main.listOpenings');
+                }
+                else {
+                    console.log('Saving EOE...');
+                    vm.eoe.applicationId = $stateParams.applicationId;
+                    Eoe.create(vm.eoe)
+                        .$promise
+                        .then(function (result) {
+                            Messages.addMessage('Thank you for submitted your confidential EOE information.');
+                            $state.go('main.listOpenings');
+                        })
+                        .catch(function (error) {
+                            Messages.addMessage('There was a problem saving the Eoe ' + error.data.message, 'error');
+                        });
+                }
+            })
+        }
 
     function calculateDates () {
       vm.eoe.calculateDates();
@@ -176,14 +199,9 @@
       vm.eoe.isActive = true;
     }
 
-    function toggleDatePicker(event, datePicker) {
-      var datePickerOpenName = datePicker + 'Open';
-      vm.datePickerStates[datePickerOpenName] = !vm.datePickerStates[datePickerOpenName];
-    }
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
-      //Navigation.breadcrumbs.add('Eoe', '#!/eoe', '#!/eoe'); // add a breadcrumb
       /** @type Array Actions we wish to add to the Navigation that we define locally **/
       var controllerActions = [
         {title: 'Submit', method: vm.saveEoe, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},

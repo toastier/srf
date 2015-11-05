@@ -65,6 +65,14 @@
         method: 'GET',
         url: 'applications/forOpeningForUser/:openingId'
       },
+      checkForExistingEoe : {
+        method: 'GET',
+        url: 'applications/eoeProvided/:applicationId'
+      },
+      setEoeProvided: {
+        method: 'PUT',
+        url: '/applications/:applicationId/setEoeProvided'
+      },
       removeFile: {
         method: 'PUT',
         url: 'applications/:applicationId/removeFile/:fileId',

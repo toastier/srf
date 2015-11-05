@@ -7,7 +7,6 @@ var mongoose = require('mongoose'),
 	EoeDemographic = mongoose.model('EoeDemographic'),
 	EoeDisability = mongoose.model('EoeDisability'),
 	EoeVeteran = mongoose.model('EoeVeteran'),
-	//errorHandler = 	require('./errors.server.controller'), //this doesn't work
 	_ = require('lodash');
 
 
@@ -36,74 +35,55 @@ var getErrorMessage = function(err) {
 };
 
 /**
- * Create a EOE Demographic record
+ * Create EOE records
  */
 // TODO use better method to parse out req.body
 exports.create = function(req, res) {
 	console.log('creating EOE record...');
-	req.body.opening = mongoose.Types.ObjectId('561410fc5a6e72be05f95c76');
-	console.log(req.body);
+	req.body.opening = req.application.opening._id;
 	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
-	//eoeDemographic.user = req.user;
 	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran', 'vetClass', 'vetDecline']));
 	var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
 	// TODO refactor this...it works but it's sloppy
-	eoeDemographic.save(function(err) {
+	eoeDemographic.save(function (err) {
 		if (err) {
 			return res.send(400, {
 				// this doesn't work, dumping errorHandler into its own controller
 				message: getErrorMessage(err)
 			});
 		} else {
-			eoeDisability.save(function(err) {
+			eoeDisability.save(function (err) {
 				if (err) {
 					return res.send(400, {
 						// this doesn't work, dumping errorHandler into its own controller
 						message: getErrorMessage(err)
 					});
 				} else {
-					eoeVeteran.save(function(err) {
+					eoeVeteran.save(function (err) {
 						if (err) {
 							return res.send(400, {
 								// this doesn't work, dumping errorHandler into its own controller
 								message: getErrorMessage(err)
 							});
 						} else {
-							res.jsonp((_.merge(eoeDemographic, [eoeDisability, eoeVeteran])));
+							var application = req.application;
+							application = _.extend(application, req.application.body);
+							application.eoeProvided = true;
+							application.save(function (err) {
+								if (err) {
+									return res.send(400, {
+										message: getErrorMessage(err)
+									});
+								} else {
+									res.jsonp((_.merge(eoeDemographic, [eoeDisability, eoeVeteran])));
+								}
+							});
 						}
 					});
 				}
 			});
-
 		}
 	});
-
-	/**
-	 * Create an EOE Disability record
-	 */
-
-	//eoeDisability.save(function(err) {
-	//	if (err) {
-	//		return res.send(400, {
-	//			// this doesn't work, dumping errorHandler into its own controller
-	//			message: getErrorMessage(err)
-	//		});
-	//	} else {
-	//		//res.jsonp(eoeDisability);
-	//	}
-	//});
-
-
-	//eoeVeteran.save(function(err) {
-	//	if (err) {
-	//		return res.send(400, {
-	//			// this doesn't work, dumping errorHandler into its own controller
-	//			message: getErrorMessage(err)
-	//		});
-	//	} else {
-	//		res.jsonp(eoeVeteran);
-	//	}
-	//});
 };
 
 
@@ -111,31 +91,62 @@ exports.create = function(req, res) {
  * List of Eoe
  */
 exports.list = function(req, res) {
+	var eoeDataSet = [
+		{type : "demographic", data : {} },
+		{type : "disability", data : {} },
+		{type : "veteran", data : {} },1
+	];
+
+	var eoeDataSetAdd = function(subData, type) {
+		var i =  _.findIndex(eoeDataSet, function(subset) {
+			return subset.type === type;
+		});
+		eoeDataSet[i].data = subData;
+	};
+
 	EoeDemographic.find()
 	.sort('-postDate')
 	.populate('opening')
-	.exec(function(err, eoe) {
+	.exec(function(err, eoeDemographic) {
 		if (err) {
 			return res.send(400, {
 				message: getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(eoe);
-		}
-	});
+			eoeDataSetAdd(eoeDemographic, "demographic");
+			EoeDisability.find()
+				.sort('-postDate')
+				.populate('opening')
+				.exec(function(err, eoeDisability) {
+					if (err) {
+						return res.send(400, {
+							message: getErrorMessage(err)
+						});
+					} else {
+						eoeDataSetAdd(eoeDisability, "disability");
+						EoeVeteran.find()
+							.sort('-postDate')
+							.populate('opening')
+							.exec(function(err, eoeVeteran) {
+								if (err) {
+									return res.send(400, {
+										message: getErrorMessage(err)
+									});
+								} else {
+									eoeDataSetAdd(eoeVeteran, "veteran");
+									res.jsonp(eoeDataSet);
+								}
+						})
+					}
+				})
+			}
+		});
 };
 
 /**
  * Eoe middleware
  */
-exports.eoeByID = function(req, res, next, id) {
-	Eoe.findById(id).populate('user', 'displayName').exec(function(err, eoe) {
-		if (err) return next(err);
-		if (!eoe) return next(new Error('Failed to load eoe ' + id));
-		req.eoe = eoe;
-		next();
-	});
-};
+
 
 /**
  * Eoe authorization middleware

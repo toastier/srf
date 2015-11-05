@@ -905,6 +905,28 @@ exports.update = function (req, res) {
 };
 
 /**
+* Return true if EOE already provided for Application
+* empty
+* @param req
+* @param res
+*/
+exports.eoeProvided = function (req, res) {
+    Application.findOne({_id: req.application._id})
+        .exec(function (err, application) {
+            console.log('executing eoeProvided for ', application._id);
+            console.log('eoeProvided is', application.eoeProvided);
+            if (err) {
+                return res.send(400, {
+                    message: 'Error looking for existing Application'
+                });
+            }
+            else {
+                res.jsonp(application);
+            }
+        });
+};
+
+/**
  * Add fields to a worksheet.  It will only add the fields if the existing fields array is missing or empty.
  * @param {mongoose.model} application
  * @param {String} worksheetType

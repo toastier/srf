@@ -38,6 +38,10 @@ var applicationModel = new Schema({
     coverLetter: {
       type: Schema.Types.ObjectId
     },
+    eoeProvided: {
+        type: Boolean,
+        default: false
+    },
     proceedToReview: {
       type: Boolean,
       default: null

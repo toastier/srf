@@ -8,8 +8,31 @@
     var Eoe = $resource('eoe/:eoeId', {eoeId: '@_id'}, {
       update: {
         method: 'PUT'
+      },
+      create: {
+        method: 'POST',
+        url: 'eoe/create/:applicationId',
+        params: { applicationId : '@applicationId'}
       }
     });
+
+    var valueOptions = {
+      ethnicities: [{
+        code: 'h',
+        description: 'Hispanic or Latino',
+        detail: 'Of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
+        },
+        {
+          code: 'n',
+          description: 'Not Hispanic or Latino'
+        },
+        {
+          code: 'd',
+          description: 'Declined to Answer'
+        }
+          ]
+
+    };
 
     var methods = {
       editThisEoe: function () {
@@ -19,7 +42,7 @@
         $state.go('main.viewEoe', {eoeId: $stateParams.eoeId});
       },
       createEoe: function () {
-        $state.go('main.createEoe');
+        $state.go('main.createEoe', {applicationID: $stateParams.applicationID});
       }
     };
 
@@ -42,9 +65,6 @@
       },
       getActions: function () {
         var modelActions = [
-          {title: 'Create a New Eoe', method: methods.createEoe, type: 'button', style: 'btn-add'},
-          {title: 'View Eoe', method: methods.viewThisEoe, type: 'button', style: 'btn-view'},
-          {title: 'Edit Eoe', method: methods.editThisEoe, type: 'button', style: 'btn-edit'}
         ];
         return angular.copy(modelActions);
       }

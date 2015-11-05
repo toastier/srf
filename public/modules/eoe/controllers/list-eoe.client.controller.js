@@ -4,7 +4,7 @@
     .module('eoe')
     .controller('ListEoeController', ListEoeController);
 
-  function ListEoeController($scope, $state, Navigation, Eoe, CollectionModel, Messages, resolvedAuth) {
+  function ListEoeController($scope, $state, Navigation, Eoe, Messages, Opening, resolvedAuth, _) {
     var vm = this;
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
@@ -13,6 +13,11 @@
     vm.isActiveYes = true;
     vm.isActiveNo = false;
     vm.setIsActive = setIsActive;
+    vm.raceCount = raceCount;
+    vm.extractData = extractData;
+    vm.rawData = [];
+    vm.opening = "all";
+    vm.options = { };
 
     function allowView () {
       return true;
@@ -21,6 +26,18 @@
 
     function allowEdit () {
       return vm.user.hasRole(['admin']);
+    }
+
+    function raceCount(code, eoeData) {
+      return _.filter(eoeData, function(data) {
+        return (data.race[code] === true)
+      }).length;
+    }
+
+    function extractData() {
+      parseDemographic(vm.rawData, vm.opening);
+      parseDisability(vm.rawData);
+      parseVeteran(vm.rawData);
     }
 
     function setIsActive (source) {
@@ -42,86 +59,180 @@
       vm.collection.filterCollection();
     }
 
-    /** @type ColumnDefinition[] **/
-    vm.columnDefinitions = [
-      {
-        field: 'opening.name',
-        label: 'Opening',
-        filterable: true
+
+    vm.options.races = [{
+      code: 'native',
+      description: 'American Indian or Alaskan Native',
+      detail: 'Having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment'
       },
       {
-        field: 'gender', label: 'Gender',
-          filterable: {
-            name: 'gender',
-            field: 'gender'
-          }
+        code: 'asian',
+        description: 'Asian',
+        detail: 'Having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam'
       },
-     {
-        field: 'ethnicity', label: 'Hispanic',
-          filterable: {
-            name: 'hispanic',
-            field: 'hispanic'
-          }
-      },
-     {
-        field: 'race.black', label: 'Black', format: 'checkMark',
-          filterable: {
-            name: 'black',
-            field: 'black',
-            matchType: 'trueFalse'
-          }
+      { code: 'black', description: 'Black or African American', detail: 'Having origins in any of the black racial groups of Africa' },
+      { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander', detail: 'Having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands' },
+      { code: 'white', description: 'White', detail:'A person having origins in any of the original peoples of Europe, the Middle East, or North Africa' },
+      { code: 'other', description: 'Other' },
+      { code: 'declined', description: 'Declined'}
+    ];
+
+    vm.options.genders = [
+      { code: 'm', description: 'Male' },
+      { code: 'f', description: 'Female' },
+      { code: 'd', description: 'Declined' }
+    ];
+
+    vm.options.ethnicities = [
+      {
+      code: 'h',
+      description: 'Hispanic or Latino',
+      detail: 'Of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
+    },
+      {
+        code: 'n',
+        description: 'Not Hispanic or Latino'
       },
       {
-        field: 'race.multiple', label: 'Multiple', format: 'checkMark',
-          filterable: {
-            name: 'multiple',
-            field: 'multiple',
-            matchType: 'trueFalse'
-          }
+        code: 'd',
+        description: 'Declined to Answer'
+      }
+    ];
+    vm.options.disabilities = [
+        {
+        code: 'y',
+        description: 'Yes'
+      },
+        {
+          code: 'n',
+          description: 'No'
+        },
+        {
+          code: 'd',
+          description: 'Declined to Answer'
+        }
+      ];
+
+    vm.options.veterans = [
+      {
+        code: 'yes-id',
+        description: 'Yes, identify as veteran'
       },
       {
-        field: 'race.white', label: 'White', format: 'checkMark',
-          filterable: {
-            name: 'white',
-            field: 'white',
-            matchType: 'trueFalse'
-          }
+        code: 'yes-not-id',
+        description: 'Yes, but do not identify'
       },
       {
-        field: 'race.pacific', label: 'Pacific', format: 'checkMark',
-          filterable: {
-            name: 'pacific',
-            field: 'pacific',
-            matchType: 'trueFalse'
-          }
+        code: 'no',
+        description: 'No'
       },
       {
-        field: 'race.native', label: 'Native', format: 'checkMark',
-          filterable: {
-            name: 'native',
-            field: 'native',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.other', label: 'Other', format: 'checkMark',
-          filterable: {
-            name: 'other',
-            field: 'other',
-            matchType: 'trueFalse'
-          }
-      },
-      {
-        field: 'race.declined', label: 'Declined', format: 'checkMark',
-          filterable: {
-            name: 'declined',
-            field: 'declined',
-            matchType: 'trueFalse'
-          }
+        code: 'declined',
+        description: 'Declined to Answer'
       }
     ];
 
-    var initialSortOrder = ['+opening'];
+    vm.options.vetClasses = [
+      { code: 'disabled', description: 'Disabled Veteran' },
+      { code: 'recent', description: 'Recently Separated Veteran', detail: 'Discharged or released from active duty within 36 months' },
+      { code: 'active', description: 'Active Duty Wartime or Campaign Badge Veteran', detail: 'Served on active duty in the U.S. military during a war or in a campaign or expedition for which a campaign badge is awarded' },
+      { code: 'medal', description: 'Armed Forces Service Medal Veteran', detail: 'While serving on active duty in the Armed Forces, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.' }
+    ];
+
+    vm.eoeData = {
+      byGender: {},
+      byEthnicity: {},
+      byRace: {
+        "multiple": {
+          "count" : 0,
+          "label" : "Multiple"
+        }
+      },
+      byDisability: {},
+      byVeteran: {}
+    };
+
+    function parseDemographic(result, opening) {
+      var demographicData = (_.find(result, function(data) {
+        return (data.type === "demographic");
+      })).data;
+      if (vm.opening !== "all") {
+         demographicData = _.filter(demographicData, function(rec) {
+           console.log(rec._id);
+          return (rec.opening._id === vm.opening);
+        });
+      };
+      _.forEach(vm.options.genders, function(gender) {
+        var genderCount=_.size(_.filter(demographicData, function(rec) {
+          return (rec.gender === gender.code);
+        }));
+        console.log(gender.description + ' count is ' + genderCount);
+        vm.eoeData.byGender[gender.code] = { "count": genderCount, "label" : gender.description};
+      });
+      _.forEach(vm.options.ethnicities, function(ethnicity) {
+        var ethnicityCount=_.size(_.filter(demographicData, function(rec) {
+          return rec.ethnicity === ethnicity.code;
+        }));
+        console.log(ethnicity.description + ' count is ' + ethnicityCount);
+        vm.eoeData.byEthnicity[ethnicity.code] = {"count" : ethnicityCount, "label" : ethnicity.description};
+      });
+      _.forEach(vm.options.races, function(race) {
+        var raceCount=_.size(_.filter(demographicData, function(rec) {
+          return rec.race[race.code] === true;
+        }));
+        console.log(race.description + ' count is ' + raceCount);
+        vm.eoeData.byRace[race.code] = { "count" : raceCount, "label" : race.description };
+      });
+      vm.eoeData.byRace.multiple.count = _.size(_.filter(demographicData, function(rec) {
+        return _.size(_.keys(_.pick(rec.race, _.identity))) > 1;
+      }));
+    }
+
+    function parseDisability(result, opening) {
+      var disabilityData = (_.find(result, function(data) {
+        return data.type === "disability";
+      })).data;
+      if (vm.opening !== "all") {
+        disabilityData = _.filter(disabilityData, function(rec) {
+          if (rec.opening) {
+            return (rec.opening._id === vm.opening);
+          }
+          else {
+            return false;
+          }
+        });
+      };
+      _.forEach(vm.options.disabilities, function(option) {
+        var disabilityCount=_.size(_.filter(disabilityData, function(rec) {
+          return rec.disability === option.code;
+        }));
+        console.log(option.description + ' count is ' + disabilityCount);
+        vm.eoeData.byDisability[option.code] = { "count": disabilityCount, "label" : option.description};
+      });
+    }
+
+    function parseVeteran(result) {
+      var veteranData = (_.find(result, function(data) {
+        return data.type === "veteran";
+      })).data;
+      if (vm.opening !== "all") {
+        veteranData = _.filter(veteranData, function(rec) {
+          if (rec.opening) {
+            return (rec.opening._id === vm.opening);
+          }
+          else {
+            return false;
+          }
+        });
+      };
+      _.forEach(vm.options.veterans, function(option) {
+        var veteranCount=_.size(_.filter(veteranData, function(rec) {
+          return rec.veteran === option.code;
+        }));
+        console.log(option.description + ' count is ' + veteranCount);
+        vm.eoeData.byVeteran[option.code] = { "count": veteranCount, "label" : option.description};
+      });
+    }
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
@@ -134,61 +245,34 @@
     }
 
     function activate () {
-
-      // if the user is not logged in, or is logged in but doesn't have rights
-      if(!vm.user._id || !vm.user.hasRole(['admin', 'committee member'])) {
-        // modify the columnDefinitions to limit what they see, remove 'active' and 'posting'
-        vm.columnDefinitions.splice(3,2);
-        Eoe.listCurrent().$promise
-            .then(function (result) {
-
-              new CollectionModel('ListEoeControllerPublic', result, vm.columnDefinitions, initialSortOrder)
-                  .then(function (collection) {
-                    vm.collection = collection;
-                  });
-            })
-            .catch(function (err) {
-              Messages.addMessage(err.data.message, 'error');
-            });
-        setupPublicNavigation();
-        return 'done';
-      }
-
-      Eoe.query().$promise
+      $scope._ = _;
+      getValueLists();
+      Eoe.query()
+          .$promise
           .then(function(result) {
-            Messages.addMessage('Openings Loaded', 'success', null, 'dev');
-
-            new CollectionModel('EoeController', result, vm.columnDefinitions, initialSortOrder)
-                .then(function(collection) {
-                  vm.collection = collection;
-
-                  // watch for change when filters are cleared, and set UI variables/controls appropriately
-                  $scope.$watch('vm.collection.filterCriteria.isActive', function(newValue) {
-                    switch (newValue) {
-                      case true:
-                        vm.isActiveYes = true;
-                        vm.isActiveNo = false;
-                        break;
-                      case false:
-                        vm.isActiveNo = true;
-                        vm.isActiveYes = false;
-                        break;
-                      default:
-                        vm.isActiveYes = null;
-                        vm.isActiveNo = null;
-                    }
-                  });
-                })
-                .catch(function(err) {
-                  Messages.addMessage(err.data.message, 'error');
-                });
-
+               vm.rawData = result;
+               parseDemographic(result, vm.opening);
+               parseDisability(result, vm.opening);
+               parseVeteran(result);
           });
+
       setupNavigation();
     }
+
+    function getValueLists() {
+      Opening.query().$promise
+          .then(function(result) {
+            vm.options.openings = result;
+          })
+          .catch(function(error) {
+            Messages.addMessage(error.data.message, 'error');
+          });
+    }
+
     function viewEoe (Eoe) {
       $state.go('main.viewEoe', { EoeId: Eoe._id });
     }
+
 
     activate();
 
