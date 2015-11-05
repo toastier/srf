@@ -142,7 +142,12 @@
     vm.eoeData = {
       byGender: {},
       byEthnicity: {},
-      byRace: { 'multiple': 0, 'declined' : 0},
+      byRace: {
+        "multiple": {
+          "count" : 0,
+          "label" : "Multiple"
+        }
+      },
       byDisability: {},
       byVeteran: {}
     };
@@ -178,7 +183,7 @@
         console.log(race.description + ' count is ' + raceCount);
         vm.eoeData.byRace[race.code] = { "count" : raceCount, "label" : race.description };
       });
-      vm.eoeData.byRace.multiple = _.size(_.filter(demographicData, function(rec) {
+      vm.eoeData.byRace.multiple.count = _.size(_.filter(demographicData, function(rec) {
         return _.size(_.keys(_.pick(rec.race, _.identity))) > 1;
       }));
     }
