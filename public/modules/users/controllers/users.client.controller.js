@@ -6,7 +6,7 @@
 
   function UsersController($scope, $state, Users, Roles, resolvedAuth, Navigation, Masquerade, Pagination, Sorting, Filtering, Messages) {
     var vm = this;
-    vm.authentication = resolvedAuth;
+    vm.user = resolvedAuth;
     vm.paginator = Pagination.paginator;
     vm.users = {original: [], matched: [], paginated: []};
     vm.options = {};
@@ -131,8 +131,7 @@
 
     function masquerade(user) {
       Masquerade.do(user).$promise.then(function () {
-        vm.authentication.refresh();
-        $state.go('main.home');
+        vm.user.refresh();
       });
     }
 

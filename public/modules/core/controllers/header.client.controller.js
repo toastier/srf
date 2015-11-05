@@ -4,13 +4,13 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  function HeaderController($scope, Authentication, Menus, Messages, toastr, appInfo) {
+  function HeaderController($scope, resolvedAuth, Menus, Messages, toastr, appInfo) {
     var header = this;
     //@todo add switch for production mode to suppress dev messages
     var environment = 'dev';
+    header.user = resolvedAuth;
     header.menu = Menus.getMenu('topbar');
     header.sidebarMenu = Menus.getMenu('sidebar');
-    header.user = Authentication;
     header.messages = Messages.messages;
     header.isCollapsed = true;
 

@@ -4,11 +4,12 @@
     .module('users')
     .service('Authentication', Authentication);
 
-  function Authentication($resource, $q, _ ) {
+  function Authentication($state, $resource, $q, _ ) {
 
     // service returns a promise
     var User = $q.defer();
     var userResource = $resource('/auth/me', {});
+    var user = {};
 
     // if the user lookup has not happened yet, cached will be falsy, and we do the query
     if (!User.cached) {
@@ -23,7 +24,6 @@
       // controllers or services that rely on Authentication won't kick off the query again.
       User.cached = true;
 
-      var user = {};
 
       var userMethods = {
         hasRole: function hasRole(roles) {
@@ -32,7 +32,7 @@
         isMe: function isMe(givenUser) {
           return givenUser._id === user._id;
         },
-        refresh: lookupUser,
+        refresh: refreshUser,
         auth: $resource('/auth/login', {}, {
           login: {
             method: 'POST'
@@ -60,6 +60,19 @@
         .catch(function (err) {
             User.reject(err);
           });
+    }
+
+    function refreshUser() {
+      userResource.get().$promise
+        .then(function (result) {
+          user._id = result._id || user._id;
+          user.displayName = result.displayName || user.displayName;
+          user.honorific = result.honorific || user.honorific;
+          user.firstName = result.firstName || user.firstName;
+          user.roles = result.roles || user.roles;
+          user.email = result.email || user.email;
+          $state.go('main.home');
+        });
     }
   }
 })();

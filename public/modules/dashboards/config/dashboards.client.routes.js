@@ -5,9 +5,13 @@
       $stateProvider
         .state('main.dashboards', {
           url: '/dashboards',
-          templateUrl: 'modules/dashboards/views/dashboards.client.view.html',
-          controller: 'DashboardsController',
-          controllerAs: 'vm',
+          'views': {
+            'content@': {
+              templateUrl: 'modules/dashboards/views/dashboards.client.view.html',
+              controller: 'DashboardsController',
+              controllerAs: 'vm'
+            }
+          },
           resolve: {
             resolvedAuth: function(resolvedAuth) {
               return resolvedAuth;

@@ -39,7 +39,7 @@ section
                       span(ng-repeat="role in user.roles") &nbsp;
                         .btn.btn-default.btn-xs {{ role }}
                   .col-md-3.text-right
-                    button.btn.btn-workflow(ng-click="vm.masquerade(user)") Masquerade
+                    button.btn.btn-masquerade(ng-click="vm.masquerade(user)") Masquerade
               .list-group-item-text(collapse="user.isCollapsed")
                 .row
                   .col-md-12

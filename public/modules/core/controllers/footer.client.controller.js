@@ -4,15 +4,9 @@
     .module('core')
     .controller('FooterController', FooterController);
 
-    function FooterController (Authentication, appInfo) {
+    function FooterController (appInfo, resolvedAuth) {
       var footer = this;
+      footer.user = resolvedAuth;
       footer.appInfo = appInfo.init();
-
-      // Authentication returns a promise.  Wait for it to resolve before setting up the state.
-      // @todo convert to use ui-router resolve as we are doing in the main area of the view
-      Authentication.promise
-        .then(function(result) {
-          footer.user = result;
-        });
     }
 })();

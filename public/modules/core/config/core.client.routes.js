@@ -12,6 +12,25 @@
           url: '',
           abstract: true,
           template: '<ui-view/>',
+          views: {
+            'content': {
+            },
+            'sidebar': {
+              templateUrl: 'modules/core/views/sidebar.client.view.html',
+              controller: 'SidebarController',
+              controllerAs: 'sidebar'
+            },
+            'footer': {
+              templateUrl: 'modules/core/views/footer.client.view.html',
+              controller: 'FooterController',
+              controllerAs: 'footer'
+            },
+            'header': {
+              templateUrl: 'modules/core/views/header.client.view.html',
+              controller: 'HeaderController',
+              controllerAs: 'header'
+            }
+          },
           resolve: {
             resolvedAuth: function(Authentication) {
               return Authentication.promise;
@@ -20,10 +39,14 @@
         })
         // Home state routing
         .state('main.home', {
+          views: {
+            'content@': {
+              controller: 'HomeController',
+              controllerAs: 'vm',
+              templateUrl: 'modules/core/views/home.client.view.html',
+            }
+          },
           url: '/',
-          controller: 'HomeController',
-          controllerAs: 'vm',
-          templateUrl: 'modules/core/views/home.client.view.html',
           resolve: {
             resolvedAuth: function(resolvedAuth) {
               return resolvedAuth;
@@ -33,9 +56,13 @@
         // Style Guide
         .state('main.styles', {
           url: '/styles',
-          controller: 'StyleGuideController',
-          controllerAs: 'vm',
-          templateUrl: 'modules/core/views/style-guide.client.view.html',
+          views: {
+            'content@': {
+              controller: 'StyleGuideController',
+              controllerAs: 'vm',
+              templateUrl: 'modules/core/views/style-guide.client.view.html',
+            }
+          },
           resolve: {
             resolvedAuth: function(resolvedAuth) {
               return resolvedAuth;
