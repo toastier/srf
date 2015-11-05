@@ -4,7 +4,7 @@
   angular.module('eoe').run(['Menus',
     function (Menus) {
       // Set top bar menu items
-      Menus.addMenuItem('sidebar', 'EOE Report', '', '#!/eoe', '#!/eoe', false, ['admin'], 999);
+      Menus.addMenuItem('sidebar', 'EOE Report', '', '#!/eoe', '#!/eoe', false, ['admin', 'manager'], 999, 'reports');
     }
   ]);
 })();

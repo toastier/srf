@@ -22,7 +22,7 @@
         })
         .state('main.createEoe', {
           url: '/eoe/:applicationId',
-          'views' : {
+          'views': {
             'content@': {
               templateUrl: 'modules/eoe/views/create-eoe.client.view.html',
               controller: 'CreateEoeController',
@@ -34,7 +34,7 @@
               return resolvedAuth;
             }
           }
-        })
+        });
         //.state('main.viewEoe', {
         //  url: '/eoe/:eoeId',
         //  templateUrl: 'modules/eoe/views/view-eoe.client.view.html',

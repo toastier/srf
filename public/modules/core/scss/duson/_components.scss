@@ -208,7 +208,10 @@ div.radio-switch {
       &.positions > a:before { content: '\f0b1';}
 
       &.applicants > a:before { content: '\f0c0';}
-
+      //Core
+      &.dashboard > a:before { content: '\f0e4';}
+      &.styles > a:before { content: '\f1fc';}
+      &.reports > a:before {content: '\f080';}
       //CPS
       &.placements > a:before { content: '\f0fa';}
       &.packages > a:before { content: '\f07c';}
@@ -219,7 +222,6 @@ div.radio-switch {
       &.administration > a:before, &.settings > a:before { content: '\f013';}
       &.contractual > a:before { content: '\f0e3';}
       //TAMS
-      &.dashboard > a:before { content: '\f0e4';}
       &.course-catalog > a:before { content: '\f1c0';}
       &.master-course-listing > a:before { content: '\f0cb';}
       &.sections-offered > a:before { content: '\f096';}
