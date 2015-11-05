@@ -175,7 +175,7 @@
         var raceCount=_.size(_.filter(demographicData, function(rec) {
           return rec.race[race.code] === true;
         }));
-        consolelog(race.description + ' count is ' + raceCount);
+        console.log(race.description + ' count is ' + raceCount);
         vm.eoeData.byRace[race.code] = { "count" : raceCount, "label" : race.description };
       });
       vm.eoeData.byRace.multiple = _.size(_.filter(demographicData, function(rec) {
