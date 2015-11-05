@@ -23,9 +23,10 @@
               du-worksheet-edit-smart-component(worksheet-fields="phoneInterview.phoneInterviewWorksheet.bodyBuffer.fields")
               .row
                 .col-xs-12
-                  button.btn.btn-default.btn-undo(ng-click="vm.phoneInterviewPhaseModel.cancelPhoneInterviewChanges(phoneInterview)") Cancel Changes
-                  button.btn.btn-save(ng-click="vm.phoneInterviewPhaseModel.savePhoneInterview(phoneInterview)") Save Changes
-                  button.btn.btn-workflow(ng-click="vm.phoneInterviewPhaseModel.saveAndCompletePhoneInterview(phoneInterview)") Save and Mark Phone Interview Worksheet as Complete
+                  .btn-group
+                    button.btn.btn-default.btn-undo(ng-click="vm.phoneInterviewPhaseModel.cancelPhoneInterviewChanges(phoneInterview)") Cancel Changes
+                    button.btn.btn-save(ng-click="vm.phoneInterviewPhaseModel.savePhoneInterview(phoneInterview)") Save Changes
+                    button.btn.btn-complete(ng-click="vm.phoneInterviewPhaseModel.saveAndCompletePhoneInterview(phoneInterview)") Save and Mark Phone Interview Worksheet as Complete
       .row
         .col-xs-12
           h3 Search Committee Comments &nbsp;

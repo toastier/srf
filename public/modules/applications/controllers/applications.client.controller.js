@@ -41,7 +41,7 @@
     ];
 
     function allowEdit () {
-      return vm.user.hasRole(['admin']);
+      return vm.user.hasRole(['admin', 'manager']);
     }
 
     function allowManage () {
@@ -49,7 +49,7 @@
     }
 
     function allowView () {
-      return vm.user.hasRole(['admin', 'committee member']);
+      return vm.user.hasRole(['admin', 'committee member', 'manager']);
     }
 
 
