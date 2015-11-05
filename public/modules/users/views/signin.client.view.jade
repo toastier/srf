@@ -1,7 +1,7 @@
 section
   navigation
   .row
-  .col-xs-offset-2.col-xs-8.col-md-offset-4.col-md-4
+  .col-xs-offset-2.col-xs-8.col-md-offset-2.col-md-8
     .panel.panel-default
       .panel-heading
         h3 Duke Users
@@ -11,18 +11,4 @@ section
       .panel-heading
         h3 Applicants
       .panel-body
-        ng-form(name="vm.signin")
-          .row
-            .col-xs-12.form-group
-              label.control-label Email Address
-              input.form-control(type="text", ng-model="vm.email")
-            .col-xs-12.form-group
-              label.control-label Password
-              input.form-control(type="password", ng-model="vm.password")
-          .row
-            .col-xs-12
-              a.btn.btn-workflow(ng-click="signin()", href="/auth/saml") Login to Your Account
-          .row
-            .col-xs-12
-              p
-                a(ng-click="signup()") Forgot Your Your Password, or Trouble Logging In?
+        user-signup-or-signin-form(user="vm.user")
