@@ -3005,32 +3005,32 @@ a.btn.disabled, fieldset[disabled] a.btn {
     color: #fff;
     background-color: #333; }
 
-.btn-primary, .btn-change, .btn-duplicate, .btn-multiple, .btn-email, .btn-action, .btn-logout, .btn-view, .btn-edit, .btn-add, .btn-manage, .sliders, .btn-masquerade, .btn-end-masquerade, .btn-search, .btn-info, .btn-help, .btn-list, .btn-login, .btn-waiting, .btn-upload {
+.btn-primary, .btn-change, .btn-duplicate, .btn-multiple, .btn-email, .btn-action, .btn-complete, .btn-logout, .btn-view, .btn-edit, .btn-add, .btn-manage, .sliders, .btn-masquerade, .btn-end-masquerade, .btn-search, .btn-info, .btn-help, .btn-list, .btn-login, .btn-waiting, .btn-upload {
   color: #fff;
   background-color: #0e99f0;
   border-color: #0d8ad8; }
-  .btn-primary:focus, .btn-change:focus, .btn-duplicate:focus, .btn-multiple:focus, .btn-email:focus, .btn-action:focus, .btn-logout:focus, .btn-view:focus, .btn-edit:focus, .btn-add:focus, .btn-manage:focus, .sliders:focus, .btn-masquerade:focus, .btn-end-masquerade:focus, .btn-search:focus, .btn-info:focus, .btn-help:focus, .btn-list:focus, .btn-login:focus, .btn-waiting:focus, .btn-upload:focus, .btn-primary.focus, .focus.btn-change, .focus.btn-duplicate, .focus.btn-multiple, .focus.btn-email, .focus.btn-action, .focus.btn-logout, .focus.btn-view, .focus.btn-edit, .focus.btn-add, .focus.btn-manage, .focus.sliders, .focus.btn-masquerade, .focus.btn-end-masquerade, .focus.btn-search, .focus.btn-info, .focus.btn-help, .focus.btn-list, .focus.btn-login, .focus.btn-waiting, .focus.btn-upload {
+  .btn-primary:focus, .btn-change:focus, .btn-duplicate:focus, .btn-multiple:focus, .btn-email:focus, .btn-action:focus, .btn-complete:focus, .btn-logout:focus, .btn-view:focus, .btn-edit:focus, .btn-add:focus, .btn-manage:focus, .sliders:focus, .btn-masquerade:focus, .btn-end-masquerade:focus, .btn-search:focus, .btn-info:focus, .btn-help:focus, .btn-list:focus, .btn-login:focus, .btn-waiting:focus, .btn-upload:focus, .btn-primary.focus, .focus.btn-change, .focus.btn-duplicate, .focus.btn-multiple, .focus.btn-email, .focus.btn-action, .focus.btn-complete, .focus.btn-logout, .focus.btn-view, .focus.btn-edit, .focus.btn-add, .focus.btn-manage, .focus.sliders, .focus.btn-masquerade, .focus.btn-end-masquerade, .focus.btn-search, .focus.btn-info, .focus.btn-help, .focus.btn-list, .focus.btn-login, .focus.btn-waiting, .focus.btn-upload {
     color: #fff;
     background-color: #0b7ac0;
     border-color: #063d5f; }
-  .btn-primary:hover, .btn-change:hover, .btn-duplicate:hover, .btn-multiple:hover, .btn-email:hover, .btn-action:hover, .btn-logout:hover, .btn-view:hover, .btn-edit:hover, .btn-add:hover, .btn-manage:hover, .sliders:hover, .btn-masquerade:hover, .btn-end-masquerade:hover, .btn-search:hover, .btn-info:hover, .btn-help:hover, .btn-list:hover, .btn-login:hover, .btn-waiting:hover, .btn-upload:hover {
+  .btn-primary:hover, .btn-change:hover, .btn-duplicate:hover, .btn-multiple:hover, .btn-email:hover, .btn-action:hover, .btn-complete:hover, .btn-logout:hover, .btn-view:hover, .btn-edit:hover, .btn-add:hover, .btn-manage:hover, .sliders:hover, .btn-masquerade:hover, .btn-end-masquerade:hover, .btn-search:hover, .btn-info:hover, .btn-help:hover, .btn-list:hover, .btn-login:hover, .btn-waiting:hover, .btn-upload:hover {
     color: #fff;
     background-color: #0b7ac0;
     border-color: #09659e; }
-  .btn-primary:active, .btn-change:active, .btn-duplicate:active, .btn-multiple:active, .btn-email:active, .btn-action:active, .btn-logout:active, .btn-view:active, .btn-edit:active, .btn-add:active, .btn-manage:active, .sliders:active, .btn-masquerade:active, .btn-end-masquerade:active, .btn-search:active, .btn-info:active, .btn-help:active, .btn-list:active, .btn-login:active, .btn-waiting:active, .btn-upload:active, .btn-primary.active, .active.btn-change, .active.btn-duplicate, .active.btn-multiple, .active.btn-email, .active.btn-action, .active.btn-logout, .active.btn-view, .active.btn-edit, .active.btn-add, .active.btn-manage, .active.sliders, .active.btn-masquerade, .active.btn-end-masquerade, .active.btn-search, .active.btn-info, .active.btn-help, .active.btn-list, .active.btn-login, .active.btn-waiting, .active.btn-upload, .open > .btn-primary.dropdown-toggle, .open > .dropdown-toggle.btn-change, .open > .dropdown-toggle.btn-duplicate, .open > .dropdown-toggle.btn-multiple, .open > .dropdown-toggle.btn-email, .open > .dropdown-toggle.btn-action, .open > .dropdown-toggle.btn-logout, .open > .dropdown-toggle.btn-view, .open > .dropdown-toggle.btn-edit, .open > .dropdown-toggle.btn-add, .open > .dropdown-toggle.btn-manage, .open > .dropdown-toggle.sliders, .open > .dropdown-toggle.btn-masquerade, .open > .dropdown-toggle.btn-end-masquerade, .open > .dropdown-toggle.btn-search, .open > .dropdown-toggle.btn-info, .open > .dropdown-toggle.btn-help, .open > .dropdown-toggle.btn-list, .open > .dropdown-toggle.btn-login, .open > .dropdown-toggle.btn-waiting, .open > .dropdown-toggle.btn-upload {
+  .btn-primary:active, .btn-change:active, .btn-duplicate:active, .btn-multiple:active, .btn-email:active, .btn-action:active, .btn-complete:active, .btn-logout:active, .btn-view:active, .btn-edit:active, .btn-add:active, .btn-manage:active, .sliders:active, .btn-masquerade:active, .btn-end-masquerade:active, .btn-search:active, .btn-info:active, .btn-help:active, .btn-list:active, .btn-login:active, .btn-waiting:active, .btn-upload:active, .btn-primary.active, .active.btn-change, .active.btn-duplicate, .active.btn-multiple, .active.btn-email, .active.btn-action, .active.btn-complete, .active.btn-logout, .active.btn-view, .active.btn-edit, .active.btn-add, .active.btn-manage, .active.sliders, .active.btn-masquerade, .active.btn-end-masquerade, .active.btn-search, .active.btn-info, .active.btn-help, .active.btn-list, .active.btn-login, .active.btn-waiting, .active.btn-upload, .open > .btn-primary.dropdown-toggle, .open > .dropdown-toggle.btn-change, .open > .dropdown-toggle.btn-duplicate, .open > .dropdown-toggle.btn-multiple, .open > .dropdown-toggle.btn-email, .open > .dropdown-toggle.btn-action, .open > .dropdown-toggle.btn-complete, .open > .dropdown-toggle.btn-logout, .open > .dropdown-toggle.btn-view, .open > .dropdown-toggle.btn-edit, .open > .dropdown-toggle.btn-add, .open > .dropdown-toggle.btn-manage, .open > .dropdown-toggle.sliders, .open > .dropdown-toggle.btn-masquerade, .open > .dropdown-toggle.btn-end-masquerade, .open > .dropdown-toggle.btn-search, .open > .dropdown-toggle.btn-info, .open > .dropdown-toggle.btn-help, .open > .dropdown-toggle.btn-list, .open > .dropdown-toggle.btn-login, .open > .dropdown-toggle.btn-waiting, .open > .dropdown-toggle.btn-upload {
     color: #fff;
     background-color: #0b7ac0;
     border-color: #09659e; }
-    .btn-primary:active:hover, .btn-change:active:hover, .btn-duplicate:active:hover, .btn-multiple:active:hover, .btn-email:active:hover, .btn-action:active:hover, .btn-logout:active:hover, .btn-view:active:hover, .btn-edit:active:hover, .btn-add:active:hover, .btn-manage:active:hover, .sliders:active:hover, .btn-masquerade:active:hover, .btn-end-masquerade:active:hover, .btn-search:active:hover, .btn-info:active:hover, .btn-help:active:hover, .btn-list:active:hover, .btn-login:active:hover, .btn-waiting:active:hover, .btn-upload:active:hover, .btn-primary:active:focus, .btn-change:active:focus, .btn-duplicate:active:focus, .btn-multiple:active:focus, .btn-email:active:focus, .btn-action:active:focus, .btn-logout:active:focus, .btn-view:active:focus, .btn-edit:active:focus, .btn-add:active:focus, .btn-manage:active:focus, .sliders:active:focus, .btn-masquerade:active:focus, .btn-end-masquerade:active:focus, .btn-search:active:focus, .btn-info:active:focus, .btn-help:active:focus, .btn-list:active:focus, .btn-login:active:focus, .btn-waiting:active:focus, .btn-upload:active:focus, .btn-primary:active.focus, .btn-change:active.focus, .btn-duplicate:active.focus, .btn-multiple:active.focus, .btn-email:active.focus, .btn-action:active.focus, .btn-logout:active.focus, .btn-view:active.focus, .btn-edit:active.focus, .btn-add:active.focus, .btn-manage:active.focus, .sliders:active.focus, .btn-masquerade:active.focus, .btn-end-masquerade:active.focus, .btn-search:active.focus, .btn-info:active.focus, .btn-help:active.focus, .btn-list:active.focus, .btn-login:active.focus, .btn-waiting:active.focus, .btn-upload:active.focus, .btn-primary.active:hover, .active.btn-change:hover, .active.btn-duplicate:hover, .active.btn-multiple:hover, .active.btn-email:hover, .active.btn-action:hover, .active.btn-logout:hover, .active.btn-view:hover, .active.btn-edit:hover, .active.btn-add:hover, .active.btn-manage:hover, .active.sliders:hover, .active.btn-masquerade:hover, .active.btn-end-masquerade:hover, .active.btn-search:hover, .active.btn-info:hover, .active.btn-help:hover, .active.btn-list:hover, .active.btn-login:hover, .active.btn-waiting:hover, .active.btn-upload:hover, .btn-primary.active:focus, .active.btn-change:focus, .active.btn-duplicate:focus, .active.btn-multiple:focus, .active.btn-email:focus, .active.btn-action:focus, .active.btn-logout:focus, .active.btn-view:focus, .active.btn-edit:focus, .active.btn-add:focus, .active.btn-manage:focus, .active.sliders:focus, .active.btn-masquerade:focus, .active.btn-end-masquerade:focus, .active.btn-search:focus, .active.btn-info:focus, .active.btn-help:focus, .active.btn-list:focus, .active.btn-login:focus, .active.btn-waiting:focus, .active.btn-upload:focus, .btn-primary.active.focus, .active.focus.btn-change, .active.focus.btn-duplicate, .active.focus.btn-multiple, .active.focus.btn-email, .active.focus.btn-action, .active.focus.btn-logout, .active.focus.btn-view, .active.focus.btn-edit, .active.focus.btn-add, .active.focus.btn-manage, .active.focus.sliders, .active.focus.btn-masquerade, .active.focus.btn-end-masquerade, .active.focus.btn-search, .active.focus.btn-info, .active.focus.btn-help, .active.focus.btn-list, .active.focus.btn-login, .active.focus.btn-waiting, .active.focus.btn-upload, .open > .btn-primary.dropdown-toggle:hover, .open > .dropdown-toggle.btn-change:hover, .open > .dropdown-toggle.btn-duplicate:hover, .open > .dropdown-toggle.btn-multiple:hover, .open > .dropdown-toggle.btn-email:hover, .open > .dropdown-toggle.btn-action:hover, .open > .dropdown-toggle.btn-logout:hover, .open > .dropdown-toggle.btn-view:hover, .open > .dropdown-toggle.btn-edit:hover, .open > .dropdown-toggle.btn-add:hover, .open > .dropdown-toggle.btn-manage:hover, .open > .dropdown-toggle.sliders:hover, .open > .dropdown-toggle.btn-masquerade:hover, .open > .dropdown-toggle.btn-end-masquerade:hover, .open > .dropdown-toggle.btn-search:hover, .open > .dropdown-toggle.btn-info:hover, .open > .dropdown-toggle.btn-help:hover, .open > .dropdown-toggle.btn-list:hover, .open > .dropdown-toggle.btn-login:hover, .open > .dropdown-toggle.btn-waiting:hover, .open > .dropdown-toggle.btn-upload:hover, .open > .btn-primary.dropdown-toggle:focus, .open > .dropdown-toggle.btn-change:focus, .open > .dropdown-toggle.btn-duplicate:focus, .open > .dropdown-toggle.btn-multiple:focus, .open > .dropdown-toggle.btn-email:focus, .open > .dropdown-toggle.btn-action:focus, .open > .dropdown-toggle.btn-logout:focus, .open > .dropdown-toggle.btn-view:focus, .open > .dropdown-toggle.btn-edit:focus, .open > .dropdown-toggle.btn-add:focus, .open > .dropdown-toggle.btn-manage:focus, .open > .dropdown-toggle.sliders:focus, .open > .dropdown-toggle.btn-masquerade:focus, .open > .dropdown-toggle.btn-end-masquerade:focus, .open > .dropdown-toggle.btn-search:focus, .open > .dropdown-toggle.btn-info:focus, .open > .dropdown-toggle.btn-help:focus, .open > .dropdown-toggle.btn-list:focus, .open > .dropdown-toggle.btn-login:focus, .open > .dropdown-toggle.btn-waiting:focus, .open > .dropdown-toggle.btn-upload:focus, .open > .btn-primary.dropdown-toggle.focus, .open > .dropdown-toggle.focus.btn-change, .open > .dropdown-toggle.focus.btn-duplicate, .open > .dropdown-toggle.focus.btn-multiple, .open > .dropdown-toggle.focus.btn-email, .open > .dropdown-toggle.focus.btn-action, .open > .dropdown-toggle.focus.btn-logout, .open > .dropdown-toggle.focus.btn-view, .open > .dropdown-toggle.focus.btn-edit, .open > .dropdown-toggle.focus.btn-add, .open > .dropdown-toggle.focus.btn-manage, .open > .dropdown-toggle.focus.sliders, .open > .dropdown-toggle.focus.btn-masquerade, .open > .dropdown-toggle.focus.btn-end-masquerade, .open > .dropdown-toggle.focus.btn-search, .open > .dropdown-toggle.focus.btn-info, .open > .dropdown-toggle.focus.btn-help, .open > .dropdown-toggle.focus.btn-list, .open > .dropdown-toggle.focus.btn-login, .open > .dropdown-toggle.focus.btn-waiting, .open > .dropdown-toggle.focus.btn-upload {
+    .btn-primary:active:hover, .btn-change:active:hover, .btn-duplicate:active:hover, .btn-multiple:active:hover, .btn-email:active:hover, .btn-action:active:hover, .btn-complete:active:hover, .btn-logout:active:hover, .btn-view:active:hover, .btn-edit:active:hover, .btn-add:active:hover, .btn-manage:active:hover, .sliders:active:hover, .btn-masquerade:active:hover, .btn-end-masquerade:active:hover, .btn-search:active:hover, .btn-info:active:hover, .btn-help:active:hover, .btn-list:active:hover, .btn-login:active:hover, .btn-waiting:active:hover, .btn-upload:active:hover, .btn-primary:active:focus, .btn-change:active:focus, .btn-duplicate:active:focus, .btn-multiple:active:focus, .btn-email:active:focus, .btn-action:active:focus, .btn-complete:active:focus, .btn-logout:active:focus, .btn-view:active:focus, .btn-edit:active:focus, .btn-add:active:focus, .btn-manage:active:focus, .sliders:active:focus, .btn-masquerade:active:focus, .btn-end-masquerade:active:focus, .btn-search:active:focus, .btn-info:active:focus, .btn-help:active:focus, .btn-list:active:focus, .btn-login:active:focus, .btn-waiting:active:focus, .btn-upload:active:focus, .btn-primary:active.focus, .btn-change:active.focus, .btn-duplicate:active.focus, .btn-multiple:active.focus, .btn-email:active.focus, .btn-action:active.focus, .btn-complete:active.focus, .btn-logout:active.focus, .btn-view:active.focus, .btn-edit:active.focus, .btn-add:active.focus, .btn-manage:active.focus, .sliders:active.focus, .btn-masquerade:active.focus, .btn-end-masquerade:active.focus, .btn-search:active.focus, .btn-info:active.focus, .btn-help:active.focus, .btn-list:active.focus, .btn-login:active.focus, .btn-waiting:active.focus, .btn-upload:active.focus, .btn-primary.active:hover, .active.btn-change:hover, .active.btn-duplicate:hover, .active.btn-multiple:hover, .active.btn-email:hover, .active.btn-action:hover, .active.btn-complete:hover, .active.btn-logout:hover, .active.btn-view:hover, .active.btn-edit:hover, .active.btn-add:hover, .active.btn-manage:hover, .active.sliders:hover, .active.btn-masquerade:hover, .active.btn-end-masquerade:hover, .active.btn-search:hover, .active.btn-info:hover, .active.btn-help:hover, .active.btn-list:hover, .active.btn-login:hover, .active.btn-waiting:hover, .active.btn-upload:hover, .btn-primary.active:focus, .active.btn-change:focus, .active.btn-duplicate:focus, .active.btn-multiple:focus, .active.btn-email:focus, .active.btn-action:focus, .active.btn-complete:focus, .active.btn-logout:focus, .active.btn-view:focus, .active.btn-edit:focus, .active.btn-add:focus, .active.btn-manage:focus, .active.sliders:focus, .active.btn-masquerade:focus, .active.btn-end-masquerade:focus, .active.btn-search:focus, .active.btn-info:focus, .active.btn-help:focus, .active.btn-list:focus, .active.btn-login:focus, .active.btn-waiting:focus, .active.btn-upload:focus, .btn-primary.active.focus, .active.focus.btn-change, .active.focus.btn-duplicate, .active.focus.btn-multiple, .active.focus.btn-email, .active.focus.btn-action, .active.focus.btn-complete, .active.focus.btn-logout, .active.focus.btn-view, .active.focus.btn-edit, .active.focus.btn-add, .active.focus.btn-manage, .active.focus.sliders, .active.focus.btn-masquerade, .active.focus.btn-end-masquerade, .active.focus.btn-search, .active.focus.btn-info, .active.focus.btn-help, .active.focus.btn-list, .active.focus.btn-login, .active.focus.btn-waiting, .active.focus.btn-upload, .open > .btn-primary.dropdown-toggle:hover, .open > .dropdown-toggle.btn-change:hover, .open > .dropdown-toggle.btn-duplicate:hover, .open > .dropdown-toggle.btn-multiple:hover, .open > .dropdown-toggle.btn-email:hover, .open > .dropdown-toggle.btn-action:hover, .open > .dropdown-toggle.btn-complete:hover, .open > .dropdown-toggle.btn-logout:hover, .open > .dropdown-toggle.btn-view:hover, .open > .dropdown-toggle.btn-edit:hover, .open > .dropdown-toggle.btn-add:hover, .open > .dropdown-toggle.btn-manage:hover, .open > .dropdown-toggle.sliders:hover, .open > .dropdown-toggle.btn-masquerade:hover, .open > .dropdown-toggle.btn-end-masquerade:hover, .open > .dropdown-toggle.btn-search:hover, .open > .dropdown-toggle.btn-info:hover, .open > .dropdown-toggle.btn-help:hover, .open > .dropdown-toggle.btn-list:hover, .open > .dropdown-toggle.btn-login:hover, .open > .dropdown-toggle.btn-waiting:hover, .open > .dropdown-toggle.btn-upload:hover, .open > .btn-primary.dropdown-toggle:focus, .open > .dropdown-toggle.btn-change:focus, .open > .dropdown-toggle.btn-duplicate:focus, .open > .dropdown-toggle.btn-multiple:focus, .open > .dropdown-toggle.btn-email:focus, .open > .dropdown-toggle.btn-action:focus, .open > .dropdown-toggle.btn-complete:focus, .open > .dropdown-toggle.btn-logout:focus, .open > .dropdown-toggle.btn-view:focus, .open > .dropdown-toggle.btn-edit:focus, .open > .dropdown-toggle.btn-add:focus, .open > .dropdown-toggle.btn-manage:focus, .open > .dropdown-toggle.sliders:focus, .open > .dropdown-toggle.btn-masquerade:focus, .open > .dropdown-toggle.btn-end-masquerade:focus, .open > .dropdown-toggle.btn-search:focus, .open > .dropdown-toggle.btn-info:focus, .open > .dropdown-toggle.btn-help:focus, .open > .dropdown-toggle.btn-list:focus, .open > .dropdown-toggle.btn-login:focus, .open > .dropdown-toggle.btn-waiting:focus, .open > .dropdown-toggle.btn-upload:focus, .open > .btn-primary.dropdown-toggle.focus, .open > .dropdown-toggle.focus.btn-change, .open > .dropdown-toggle.focus.btn-duplicate, .open > .dropdown-toggle.focus.btn-multiple, .open > .dropdown-toggle.focus.btn-email, .open > .dropdown-toggle.focus.btn-action, .open > .dropdown-toggle.focus.btn-complete, .open > .dropdown-toggle.focus.btn-logout, .open > .dropdown-toggle.focus.btn-view, .open > .dropdown-toggle.focus.btn-edit, .open > .dropdown-toggle.focus.btn-add, .open > .dropdown-toggle.focus.btn-manage, .open > .dropdown-toggle.focus.sliders, .open > .dropdown-toggle.focus.btn-masquerade, .open > .dropdown-toggle.focus.btn-end-masquerade, .open > .dropdown-toggle.focus.btn-search, .open > .dropdown-toggle.focus.btn-info, .open > .dropdown-toggle.focus.btn-help, .open > .dropdown-toggle.focus.btn-list, .open > .dropdown-toggle.focus.btn-login, .open > .dropdown-toggle.focus.btn-waiting, .open > .dropdown-toggle.focus.btn-upload {
       color: #fff;
       background-color: #09659e;
       border-color: #063d5f; }
-  .btn-primary:active, .btn-change:active, .btn-duplicate:active, .btn-multiple:active, .btn-email:active, .btn-action:active, .btn-logout:active, .btn-view:active, .btn-edit:active, .btn-add:active, .btn-manage:active, .sliders:active, .btn-masquerade:active, .btn-end-masquerade:active, .btn-search:active, .btn-info:active, .btn-help:active, .btn-list:active, .btn-login:active, .btn-waiting:active, .btn-upload:active, .btn-primary.active, .active.btn-change, .active.btn-duplicate, .active.btn-multiple, .active.btn-email, .active.btn-action, .active.btn-logout, .active.btn-view, .active.btn-edit, .active.btn-add, .active.btn-manage, .active.sliders, .active.btn-masquerade, .active.btn-end-masquerade, .active.btn-search, .active.btn-info, .active.btn-help, .active.btn-list, .active.btn-login, .active.btn-waiting, .active.btn-upload, .open > .btn-primary.dropdown-toggle, .open > .dropdown-toggle.btn-change, .open > .dropdown-toggle.btn-duplicate, .open > .dropdown-toggle.btn-multiple, .open > .dropdown-toggle.btn-email, .open > .dropdown-toggle.btn-action, .open > .dropdown-toggle.btn-logout, .open > .dropdown-toggle.btn-view, .open > .dropdown-toggle.btn-edit, .open > .dropdown-toggle.btn-add, .open > .dropdown-toggle.btn-manage, .open > .dropdown-toggle.sliders, .open > .dropdown-toggle.btn-masquerade, .open > .dropdown-toggle.btn-end-masquerade, .open > .dropdown-toggle.btn-search, .open > .dropdown-toggle.btn-info, .open > .dropdown-toggle.btn-help, .open > .dropdown-toggle.btn-list, .open > .dropdown-toggle.btn-login, .open > .dropdown-toggle.btn-waiting, .open > .dropdown-toggle.btn-upload {
+  .btn-primary:active, .btn-change:active, .btn-duplicate:active, .btn-multiple:active, .btn-email:active, .btn-action:active, .btn-complete:active, .btn-logout:active, .btn-view:active, .btn-edit:active, .btn-add:active, .btn-manage:active, .sliders:active, .btn-masquerade:active, .btn-end-masquerade:active, .btn-search:active, .btn-info:active, .btn-help:active, .btn-list:active, .btn-login:active, .btn-waiting:active, .btn-upload:active, .btn-primary.active, .active.btn-change, .active.btn-duplicate, .active.btn-multiple, .active.btn-email, .active.btn-action, .active.btn-complete, .active.btn-logout, .active.btn-view, .active.btn-edit, .active.btn-add, .active.btn-manage, .active.sliders, .active.btn-masquerade, .active.btn-end-masquerade, .active.btn-search, .active.btn-info, .active.btn-help, .active.btn-list, .active.btn-login, .active.btn-waiting, .active.btn-upload, .open > .btn-primary.dropdown-toggle, .open > .dropdown-toggle.btn-change, .open > .dropdown-toggle.btn-duplicate, .open > .dropdown-toggle.btn-multiple, .open > .dropdown-toggle.btn-email, .open > .dropdown-toggle.btn-action, .open > .dropdown-toggle.btn-complete, .open > .dropdown-toggle.btn-logout, .open > .dropdown-toggle.btn-view, .open > .dropdown-toggle.btn-edit, .open > .dropdown-toggle.btn-add, .open > .dropdown-toggle.btn-manage, .open > .dropdown-toggle.sliders, .open > .dropdown-toggle.btn-masquerade, .open > .dropdown-toggle.btn-end-masquerade, .open > .dropdown-toggle.btn-search, .open > .dropdown-toggle.btn-info, .open > .dropdown-toggle.btn-help, .open > .dropdown-toggle.btn-list, .open > .dropdown-toggle.btn-login, .open > .dropdown-toggle.btn-waiting, .open > .dropdown-toggle.btn-upload {
     background-image: none; }
-  .btn-primary.disabled, .disabled.btn-change, .disabled.btn-duplicate, .disabled.btn-multiple, .disabled.btn-email, .disabled.btn-action, .disabled.btn-logout, .disabled.btn-view, .disabled.btn-edit, .disabled.btn-add, .disabled.btn-manage, .disabled.sliders, .disabled.btn-masquerade, .disabled.btn-end-masquerade, .disabled.btn-search, .disabled.btn-info, .disabled.btn-help, .disabled.btn-list, .disabled.btn-login, .disabled.btn-waiting, .disabled.btn-upload, .btn-primary.disabled:hover, .disabled.btn-change:hover, .disabled.btn-duplicate:hover, .disabled.btn-multiple:hover, .disabled.btn-email:hover, .disabled.btn-action:hover, .disabled.btn-logout:hover, .disabled.btn-view:hover, .disabled.btn-edit:hover, .disabled.btn-add:hover, .disabled.btn-manage:hover, .disabled.sliders:hover, .disabled.btn-masquerade:hover, .disabled.btn-end-masquerade:hover, .disabled.btn-search:hover, .disabled.btn-info:hover, .disabled.btn-help:hover, .disabled.btn-list:hover, .disabled.btn-login:hover, .disabled.btn-waiting:hover, .disabled.btn-upload:hover, .btn-primary.disabled:focus, .disabled.btn-change:focus, .disabled.btn-duplicate:focus, .disabled.btn-multiple:focus, .disabled.btn-email:focus, .disabled.btn-action:focus, .disabled.btn-logout:focus, .disabled.btn-view:focus, .disabled.btn-edit:focus, .disabled.btn-add:focus, .disabled.btn-manage:focus, .disabled.sliders:focus, .disabled.btn-masquerade:focus, .disabled.btn-end-masquerade:focus, .disabled.btn-search:focus, .disabled.btn-info:focus, .disabled.btn-help:focus, .disabled.btn-list:focus, .disabled.btn-login:focus, .disabled.btn-waiting:focus, .disabled.btn-upload:focus, .btn-primary.disabled.focus, .disabled.focus.btn-change, .disabled.focus.btn-duplicate, .disabled.focus.btn-multiple, .disabled.focus.btn-email, .disabled.focus.btn-action, .disabled.focus.btn-logout, .disabled.focus.btn-view, .disabled.focus.btn-edit, .disabled.focus.btn-add, .disabled.focus.btn-manage, .disabled.focus.sliders, .disabled.focus.btn-masquerade, .disabled.focus.btn-end-masquerade, .disabled.focus.btn-search, .disabled.focus.btn-info, .disabled.focus.btn-help, .disabled.focus.btn-list, .disabled.focus.btn-login, .disabled.focus.btn-waiting, .disabled.focus.btn-upload, .btn-primary.disabled:active, .disabled.btn-change:active, .disabled.btn-duplicate:active, .disabled.btn-multiple:active, .disabled.btn-email:active, .disabled.btn-action:active, .disabled.btn-logout:active, .disabled.btn-view:active, .disabled.btn-edit:active, .disabled.btn-add:active, .disabled.btn-manage:active, .disabled.sliders:active, .disabled.btn-masquerade:active, .disabled.btn-end-masquerade:active, .disabled.btn-search:active, .disabled.btn-info:active, .disabled.btn-help:active, .disabled.btn-list:active, .disabled.btn-login:active, .disabled.btn-waiting:active, .disabled.btn-upload:active, .btn-primary.disabled.active, .disabled.active.btn-change, .disabled.active.btn-duplicate, .disabled.active.btn-multiple, .disabled.active.btn-email, .disabled.active.btn-action, .disabled.active.btn-logout, .disabled.active.btn-view, .disabled.active.btn-edit, .disabled.active.btn-add, .disabled.active.btn-manage, .disabled.active.sliders, .disabled.active.btn-masquerade, .disabled.active.btn-end-masquerade, .disabled.active.btn-search, .disabled.active.btn-info, .disabled.active.btn-help, .disabled.active.btn-list, .disabled.active.btn-login, .disabled.active.btn-waiting, .disabled.active.btn-upload, .btn-primary[disabled], [disabled].btn-change, [disabled].btn-duplicate, [disabled].btn-multiple, [disabled].btn-email, [disabled].btn-action, [disabled].btn-logout, [disabled].btn-view, [disabled].btn-edit, [disabled].btn-add, [disabled].btn-manage, [disabled].sliders, [disabled].btn-masquerade, [disabled].btn-end-masquerade, [disabled].btn-search, [disabled].btn-info, [disabled].btn-help, [disabled].btn-list, [disabled].btn-login, [disabled].btn-waiting, [disabled].btn-upload, .btn-primary[disabled]:hover, [disabled].btn-change:hover, [disabled].btn-duplicate:hover, [disabled].btn-multiple:hover, [disabled].btn-email:hover, [disabled].btn-action:hover, [disabled].btn-logout:hover, [disabled].btn-view:hover, [disabled].btn-edit:hover, [disabled].btn-add:hover, [disabled].btn-manage:hover, [disabled].sliders:hover, [disabled].btn-masquerade:hover, [disabled].btn-end-masquerade:hover, [disabled].btn-search:hover, [disabled].btn-info:hover, [disabled].btn-help:hover, [disabled].btn-list:hover, [disabled].btn-login:hover, [disabled].btn-waiting:hover, [disabled].btn-upload:hover, .btn-primary[disabled]:focus, [disabled].btn-change:focus, [disabled].btn-duplicate:focus, [disabled].btn-multiple:focus, [disabled].btn-email:focus, [disabled].btn-action:focus, [disabled].btn-logout:focus, [disabled].btn-view:focus, [disabled].btn-edit:focus, [disabled].btn-add:focus, [disabled].btn-manage:focus, [disabled].sliders:focus, [disabled].btn-masquerade:focus, [disabled].btn-end-masquerade:focus, [disabled].btn-search:focus, [disabled].btn-info:focus, [disabled].btn-help:focus, [disabled].btn-list:focus, [disabled].btn-login:focus, [disabled].btn-waiting:focus, [disabled].btn-upload:focus, .btn-primary[disabled].focus, [disabled].focus.btn-change, [disabled].focus.btn-duplicate, [disabled].focus.btn-multiple, [disabled].focus.btn-email, [disabled].focus.btn-action, [disabled].focus.btn-logout, [disabled].focus.btn-view, [disabled].focus.btn-edit, [disabled].focus.btn-add, [disabled].focus.btn-manage, [disabled].focus.sliders, [disabled].focus.btn-masquerade, [disabled].focus.btn-end-masquerade, [disabled].focus.btn-search, [disabled].focus.btn-info, [disabled].focus.btn-help, [disabled].focus.btn-list, [disabled].focus.btn-login, [disabled].focus.btn-waiting, [disabled].focus.btn-upload, .btn-primary[disabled]:active, [disabled].btn-change:active, [disabled].btn-duplicate:active, [disabled].btn-multiple:active, [disabled].btn-email:active, [disabled].btn-action:active, [disabled].btn-logout:active, [disabled].btn-view:active, [disabled].btn-edit:active, [disabled].btn-add:active, [disabled].btn-manage:active, [disabled].sliders:active, [disabled].btn-masquerade:active, [disabled].btn-end-masquerade:active, [disabled].btn-search:active, [disabled].btn-info:active, [disabled].btn-help:active, [disabled].btn-list:active, [disabled].btn-login:active, [disabled].btn-waiting:active, [disabled].btn-upload:active, .btn-primary[disabled].active, [disabled].active.btn-change, [disabled].active.btn-duplicate, [disabled].active.btn-multiple, [disabled].active.btn-email, [disabled].active.btn-action, [disabled].active.btn-logout, [disabled].active.btn-view, [disabled].active.btn-edit, [disabled].active.btn-add, [disabled].active.btn-manage, [disabled].active.sliders, [disabled].active.btn-masquerade, [disabled].active.btn-end-masquerade, [disabled].active.btn-search, [disabled].active.btn-info, [disabled].active.btn-help, [disabled].active.btn-list, [disabled].active.btn-login, [disabled].active.btn-waiting, [disabled].active.btn-upload, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-change, fieldset[disabled] .btn-duplicate, fieldset[disabled] .btn-multiple, fieldset[disabled] .btn-email, fieldset[disabled] .btn-action, fieldset[disabled] .btn-logout, fieldset[disabled] .btn-view, fieldset[disabled] .btn-edit, fieldset[disabled] .btn-add, fieldset[disabled] .btn-manage, fieldset[disabled] .sliders, fieldset[disabled] .btn-masquerade, fieldset[disabled] .btn-end-masquerade, fieldset[disabled] .btn-search, fieldset[disabled] .btn-info, fieldset[disabled] .btn-help, fieldset[disabled] .btn-list, fieldset[disabled] .btn-login, fieldset[disabled] .btn-waiting, fieldset[disabled] .btn-upload, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-change:hover, fieldset[disabled] .btn-duplicate:hover, fieldset[disabled] .btn-multiple:hover, fieldset[disabled] .btn-email:hover, fieldset[disabled] .btn-action:hover, fieldset[disabled] .btn-logout:hover, fieldset[disabled] .btn-view:hover, fieldset[disabled] .btn-edit:hover, fieldset[disabled] .btn-add:hover, fieldset[disabled] .btn-manage:hover, fieldset[disabled] .sliders:hover, fieldset[disabled] .btn-masquerade:hover, fieldset[disabled] .btn-end-masquerade:hover, fieldset[disabled] .btn-search:hover, fieldset[disabled] .btn-info:hover, fieldset[disabled] .btn-help:hover, fieldset[disabled] .btn-list:hover, fieldset[disabled] .btn-login:hover, fieldset[disabled] .btn-waiting:hover, fieldset[disabled] .btn-upload:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-change:focus, fieldset[disabled] .btn-duplicate:focus, fieldset[disabled] .btn-multiple:focus, fieldset[disabled] .btn-email:focus, fieldset[disabled] .btn-action:focus, fieldset[disabled] .btn-logout:focus, fieldset[disabled] .btn-view:focus, fieldset[disabled] .btn-edit:focus, fieldset[disabled] .btn-add:focus, fieldset[disabled] .btn-manage:focus, fieldset[disabled] .sliders:focus, fieldset[disabled] .btn-masquerade:focus, fieldset[disabled] .btn-end-masquerade:focus, fieldset[disabled] .btn-search:focus, fieldset[disabled] .btn-info:focus, fieldset[disabled] .btn-help:focus, fieldset[disabled] .btn-list:focus, fieldset[disabled] .btn-login:focus, fieldset[disabled] .btn-waiting:focus, fieldset[disabled] .btn-upload:focus, fieldset[disabled] .btn-primary.focus, fieldset[disabled] .focus.btn-change, fieldset[disabled] .focus.btn-duplicate, fieldset[disabled] .focus.btn-multiple, fieldset[disabled] .focus.btn-email, fieldset[disabled] .focus.btn-action, fieldset[disabled] .focus.btn-logout, fieldset[disabled] .focus.btn-view, fieldset[disabled] .focus.btn-edit, fieldset[disabled] .focus.btn-add, fieldset[disabled] .focus.btn-manage, fieldset[disabled] .focus.sliders, fieldset[disabled] .focus.btn-masquerade, fieldset[disabled] .focus.btn-end-masquerade, fieldset[disabled] .focus.btn-search, fieldset[disabled] .focus.btn-info, fieldset[disabled] .focus.btn-help, fieldset[disabled] .focus.btn-list, fieldset[disabled] .focus.btn-login, fieldset[disabled] .focus.btn-waiting, fieldset[disabled] .focus.btn-upload, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-change:active, fieldset[disabled] .btn-duplicate:active, fieldset[disabled] .btn-multiple:active, fieldset[disabled] .btn-email:active, fieldset[disabled] .btn-action:active, fieldset[disabled] .btn-logout:active, fieldset[disabled] .btn-view:active, fieldset[disabled] .btn-edit:active, fieldset[disabled] .btn-add:active, fieldset[disabled] .btn-manage:active, fieldset[disabled] .sliders:active, fieldset[disabled] .btn-masquerade:active, fieldset[disabled] .btn-end-masquerade:active, fieldset[disabled] .btn-search:active, fieldset[disabled] .btn-info:active, fieldset[disabled] .btn-help:active, fieldset[disabled] .btn-list:active, fieldset[disabled] .btn-login:active, fieldset[disabled] .btn-waiting:active, fieldset[disabled] .btn-upload:active, fieldset[disabled] .btn-primary.active, fieldset[disabled] .active.btn-change, fieldset[disabled] .active.btn-duplicate, fieldset[disabled] .active.btn-multiple, fieldset[disabled] .active.btn-email, fieldset[disabled] .active.btn-action, fieldset[disabled] .active.btn-logout, fieldset[disabled] .active.btn-view, fieldset[disabled] .active.btn-edit, fieldset[disabled] .active.btn-add, fieldset[disabled] .active.btn-manage, fieldset[disabled] .active.sliders, fieldset[disabled] .active.btn-masquerade, fieldset[disabled] .active.btn-end-masquerade, fieldset[disabled] .active.btn-search, fieldset[disabled] .active.btn-info, fieldset[disabled] .active.btn-help, fieldset[disabled] .active.btn-list, fieldset[disabled] .active.btn-login, fieldset[disabled] .active.btn-waiting, fieldset[disabled] .active.btn-upload {
+  .btn-primary.disabled, .disabled.btn-change, .disabled.btn-duplicate, .disabled.btn-multiple, .disabled.btn-email, .disabled.btn-action, .disabled.btn-complete, .disabled.btn-logout, .disabled.btn-view, .disabled.btn-edit, .disabled.btn-add, .disabled.btn-manage, .disabled.sliders, .disabled.btn-masquerade, .disabled.btn-end-masquerade, .disabled.btn-search, .disabled.btn-info, .disabled.btn-help, .disabled.btn-list, .disabled.btn-login, .disabled.btn-waiting, .disabled.btn-upload, .btn-primary.disabled:hover, .disabled.btn-change:hover, .disabled.btn-duplicate:hover, .disabled.btn-multiple:hover, .disabled.btn-email:hover, .disabled.btn-action:hover, .disabled.btn-complete:hover, .disabled.btn-logout:hover, .disabled.btn-view:hover, .disabled.btn-edit:hover, .disabled.btn-add:hover, .disabled.btn-manage:hover, .disabled.sliders:hover, .disabled.btn-masquerade:hover, .disabled.btn-end-masquerade:hover, .disabled.btn-search:hover, .disabled.btn-info:hover, .disabled.btn-help:hover, .disabled.btn-list:hover, .disabled.btn-login:hover, .disabled.btn-waiting:hover, .disabled.btn-upload:hover, .btn-primary.disabled:focus, .disabled.btn-change:focus, .disabled.btn-duplicate:focus, .disabled.btn-multiple:focus, .disabled.btn-email:focus, .disabled.btn-action:focus, .disabled.btn-complete:focus, .disabled.btn-logout:focus, .disabled.btn-view:focus, .disabled.btn-edit:focus, .disabled.btn-add:focus, .disabled.btn-manage:focus, .disabled.sliders:focus, .disabled.btn-masquerade:focus, .disabled.btn-end-masquerade:focus, .disabled.btn-search:focus, .disabled.btn-info:focus, .disabled.btn-help:focus, .disabled.btn-list:focus, .disabled.btn-login:focus, .disabled.btn-waiting:focus, .disabled.btn-upload:focus, .btn-primary.disabled.focus, .disabled.focus.btn-change, .disabled.focus.btn-duplicate, .disabled.focus.btn-multiple, .disabled.focus.btn-email, .disabled.focus.btn-action, .disabled.focus.btn-complete, .disabled.focus.btn-logout, .disabled.focus.btn-view, .disabled.focus.btn-edit, .disabled.focus.btn-add, .disabled.focus.btn-manage, .disabled.focus.sliders, .disabled.focus.btn-masquerade, .disabled.focus.btn-end-masquerade, .disabled.focus.btn-search, .disabled.focus.btn-info, .disabled.focus.btn-help, .disabled.focus.btn-list, .disabled.focus.btn-login, .disabled.focus.btn-waiting, .disabled.focus.btn-upload, .btn-primary.disabled:active, .disabled.btn-change:active, .disabled.btn-duplicate:active, .disabled.btn-multiple:active, .disabled.btn-email:active, .disabled.btn-action:active, .disabled.btn-complete:active, .disabled.btn-logout:active, .disabled.btn-view:active, .disabled.btn-edit:active, .disabled.btn-add:active, .disabled.btn-manage:active, .disabled.sliders:active, .disabled.btn-masquerade:active, .disabled.btn-end-masquerade:active, .disabled.btn-search:active, .disabled.btn-info:active, .disabled.btn-help:active, .disabled.btn-list:active, .disabled.btn-login:active, .disabled.btn-waiting:active, .disabled.btn-upload:active, .btn-primary.disabled.active, .disabled.active.btn-change, .disabled.active.btn-duplicate, .disabled.active.btn-multiple, .disabled.active.btn-email, .disabled.active.btn-action, .disabled.active.btn-complete, .disabled.active.btn-logout, .disabled.active.btn-view, .disabled.active.btn-edit, .disabled.active.btn-add, .disabled.active.btn-manage, .disabled.active.sliders, .disabled.active.btn-masquerade, .disabled.active.btn-end-masquerade, .disabled.active.btn-search, .disabled.active.btn-info, .disabled.active.btn-help, .disabled.active.btn-list, .disabled.active.btn-login, .disabled.active.btn-waiting, .disabled.active.btn-upload, .btn-primary[disabled], [disabled].btn-change, [disabled].btn-duplicate, [disabled].btn-multiple, [disabled].btn-email, [disabled].btn-action, [disabled].btn-complete, [disabled].btn-logout, [disabled].btn-view, [disabled].btn-edit, [disabled].btn-add, [disabled].btn-manage, [disabled].sliders, [disabled].btn-masquerade, [disabled].btn-end-masquerade, [disabled].btn-search, [disabled].btn-info, [disabled].btn-help, [disabled].btn-list, [disabled].btn-login, [disabled].btn-waiting, [disabled].btn-upload, .btn-primary[disabled]:hover, [disabled].btn-change:hover, [disabled].btn-duplicate:hover, [disabled].btn-multiple:hover, [disabled].btn-email:hover, [disabled].btn-action:hover, [disabled].btn-complete:hover, [disabled].btn-logout:hover, [disabled].btn-view:hover, [disabled].btn-edit:hover, [disabled].btn-add:hover, [disabled].btn-manage:hover, [disabled].sliders:hover, [disabled].btn-masquerade:hover, [disabled].btn-end-masquerade:hover, [disabled].btn-search:hover, [disabled].btn-info:hover, [disabled].btn-help:hover, [disabled].btn-list:hover, [disabled].btn-login:hover, [disabled].btn-waiting:hover, [disabled].btn-upload:hover, .btn-primary[disabled]:focus, [disabled].btn-change:focus, [disabled].btn-duplicate:focus, [disabled].btn-multiple:focus, [disabled].btn-email:focus, [disabled].btn-action:focus, [disabled].btn-complete:focus, [disabled].btn-logout:focus, [disabled].btn-view:focus, [disabled].btn-edit:focus, [disabled].btn-add:focus, [disabled].btn-manage:focus, [disabled].sliders:focus, [disabled].btn-masquerade:focus, [disabled].btn-end-masquerade:focus, [disabled].btn-search:focus, [disabled].btn-info:focus, [disabled].btn-help:focus, [disabled].btn-list:focus, [disabled].btn-login:focus, [disabled].btn-waiting:focus, [disabled].btn-upload:focus, .btn-primary[disabled].focus, [disabled].focus.btn-change, [disabled].focus.btn-duplicate, [disabled].focus.btn-multiple, [disabled].focus.btn-email, [disabled].focus.btn-action, [disabled].focus.btn-complete, [disabled].focus.btn-logout, [disabled].focus.btn-view, [disabled].focus.btn-edit, [disabled].focus.btn-add, [disabled].focus.btn-manage, [disabled].focus.sliders, [disabled].focus.btn-masquerade, [disabled].focus.btn-end-masquerade, [disabled].focus.btn-search, [disabled].focus.btn-info, [disabled].focus.btn-help, [disabled].focus.btn-list, [disabled].focus.btn-login, [disabled].focus.btn-waiting, [disabled].focus.btn-upload, .btn-primary[disabled]:active, [disabled].btn-change:active, [disabled].btn-duplicate:active, [disabled].btn-multiple:active, [disabled].btn-email:active, [disabled].btn-action:active, [disabled].btn-complete:active, [disabled].btn-logout:active, [disabled].btn-view:active, [disabled].btn-edit:active, [disabled].btn-add:active, [disabled].btn-manage:active, [disabled].sliders:active, [disabled].btn-masquerade:active, [disabled].btn-end-masquerade:active, [disabled].btn-search:active, [disabled].btn-info:active, [disabled].btn-help:active, [disabled].btn-list:active, [disabled].btn-login:active, [disabled].btn-waiting:active, [disabled].btn-upload:active, .btn-primary[disabled].active, [disabled].active.btn-change, [disabled].active.btn-duplicate, [disabled].active.btn-multiple, [disabled].active.btn-email, [disabled].active.btn-action, [disabled].active.btn-complete, [disabled].active.btn-logout, [disabled].active.btn-view, [disabled].active.btn-edit, [disabled].active.btn-add, [disabled].active.btn-manage, [disabled].active.sliders, [disabled].active.btn-masquerade, [disabled].active.btn-end-masquerade, [disabled].active.btn-search, [disabled].active.btn-info, [disabled].active.btn-help, [disabled].active.btn-list, [disabled].active.btn-login, [disabled].active.btn-waiting, [disabled].active.btn-upload, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-change, fieldset[disabled] .btn-duplicate, fieldset[disabled] .btn-multiple, fieldset[disabled] .btn-email, fieldset[disabled] .btn-action, fieldset[disabled] .btn-complete, fieldset[disabled] .btn-logout, fieldset[disabled] .btn-view, fieldset[disabled] .btn-edit, fieldset[disabled] .btn-add, fieldset[disabled] .btn-manage, fieldset[disabled] .sliders, fieldset[disabled] .btn-masquerade, fieldset[disabled] .btn-end-masquerade, fieldset[disabled] .btn-search, fieldset[disabled] .btn-info, fieldset[disabled] .btn-help, fieldset[disabled] .btn-list, fieldset[disabled] .btn-login, fieldset[disabled] .btn-waiting, fieldset[disabled] .btn-upload, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-change:hover, fieldset[disabled] .btn-duplicate:hover, fieldset[disabled] .btn-multiple:hover, fieldset[disabled] .btn-email:hover, fieldset[disabled] .btn-action:hover, fieldset[disabled] .btn-complete:hover, fieldset[disabled] .btn-logout:hover, fieldset[disabled] .btn-view:hover, fieldset[disabled] .btn-edit:hover, fieldset[disabled] .btn-add:hover, fieldset[disabled] .btn-manage:hover, fieldset[disabled] .sliders:hover, fieldset[disabled] .btn-masquerade:hover, fieldset[disabled] .btn-end-masquerade:hover, fieldset[disabled] .btn-search:hover, fieldset[disabled] .btn-info:hover, fieldset[disabled] .btn-help:hover, fieldset[disabled] .btn-list:hover, fieldset[disabled] .btn-login:hover, fieldset[disabled] .btn-waiting:hover, fieldset[disabled] .btn-upload:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-change:focus, fieldset[disabled] .btn-duplicate:focus, fieldset[disabled] .btn-multiple:focus, fieldset[disabled] .btn-email:focus, fieldset[disabled] .btn-action:focus, fieldset[disabled] .btn-complete:focus, fieldset[disabled] .btn-logout:focus, fieldset[disabled] .btn-view:focus, fieldset[disabled] .btn-edit:focus, fieldset[disabled] .btn-add:focus, fieldset[disabled] .btn-manage:focus, fieldset[disabled] .sliders:focus, fieldset[disabled] .btn-masquerade:focus, fieldset[disabled] .btn-end-masquerade:focus, fieldset[disabled] .btn-search:focus, fieldset[disabled] .btn-info:focus, fieldset[disabled] .btn-help:focus, fieldset[disabled] .btn-list:focus, fieldset[disabled] .btn-login:focus, fieldset[disabled] .btn-waiting:focus, fieldset[disabled] .btn-upload:focus, fieldset[disabled] .btn-primary.focus, fieldset[disabled] .focus.btn-change, fieldset[disabled] .focus.btn-duplicate, fieldset[disabled] .focus.btn-multiple, fieldset[disabled] .focus.btn-email, fieldset[disabled] .focus.btn-action, fieldset[disabled] .focus.btn-complete, fieldset[disabled] .focus.btn-logout, fieldset[disabled] .focus.btn-view, fieldset[disabled] .focus.btn-edit, fieldset[disabled] .focus.btn-add, fieldset[disabled] .focus.btn-manage, fieldset[disabled] .focus.sliders, fieldset[disabled] .focus.btn-masquerade, fieldset[disabled] .focus.btn-end-masquerade, fieldset[disabled] .focus.btn-search, fieldset[disabled] .focus.btn-info, fieldset[disabled] .focus.btn-help, fieldset[disabled] .focus.btn-list, fieldset[disabled] .focus.btn-login, fieldset[disabled] .focus.btn-waiting, fieldset[disabled] .focus.btn-upload, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-change:active, fieldset[disabled] .btn-duplicate:active, fieldset[disabled] .btn-multiple:active, fieldset[disabled] .btn-email:active, fieldset[disabled] .btn-action:active, fieldset[disabled] .btn-complete:active, fieldset[disabled] .btn-logout:active, fieldset[disabled] .btn-view:active, fieldset[disabled] .btn-edit:active, fieldset[disabled] .btn-add:active, fieldset[disabled] .btn-manage:active, fieldset[disabled] .sliders:active, fieldset[disabled] .btn-masquerade:active, fieldset[disabled] .btn-end-masquerade:active, fieldset[disabled] .btn-search:active, fieldset[disabled] .btn-info:active, fieldset[disabled] .btn-help:active, fieldset[disabled] .btn-list:active, fieldset[disabled] .btn-login:active, fieldset[disabled] .btn-waiting:active, fieldset[disabled] .btn-upload:active, fieldset[disabled] .btn-primary.active, fieldset[disabled] .active.btn-change, fieldset[disabled] .active.btn-duplicate, fieldset[disabled] .active.btn-multiple, fieldset[disabled] .active.btn-email, fieldset[disabled] .active.btn-action, fieldset[disabled] .active.btn-complete, fieldset[disabled] .active.btn-logout, fieldset[disabled] .active.btn-view, fieldset[disabled] .active.btn-edit, fieldset[disabled] .active.btn-add, fieldset[disabled] .active.btn-manage, fieldset[disabled] .active.sliders, fieldset[disabled] .active.btn-masquerade, fieldset[disabled] .active.btn-end-masquerade, fieldset[disabled] .active.btn-search, fieldset[disabled] .active.btn-info, fieldset[disabled] .active.btn-help, fieldset[disabled] .active.btn-list, fieldset[disabled] .active.btn-login, fieldset[disabled] .active.btn-waiting, fieldset[disabled] .active.btn-upload {
     background-color: #0e99f0;
     border-color: #0d8ad8; }
-  .btn-primary .badge, .btn-change .badge, .btn-duplicate .badge, .btn-multiple .badge, .btn-email .badge, .btn-action .badge, .btn-logout .badge, .btn-view .badge, .btn-edit .badge, .btn-add .badge, .btn-manage .badge, .sliders .badge, .btn-masquerade .badge, .btn-end-masquerade .badge, .btn-search .badge, .btn-info .badge, .btn-help .badge, .btn-list .badge, .btn-login .badge, .btn-waiting .badge, .btn-upload .badge {
+  .btn-primary .badge, .btn-change .badge, .btn-duplicate .badge, .btn-multiple .badge, .btn-email .badge, .btn-action .badge, .btn-complete .badge, .btn-logout .badge, .btn-view .badge, .btn-edit .badge, .btn-add .badge, .btn-manage .badge, .sliders .badge, .btn-masquerade .badge, .btn-end-masquerade .badge, .btn-search .badge, .btn-info .badge, .btn-help .badge, .btn-list .badge, .btn-login .badge, .btn-waiting .badge, .btn-upload .badge {
     color: #0e99f0;
     background-color: #fff; }
 
@@ -7927,7 +7927,7 @@ Copyright (c) 2015 Daniel Eden
 body {
   -webkit-backface-visibility: hidden; }
 
-.animated, #masterUI > ui-view {
+.animated {
   -webkit-animation-duration: 0.5s;
   -moz-animation-duration: 0.5s;
   -o-animation-duration: 0.5s;
@@ -7936,19 +7936,19 @@ body {
   -moz-animation-fill-mode: both;
   -o-animation-fill-mode: both;
   animation-fill-mode: both; }
-  .animated.infinite, #masterUI > ui-view.infinite {
+  .animated.infinite {
     animation-iteration-count: infinite; }
-  .animated.hinge, #masterUI > ui-view.hinge {
+  .animated.hinge {
     -webkit-animation-duration: 1s;
     -moz-animation-duration: 1s;
     -o-animation-duration: 1s;
     animation-duration: 1s; }
-  .animated.bounceIn, #masterUI > ui-view.bounceIn, .animated.bounceOut, #masterUI > ui-view.bounceOut {
+  .animated.bounceIn, .animated.bounceOut {
     -webkit-animation-duration: 0.375s;
     -moz-animation-duration: 0.375s;
     -o-animation-duration: 0.375s;
     animation-duration: 0.375s; }
-  .animated.flipOutX, #masterUI > ui-view.flipOutX, .animated.flipOutY, #masterUI > ui-view.flipOutY {
+  .animated.flipOutX, .animated.flipOutY {
     -webkit-animation-duration: 0.375s;
     -moz-animation-duration: 0.375s;
     -o-animation-duration: 0.375s;
@@ -8376,7 +8376,7 @@ body {
     opacity: 0; }
   100% {
     opacity: 1; } }
-.fadeIn, #masterUI > ui-view.ng-enter, #masterUI > ui-view > section .animated.ng-enter, #masterUI > ui-view > section #masterUI > ui-view.ng-enter {
+.fadeIn {
   -webkit-animation-name: fadeIn;
   -moz-animation-name: fadeIn;
   -o-animation-name: fadeIn;
@@ -8436,7 +8436,7 @@ body {
     opacity: 1; }
   100% {
     opacity: 0; } }
-.fadeOut, #masterUI > ui-view.ng-leave, #masterUI > ui-view > section .animated.ng-leave, #masterUI > ui-view > section #masterUI > ui-view.ng-leave {
+.fadeOut {
   -webkit-animation-name: fadeOut;
   -moz-animation-name: fadeOut;
   -o-animation-name: fadeOut;
@@ -8948,13 +8948,15 @@ div.radio-switch {
   .sidebar > .nav > li.add-user > a:before {
     content: '\f234'; }
   .sidebar > .nav > li.openings > a:before {
-    content: '\f115'; }
+    content: '\f07c'; }
   .sidebar > .nav > li.positions > a:before, .sidebar > .nav > li.archive > a:before {
     content: '\f187'; }
   .sidebar > .nav > li.applicants > a:before {
     content: '\f007'; }
   .sidebar > .nav > li.applications > a:before, .sidebar > .nav > li.file > a:before {
-    content: '\f0f6'; }
+    content: '\f15c'; }
+  .sidebar > .nav > li.worksheet-fields > a:before {
+    content: '\f03a'; }
   .sidebar > .nav > li.open > ul.dropdown-menu {
     position: relative;
     display: block;
@@ -9251,14 +9253,15 @@ body > pre {
 button.btn-filtering {
   margin-top: 24px; }
 
-a.with-icon {
-  color: inherit; }
-  a.with-icon:hover {
+a.with-icon, i.with-icon {
+  color: inherit;
+  cursor: pointer; }
+  a.with-icon:hover, i.with-icon:hover {
     text-decoration: inherit;
     color: #0e99f0; }
-  a.with-icon.delete:hover, a.with-icon.remove:hover {
+  a.with-icon.delete:hover, a.with-icon.remove:hover, i.with-icon.delete:hover, i.with-icon.remove:hover {
     color: #CC3300; }
-  a.with-icon:not(.icon-after):before {
+  a.with-icon:not(.icon-after):before, i.with-icon:not(.icon-after):before {
     font-family: "FontAwesome";
     font-style: normal;
     font-weight: normal;
@@ -9270,29 +9273,29 @@ a.with-icon {
     display: inline-block;
     text-decoration: inherit;
     margin-right: 4px; }
-  a.with-icon:not(.icon-after).new-window:before {
+  a.with-icon:not(.icon-after).new-window:before, i.with-icon:not(.icon-after).new-window:before {
     content: '\f08e'; }
-  a.with-icon:not(.icon-after).edit:before {
+  a.with-icon:not(.icon-after).edit:before, i.with-icon:not(.icon-after).edit:before {
     content: '\f044'; }
-  a.with-icon:not(.icon-after).view:before {
+  a.with-icon:not(.icon-after).view:before, i.with-icon:not(.icon-after).view:before {
     content: '\f06e'; }
-  a.with-icon:not(.icon-after).reconcile:before {
+  a.with-icon:not(.icon-after).reconcile:before, i.with-icon:not(.icon-after).reconcile:before {
     content: '\f079'; }
-  a.with-icon:not(.icon-after).add:before {
+  a.with-icon:not(.icon-after).add:before, i.with-icon:not(.icon-after).add:before {
     content: '\f055'; }
-  a.with-icon:not(.icon-after).delete:before {
+  a.with-icon:not(.icon-after).delete:before, i.with-icon:not(.icon-after).delete:before {
     content: '\f014'; }
-  a.with-icon:not(.icon-after).remove:before {
+  a.with-icon:not(.icon-after).remove:before, i.with-icon:not(.icon-after).remove:before {
     content: '\f057'; }
-  a.with-icon:not(.icon-after).download:before {
+  a.with-icon:not(.icon-after).download:before, i.with-icon:not(.icon-after).download:before {
     content: '\f019'; }
-  a.with-icon:not(.icon-after).print:before {
+  a.with-icon:not(.icon-after).print:before, i.with-icon:not(.icon-after).print:before {
     content: '\f02f'; }
-  a.with-icon:not(.icon-after).help:before {
+  a.with-icon:not(.icon-after).help:before, i.with-icon:not(.icon-after).help:before {
     content: '\f059'; }
-  a.with-icon:not(.icon-after).sliders:before, a.with-icon:not(.icon-after).manage:before {
+  a.with-icon:not(.icon-after).sliders:before, a.with-icon:not(.icon-after).manage:before, i.with-icon:not(.icon-after).sliders:before, i.with-icon:not(.icon-after).manage:before {
     content: '\f1de'; }
-  a.with-icon.icon-after:after {
+  a.with-icon.icon-after:after, i.with-icon.icon-after:after {
     font-family: "FontAwesome";
     font-style: normal;
     font-weight: normal;
@@ -9304,27 +9307,27 @@ a.with-icon {
     display: inline-block;
     text-decoration: inherit;
     margin-left: 4px; }
-  a.with-icon.icon-after.new-window:after {
+  a.with-icon.icon-after.new-window:after, i.with-icon.icon-after.new-window:after {
     content: '\f08e'; }
-  a.with-icon.icon-after.edit:after {
+  a.with-icon.icon-after.edit:after, i.with-icon.icon-after.edit:after {
     content: '\f044'; }
-  a.with-icon.icon-after.view:after {
+  a.with-icon.icon-after.view:after, i.with-icon.icon-after.view:after {
     content: '\f06e'; }
-  a.with-icon.icon-after.reconcile:after {
+  a.with-icon.icon-after.reconcile:after, i.with-icon.icon-after.reconcile:after {
     content: '\f079'; }
-  a.with-icon.icon-after.add:after {
+  a.with-icon.icon-after.add:after, i.with-icon.icon-after.add:after {
     content: '\f055'; }
-  a.with-icon.icon-after.delete:after {
+  a.with-icon.icon-after.delete:after, i.with-icon.icon-after.delete:after {
     content: '\f014'; }
-  a.with-icon.icon-after.remove:after {
+  a.with-icon.icon-after.remove:after, i.with-icon.icon-after.remove:after {
     content: '\f057'; }
-  a.with-icon.icon-after.download:after {
+  a.with-icon.icon-after.download:after, i.with-icon.icon-after.download:after {
     content: '\f019'; }
-  a.with-icon.icon-after.print:after {
+  a.with-icon.icon-after.print:after, i.with-icon.icon-after.print:after {
     content: '\f02f'; }
-  a.with-icon.icon-after.help:after {
+  a.with-icon.icon-after.help:after, i.with-icon.icon-after.help:after {
     content: '\f059'; }
-  a.with-icon.icon-after.sliders:after, a.with-icon.icon-after.manage:after {
+  a.with-icon.icon-after.sliders:after, a.with-icon.icon-after.manage:after, i.with-icon.icon-after.sliders:after, i.with-icon.icon-after.manage:after {
     content: '\f1de'; }
 
 .icon-group {
@@ -9472,6 +9475,20 @@ a.with-icon {
     content: '\f0a8'; }
 
 .btn-reconcile:after {
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  text-decoration: inherit;
+  margin-left: 4px;
+  content: '\f079'; }
+
+.btn-complete:after {
   font-family: "FontAwesome";
   font-style: normal;
   font-weight: normal;
@@ -9750,7 +9767,7 @@ a.with-icon {
 .btn-email.no-text:not(.dropdown-toggle):after {
   margin-left: 0; }
 
-.btn-action:after, .btn-logout:after {
+.btn-action:after, .btn-complete:after, .btn-logout:after {
   font-family: "FontAwesome";
   font-style: normal;
   font-weight: normal;
@@ -11204,6 +11221,21 @@ td:hover > div.icon-group {
     font-size: 14px;
     line-height: 1;
     box-sizing: border-box; }
+    .item-group .item-group-actions i {
+      cursor: pointer;
+      color: #B5B5B5; }
+      .item-group .item-group-actions i:hover {
+        color: #333333; }
+    .item-group .item-group-actions .pin-top-left {
+      position: absolute;
+      top: 0;
+      left: 0; }
+    .item-group .item-group-actions .pin-top {
+      position: absolute;
+      top: 5px; }
+    .item-group .item-group-actions .pin-bottom {
+      position: absolute;
+      bottom: 5px; }
   .item-group .item-group-contents {
     display: table-cell;
     z-index: 2;
@@ -11223,6 +11255,16 @@ td:hover > div.icon-group {
     .item-group .item-group-contents.single-row .checkbox {
       margin-top: 8px;
       margin-bottom: 8px; }
+
+.item-group-contents h3 {
+  margin-top: 5px;
+  margin-bottom: 10px; }
+.item-group-contents h4 {
+  margin-top: 3px;
+  margin-bottom: 6px; }
+
+.badge, .label {
+  margin-right: 4px; }
 
 .rocker-switch {
   position: relative;
@@ -11323,15 +11365,9 @@ td:hover > div.icon-group {
     .has-warning .message .alert-link {
       color: #66512c; }
 
-#masterUI {
-  -webkit-transition: all 1s;
-  -o-transition: all 1s;
-  transition: all 1s; }
-  #masterUI > ui-view {
-    position: absolute;
-    width: 96%;
-    margin-bottom: 50px;
-    z-index: 10; }
+#masterUI > ui-view {
+  margin-bottom: 50px;
+  z-index: 10; }
 
 .collapsible-trigger {
   cursor: pointer; }
@@ -11352,10 +11388,19 @@ td:hover > div.icon-group {
   .collapsible-trigger.target-not-collapsed:after {
     transform: rotate(90deg); }
 
+.as-sortable-placeholder {
+  background-color: #E5E5E5; }
+
+h1.underline, h2.underline, h3.underline, h4.underline, h5.underline {
+  border-bottom: 1px solid #B5B5B5; }
+
+.pre {
+  white-space: pre; }
+
 body {
   -webkit-backface-visibility: hidden; }
 
-.animated, #masterUI > ui-view {
+.animated {
   -webkit-animation-duration: 0.5s;
   -moz-animation-duration: 0.5s;
   -o-animation-duration: 0.5s;
@@ -11364,7 +11409,7 @@ body {
   -moz-animation-fill-mode: both;
   -o-animation-fill-mode: both;
   animation-fill-mode: both; }
-  .animated.hinge, #masterUI > ui-view.hinge {
+  .animated.hinge {
     -webkit-animation-duration: 1s;
     -moz-animation-duration: 1s;
     -o-animation-duration: 1s;

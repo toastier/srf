@@ -1,9 +1,9 @@
 .panel.panel-default(
-  ng-class="{'panel-success': vm.applications.length && vm.componentTitle !== 'All Open Applications' }"
+  ng-class="{'panel-success': vm.panelSuccess() }"
   )
   .panel-heading {{ vm.componentTitle }}
   .panel-body
-    ul.list-group(ng-if="!!vm.applications.length")
+    ul.list-group(ng-if="vm.applications.length")
       li.list-group-item(ng-repeat="application in vm.applications")
         .row
           .col-xs-12
@@ -13,7 +13,8 @@
                   .col-xs-12
                     strong {{ application.honorific + ' ' + application.firstName + ' ' + application.lastName }}
                 .row
-                  .col-xs-12.small {{application.opening.name }}
+                  .col-xs-12.small
+                   a(ng-click="vm.viewOpening(application.opening)") {{application.opening.name }}
                 .row
                   .col-xs-12
                     span.label.label-info Submitted: {{ application.dateSubmitted | standardDate }}

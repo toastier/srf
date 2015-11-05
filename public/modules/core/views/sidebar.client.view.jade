@@ -1,4 +1,4 @@
-.col-sm-3.col-md-2.sidebar#main_menu-menu(ng-controller="SidebarController as sidebar")
+.col-sm-3.col-md-2.sidebar#main_menu-menu
     ul.nav.nav-sidebar
         li(class="{{ item.itemClass }}", ng-repeat="item in sidebar.menu.items | orderBy : '+position'", ng-if="item.shouldRender(sidebar.user)")
             a(ng-href="/{{item.uiRoute}}") {{ item.title }}

@@ -9,8 +9,6 @@ var fs = require('fs');
 var Grid = require('gridfs-stream');
 Grid.mongo = mongoose.mongo;
 var gfs = new Grid(mongoose.connection.db);
-var async = require('async');
-var _ = require('lodash');
 
 /**
  * Handles uploading a cv and inserting into FSGrid Mongo Storage
@@ -74,48 +72,12 @@ exports.uploadFile = function (req, res) {
  * @param fileId
  */
 exports.getFileMetadata = function (fileId) {
-  var connection = mongoose.createConnection(config.db);
-  connection.once('open', function () {
-    var gfs = grid(connection.db, mongo);
-    gfs.findOne({_id: fileId}, function (err, file) {
-      if (err) {
-        //@todo handle error
-        console.log(err);
-      } else {
-        return file;
-      }
-    });
-  });
-};
-
-/**
- * Handles uploading a coverLetter and inserting into FSGird Mongo Storage
- * @param req
- * @param res
- * @param next
- */
-exports.uploadCoverLetter = function (req, res, next) {
-  var form = new formidable.IncomingForm();
-  form.uploadDir = __dirname + '/../data/uploads/coverLetter';
-  form.keepExtensions = true;
-  form.parse(req, function (err, fields, files) {
-    if (!err) {
-      console.log('File uploaded : ' + files.file.path);
-      grid.mongo = mongo;
-      var connection = mongoose.createConnection(config.db);
-      connection.once('open', function () {
-        var gfs = grid( connection.db, mongo);
-        var writeStream = gfs.createWriteStream({
-          filename: files.file.name
-        });
-        fs.createReadStream(files.file.path).pipe(writeStream);
-
-        writeStream.on('close', function (gfsFile) {
-          fs.unlink(files.file.path, function () {
-            res.jsonp({coverLetter: gfsFile._id});
-          });
-        });
-      });
+  gfs.findOne({_id: fileId}, function (err, file) {
+    if (err) {
+      //@todo handle error
+      console.log(err);
+    } else {
+      return file;
     }
   });
 };
@@ -140,8 +102,8 @@ exports.getFileById = function (req, res, next) {
 
   gfs.findOne({_id: req.params.fileId}, function (err, fileMeta) {
     if (err) {
-      //@todo handle error
-      console.log(err);
+      err.status = 404;
+      return next(err);
     } else {
 
       var readStream = gfs.createReadStream({
@@ -169,6 +131,12 @@ exports.getFileById = function (req, res, next) {
   });
 };
 
+/**
+ * Delete a file from GridFS
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.deleteFile = function(req, res, next) {
   var fileId = req.params.fileId;
     gfs.remove({_id: fileId}, function(err) {

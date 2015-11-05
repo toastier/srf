@@ -279,11 +279,10 @@ exports.userByID = function (req, res, next, id) {
  */
 exports.requiresLogin = function (req, res, next) {
   if (!req.isAuthenticated()) {
-    return res.send(401, {
-      message: 'User is not logged in'
-    });
+    var err = new Error('Login is Required');
+    err.status = 401;
+    return next(err);
   }
-
   next();
 };
 
@@ -298,9 +297,9 @@ exports.hasAuthorization = function (roles) {
       if (_.intersection(req.user.roles, roles).length) {
         return next();
       } else {
-        return res.send(403, {
-          message: 'User is not authorized'
-        });
+        var err = new Error('User is not Authorized');
+        err.status = 403;
+        return next(err);
       }
     });
   };
@@ -484,11 +483,12 @@ exports.adminUpdate = function (req, res) {
   });
 };
 
-exports.emailAddressIsUnique = function (req, res) {
+exports.emailAddressIsUnique = function (req, res, next) {
   User.findOne({email: req.body.email})
     .exec(function(err, user) {
       if(err) {
-        //todo handle error
+        err.status = 500;
+        return next(err);
       }
       if(user && user._id) {
         return res.jsonp({unique: false});

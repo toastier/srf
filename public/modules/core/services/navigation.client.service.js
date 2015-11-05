@@ -69,13 +69,14 @@
       /**
        * Add multiple actions at once by passing an array of action objects
        * @param actions @type [{title: string, method: function, action: string, icon: string}]
+       * @param {Boolean} asDropdown If true, will force all items passed to be added as dropdown items.
        */
-      function addMany(actions) {
+      function addMany(actions, asDropdown) {
         angular.forEach(actions, function (action) {
           add({
             title: action.title,
             method: action.method,
-            type: action.type,
+            type: (asDropdown) ? 'dropdown' : action.type,
             icon: action.icon,
             disableIf: action.disableIf,
             style: action.style

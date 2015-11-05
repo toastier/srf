@@ -1,0 +1,25 @@
+.modal-header
+  h2 Choose an Opening
+.modal-body
+  .row
+    .col-xs-12
+      .list-group.col-xs-12(ng-if="vm.openings.length")
+        .list-group-item
+          .list-group-item-heading
+            .row
+              .col-md-6 Name
+              .col-md-3 Opened
+              .col-md-3 Closes
+        .list-group-item(
+          ng-repeat="opening in vm.openings",
+          ng-click="vm.selectOpening(opening)",
+          ng-class="{'list-group-item-success': vm.selectedOpening._id === opening._id}"
+        )
+          .row
+            .col-md-6(ng-bind="opening.name")
+            .col-md-3(ng-bind="opening.dateStart | standardDate")
+            .col-md-3(ng-bind="opening.dateClose | standardDate")
+      .alert.alert-info(ng-if="!vm.openings.length") There are no current Openings to choose from.
+.modal-footer
+  button.btn.btn-save(ng-click="vm.ok()", ng-disabled="!vm.selectedOpening") Confirm Choice
+  button.btn.btn-cancel(ng-click="vm.cancel()") Cancel Change

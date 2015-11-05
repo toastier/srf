@@ -923,6 +923,14 @@ a, i {
   }
 }
 
+.btn-complete {
+  @extend .btn-action;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f079';
+  }
+}
+
 .btn-save-reconcile {
   @extend .btn-save;
   &:after {

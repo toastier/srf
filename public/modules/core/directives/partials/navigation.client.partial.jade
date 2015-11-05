@@ -5,9 +5,9 @@
         h1.page-title {{ nav.title.name }}
       .col-md-6.page-actions
         .btn-group.pull-right(ng-show="nav.dropdownItems.length > 0")
-          .btn-group
-            button.btn.btn-action.rounded.dropdown-toggle Actions
+          .btn-group(dropdown, keyboard-nav, is-open="nav.status.isOpen")
+            button.btn.btn-action.rounded(dropdown-toggle) Available Actions
             ul.dropdown-menu(role="menu")
-              li(ng-repeat="dropdownItem in nav.dropdownItems")
-                span(ng-click="dropdownItem.method()") {{ dropdownItem.title }}
+              li(role="menuitem", ng-repeat="dropdownItem in nav.dropdownItems")
+                a(ng-click="dropdownItem.method()") {{ dropdownItem.title }}
         button.btn.btn-default.pull-right(class="{{ button.style }}", ng-click="button.method()", ng-disabled="button.disableIf()", ng-repeat="button in nav.buttons") {{ button.title }}

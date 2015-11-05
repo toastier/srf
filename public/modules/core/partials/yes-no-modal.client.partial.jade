@@ -1,0 +1,6 @@
+.modal-header
+  h2 {{ vm.modalTitle }}
+.modal-body {{ vm.modalMessage }}
+.modal-footer
+  button.btn.btn-primary(ng-click="vm.yes()") Yes
+  button.btn.btn-warning(ng-click="vm.no()") No

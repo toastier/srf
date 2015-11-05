@@ -16,10 +16,10 @@ module.exports = function (app) {
   // Application Routes
   app.route('/applications')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.list)
-    .post(applications.create); //@todo need to consider security here more thoroughly
+    .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), applications.create);
 
-  app.route('/applications/createForUser')
-    .post(users.requiresLogin, users.hasAuthorization(['user']), applications.createForUser);
+  app.route('/applications/createByUser')
+    .post(users.requiresLogin, users.hasAuthorization(['user']), applications.createByUser);
 
   app.route('/applications/forOpeningForUser/:openingId')
     .get(applications.forOpeningForUser); //@todo look at security on this
@@ -75,11 +75,14 @@ module.exports = function (app) {
     , applications.update
   );
 
+  app.route('/applications/forOpening/:opening/:isActive')
+    .get(users.hasAuthorization(['manager', 'admin', 'committee member']), applications.forOpening);
+
+  app.route('/applications/forApplicant/:applicant/:isActive')
+    .get(users.hasAuthorization(['manager', 'admin', 'committee member']), applications.forApplicant);
+
   app.route('/applications/:applicationId/manage')
-    .put(
-    users.hasAuthorization(['manager', 'admin'])
-    , applications.manage
-  );
+    .put(users.hasAuthorization(['manager', 'admin']), applications.manage);
 
   app.route('/applications/:applicationId')
     .get(users.hasAuthorization(['manager', 'admin', 'committee member', 'user'])

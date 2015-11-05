@@ -45,7 +45,7 @@
     }
 
     function allowEdit () {
-      return vm.user.hasRole(['admin']);
+      return vm.user.hasRole(['admin', 'manager']);
     }
 
     activate();

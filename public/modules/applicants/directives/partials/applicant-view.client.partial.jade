@@ -1,184 +1,81 @@
-p.confidential(ng-show='vm.applicant.status.confidential === true') Confidential
-p.not-current(ng-show='vm.applicant.status.current !== true') Not current applicant
-p(ng-show='vm.applicant.status.rejectionStatus.rejected === false')
-  | {{vm.applicant.status.hiringStatus.stage}}, {{vm.applicant.status.hiringStatus.dateStage | date:'shortDate'}}
-p(ng-show='vm.applicant.status.rejectionStatus.rejected === true')
-  | Rejected following {{vm.applicant.status.rejectionStatus.followingStage}}, {{vm.applicant.status.hiringStatus.dateRejection | date:'shortDate'}}
-// <div ng-init="hStatus = vm.applicant.status.hiringStatus">
-// <p data-ng-repeat="(key, value) in vm.applicant.status.hiringStatus">
-// <p><span>{{key}}</span>: <span> {{ value.date }} </span></p>
-// </p>
-//
-  </div>  //TODO I didn't figure out how to simplify and not explicitly call statuses
-// //TODO this seems so inefficient but haven't found better way..
-div(ng-init='hiringStatus=vm.applicant.status.hiringStatus')
-  p(ng-show='vm.applicant.status.hiringStatus.submitted.date')
-    span Submitted
-    | :
-    span  {{vm.applicant.status.hiringStatus.submitted.date  | date:'shortDate'}}
-  p(ng-show='vm.applicant.status.hiringStatus.submitted.note')
-    span Note
-    | :
-    span
-      em {{vm.applicant.status.hiringStatus.submitted.note}}
-  p(ng-show='vm.applicant.status.hiringStatus.offered.date')
-    span Offered
-    | :
-    span  {{vm.applicant.status.hiringStatus.offered.date | date:'shortDate'}}
-  p(ng-show='vm.applicant.status.hiringStatus.offered.note')
-    span Note
-    | :
-    span
-      em {{vm.applicant.status.hiringStatus.offered.note}}
-  p(ng-show='vm.applicant.status.hiringStatus.accepted.date')
-    span Accepted
-    | :
-    span  {{vm.applicant.status.hiringStatus.accepted.date | date:'shortDate'}}
-  p(ng-show='vm.applicant.status.hiringStatus.accepted.note')
-    span Note
-    | :
-    span
-      em {{vm.applicant.status.hiringStatus.accepted.note}}
-  p(ng-show='vm.applicant.status.hiringStatus.rejected.date')
-    span Rejected
-    | :
-    span  {{vm.applicant.status.hiringStatus.rejected.date | date:'shortDate'}}
-  p(ng-show='vm.applicant.status.hiringStatus.rejected.note')
-    span
-      | Note>:
-      span
-        em {{vm.applicant.status.hiringStatus.rejected.note}}
-  p(ng-show='vm.applicant.status.hiringStatus.start.date')
-    span Start
-    | :
-    span  {{vm.applicant.status.hiringStatus.start.date | date:'shortDate'}}
-  p(ng-show='vm.applicant.status.hiringStatus.start.note')
-    span Note
-    | :
-    span
-      em {{vm.applicant.status.hiringStatus.start.note}}
-
-small.pull-right
-  em.text-muted
-    | Added on {{vm.applicant.dateCreated | date:'mediumDate'}} by {{vm.applicant.user.displayName}}
-h2 Contact Information
-h3 Email
-.display-group
-  .col-xs-12
-    div(data-ng-repeat='email in vm.applicant.emailAddresses')
-      span {{email.emailAddress}}
-      span(ng-show='email.primary === true') (primary)
-      span(ng-show='email.note != null')
-      a(href='', ng-click='showemailnote=true') Note
-      .display-group(ng-show='showemailnote')
-      span(ng-click='showemailnote=false')
-      i.fa.fa-times
-      p {{email.note}}
-h3 Phone
-.display-group
-  .col-xs-12
-    div(data-ng-repeat='phone in vm.applicant.phoneNumbers')
-      span {{phone.phoneNumber}}
-      span(ng-show='phone.type != null') - {{phone.type}}
-      span(ng-show='phone.primary === true')  (primary)
-      span(ng-show='phone.note != null')
-      a(href='', ng-click='showphonenote=true') Note
-      .display-group(ng-show='showphonenote')
-      span(ng-click='showphonenote=false')
-      i.fa.fa-times
-      p {{phone.note}}
-h3 Mailing Address
-.display-group
-  .col-xs-12
-    div(data-ng-repeat='address in vm.applicant.addresses')
-      span(ng-show='address.type != null') ({{address.type}})
-      br
-      span {{address.address1}}
-      br
-      span {{address.address2}}
-      br
-      span {{address.city}},
-      span {{address.state}}
-      span {{address.postal_code}}
-      br
-      span {{address.country}}
-      br
-      span(ng-show='address.primary === true')  (primary)
-      span(ng-show='address.note != null')
-      a(href='', ng-click='showaddressnote=true') Note
-      .display-group(ng-show='showaddressnote')
-      span(ng-click='showaddressnote=false')
-      i.fa.fa-times
-      p {{address.note}}
-.display-group
-  div
-    h2
-      | Current
-      ng-pluralize(count='vm.applicant.applicantPositions.length', when="{'1': ' Position',\
-    '2': ' Positions'\
-    }")
-  div(data-ng-repeat='position in vm.applicant.applicantPositions', ng-init='i=position.institution')
-    span {{position.positionName}},
-    a(href='', ng-click='showme=true')
-      span {{i.institutionName}}
-    // TODO directive
-    .display-group(ng-show='showme')
-      strong Institution Info
-      span(ng-click='showme=false')
-        i.fa.fa-times
-      p {{i.city}}, {{i.state}} {{i.country}}
-    .position-name.span3
-      span
-        | Expected Completion Date: {{position.dateExpectedCompletion != null ? position.dateExpectedCompletion : date('12/31/2015') | date: 'shortDate'}}
-    .position-name.span3
-      em {{position.note}}
-.display-group
-  div
-    h2 Credentials
-  div(data-ng-repeat='credential in vm.applicant.credentials')
-    span {{credential.credential}},
-    a(href='', ng-click='showme=true')
-      span {{credential.institution}}
-    | ,
-    span {{credential.year}}
-    // TODO directive
-    // <div ng-show="showme" class="display-group"  >
-    // <strong>Institution Info</strong>
-    // <span ng-click="showme=false"><i class="fa fa-times"></i></span>
-    // <p>{{i.city}}, {{i.state}} {{i.country}}</p>
-    // </div>
-    .position-name.span3
-      em {{credential.note}}
-.display-group
-  div
-    h2
-      | Focal
-      ng-pluralize(count='vm.applicant.focalAreas.length', when="{'0': ' Areas - none specified', '1': ' Area', 'other': ' Areas'}")
-  div
-    // <ul class="bubble-list">
-    // <li data-ng-repeat="focalArea in vm.applicant.focalAreas" >{{focalArea.focalArea}}</li>
-    // </ul>
-    .btn.btn-default.btn-xs(data-ng-repeat='focalArea in vm.applicant.focalAreas') {{focalArea.focalArea}}
-.display-group
-  div
-    h2 Resume/CV
-  div
-    // TODO something odd with sample data, treating resume as if it's in an array, but it's not.
-    span
-      a(ng-href='{{vm.applicant.resume[0].link}}') View
-    span  {{vm.applicant.resume[0].link}}
-    p
-      span Upload Date: {{vm.applicant.resume[0].dateUploaded | date: 'shortDate'}}
-    span(ng-show='vm.applicant.resume[0].note != null')
-      a(href='', ng-click='showresumenote=true') Note
-    .display-group(ng-show='showresumenote')
-      span(ng-click='showresumenote=false')
-        i.fa.fa-times
-      p {{vm.applicant.resume[0].note}}
-.display-group
-  div
-    h2 Referral Source
-  div
-    p
-      span {{vm.applicant.source.primary}}
-      span(ng-show='vm.applicant.source.specific != null')  - {{vm.applicant.source.specific}}
+.panel.panel-default
+  .panel-heading
+    h4 Contact Information
+      small.pull-right
+        em.text-muted
+          | Added on {{vm.applicant.dateCreated | date:'mediumDate'}}
+  .panel-body
+    du-display-field(field-model="vm.applicant.name.honorific", field-label="Title", field-columns="2")
+    du-display-field(field-model="vm.applicant.name.firstName", field-label="First Name", field-columns="3")
+    du-display-field(field-model="vm.applicant.name.middleName", field-label="Middle Name", field-columns="2")
+    du-display-field(field-model="vm.applicant.name.lastName", field-label="Last Name", field-columns="4")
+    du-display-field(field-model="vm.applicant.name.suffix", field-label="Suff", field-columns="1")
+.row
+  .col-md-6
+    .panel.panel-default(ng-if="vm.applicant.emailAddresses.length")
+      .panel-heading
+        h4 Email
+      .panel-body
+        .col-xs-12
+          div(data-ng-repeat='email in vm.applicant.emailAddresses')
+            span {{email.emailAddress}}
+    .panel.panel-default(ng-if="vm.applicant.phoneNumbers.length")
+      .panel-heading
+        h4 Phone
+      .panel-body
+        .col-xs-12
+          div(data-ng-repeat='phone in vm.applicant.phoneNumbers')
+            span {{phone.phoneNumber}}
+            span(ng-show='phone.type != null') - {{phone.type}}
+            span(ng-show='phone.primary === true')  (primary)
+    .panel.panel-default(ng-if="vm.applicant.addresses.length")
+      .panel-heading
+        h4 Address
+      .panel-body
+        .col-xs-12
+          div(data-ng-repeat='address in vm.applicant.addresses')
+            span(ng-show='address.type != null') ({{address.type}})
+            br
+            span {{address.address1}}
+            br
+            span {{address.address2}}
+            br
+            span {{address.city}},
+            span {{address.state}}
+            span {{address.postal_code}}
+            br
+            span {{address.country}}
+            br
+            span(ng-show='address.primary === true')  (primary)
+    .panel.panel-default(ng-if="vm.applicant.applicantPositions.length")
+      .panel-heading
+        h4 Positions
+      .panel-body
+        .col-xs-12
+          div(data-ng-repeat='position in vm.applicant.applicantPositions', ng-init='i=position.institution')
+            span {{position.positionName}},
+            span {{i.institutionName}}
+            span
+              p {{i.city}}, {{i.state}} {{i.country}}
+            .position-name.span3
+              span
+                | Expected Completion Date: {{position.dateExpectedCompletion != null ? position.dateExpectedCompletion : date('12/31/2015') | date: 'shortDate'}}
+    .panel.panel-default(ng-if="vm.applicant.credentials.length")
+      .panel-heading
+        h4 Credentials
+      .panel-body
+        .col-xs-12
+          div(data-ng-repeat='credential in vm.applicant.credentials')
+            span {{credential.credential}},
+            span {{credential.institution}}
+            | ,
+            span {{credential.year}}
+    .panel.panel-default(ng-if="vm.applicant.focalAreas.length")
+      .panel-heading
+        h4 Focal Areas
+      .panel-body
+        .chip(ng-repeat="focalArea in vm.applicant.focalAreas") {{ focalArea.focalArea }}
+  .col-md-6
+    du-list-applications-smart-component(applicant-id="vm.applicant._id", view-mode="activeForApplicant")
+  .col-md-6
+    du-list-applications-smart-component(applicant-id="vm.applicant._id", view-mode="inactiveForApplicant")

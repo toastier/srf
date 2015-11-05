@@ -14,6 +14,7 @@
     vm.toggleDatePicker = toggleDatePicker;
     vm.options = {};
     vm.options.focalAreas = Applicant.getFocalAreaOptions();
+    vm.view = view;
 
     activate();
 
@@ -32,9 +33,10 @@
       Navigation.breadcrumbs.add('Applicants', '#!/applicants', '#!/applicants'); // add a breadcrumb
       /** @type Array Actions we wish to add to the Navigation that we define locally **/
       var controllerActions = [
-        {title: 'Save Changes', method: vm.update, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
-        {title: 'Cancel Changes', method: vm.cancel, type: 'button', style: 'btn-cancel'},
-        {title: 'Delete Applicant', method: vm.remove, type: 'button', style: 'btn-delete'}
+        {title: 'Save', method: vm.update, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
+        {title: 'Cancel', method: vm.cancel, type: 'button', style: 'btn-cancel'},
+        {title: 'Delete', method: vm.remove, type: 'button', style: 'btn-delete'},
+        {title: 'View', method: vm.view, type: 'button', style: 'btn-view'}
       ];
 
       var actions = Applicant.getActions(); // get the actions from the Model
@@ -87,6 +89,10 @@
           Messages.addMessage(err.data.message, 'error', 'Problem updating Applicant');
         });
 
+    }
+
+    function view () {
+      vm.applicant.viewApplicant(vm.applicant);
     }
 
 
