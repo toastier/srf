@@ -4,7 +4,7 @@ section
   .col-md-12
     form.form-horizontal(novalidate='')
       fieldset
-        .form-group.col-xs-12
+        .form-group.col-xs-12.col-md-6
           label.control-label(for='opening') Opening
           select#opening.form-control(ng-options="opening._id as opening.name for opening in vm.options.openings", ng-change="vm.extractData()", data-ng-model='vm.opening', required='')
             option(value="all") --All Openings--
