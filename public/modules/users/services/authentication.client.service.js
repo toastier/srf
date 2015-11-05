@@ -69,6 +69,7 @@
           user.displayName = result.displayName || user.displayName;
           user.honorific = result.honorific || user.honorific;
           user.firstName = result.firstName || user.firstName;
+          user.lastName = result.lastName || user.lastName;
           user.roles = result.roles || user.roles;
           user.email = result.email || user.email;
           $state.go('main.home');
