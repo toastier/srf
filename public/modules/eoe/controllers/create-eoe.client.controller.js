@@ -23,7 +23,7 @@
                  else {
 
                       vm.disableSaveButton = disableSaveButton;
-                      vm.eoe = new Eoe();
+                      vm.eoe = new Eoe({disability: null});
                       vm.saveEoe = saveEoe;
                       vm.options = { };
                       vm.declineOff = declineOff;
