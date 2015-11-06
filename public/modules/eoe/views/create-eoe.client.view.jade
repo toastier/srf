@@ -3,3 +3,15 @@ section
    .row
       .col-xs-12
       eoe-form
+input(type='select', ng-model='notsubmitted')
+#basicModal.modal(ng-class=notsubmitted ,tabindex='-1', role='dialog', aria-labelledby='basicModal', aria-hidden='true')
+   .modal-dialog
+      .modal-content
+         .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4#myModalLabel.modal-title Basic Modal
+         .modal-body
+            h3 Modal Body
+         .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+            button.btn.btn-primary(type='button') Save changes
