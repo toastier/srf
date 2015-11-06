@@ -1,1 +1,1 @@
-<nav ng-controller="BreadcrumbsController as crumbs"><ul ng-show="crumbs.here.length &gt; 0" class="breadcrumb"><li ng-repeat="crumb in crumbs.here"><a ng-href="{{ crumb.uiRoute}}">{{ crumb.title }}</a></li></ul></nav>
+<nav><ul ng-show="breadcrumbs.here.length &gt; 0" class="breadcrumb"><li ng-repeat="breadcrumb in breadcrumbs.here"><a ng-href="{{ breadcrumb.uiRoute}}">{{ breadcrumb.title }}</a></li></ul></nav>

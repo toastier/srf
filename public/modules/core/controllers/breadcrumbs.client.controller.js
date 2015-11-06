@@ -6,9 +6,8 @@
 
   function BreadcrumbsController(Navigation) {
 
-    var crumbs = this;
-
-    crumbs.here = Navigation.breadcrumbs.get();
+    var breadcrumbs = this;
+    breadcrumbs.here = Navigation.breadcrumbs.get();
 
   }
 })();

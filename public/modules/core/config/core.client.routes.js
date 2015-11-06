@@ -13,22 +13,27 @@
           abstract: true,
           template: '<ui-view/>',
           views: {
-            'content': {
+            'header': {
+              templateUrl: 'modules/core/views/header.client.view.html',
+              controller: 'HeaderController',
+              controllerAs: 'header'
             },
             'sidebar': {
               templateUrl: 'modules/core/views/sidebar.client.view.html',
               controller: 'SidebarController',
               controllerAs: 'sidebar'
             },
+            //'breadcrumbs': {
+            //  templateUrl: 'modules/core/views/breadcrumbs.client.view.html',
+            //  controller: 'BreadcrumbsController',
+            //  controllerAs: 'breadcrumbs'
+            //},
+            'content': {
+            },
             'footer': {
               templateUrl: 'modules/core/views/footer.client.view.html',
               controller: 'FooterController',
               controllerAs: 'footer'
-            },
-            'header': {
-              templateUrl: 'modules/core/views/header.client.view.html',
-              controller: 'HeaderController',
-              controllerAs: 'header'
             }
           },
           resolve: {

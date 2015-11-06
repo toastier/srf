@@ -1,22 +1,23 @@
 du-filtering(ng-if="!vm.noFilteringDirective")
 table.table.table-striped
   thead(du-sorting-header)
-  tr(ng-repeat="item in vm.collection.paginated")
-    td(ng-if="!column.hidden", ng-repeat="column in vm.collection.columnDefinitions")
-      .icon-group.size-medium(ng-if="column.actions.restrict(item)")
-        a.with-icon(
-          ng-if="actionItem.restrict()",
-          ng-repeat="actionItem in column.actions.actionItems",
-          class="with icon {{ actionItem.type }}",
-          ng-click="duTable.callMethod(item, actionItem.method, actionItem.attachedTo)"
-        )
-      span(ng-if="!column.format") {{ duTable.getIndex(item, column.field) }}
-      span(ng-if="column.format === 'summary'")
-        span.badge(ng-if="duTable.getIndex(item, 'isNew')") new
-        | &nbsp;{{ duTable.getIndex(item, column.field) }}
-      span(ng-if="column.format === 'currency'") {{ duTable.getIndex(item, column.field) | currency }}
-      span(ng-if="column.format === 'date'") {{ duTable.getIndex(item, column.field) | standardDate }}
-      span(ng-if="column.format === 'standardDate'") {{ duTable.getIndex(item, column.field) | standardDate }}
-      span(ng-if="column.format === 'checkMark'") {{ duTable.getIndex(item, column.field) | checkMark }}
-      span(ng-if="column.format === 'trimmed'") {{ duTable.getIndex(item, column.field) | trimmed }}
+  tbody
+    tr(ng-repeat="item in vm.collection.paginated")
+      td(ng-if="!column.hidden", ng-repeat="column in vm.collection.columnDefinitions")
+        .icon-group.size-medium(ng-if="column.actions.restrict(item)")
+          a.with-icon(
+            ng-if="actionItem.restrict()",
+            ng-repeat="actionItem in column.actions.actionItems",
+            class="with icon {{ actionItem.type }}",
+            ng-click="duTable.callMethod(item, actionItem.method, actionItem.attachedTo)"
+          )
+        span(ng-if="!column.format") {{ duTable.getIndex(item, column.field) }}
+        span(ng-if="column.format === 'summary'")
+          span.badge(ng-if="duTable.getIndex(item, 'isNew')") new
+          | &nbsp;{{ duTable.getIndex(item, column.field) }}
+        span(ng-if="column.format === 'currency'") {{ duTable.getIndex(item, column.field) | currency }}
+        span(ng-if="column.format === 'date'") {{ duTable.getIndex(item, column.field) | standardDate }}
+        span(ng-if="column.format === 'standardDate'") {{ duTable.getIndex(item, column.field) | standardDate }}
+        span(ng-if="column.format === 'checkMark'") {{ duTable.getIndex(item, column.field) | checkMark }}
+        span(ng-if="column.format === 'trimmed'") {{ duTable.getIndex(item, column.field) | trimmed }}
 pagination(boundary-links="true", ng-model="vm.collection.paginator.currentPage", items-per-page="vm.collection.paginator.itemsPerPage", max-size="vm.collection.paginator.maxSize", total-items="vm.collection.matched.length", num-pages="vm.collection.paginator.totalPages", ng-change="vm.collection.paginate()")

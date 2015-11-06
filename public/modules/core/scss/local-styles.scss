@@ -125,35 +125,50 @@
 .animate-container {
 }
 
+//
+// ngRepeat Animation
+// -----------------------------------------------------
+
+
 .animate-repeat {
-  //line-height:40px;
+  position: relative;
+  line-height:40px;
+  height: 40px;
   box-sizing:border-box;
 }
 
 .animate-repeat.ng-move,
 .animate-repeat.ng-enter,
 .animate-repeat.ng-leave {
-  -webkit-transition:all ease-in-out 0.25s;
-  transition:all ease-in-out 0.25s;
+  -webkit-transition:all linear 0.25s;
+  transition:all linear 0.25s;
 }
 
-.animate-repeat.ng-leave.ng-leave-active,
-.animate-repeat.ng-move,
-.animate-repeat.ng-enter {
-  opacity:0;
+.animate-repeat.ng-leave {
+  display: none;
+}
+
+.animate-repeat-enter {
+  height: 0;
+  opacity: 1;
   max-height:0;
 }
 
-.animate-repeat.ng-leave,
-.animate-repeat.ng-move.ng-move-active,
-.animate-repeat.ng-enter.ng-enter-active {
-  opacity:1;
-  max-height:40px;
+.animate-repeat.ng-leave.ng-leave-active,
+.animate-repeat.ng-move {
+  display: table-row;
+  opacity: 0.5;
+  max-height:0;
 }
 
+
+//
+// ngIf Animation
+// -----------------------------------------------------
+
+
+
 .animate-if.ng-enter, .animate-if.ng-leave {
-  //-webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-  //transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
   -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
   transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
 }
@@ -167,6 +182,11 @@
 .animate-if.ng-enter.ng-enter-active {
   opacity:1;
 }
+
+//
+// Checkmark Colors
+// -----------------------------------------------------
+
 
 .checkmark {
   &.true {
@@ -1050,30 +1070,29 @@ td {
 // - dependent on ngAnimate and sass-animate
 // -----------------------------------------------------
 
-#masterUI {
-  //@include transition(all 1s);
-  > ui-view {
-    //position: absolute;
-    //width: 96%;
-    margin-bottom: 50px;
-    //@extend .animated;
-    z-index: 10;
-    //&.ng-enter {
-    //  @extend .fadeIn;
-    //}
-    //&.ng-leave {
-    //  @extend .fadeOut;
-    //}
-    //> section {
-    //  .animated {
-    //    &.ng-enter {
-    //      @extend .fadeIn;
-    //    }
-    //    &.ng-leave {
-    //      @extend .fadeOut;
-    //    }
-    //  }
-    //}
+section[ui-view].ui-view-content {
+  @include transition(all 1s);
+  margin-bottom: 50px;
+  @extend .animated;
+  z-index: 10;
+  &.ng-enter {
+    position: absolute;
+    left:15px;
+    right:15px;
+    @extend .fadeIn;
+  }
+  &.ng-leave {
+    @extend .fadeOut;
+  }
+  > section {
+    .animated {
+      &.ng-enter {
+        @extend .fadeIn;
+      }
+      &.ng-leave {
+        @extend .fadeOut;
+      }
+    }
   }
 }
 
@@ -1119,5 +1138,10 @@ h1, h2, h3, h4, h5 {
 
 .pre {
   white-space: pre;
+}
+
+navigation {
+  display: block;
+  position: relative;
 }
 
