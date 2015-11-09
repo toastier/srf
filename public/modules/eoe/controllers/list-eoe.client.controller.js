@@ -141,7 +141,9 @@
 
     vm.eoeData = {
       byGender: {},
-      byEthnicity: {},
+      byEthnicity: {
+        "totalCount" : 0
+      },
       byRace: {
         "multiple": {
           "count" : 0,
@@ -169,12 +171,26 @@
         console.log(gender.description + ' count is ' + genderCount);
         vm.eoeData.byGender[gender.code] = { "count": genderCount, "label" : gender.description};
       });
+      //_.forEach(vm.options.ethnicities, function(ethnicity) {
+      //  var ethnicityCount=_.size(_.filter(demographicData, function(rec) {
+      //    return rec.ethnicity === ethnicity.code;
+      //  }));
+      //  console.log(ethnicity.description + ' count is ' + ethnicityCount);
+      //  vm.eoeData.byEthnicity[ethnicity.code] = {"count" : ethnicityCount, "label" : ethnicity.description};
+      //});
+      vm.eoeData.byEthnicity.totalCount = 0;
       _.forEach(vm.options.ethnicities, function(ethnicity) {
-        var ethnicityCount=_.size(_.filter(demographicData, function(rec) {
-          return rec.ethnicity === ethnicity.code;
-        }));
-        console.log(ethnicity.description + ' count is ' + ethnicityCount);
-        vm.eoeData.byEthnicity[ethnicity.code] = {"count" : ethnicityCount, "label" : ethnicity.description};
+        vm.eoeData.byEthnicity[ethnicity.code] = { label: ethnicity.description, counts: { totalCount : 0 }} ;
+        _.forEach(vm.options.genders, function(gender) {
+          vm.eoeData.byEthnicity[ethnicity.code][gender.code] = 0  ;
+          var ethnicityCount =_.size(_.filter(demographicData, function(rec) {
+            return (rec.ethnicity === ethnicity.code && rec.gender === gender.code);
+          }));
+          console.log(ethnicity.description + ' - ' + gender.description + ' count is ' + ethnicityCount);
+          vm.eoeData.byEthnicity[ethnicity.code].counts[gender.code] = ethnicityCount;
+          vm.eoeData.byEthnicity[ethnicity.code].counts.totalCount += ethnicityCount;
+        });
+        vm.eoeData.byEthnicity.totalCount += vm.eoeData.byEthnicity[ethnicity.code].counts.totalCount;
       });
       _.forEach(vm.options.races, function(race) {
         var raceCount=_.size(_.filter(demographicData, function(rec) {
@@ -241,7 +257,7 @@
       actions.splice(1, 2); // splice out the ones we don't want (were taking them all out here)
 
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('EOE Data - Demographics'); // set the page title
+      Navigation.viewTitle.set('EOE Report'); // set the page title
     }
 
     function activate () {
