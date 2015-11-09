@@ -21,7 +21,7 @@
                      $state.go('main.listOpenings');
                  }
                  else {
-
+                      vm.eoeSaved = false;
                       vm.disableSaveButton = disableSaveButton;
                       vm.eoe = new Eoe({disability: null});
                       vm.saveEoe = saveEoe;
@@ -30,7 +30,8 @@
                       vm.flagOff = flagOff;
                       vm.declineAnswer = declineAnswer;
                       vm.setSelection = setSelection;
-                      vm.setEoeProvided = setEoeProvided;
+                      //vm.setEoeProvided = setEoeProvided; TODO delete if not needed
+
 
                       activate();
 
@@ -39,16 +40,16 @@
 
 
 
-      function setEoeProvided(Application, $stateParams) {
-
-          Application.setEoeProvided({applicationId: $stateParams.applicationId}).$promise
-              .then(function() {
-                  console.log('Eoe Provided flag set.');
-              })
-              .catch(function (err) {
-                  Messages.addMessage(err.data.message, 'error');
-              });
-      }
+      //function setEoeProvided(Application, $stateParams) {
+      //
+      //    Application.setEoeProvided({applicationId: $stateParams.applicationId}).$promise
+      //        .then(function() {
+      //            console.log('Eoe Provided flag set.');
+      //        })
+      //        .catch(function (err) {
+      //            Messages.addMessage(err.data.message, 'error');
+      //        });
+      //}
 
 
 
@@ -182,7 +183,7 @@
                         .$promise
                         .then(function (result) {
                             Messages.addMessage('Thank you for submitted your confidential EOE information.');
-                            $state.go('main.listOpenings');
+                            vm.eoeSaved = true;
                         })
                         .catch(function (error) {
                             Messages.addMessage('There was a problem saving the Eoe ' + error.data.message, 'error');
