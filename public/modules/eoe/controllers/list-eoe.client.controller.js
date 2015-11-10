@@ -143,20 +143,18 @@
     function reportDataInit() {
       vm.eoeData = {
         byGender: {},
-        byEthnicity: {
-          "totalCount" : 0
-        },
+        byEthnicity: {},
         byRace: {
           "multiple": {
             "counts" : {
               "totalCount" : 0
             },
-            "label" : "Multiple",
-            "totalCount" : 0
+            "label" : "Multiple"
           }
         },
         byDisability: {},
-        byVeteran: {}
+        byVeteran: {},
+        totalCount: 0
       };
     }
 
@@ -171,6 +169,8 @@
           return (rec.opening._id === vm.opening);
         });
       }
+
+      vm.eoeData.totalCount = _.size(demographicData);
 
       _.forEach(vm.options.genders, function(gender) {
         var genderCount=_.size(_.filter(demographicData, function(rec) {
@@ -191,7 +191,7 @@
           vm.eoeData.byEthnicity[ethnicity.code].counts[gender.code] = ethnicityCount;
           vm.eoeData.byEthnicity[ethnicity.code].counts.totalCount += ethnicityCount;
         });
-        vm.eoeData.byEthnicity.totalCount += vm.eoeData.byEthnicity[ethnicity.code].counts.totalCount;
+        //vm.eoeData.byEthnicity.totalCount += vm.eoeData.byEthnicity[ethnicity.code].counts.totalCount;
       });
 
       //TODO RacexGender table grand total should be M+F, not sum of races (since there
@@ -207,7 +207,7 @@
           vm.eoeData.byRace[race.code].counts[gender.code] = raceCount;
           vm.eoeData.byRace[race.code].counts.totalCount += raceCount;
         });
-        vm.eoeData.byRace.totalCount += vm.eoeData.byRace[race.code].counts.totalCount;
+        //vm.eoeData.byRace.totalCount += vm.eoeData.byRace[race.code].counts.totalCount;
       });
       _.forEach(vm.options.genders, function (gender) {
         vm.eoeData.byRace.multiple[gender.code] = 0;
