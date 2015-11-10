@@ -22,10 +22,16 @@ section
               .col-md-8.form-group(ng-if="vm.user.hasRole(['admin', 'committee member'])")
                 label.checkbox-inline
                   input.checkox(type="checkbox", ng-model="vm.isActiveYes", ng-change="vm.setIsActive('isActiveYes')")
-                  | Limit to 'active' Openings
+                  | Limit to &nbsp;
+                  .badge active
                 label.checkbox-inline
                   input.checkox(type="checkbox", ng-model="vm.isActiveNo", ng-change="vm.setIsActive('isActiveNo')")
-                  | Limit to 'inactive' Openings
+                  | Limit to &nbsp;
+                  .badge inactive
+                label.checkbox-inline
+                  input(type="checkbox", ng-model="vm.currentOnly", ng-change="vm.setCurrentOnlyFilter()")
+                  | Limit to &nbsp;
+                  .badge current
             .row
               .col-xs-12
                 button.btn.btn-default.btn-undo(ng-click="vm.collection.clearFilters()") Clear Filters

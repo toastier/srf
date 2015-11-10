@@ -28,7 +28,7 @@
      * Get the list of Openings
      */
     function activate() {
-      Opening.query().$promise
+      Opening.forPosition({ positionId: currentOpening.position}).$promise
         .then(function(openings) {
           removeCurrentOpeningFromList(openings);
           vm.openings = openings;

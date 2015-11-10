@@ -1,7 +1,7 @@
 'use strict';
 
-var users = require('../../app/controllers/users'),
-  openings = require('../../app/controllers/openings');
+var users = require('../../app/controllers/users.server.controller'),
+  openings = require('../../app/controllers/openings.server.controller');
 
 module.exports = function(app) {
   // Position Routes
@@ -12,6 +12,8 @@ module.exports = function(app) {
     .get(openings.current);
   app.route('/openings/current/:openingId')
     .get(openings.readCurrent);
+  app.route('/openings/forPosition/:position')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), openings.current);
   app.route('/openings/:openingId')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), openings.read)
     .put(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), openings.update)

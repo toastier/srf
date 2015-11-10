@@ -106,7 +106,10 @@ exports.delete = function (req, res) {
  * List of Openings
  */
 exports.list = function (req, res) {
-  Opening.find().sort('-datePosted').populate('user', 'displayName').exec(function (err, openings) {
+  Opening
+    .find()
+    .sort('-datePosted')
+    .exec(function (err, openings) {
     if (err) {
       return res.send(400, {
         message: getErrorMessage(err)
@@ -123,7 +126,14 @@ exports.list = function (req, res) {
  * @param res
  */
 exports.current = function (req, res) {
-  Opening.find({isActive: true})
+  var conditions = {isActive: true};
+  if(req.params && req.params.position) {
+    conditions.position = req.params.position;
+  }
+  Opening
+    .find(conditions)
+    .where('dateStart').lte(Date.now())
+    .where('dateClose').gte(Date.now())
     .sort('-datePosted')
     .exec(function(err, openings) {
       if (err) {
