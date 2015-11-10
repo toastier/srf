@@ -35,6 +35,7 @@
     }
 
     function extractData() {
+      reportDataInit();
       parseDemographic(vm.rawData, vm.opening);
       parseDisability(vm.rawData);
       parseVeteran(vm.rawData);
@@ -139,20 +140,25 @@
       { code: 'medal', description: 'Armed Forces Service Medal Veteran', detail: 'While serving on active duty in the Armed Forces, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.' }
     ];
 
-    vm.eoeData = {
-      byGender: {},
-      byEthnicity: {
-        "totalCount" : 0
-      },
-      byRace: {
-        "multiple": {
-          "count" : 0,
-          "label" : "Multiple"
-        }
-      },
-      byDisability: {},
-      byVeteran: {}
-    };
+    function reportDataInit() {
+      vm.eoeData = {
+        byGender: {},
+        byEthnicity: {
+          "totalCount" : 0
+        },
+        byRace: {
+          "multiple": {
+            "counts" : {
+              "totalCount" : 0
+            },
+            "label" : "Multiple",
+            "totalCount" : 0
+          }
+        },
+        byDisability: {},
+        byVeteran: {}
+      };
+    }
 
     function parseDemographic(result) {
       var demographicData = (_.find(result, function(data) {
@@ -174,7 +180,6 @@
         vm.eoeData.byGender[gender.code] = { "count": genderCount, "label" : gender.description};
       });
 
-      vm.eoeData.byEthnicity.totalCount = 0;
       _.forEach(vm.options.ethnicities, function(ethnicity) {
         vm.eoeData.byEthnicity[ethnicity.code] = { label: ethnicity.description, counts: { totalCount : 0 }} ;
         _.forEach(vm.options.genders, function(gender) {
@@ -191,7 +196,6 @@
 
       //TODO RacexGender table grand total should be M+F, not sum of races (since there
       // are multiples)
-      vm.eoeData.byRace.totalCount = 0;
       _.forEach(vm.options.races, function(race) {
         vm.eoeData.byRace[race.code] = {label: race.description, counts: {totalCount: 0}};
         _.forEach(vm.options.genders, function (gender) {
@@ -204,9 +208,14 @@
           vm.eoeData.byRace[race.code].counts.totalCount += raceCount;
         });
         vm.eoeData.byRace.totalCount += vm.eoeData.byRace[race.code].counts.totalCount;
-        vm.eoeData.byRace.multiple.count = _.size(_.filter(demographicData, function (rec) {
-          return _.size(_.keys(_.pick(rec.race, _.identity))) > 1;
+      });
+      _.forEach(vm.options.genders, function (gender) {
+        vm.eoeData.byRace.multiple[gender.code] = 0;
+        var raceCount =  _.size(_.filter(demographicData, function (rec) {
+          return ((_.size(_.keys(_.pick(rec.race, _.identity))) > 1) && rec.gender === gender.code);
         }));
+        vm.eoeData.byRace.multiple.counts[gender.code] = raceCount;
+        vm.eoeData.byRace.multiple.counts.totalCount += raceCount;
       });
     }
 
@@ -273,6 +282,7 @@
           .$promise
           .then(function(result) {
                vm.rawData = result;
+               reportDataInit();
                parseDemographic(result, vm.opening);
                parseDisability(result, vm.opening);
                parseVeteran(result);
