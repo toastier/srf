@@ -56,7 +56,7 @@
       var controllerActions = [];
       if(vm.user.hasRole(['admin', 'manager'])) {
         actions.splice(0, 2); // for admin and director, splice out actions other than 'edit'
-        controllerActions.push({title: 'Create Application', method: vm.createApplicationForOpening, type: 'button', style: 'btn-add'});
+        //controllerActions.push({title: 'Create Application', method: vm.createApplicationForOpening, type: 'button', style: 'btn-add'});
       } else {
         actions.splice(0, actions.length); // for anyone else, splice out everything.
       }

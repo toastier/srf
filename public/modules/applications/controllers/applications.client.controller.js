@@ -52,7 +52,6 @@
       return vm.user.hasRole(['admin', 'committee member', 'manager']);
     }
 
-
     var initialSortOrder = ['-isNewApplication', '-dateSubmitted'];
 
     activate();
@@ -78,7 +77,7 @@
 
       var actions = Application.getActions(); // get the actions from the Model
       if (vm.user.hasRole(['admin', 'manager'])) {
-        actions.splice(1, 2); // splice out the ones we don't want (leaving Create New Application)
+        actions.splice(0, 3); // splice out the ones we don't want (leaving Create New Application)
       } else {
         actions = []; // not an admin or manager, so we just set actions to an empty array;
       }
