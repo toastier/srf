@@ -6,11 +6,49 @@
   /**
    * Utility functions for doing matching
    *
-   * @returns {{stringInString: Function, trueMatch: Function, numberMatch: Function}}
+   * @returns {{stringInString: Function, trueMatch: Function, numberMatch: Function, isDateLessThan: Function, isDateGreaterThan: Function}}
    * @constructor
    */
-  function Matching( _ ) {
+  function Matching() {
     return {
+      /**
+       * returns true if the value date is less than or equal to the criteria date
+       * @param criteria
+       * @param value
+       * @returns {boolean}
+       */
+      isDateLessThan: function (criteria, value) {
+        if(!criteria || criteria === '') {
+          return true;
+        }
+        if(!value) {
+          return false;
+        }
+
+        criteria = new Date(criteria);
+        value = new Date(value);
+
+        return (value <= criteria);
+      },
+      /**
+       * returns true if the value date is greater than or equal to the criteria date
+       * @param criteria
+       * @param value
+       * @returns {boolean}
+       */
+      isDateGreaterThan: function (criteria, value) {
+        if(!criteria || criteria === '') {
+          return true;
+        }
+        if(!value) {
+          return false;
+        }
+
+        criteria = new Date(criteria);
+        value = new Date(value);
+
+        return (value >= criteria);
+      },
       /**
        * provides simple wildcard search with a boolean return.
        *
