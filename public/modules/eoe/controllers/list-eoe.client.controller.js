@@ -61,21 +61,46 @@
     }
 
 
-    vm.options.races = [{
-      code: 'native',
-      description: 'American Indian or Alaskan Native',
-      detail: 'Having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment'
+    vm.options.races = [
+      {
+        code: 'native',
+        description: 'American Indian or Alaskan Native',
+        orderBy: 1,
+        detail: 'Having origins in any of the original peoples of North and South America' +
+        ' (including Central America), and who maintain tribal affiliation or community attachment'
       },
       {
         code: 'asian',
         description: 'Asian',
+        orderBy: 2,
         detail: 'Having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam'
       },
-      { code: 'black', description: 'Black or African American', detail: 'Having origins in any of the black racial groups of Africa' },
-      { code: 'pacific', description: 'Native Hawaiian or Other Pacific Islander', detail: 'Having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands' },
-      { code: 'white', description: 'White', detail:'A person having origins in any of the original peoples of Europe, the Middle East, or North Africa' },
-      { code: 'other', description: 'Other' },
-      { code: 'declined', description: 'Declined'}
+      {
+        code: 'black',
+        description: 'Black or African American',
+        orderBy: 3,
+        detail: 'Having origins in any of the black racial groups of Africa' },
+      {
+        code: 'pacific',
+        description: 'Native Hawaiian or Other Pacific Islander',
+        orderBy: 4,
+        detail: 'Having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands' },
+      {
+        code: 'white',
+        description: 'White',
+        orderBy: 5,
+        detail:'A person having origins in any of the original peoples of Europe, the Middle East, or North Africa'
+      },
+      {
+        code: 'other',
+        description: 'Other',
+        orderBy: 6
+      },
+      {
+        code: 'declined',
+        description: 'Declined',
+        orderBy: 7
+      }
     ];
 
     vm.options.genders = [
@@ -149,7 +174,8 @@
             "counts" : {
               "totalCount" : 0
             },
-            "label" : "Multiple"
+            "label" : "Multiple",
+            "orderBy" : 99
           }
         },
         byDisability: {},
@@ -197,7 +223,7 @@
       //TODO RacexGender table grand total should be M+F, not sum of races (since there
       // are multiples)
       _.forEach(vm.options.races, function(race) {
-        vm.eoeData.byRace[race.code] = {label: race.description, counts: {totalCount: 0}};
+        vm.eoeData.byRace[race.code] = {label: race.description, orderBy: race.orderBy, counts: {totalCount: 0}};
         _.forEach(vm.options.genders, function (gender) {
           vm.eoeData.byRace[race.code][gender.code] = 0;
           var raceCount = _.size(_.filter(demographicData, function (rec) {

@@ -20,7 +20,8 @@ var ApplicationConfiguration = (function() {
 		'ngFileUpload',
 		'as.sortable',
 		'textAngular',
-		'ngFx'
+		'ngFx',
+		'toArrayFilter'
 	];
 
 	// Add a new vertical module
