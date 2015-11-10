@@ -116,7 +116,23 @@
               return resolvedAuth;
             }
           }
-        });
+        })
+        .state('main.resetPassword', {
+          'url': '/resetPassword/:token',
+          'views': {
+            'content@': {
+              templateUrl: 'modules/users/views/reset-password.client.view.html',
+              controller: 'ResetPasswordController',
+              controllerAs: 'vm'
+            }
+          },
+          resolve: {
+            resolvedAuth: function(resolvedAuth) {
+              return resolvedAuth;
+            }
+          }
+        })
+      ;
     }
   ]);
 })();

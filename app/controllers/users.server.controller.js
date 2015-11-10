@@ -7,11 +7,14 @@ var mongoose = require('mongoose'),
   passport = require('passport'),
   User = mongoose.model('User'),
   _ = require('lodash');
+var async = require('async');
+var crypto = require('crypto');
+var nodemailer = require('nodemailer');
+var developerSettings = require('../../config/env/developer-settings')
 
 /**
  * define userRoles
  */
-
 var userRoles = ['user', 'admin', 'manager', 'committee member'];
 
 /**
@@ -83,7 +86,6 @@ exports.signup = function (req, res) {
 exports.adminCreate = function (req, res) {
   // Init Variables
   var user = new User(req.body);
-  var message = null;
 
   // Add missing user fields
   user.provider = 'shib';
@@ -101,6 +103,7 @@ exports.adminCreate = function (req, res) {
   });
 };
 
+
 /**
  * Signin after passport authentication
  */
@@ -109,15 +112,17 @@ exports.signin = function (req, res, next) {
     if (err || !user) {
       res.send(400, info);
     } else {
+
       // Remove sensitive data before login
       user.password = undefined;
       user.salt = undefined;
 
       req.login(user, function (err) {
         if (err) {
-          res.send(400, err);
+          next(err);
         } else {
-          res.jsonp(user);
+          var sanitizedUser = new SanitizedUser(user);
+          res.jsonp(sanitizedUser);
         }
       });
     }
@@ -484,6 +489,7 @@ exports.adminUpdate = function (req, res) {
 };
 
 exports.emailAddressIsUnique = function (req, res, next) {
+  var result = {unique: false, local: false};
   User.findOne({email: req.body.email})
     .exec(function(err, user) {
       if(err) {
@@ -491,9 +497,14 @@ exports.emailAddressIsUnique = function (req, res, next) {
         return next(err);
       }
       if(user && user._id) {
-        return res.jsonp({unique: false});
+        if(user.provider === 'local') {
+          result.local = true;
+        }
+        return res.jsonp(result);
       }
-      return res.jsonp({unique: true});
+      result.local = true;
+      result.unique = true;
+      return res.jsonp(result);
     });
 };
 
@@ -529,6 +540,171 @@ exports.roles = function (req, res) {
   res.jsonp(userRoles);
 };
 
+/**
+ * Method for User(s) created under the 'local' strategy to get a token sent to their email so that they can reset their password.
+ * @todo check that the user was created under the 'local' strategy.  this method should not be available to users created under shibboleth as that would be a vulnerability.
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns {*}
+ */
+exports.forgotPassword = function (req, res, next) {
+  var err;
+
+  if (!req.body.user.email) {
+    err = new Error('Email not Provided');
+    err.status = 400;
+    return next(err);
+  }
+
+  async.waterfall([
+
+    function(done) {
+      crypto.randomBytes(20, function(err, buf) {
+        var token = buf.toString('hex');
+        done(err, token);
+      });
+    },
+
+    function(token, done) {
+      User.findOne({email: req.body.user.email})
+        .exec(function(err, user) {
+          if (err) {
+            return next(err);
+          }
+
+          if (user.provider !== 'local') {
+            var error = new Error('Duke NetId accounts cannot have their passwords reset through this application');
+            return next(error);
+          }
+
+          user.resetPasswordToken = token;
+          user.resetPasswordState = req.body.resetPasswordState;
+          user.resetPasswordStateParams = req.body.resetPasswordStateParams;
+          user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+          user.save(function(err) {
+            done(err, token, user);
+          });
+        });
+    },
+    function(token, user, done) {
+
+      var emailTo = (process.env.NODE_ENV === 'production') ? user.email : developerSettings.developerEmail;
+
+      var sendGridSettings = {
+        service: 'SendGrid',
+          auth: {
+            user: 'frs-duson',
+            pass: 'gQrrXqEHnLgM93'
+          }
+      };
+
+      var smtpTransport = nodemailer.createTransport(sendGridSettings);
+      var mailOptions = {
+        to: emailTo,
+        from: 'noreply@frs.nursing.duke.edu',
+        subject: 'DUSON FRS Password Reset',
+        text: 'You are receiving this message because we received a request to reset the password associate with your email address.\n\n' +
+        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+        'http://' + req.headers.host + '/#!/resetPassword/' + token + '\n\n' +
+        'If you did not request that your password be reset, please ignore this email and your password will remain unchanged.\n'
+      };
+      smtpTransport.sendMail(mailOptions, function(err) {
+        done(err, 'done');
+      });
+
+      done(err, user, token);
+    }
+  ], function(err, user, token) {
+    if (err) {
+      return next(err);
+    }
+    var responseObject = {email: user.email};
+    res.jsonp(responseObject);
+  });
+
+};
+
+/**
+ * Validate email reset token
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.validateToken = function (req, res, next) {
+  var error;
+  User.findOne({resetPasswordToken: req.params.token})
+    .where('resetPasswordExpires').gte(Date.now())
+    .exec(function(err, result) {
+      if(err) {
+        return next(err);
+      }
+      if(!result) {
+        error = new Error('The token is not valid');
+        error.status = 400;
+        return next(err);
+      }
+      res.jsonp({'tokenStatus': 'valid'});
+    });
+};
+
+/**
+ * Performs password reset using email link with token
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.resetPassword = function (req, res, next) {
+  var error;
+  var password = req.body.password;
+  User.findOne({resetPasswordToken: req.params.token})
+    .where('resetPasswordExpires').gte(Date.now())
+    .exec(function(err, user) {
+      if(err) {
+        return next(err);
+      }
+      if(!user) {
+        error = new Error('The token is not valid');
+        error.status = 400;
+        return next(err);
+      }
+      var state = (user.resetPasswordState) ? _.clone(user.resetPasswordState) : null;
+      var stateParams = (user.resetPasswordStateParams) ? _.clone(user.resetPasswordStateParams) : null;
+      user.password = password;
+      user.resetPasswordToken = null;
+      user.resetPasswordExpires = null;
+      user.resetPasswordState = null;
+      user.resetPasswordStateParams = null;
+      user.save(function(err, result) {
+        if(err) {
+          err.status = 400;
+          return next(err);
+        }
+        if(!result) {
+          error = new Error('There was a problem saving the new password');
+          return next(err);
+        }
+        if (user.authenticate(password)) {
+          req.login(user, function (err) {
+            if (err) {
+              err.status = 400;
+              next(err);
+            } else {
+              res.jsonp({
+                'resetStatus': 'valid',
+                'state': state,
+                'stateParams': stateParams,
+                'user': new SanitizedUser(user)
+              });
+            }
+          });
+        }
+      });
+    });
+};
+
 exports.getInfo = function (req, res) {
   //User.findOne({
   //  _id: id
@@ -546,3 +722,17 @@ exports.getInfo = function (req, res) {
   };
   res.jsonp(safeProfile);
 };
+
+function SanitizedUser (user) {
+
+  this._id = user._id;
+  this.honorific = user.honorific;
+  this.firstName = user.firstName;
+  this.middleName = user.middleName;
+  this.lastName = user.lastName;
+  this.displayName = user.displayName;
+  this.roles = user.roles;
+  this.resetPasswordState = user.resetPasswordState || null;
+  this.resetPasswordStateParams = user.resetPasswordStateParams || null;
+
+}

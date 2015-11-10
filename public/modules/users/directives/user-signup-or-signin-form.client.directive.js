@@ -24,7 +24,7 @@
       bindToController: true
     };
 
-    function UserSignupOrSigninFormController($scope, Messages, Users, _, utility ) {
+    function UserSignupOrSigninFormController($state, $stateParams, $scope, Messages, Users, _, utility ) {
       var vm = this;
       vm.emailIsUnique = null;
       vm.emailStatusMessage = emailStatusMessage;
@@ -42,7 +42,8 @@
       vm.signup = signup;
       vm.checkEmailDebounced = utility.debounce(checkEmail, 1000, false);
       vm.failedLogin = false;
-      vm.recoverPassword = recoverPassword;
+      vm.forgotPassword = forgotPassword;
+      vm.passwordResetLinkSent = false;
 
       activate();
 
@@ -52,12 +53,14 @@
          * watch the user email, and if it is valid, check to see if it is unique, using the checkEmailDebounced method
          */
         $scope.$watch('vm.user.email', function(newVal) {
-          if(vm.userForm.email.$valid && vm.userForm.email.$dirty) {
-            vm.checkingEmail = true;
-            vm.checkEmailDebounced(newVal);
-          } else {
-            vm.checkingEmail = false;
-            vm.emailIsUnique = null;
+          if(vm.userForm && vm.userForm.email) {
+            if(vm.userForm.email.$valid && vm.userForm.email.$dirty) {
+              vm.checkingEmail = true;
+              vm.checkEmailDebounced(newVal);
+            } else {
+              vm.checkingEmail = false;
+              vm.emailIsUnique = null;
+            }
           }
         });
       }
@@ -71,8 +74,9 @@
           return false;
         }
         Users.checkEmail({email: email}).$promise
-          .then(function (emailIsUnique) {
-            vm.emailIsUnique = emailIsUnique.unique;
+          .then(function (result) {
+            vm.emailIsUnique = result.unique;
+            vm.accountIsShib = !result.local;
             vm.checkingEmail = false;
 
           })
@@ -87,6 +91,8 @@
           return 'Validating email...';
         } else if (vm.emailIsUnique && vm.userForm.email.$valid) {
           return 'Email is valid';
+        } else if (vm.accountIsShib) {
+          return 'This email is associated with a Duke NetId. You must login through the Duke NetId System';
         } else if(!vm.emailIsUnique && vm.userForm.email.$valid) {
           return 'An account exists with this email address';
         } else if(vm.userForm.email.$invalid && vm.userForm.email.$dirty) {
@@ -114,6 +120,21 @@
         }
       }
 
+      function forgotPassword() {
+        vm.user.auth.forgotPassword({
+          user: vm.user,
+          resetPasswordState: $state.current,
+          resetPasswordStateParams: $stateParams
+        }).$promise
+          .then(function(response) {
+            vm.passwordResetLinkSent = 'A password reset link has been sent to ' + response.email + '.';
+            Messages.addMessage(vm.passwordResetLinkSent);
+          })
+          .catch(function (err) {
+            Messages.addMessage(err.data.message, 'error');
+          });
+      }
+
       function userIsNew() {
         return vm.userForm.email.$valid && vm.emailIsUnique;
       }
@@ -130,16 +151,17 @@
         delete vm.passwordConfirm;
       }
 
-      function recoverPassword() {
-        Messages.addMessage('A message has been sent to your email account with instructions on how to recover your forgotten password');
-      }
-
       function signin() {
         vm.user.username = vm.user.email;
         vm.user.auth.signin(vm.user).$promise
           .then(function (user) {
             Messages.addMessage('Welcome back ' + user.honorific + ' ' + user.lastName + ', you are now logged in.', 'success', 'Welcome Back');
             updateUser(user);
+            if(user.resetPasswordState && user.resetPasswordState.name !== 'main.signin') {
+              $state.go(user.resetPasswordState.name, user.resetPasswordStateParams);
+            } else if ($state.$current.name === 'main.signin') {
+              $state.go('main.home');
+            }
           })
           .catch(function (err) {
             Messages.addMessage(err.data.message, 'error', 'Problem Signing in', 'dev');

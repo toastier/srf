@@ -1,33 +1,33 @@
-ng-form(name="vm.userForm")
+ng-form(name="vm.userForm", ng-if="!vm.passwordResetLinkSent")
   .row
-    .col-md-6.form-group(ng-class="{ 'has-success': vm.userForm.email.$valid, 'has-warning': vm.userForm.email.$invalid && vm.userForm.email.$dirty}")
+    .col-xs-12.form-group(ng-class="{ 'has-success': vm.userForm.email.$valid, 'has-warning': vm.userForm.email.$invalid && vm.userForm.email.$dirty}")
       label.control-label Email Address
       .input-group
         input.form-control(name="email", type="email", du-validate-email, ng-model="vm.user.email", required)
         .input-group-addon
           i.fa.fa-envelope
-    .col-md-6.form-group(ng-show="vm.userForm.email.$dirty", ng-class="{ 'has-success': vm.userForm.email.$valid, 'has-warning': vm.userForm.email.$invalid && vm.userForm.email.$dirty}")
-      .add-label-spacing.message  {{ vm.emailStatusMessage() }}
+    .col-xs-12.form-group(ng-show="vm.userForm.email.$dirty", ng-class="{ 'has-success': vm.userForm.email.$valid, 'has-warning': vm.userForm.email.$invalid && vm.userForm.email.$dirty}")
+      .message  {{ vm.emailStatusMessage() }}
 
-  .row(ng-show="vm.userForm.email.$valid")
-    .col-md-6.form-group(ng-class="{'has-success': vm.passwordIsStrong }")
+  .row(ng-show="vm.userForm.email.$valid && !vm.accountIsShib && !vm.checkingEmail")
+    .col-md-12.form-group(ng-class="{'has-success': vm.passwordIsStrong }")
       label.control-label Password
       .input-group
         input.form-control(type="password", name="password", ng-model="vm.user.password", required)
         .input-group-addon
           i.fa.fa-key
-    .col-md-6.form-group(ng-show="vm.userForm.password.$dirty", ng-class="{'has-success': vm.passwordIsStrong }")
-      .add-label-spacing.message {{ vm.checkPassword() }}
+    .col-md-12.form-group(ng-show="vm.userForm.password.$dirty", ng-class="{'has-success': vm.passwordIsStrong }")
+      .message {{ vm.checkPassword() }}
 
   .row(ng-show="vm.passwordIsStrong && vm.emailIsUnique && vm.userForm.email.$valid")
-    .col-md-6.form-group(ng-class="{'has-success': vm.passwordsMatch && vm.userForm.password.$valid}")
+    .col-xs-12.form-group(ng-class="{'has-success': vm.passwordsMatch && vm.userForm.password.$valid}")
       label.control-label Confirm Password
       .input-group
         input.form-control(type="password", name="passwordConfirm", ng-model="vm.user.passwordConfirm", ng-required="vm.emailIsUnique")
         .input-group-addon
           i.fa.fa-key
-    .col-md-6.form-group(ng-show="vm.userForm.passwordConfirm.$dirty", ng-class="{'has-success': vm.passwordsMatch && vm.userForm.password.$valid}")
-      .add-label-spacing.message {{ vm.checkPasswordConfirm() }}
+    .col-xs-12.form-group(ng-show="vm.userForm.passwordConfirm.$dirty", ng-class="{'has-success': vm.passwordsMatch && vm.userForm.password.$valid}")
+      .message {{ vm.checkPasswordConfirm() }}
 
   .row(ng-show="vm.userIsNew() && vm.userForm.password.$valid && vm.passwordsMatch")
     .col-md-2.form-group
@@ -44,9 +44,9 @@ ng-form(name="vm.userForm")
       input.form-control(name="lastName", type="text", ng-model="vm.user.lastName", required)
 
   .row
-    .col-md-6
+    .col-xs-12.form-group
       button.btn.btn-login(
-        ng-if="!vm.userIsNew() && vm.userForm.email.$valid && !vm.checkingEmail",
+        ng-if="!vm.userIsNew() && vm.userForm.email.$valid && !vm.checkingEmail && !vm.accountIsShib",
         ng-click="vm.signin()",
         ng-disabled="!vm.userForm.password.$valid"
         ) Step 1: Looks like you've been here before, Login
@@ -55,5 +55,10 @@ ng-form(name="vm.userForm")
         ng-click="vm.signup()",
         ng-disabled="vm.userForm.$invalid || vm.checkingEmail || !vm.emailIsUnique"
         ) Step 1: Create Your Profile
-    .co-md-6(ng-show="vm.failedLogin")
-      a(ng-click="vm.recoverPassword()", ng-href="#") Trouble logging in? Click here to recover your forgotten password.
+  .row(ng-show="vm.failedLogin")
+    .col-xs-12.form-group
+      a(ng-click="vm.forgotPassword()") Trouble logging in? Click here to recover your forgotten password.
+.row(ng-if="vm.passwordResetLinkSent")
+  .col-xs-12
+    .alert.alert-info(ng-bind="vm.passwordResetLinkSent")
+

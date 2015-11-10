@@ -4,7 +4,7 @@
     .module('openings')
     .controller('OpeningsController', OpeningsController);
 
-  function OpeningsController($scope, $state, Navigation, Opening, CollectionModel, Messages, resolvedAuth) {
+  function OpeningsController($scope, $state, Navigation, Opening, CollectionModel, Messages, resolvedAuth, RouterTracker) {
     var vm = this;
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
@@ -156,6 +156,7 @@
             });
 
       });
+      vm.routeHistory = RouterTracker.getRouteHistory();
       setupNavigation();
     }
 
