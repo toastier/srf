@@ -11,7 +11,6 @@ var karma = require('gulp-karma');
 var livereload = require('gulp-livereload');
 var mocha = require('gulp-mocha');
 var nodemon = require('gulp-nodemon');
-var open = require('gulp-open');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglifyjs');
@@ -20,7 +19,7 @@ var applicationJavaScriptFiles,
     applicationCSSFiles,
     applicationTestFiles;
 
-gulp.task('compileJade', ['loadConfig'], function() {
+gulp.task('compileJade', function() {
   var outputDir = gulpConfig.modulesDirectory;
   if(process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
     outputDir = gulpConfig.htmlDestination;
@@ -55,11 +54,6 @@ gulp.task('karma', function () {
     });
 });
 
-gulp.task('launchBrowser', ['nodemon'], function () {
-  gulp.src('')
-    .pipe(open({app: 'Google Chrome', uri: 'http://localhost:3000'}));
-});
-
 gulp.task('loadConfig', function() {
   applicationJavaScriptFiles = gulpConfig.jsFiles;
   applicationCSSFiles = gulpConfig.cssFiles;
@@ -81,7 +75,12 @@ gulp.task('mochaTest', function () {
 });
 
 gulp.task('nodemon', function () {
-  nodemon({ script: 'server.js', env: { 'NODE_ENV': 'development' }})
+  nodemon({
+    verbose: 'true',
+    script: 'server.js',
+    env: { 'NODE_ENV': 'development' },
+    watch: gulpConfig.nodemonWatch
+  })
     .on('restart');
 });
 
@@ -118,9 +117,10 @@ gulp.task('watch', function() {
 });
 
 // Default task(s).
-gulp.task('default', ['compileJade', 'transpileSass', 'lint', 'watch', 'launchBrowser']);
+gulp.task('jade', ['loadConfig', 'compileJade']);
+gulp.task('default', ['compileJade', 'transpileSass', 'lint', 'watch']);
 
-gulp.task('dev', ['setDevEnv', 'compileJade', 'transpileSass', 'lint', 'watch', 'launchBrowser']);
+gulp.task('dev', ['setDevEnv', 'compileJade', 'transpileSass', 'lint', 'watch', 'nodemon']);
 
 // Lint task(s).
 gulp.task('lint', ['eslint', 'csslint']);
