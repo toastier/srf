@@ -9,8 +9,7 @@
             a.navbar-brand(ng-href="/#!/") {{ header.appInfo.info.name }}
         .navbar-collapse(collapse="header.isCollapsed")
             ul.nav.navbar-nav.navbar-right.visible-xs-block
-                li(ng-repeat="item in header.sidebarMenu.items")
+                li(ng-repeat="item in header.sidebarMenu.items | orderBy: '+position'", ng-if="item.shouldRender(header.user)")
                     a(ng-href="/{{item.uiRoute}}") {{ item.title }}
-            ul.nav.navbar-nav.navbar-right(ng-if="header.authentication.user._id")
-                li(ng-repeat="item in header.menu.items")
+                li(ng-repeat="item in header.menu.items | orderBy: '+position'", ng-if="item.shouldRender(header.user)")
                     a(ng-href="/{{item.uiRoute}}") {{ item.title }}
