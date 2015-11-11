@@ -17,6 +17,14 @@
       getForPublic: {
         method: 'GET',
         url: 'openings/current/:openingId'
+      },
+      forPosition: {
+        method: 'GET',
+        url: 'openings/forPosition/:positionId',
+        params: {
+          'positionId': '@positionId'
+        },
+        isArray: true
       }
     });
 

@@ -10,19 +10,19 @@
     var vm = this;
     vm.user = resolvedAuth;
 
-    //If user is signed in then redirect back home
-    //if (vm.user._id) {
-    //  $state.go('main.home');
-    //}
-
     activate();
 
     function activate () {
-      $scope.$watch('vm.user._id', function (newVal) {
-        if (_.isString(newVal)) {
-          $state.go('main.home');
-        }
-      });
+      //$scope.$watch('vm.user._id', function (newVal) {
+      //  if (_.isString(newVal)) {
+      //    if(!vm.user.resetPasswordState || !vm.user.resetPasswordStateParams) {
+      //      $state.go('main.home');
+      //    }
+      //  }
+      //});
+      if(vm.user._id) {
+        $state.go('main.home');
+      }
     }
 
     Navigation.viewTitle.set('Login');

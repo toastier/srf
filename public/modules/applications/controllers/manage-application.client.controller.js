@@ -4,7 +4,7 @@
     .module('applications')
     .controller('ManageApplicationController', ManageApplicationController);
 
-  function ManageApplicationController ($scope, $stateParams, $modal, resolvedAuth, Messages, Application, Navigation, _ ) {
+  function ManageApplicationController ($scope, $stateParams, $modal, resolvedAuth, Messages, Application, Navigation, _, RouterTracker ) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.cancel = Application.listApplications;

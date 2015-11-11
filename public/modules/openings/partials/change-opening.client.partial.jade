@@ -19,7 +19,7 @@
             .col-md-6(ng-bind="opening.name")
             .col-md-3(ng-bind="opening.dateStart | standardDate")
             .col-md-3(ng-bind="opening.dateClose | standardDate")
-      .alert.alert-info(ng-if="!vm.openings.length") There are no current Openings to choose from.
+      .alert.alert-info(ng-if="!vm.openings.length") There are no other current Openings for the same Position.
 .modal-footer
   button.btn.btn-save(ng-click="vm.ok()", ng-disabled="!vm.selectedOpening") Confirm Choice
   button.btn.btn-cancel(ng-click="vm.cancel()") Cancel Change

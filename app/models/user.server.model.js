@@ -90,7 +90,11 @@ var UserSchema = new Schema({
   created: {
     type: Date,
     default: Date.now
-  }
+  },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
+  resetPasswordState: Object,
+  resetPasswordStateParams: Object
 });
 
 /**

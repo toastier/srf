@@ -29,6 +29,9 @@ module.exports = function (app) {
   app.route('/auth/signin').post(users.signin);
   app.route('/auth/signout').get(users.signout);
   app.route('/auth/signup').post(users.signup);
+  app.route('/auth/forgotPassword').post(users.forgotPassword);
+  app.route('/auth/resetPassword/:token').get(users.validateToken);
+  app.route('/auth/resetPassword/:token').post(users.resetPassword);
   app.route('/auth/me').get(users.jsonMe);
 
   // Setting the Saml routes

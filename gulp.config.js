@@ -14,12 +14,12 @@ module.exports = function () {
   var dist = clientApp + 'dist/';
   var libraries = clientApp + 'lib/';
   var modulesDir = clientApp + 'modules/';
-  var controllers = modulesDir + '**/*.client.controller.js';
+  var controllers = modulesDir + '**/controllers/*.client.controller.js';
   var configs = modulesDir + '**/config/*.client.config.js';
   var routes = modulesDir + '**/config/*.client.routes.js';
   var tests = modulesDir + '**/tests/*.client.**.test.js';
   var filters = modulesDir + '**/filters/*.filters.js';
-  var directives = modulesDir + '**/directives/*.directives.js';
+  var directives = modulesDir + '**/directives/*.client.directive.js';
   var services = modulesDir + '**/services/*.client.service.js';
   var cssFiles = modulesDir + ['core/css/*.css', 'core/css/*.*.css'];
   var sassFile = modulesDir + 'core/scss/dashboard-style.scss';
@@ -61,6 +61,7 @@ module.exports = function () {
     sassComponents: sassComponents,
     sassFile: sassFile,
     serverFile: root + 'server.js',
-    testFiles: [tests]
+    testFiles: [tests],
+    nodemonWatch: ['./app/**/*.js', './config/**/*.js']
   };
 };

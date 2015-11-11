@@ -44,6 +44,24 @@
           signin: {
             method: 'POST',
             url: '/auth/signin'
+          },
+          forgotPassword: {
+            method: 'POST',
+            url: '/auth/forgotPassword'
+          },
+          validateToken: {
+            method: 'GET',
+            url: '/auth/resetPassword/:token',
+            params: {
+              'token': '@token'
+            }
+          },
+          resetPassword: {
+            method: 'POST',
+            url: '/auth/resetPassword/:token',
+            params: {
+              'token': '@token'
+            }
           }
         })
       };

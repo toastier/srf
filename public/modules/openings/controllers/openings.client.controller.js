@@ -4,7 +4,7 @@
     .module('openings')
     .controller('OpeningsController', OpeningsController);
 
-  function OpeningsController($scope, $state, Navigation, Opening, CollectionModel, Messages, resolvedAuth) {
+  function OpeningsController($scope, $state, Navigation, Opening, CollectionModel, Messages, resolvedAuth, RouterTracker) {
     var vm = this;
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
@@ -12,7 +12,9 @@
     vm.allowView = allowView;
     vm.isActiveYes = true;
     vm.isActiveNo = false;
+    vm.currentOnly = true;
     vm.setIsActive = setIsActive;
+    vm.setCurrentOnlyFilter = setCurrentOnlyFilter;
 
     function allowView () {
       return true;
@@ -77,11 +79,34 @@
         }
       },
       {field: 'datePosted', label: 'Posting', format: 'date', sortable: true},
-      {field: 'dateStart', label: 'Opening', format: 'date', sortable: true},
-      {field: 'dateClose', label: 'Closing', format: 'date', sortable: true}
+      {field: 'dateStart', label: 'Opening', format: 'date', sortable: true,
+        filterable: {
+          name: 'dateStart',
+          field: 'dateStart',
+          matchType: 'isDateLessThan'
+        }
+      },
+      {field: 'dateClose', label: 'Closing', format: 'date', sortable: true,
+        filterable: {
+          name: 'dateClose',
+          field: 'dateClose',
+          matchType: 'isDateGreaterThan'
+        }
+      }
     ];
 
     var initialSortOrder = ['+name'];
+
+    function setCurrentOnlyFilter() {
+      if(vm.currentOnly) {
+        vm.collection.filterCriteria.dateStart = Date.now();
+        vm.collection.filterCriteria.closeDate = Date.now();
+      } else {
+        vm.collection.filterCriteria.dateStart = null;
+        vm.collection.filterCriteria.closeDate = null;
+      }
+      vm.collection.filterCollection();
+    }
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
@@ -133,6 +158,7 @@
           new CollectionModel('OpeningsController', result, vm.columnDefinitions, initialSortOrder)
             .then(function(collection) {
               vm.collection = collection;
+              setCurrentOnlyFilter();
 
               // watch for change when filters are cleared, and set UI variables/controls appropriately
               $scope.$watch('vm.collection.filterCriteria.isActive', function(newValue) {
@@ -156,6 +182,7 @@
             });
 
       });
+      vm.routeHistory = RouterTracker.getRouteHistory();
       setupNavigation();
     }
 
