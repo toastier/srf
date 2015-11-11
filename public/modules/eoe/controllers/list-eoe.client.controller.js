@@ -99,7 +99,7 @@
       {
         code: 'declined',
         description: 'Declined',
-        orderBy: 7
+        orderBy: 89
       }
     ];
 
@@ -175,7 +175,7 @@
               "totalCount" : 0
             },
             "label" : "Multiple",
-            "orderBy" : 99
+            "orderBy" : 10
           }
         },
         byDisability: {},

@@ -62,8 +62,8 @@ section
               span.pull-right {{ value.count }}
             td.col-xs-2
               span.pull-right {{ vm.eoeData.totalCount }}
-    div(ng-repeat="item in vm.eoeData.byRace | toArray | orderBy : 'item.orderBy'")
-      .pre(ng-bind='item | json')
+    //div(ng-repeat="item in vm.eoeData.byRace | toArray | orderBy : 'item.orderBy'")
+    //  .pre(ng-bind='item | json')
     .panel-body
       table.table-bordered.table-striped.col-xs-12.col-md-8
         thead
@@ -74,7 +74,7 @@ section
             th.col-xs-2
               span.pull-right Total
         tbody
-          tr(data-ng-repeat="item in vm.eoeData.byRace | toArray | orderBy : item.orderBy")
+          tr(data-ng-repeat="item in vm.eoeData.byRace | toArray | orderBy : 'orderBy'")
             td.col-xs-4 {{ item.label }}
             td.col-xs-2(data-ng-repeat='genderCount in item.counts')
               span.pull-right {{ genderCount }}
