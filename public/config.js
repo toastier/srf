@@ -21,7 +21,7 @@ var ApplicationConfiguration = (function() {
 		'as.sortable',
 		'textAngular',
 		'ngFx',
-		'toArrayFilter'
+		'angular-toArrayFilter'
 	];
 
 	// Add a new vertical module
