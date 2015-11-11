@@ -7,8 +7,7 @@ var mongoose = require('mongoose'),
 	EoeDemographic = mongoose.model('EoeDemographic'),
 	EoeDisability = mongoose.model('EoeDisability'),
 	EoeVeteran = mongoose.model('EoeVeteran'),
-	_ = require('lodash');
-
+	_ = require('lodash')
 
 /**
  * Get the error message from error object

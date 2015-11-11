@@ -31,6 +31,7 @@ module.exports = {
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-ui-select/dist/select.js',
         'public/lib/angular-toastr/dist/angular-toastr.tpls.js',
+        'public/lib/angular-toArrayFilter/toArrayFilter.js',
         'public/lib/lodash/lodash.js',
         'public/lib/ngSticky/lib/sticky.js',
         'public/lib/ng-currency/dist/ng-currency.js',

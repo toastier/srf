@@ -7927,7 +7927,7 @@ Copyright (c) 2015 Daniel Eden
 body {
   -webkit-backface-visibility: hidden; }
 
-.animated {
+.animated, section[ui-view].ui-view-content {
   -webkit-animation-duration: 0.5s;
   -moz-animation-duration: 0.5s;
   -o-animation-duration: 0.5s;
@@ -7936,19 +7936,19 @@ body {
   -moz-animation-fill-mode: both;
   -o-animation-fill-mode: both;
   animation-fill-mode: both; }
-  .animated.infinite {
+  .animated.infinite, section.infinite[ui-view].ui-view-content {
     animation-iteration-count: infinite; }
-  .animated.hinge {
+  .animated.hinge, section.hinge[ui-view].ui-view-content {
     -webkit-animation-duration: 1s;
     -moz-animation-duration: 1s;
     -o-animation-duration: 1s;
     animation-duration: 1s; }
-  .animated.bounceIn, .animated.bounceOut {
+  .animated.bounceIn, section.bounceIn[ui-view].ui-view-content, .animated.bounceOut, section.bounceOut[ui-view].ui-view-content {
     -webkit-animation-duration: 0.375s;
     -moz-animation-duration: 0.375s;
     -o-animation-duration: 0.375s;
     animation-duration: 0.375s; }
-  .animated.flipOutX, .animated.flipOutY {
+  .animated.flipOutX, section.flipOutX[ui-view].ui-view-content, .animated.flipOutY, section.flipOutY[ui-view].ui-view-content {
     -webkit-animation-duration: 0.375s;
     -moz-animation-duration: 0.375s;
     -o-animation-duration: 0.375s;
@@ -8376,7 +8376,7 @@ body {
     opacity: 0; }
   100% {
     opacity: 1; } }
-.fadeIn {
+.fadeIn, section[ui-view].ui-view-content.ng-enter, section[ui-view].ui-view-content > section .animated.ng-enter, section[ui-view].ui-view-content > section section.ng-enter[ui-view].ui-view-content {
   -webkit-animation-name: fadeIn;
   -moz-animation-name: fadeIn;
   -o-animation-name: fadeIn;
@@ -8436,7 +8436,7 @@ body {
     opacity: 1; }
   100% {
     opacity: 0; } }
-.fadeOut {
+.fadeOut, section[ui-view].ui-view-content.ng-leave, section[ui-view].ui-view-content > section .animated.ng-leave, section[ui-view].ui-view-content > section section.ng-leave[ui-view].ui-view-content {
   -webkit-animation-name: fadeOut;
   -moz-animation-name: fadeOut;
   -o-animation-name: fadeOut;
@@ -8903,6 +8903,12 @@ div.radio-switch {
     content: '\f0b1'; }
   .sidebar > .nav > li.applicants > a:before {
     content: '\f0c0'; }
+  .sidebar > .nav > li.dashboard > a:before {
+    content: '\f0e4'; }
+  .sidebar > .nav > li.styles > a:before {
+    content: '\f1fc'; }
+  .sidebar > .nav > li.reports > a:before {
+    content: '\f080'; }
   .sidebar > .nav > li.placements > a:before {
     content: '\f0fa'; }
   .sidebar > .nav > li.packages > a:before {
@@ -8919,8 +8925,6 @@ div.radio-switch {
     content: '\f013'; }
   .sidebar > .nav > li.contractual > a:before {
     content: '\f0e3'; }
-  .sidebar > .nav > li.dashboard > a:before {
-    content: '\f0e4'; }
   .sidebar > .nav > li.course-catalog > a:before {
     content: '\f1c0'; }
   .sidebar > .nav > li.master-course-listing > a:before {
@@ -10768,25 +10772,30 @@ p.no-records {
   min-height: 34px; }
 
 .animate-repeat {
+  position: relative;
+  line-height: 40px;
+  height: 40px;
   box-sizing: border-box; }
 
 .animate-repeat.ng-move,
 .animate-repeat.ng-enter,
 .animate-repeat.ng-leave {
-  -webkit-transition: all ease-in-out 0.25s;
-  transition: all ease-in-out 0.25s; }
+  -webkit-transition: all linear 0.25s;
+  transition: all linear 0.25s; }
 
-.animate-repeat.ng-leave.ng-leave-active,
-.animate-repeat.ng-move,
-.animate-repeat.ng-enter {
-  opacity: 0;
+.animate-repeat.ng-leave {
+  display: none; }
+
+.animate-repeat-enter {
+  height: 0;
+  opacity: 1;
   max-height: 0; }
 
-.animate-repeat.ng-leave,
-.animate-repeat.ng-move.ng-move-active,
-.animate-repeat.ng-enter.ng-enter-active {
-  opacity: 1;
-  max-height: 40px; }
+.animate-repeat.ng-leave.ng-leave-active,
+.animate-repeat.ng-move {
+  display: table-row;
+  opacity: 0.5;
+  max-height: 0; }
 
 .animate-if.ng-enter, .animate-if.ng-leave {
   -webkit-transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
@@ -11365,9 +11374,16 @@ td:hover > div.icon-group {
     .has-warning .message .alert-link {
       color: #66512c; }
 
-#masterUI > ui-view {
+section[ui-view].ui-view-content {
+  -webkit-transition: all 1s;
+  -o-transition: all 1s;
+  transition: all 1s;
   margin-bottom: 50px;
   z-index: 10; }
+  section[ui-view].ui-view-content.ng-enter {
+    position: absolute;
+    left: 15px;
+    right: 15px; }
 
 .collapsible-trigger {
   cursor: pointer; }
@@ -11397,10 +11413,14 @@ h1.underline, h2.underline, h3.underline, h4.underline, h5.underline {
 .pre {
   white-space: pre; }
 
+navigation {
+  display: block;
+  position: relative; }
+
 body {
   -webkit-backface-visibility: hidden; }
 
-.animated {
+.animated, section[ui-view].ui-view-content {
   -webkit-animation-duration: 0.5s;
   -moz-animation-duration: 0.5s;
   -o-animation-duration: 0.5s;
@@ -11409,7 +11429,7 @@ body {
   -moz-animation-fill-mode: both;
   -o-animation-fill-mode: both;
   animation-fill-mode: both; }
-  .animated.hinge {
+  .animated.hinge, section.hinge[ui-view].ui-view-content {
     -webkit-animation-duration: 1s;
     -moz-animation-duration: 1s;
     -o-animation-duration: 1s;
