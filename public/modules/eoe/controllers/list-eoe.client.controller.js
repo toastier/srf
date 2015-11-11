@@ -136,14 +136,17 @@
     vm.options.disabilities = [
         {
         code: 'y',
-        description: 'Yes'
+          orderBy: 1,
+          description: 'Yes'
       },
         {
           code: 'n',
+          orderBy: 2,
           description: 'No'
         },
         {
           code: 'd',
+          orderBy: 89,
           description: 'Declined to Answer'
         }
       ];
@@ -194,6 +197,9 @@
     }
 
     function parseDemographic(result) {
+
+      // FILTER EOE DATA FOR DEMOGRAPHIC DATA (Gender, Race, Ethnicity)
+
       var demographicData = (_.find(result, function(data) {
         return (data.type === "demographic");
       })).data;
@@ -204,16 +210,22 @@
           return (rec.opening._id === vm.opening);
         });
       }
-
+      //TODO total account will be number of applicants
       vm.eoeData.totalCount = _.size(demographicData);
+
+
+      // APPLICANTS BY GENDER
 
       _.forEach(vm.options.genders, function(gender) {
         var genderCount=_.size(_.filter(demographicData, function(rec) {
           return (rec.gender === gender.code);
         }));
         console.log(gender.description + ' count is ' + genderCount);
-        vm.eoeData.byGender[gender.code] = { "count": genderCount, orderBy: gender.orderBy, "label" : gender.description};
+        vm.eoeData.byGender[gender.code] = { "count": genderCount, orderBy: gender.orderBy, "label" : gender.description, "code": gender.code};
       });
+
+
+      // APPLICANTS BY ETHNICITY x GENDER
 
       _.forEach(vm.options.ethnicities, function(ethnicity) {
         vm.eoeData.byEthnicity[ethnicity.code] = { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : 0 }} ;
@@ -226,11 +238,11 @@
           vm.eoeData.byEthnicity[ethnicity.code].counts[gender.code] = ethnicityCount;
           vm.eoeData.byEthnicity[ethnicity.code].counts.totalCount += ethnicityCount;
         });
-        //vm.eoeData.byEthnicity.totalCount += vm.eoeData.byEthnicity[ethnicity.code].counts.totalCount;
       });
 
-      //TODO RacexGender table grand total should be M+F, not sum of races (since there
-      // are multiples)
+
+      // APPLICANTS BY RACE x GENDER
+
       _.forEach(vm.options.races, function(race) {
         vm.eoeData.byRace[race.code] = {label: race.description, orderBy: race.orderBy, counts: {totalCount: 0}};
         _.forEach(vm.options.genders, function (gender) {
@@ -242,8 +254,9 @@
           vm.eoeData.byRace[race.code].counts[gender.code] = raceCount;
           vm.eoeData.byRace[race.code].counts.totalCount += raceCount;
         });
-        //vm.eoeData.byRace.totalCount += vm.eoeData.byRace[race.code].counts.totalCount;
       });
+
+      // APPLICANTS OF MULTIPLE RACE x GENDER
       _.forEach(vm.options.genders, function (gender) {
         vm.eoeData.byRace.multiple[gender.code] = 0;
         var raceCount =  _.size(_.filter(demographicData, function (rec) {
@@ -254,26 +267,40 @@
       });
     }
 
+
+    // APPLICANTS BY DISABILITY STATUS x GENDER
     function parseDisability(result) {
-      var disabilityData = (_.find(result, function(data) {
+
+      // FILTER EOE DATA FOR DISABILITY STATUS DATA
+
+      var disabilityData = (_.find(result, function (data) {
         return data.type === "disability";
       })).data;
       if (vm.opening !== "all") {
-        disabilityData = _.filter(disabilityData, function(rec) {
+        disabilityData = _.filter(disabilityData, function (rec) {
           if (rec.opening) {
             return (rec.opening._id === vm.opening);
           }
-          else {
-            return false;
-          }
         });
       }
-      _.forEach(vm.options.disabilities, function(option) {
-        var disabilityCount=_.size(_.filter(disabilityData, function(rec) {
-          return rec.disability === option.code;
-        }));
-        console.log(option.description + ' count is ' + disabilityCount);
-        vm.eoeData.byDisability[option.code] = { "count": disabilityCount, "label" : option.description};
+
+      // APPLICANTS BY DISABILITY x GENDER
+      _.forEach(vm.options.disabilities, function (option) {
+
+        vm.eoeData.byDisability[option.code] = {
+          label: option.description,
+          orderBy: option.orderBy,
+          counts: {totalCount: 0}
+        };
+        _.forEach(vm.options.genders, function (gender) {
+          vm.eoeData.byDisability[option.code][gender.code] = 0;
+          var disabilityCount = _.size(_.filter(disabilityData, function (rec) {
+            return (rec.disability === option.code && rec.gender === gender.code);
+          }));
+          console.log(option.description + ' - ' + gender.code + ' count is ' + disabilityCount);
+          vm.eoeData.byDisability[option.code].counts[gender.code] = disabilityCount;
+          vm.eoeData.byDisability[option.code].counts.totalCount += disabilityCount;
+        });
       });
     }
 

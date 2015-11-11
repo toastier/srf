@@ -6,6 +6,9 @@ var eoeDisabilityModel = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Opening'
     },
+    gender: {
+        type: String, enum: ['f', 'm', 'd']
+    },
     disability: {
         type: String, enum: ['y', 'n', 'd']
     },
