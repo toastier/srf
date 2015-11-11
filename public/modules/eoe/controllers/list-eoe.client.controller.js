@@ -104,23 +104,32 @@
     ];
 
     vm.options.genders = [
-      { code: 'm', description: 'Male' },
-      { code: 'f', description: 'Female' },
-      { code: 'd', description: 'Declined' }
+      { code: 'm',
+        orderBy: 2,
+        description: 'Male' },
+      { code: 'f',
+        orderBy: 1,
+        description: 'Female' },
+      { code: 'd',
+        orderBy: 89,
+        description: 'Declined' }
     ];
 
     vm.options.ethnicities = [
       {
       code: 'h',
       description: 'Hispanic or Latino',
+        orderBy: 1,
       detail: 'Of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
     },
       {
         code: 'n',
+        orderBy: 2,
         description: 'Not Hispanic or Latino'
       },
       {
         code: 'd',
+        orderBy: 89,
         description: 'Declined to Answer'
       }
     ];
@@ -203,11 +212,11 @@
           return (rec.gender === gender.code);
         }));
         console.log(gender.description + ' count is ' + genderCount);
-        vm.eoeData.byGender[gender.code] = { "count": genderCount, "label" : gender.description};
+        vm.eoeData.byGender[gender.code] = { "count": genderCount, orderBy: gender.orderBy, "label" : gender.description};
       });
 
       _.forEach(vm.options.ethnicities, function(ethnicity) {
-        vm.eoeData.byEthnicity[ethnicity.code] = { label: ethnicity.description, counts: { totalCount : 0 }} ;
+        vm.eoeData.byEthnicity[ethnicity.code] = { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : 0 }} ;
         _.forEach(vm.options.genders, function(gender) {
           vm.eoeData.byEthnicity[ethnicity.code][gender.code] = 0  ;
           var ethnicityCount =_.size(_.filter(demographicData, function(rec) {

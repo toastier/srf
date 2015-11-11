@@ -34,10 +34,10 @@ section
             th.col-xs-4
               span.pull-right Count
         tbody
-          tr(data-ng-repeat='(key, value) in vm.eoeData.byGender')
-            td.col-xs-8 {{ value.label }}
+          tr(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : 'orderBy'")
+            td.col-xs-8 {{ item.label }}
             td.col-xs-4
-              span.pull-right {{ value.count }}
+              span.pull-right {{ item.count }}
           tr
             td.col-xs-8 TOTAL
             td.col-xs-4
@@ -47,14 +47,14 @@ section
         thead
           tr
             th.col-xs-4 Ethnicity
-            th.col-xs-2(data-ng-repeat='(key, value) in vm.eoeData.byGender')
-              span.pull-right {{ value.label }}
+            th.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : 'orderBy'")
+              span.pull-right {{ item.label }}
             th.col-xs-2
               span.pull-right Total
         tbody
-          tr(data-ng-repeat='(keyE, valueE) in vm.eoeData.byEthnicity')
-            td.col-xs-4 {{ valueE.label }}
-            td.col-xs-2(data-ng-repeat='genderCount in vm.eoeData.byEthnicity[keyE].counts')
+          tr(data-ng-repeat="item in vm.eoeData.byEthnicity | toArray | orderBy : 'orderBy'")
+            td.col-xs-4 {{ item.label }}
+            td.col-xs-2(data-ng-repeat='genderCount in item.counts')
               span.pull-right {{ genderCount }}
           tr
             td.col-xs-4 TOTAL
@@ -69,8 +69,8 @@ section
         thead
           tr
             th.col-xs-4 Race
-            th.col-xs-2(data-ng-repeat='(key, value) in vm.eoeData.byGender')
-              span.pull-right {{ value.label }}
+            th.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : 'orderBy'")
+              span.pull-right {{ item.label }}
             th.col-xs-2
               span.pull-right Total
         tbody
