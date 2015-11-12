@@ -230,7 +230,6 @@
       _.forEach(vm.options.ethnicities, function(ethnicity) {
         vm.eoeData.byEthnicity[ethnicity.code] = { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : 0 }} ;
         _.forEach(vm.options.genders, function(gender) {
-          vm.eoeData.byEthnicity[ethnicity.code][gender.code] = 0  ;
           var ethnicityCount =_.size(_.filter(demographicData, function(rec) {
             return (rec.ethnicity === ethnicity.code && rec.gender === gender.code);
           }));
@@ -246,7 +245,6 @@
       _.forEach(vm.options.races, function(race) {
         vm.eoeData.byRace[race.code] = {label: race.description, orderBy: race.orderBy, counts: {totalCount: 0}};
         _.forEach(vm.options.genders, function (gender) {
-          vm.eoeData.byRace[race.code][gender.code] = 0;
           var raceCount = _.size(_.filter(demographicData, function (rec) {
             return (rec.race[race.code] === true && rec.gender === gender.code);
           }));
@@ -258,7 +256,6 @@
 
       // APPLICANTS OF MULTIPLE RACE x GENDER
       _.forEach(vm.options.genders, function (gender) {
-        vm.eoeData.byRace.multiple[gender.code] = 0;
         var raceCount =  _.size(_.filter(demographicData, function (rec) {
           return ((_.size(_.keys(_.pick(rec.race, _.identity))) > 1) && rec.gender === gender.code);
         }));
@@ -293,7 +290,6 @@
           counts: {totalCount: 0}
         };
         _.forEach(vm.options.genders, function (gender) {
-          vm.eoeData.byDisability[option.code][gender.code] = 0;
           var disabilityCount = _.size(_.filter(disabilityData, function (rec) {
             return (rec.disability === option.code && rec.gender === gender.code);
           }));
@@ -303,29 +299,42 @@
         });
       });
     }
-
+    
+    // APPLICANTS BY VETERAN IDENTIFICATION x GENDER
     function parseVeteran(result) {
-      var veteranData = (_.find(result, function(data) {
+
+      // FILTER EOE DATA FOR VETERAN IDENTIFICATION DATA
+
+      var veteranData = (_.find(result, function (data) {
         return data.type === "veteran";
       })).data;
       if (vm.opening !== "all") {
-        veteranData = _.filter(veteranData, function(rec) {
+        veteranData = _.filter(veteranData, function (rec) {
           if (rec.opening) {
             return (rec.opening._id === vm.opening);
           }
-          else {
-            return false;
-          }
         });
       }
-      _.forEach(vm.options.veterans, function(option) {
-        var veteranCount=_.size(_.filter(veteranData, function(rec) {
-          return rec.veteran === option.code;
-        }));
-        console.log(option.description + ' count is ' + veteranCount);
-        vm.eoeData.byVeteran[option.code] = { "count": veteranCount, "label" : option.description};
+
+      // APPLICANTS BY VETERAN x GENDER
+      _.forEach(vm.options.veterans, function (option) {
+
+        vm.eoeData.byVeteran[option.code] = {
+          label: option.description,
+          orderBy: option.orderBy,
+          counts: {totalCount: 0}
+        };
+        _.forEach(vm.options.genders, function (gender) {
+          var veteranCount = _.size(_.filter(veteranData, function (rec) {
+            return (rec.veteran === option.code && rec.gender === gender.code);
+          }));
+          console.log(option.description + ' - ' + gender.code + ' count is ' + veteranCount);
+          vm.eoeData.byVeteran[option.code].counts[gender.code] = veteranCount;
+          vm.eoeData.byVeteran[option.code].counts.totalCount += veteranCount;
+        });
       });
     }
+
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
