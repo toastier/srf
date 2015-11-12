@@ -154,27 +154,35 @@
     vm.options.veterans = [
       {
         code: 'yes-id',
+        orderBy: 1,
         description: 'Yes, identify as veteran'
       },
       {
         code: 'yes-not-id',
+        orderBy: 2,
         description: 'Yes, but do not identify'
       },
       {
         code: 'no',
+        orderBy: 3,
         description: 'No'
       },
       {
         code: 'declined',
+        orderBy: 89,
         description: 'Declined to Answer'
       }
     ];
 
     vm.options.vetClasses = [
-      { code: 'disabled', description: 'Disabled Veteran' },
-      { code: 'recent', description: 'Recently Separated Veteran', detail: 'Discharged or released from active duty within 36 months' },
-      { code: 'active', description: 'Active Duty Wartime or Campaign Badge Veteran', detail: 'Served on active duty in the U.S. military during a war or in a campaign or expedition for which a campaign badge is awarded' },
-      { code: 'medal', description: 'Armed Forces Service Medal Veteran', detail: 'While serving on active duty in the Armed Forces, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.' }
+      { code: 'disabled',         orderBy: 1,
+        description: 'Disabled Veteran' },
+      { code: 'recent',         orderBy: 2,
+        description: 'Recently Separated Veteran', detail: 'Discharged or released from active duty within 36 months' },
+      { code: 'active',         orderBy: 3,
+        description: 'Active Duty Wartime or Campaign Badge Veteran', detail: 'Served on active duty in the U.S. military during a war or in a campaign or expedition for which a campaign badge is awarded' },
+      { code: 'medal',         orderBy: 4,
+        description: 'Armed Forces Service Medal Veteran', detail: 'While serving on active duty in the Armed Forces, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.' }
     ];
 
     function reportDataInit() {
@@ -308,6 +316,7 @@
       var veteranData = (_.find(result, function (data) {
         return data.type === "veteran";
       })).data;
+
       if (vm.opening !== "all") {
         veteranData = _.filter(veteranData, function (rec) {
           if (rec.opening) {
@@ -318,7 +327,6 @@
 
       // APPLICANTS BY VETERAN x GENDER
       _.forEach(vm.options.veterans, function (option) {
-
         vm.eoeData.byVeteran[option.code] = {
           label: option.description,
           orderBy: option.orderBy,
@@ -331,6 +339,29 @@
           console.log(option.description + ' - ' + gender.code + ' count is ' + veteranCount);
           vm.eoeData.byVeteran[option.code].counts[gender.code] = veteranCount;
           vm.eoeData.byVeteran[option.code].counts.totalCount += veteranCount;
+        });
+      });
+
+      _.forEach(vm.options.vetClasses, function (option) {
+        var vetClassData = vm.eoeData.byVeteran['yes-id'];
+        vetClassData.classes = {};
+        vetClassData.classes[option.code] = {
+          label: option.description,
+          orderBy: option.orderBy,
+          counts: {totalCount: 0}
+        };
+        _.forEach(vm.options.genders, function (gender) {
+          var veteranCount = _.size(_.filter(veteranData, function (rec) {
+            if (_.has(rec, 'vetClass')) {
+              return (rec.vetClass[option.code] === true && rec.gender === gender.code);
+            }
+            else {
+              return false;
+            }
+          }));
+          console.log(option.description + ' - ' + gender.code + ' count is ' + veteranCount);
+          vetClassData.classes[option.code].counts[gender.code] = veteranCount;
+          vetClassData.classes[option.code].counts.totalCount += veteranCount;
         });
       });
     }
