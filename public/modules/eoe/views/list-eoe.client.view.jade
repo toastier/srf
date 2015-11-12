@@ -56,12 +56,16 @@ section
         thead
           tr
             th.col-xs-4 Race
-            eoe-report-gender-header
+            td.col-xs-2(data-ng-repeat="gender in vm.eoeData.byGender | toArray | orderBy : " +
+            "'orderBy'")
+              span.pull-right {{ item.label }}
+            th.col-xs-2
+              strong.pull-right Total
         tbody
           tr(data-ng-repeat="item in vm.eoeData.byRace | toArray | orderBy : 'orderBy'")
             td.col-xs-4 {{ item.label }}
             td.col-xs-2(data-ng-repeat='genderCount in item.counts')
-              span.pull-right {{ genderCount }}
+              span.pull-right {{ item.counts[gender.code] }}
           tr
             td.col-xs-4 TOTAL
             td.col-xs-2(data-ng-repeat='(key, value) in vm.eoeData.byGender')
