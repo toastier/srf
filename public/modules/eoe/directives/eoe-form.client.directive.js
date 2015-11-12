@@ -8,7 +8,7 @@
     .directive('eoeveteranForm', eoeveteranForm)
     .directive('duDisabilityManagementSystem', duDisabilityManagementSystem)
     .directive('duDisabilityBrief', duDisabilityBrief)
-
+    .directive('eoeSubmitted', eoeSubmitted)
 
 
   function eoeForm() {
@@ -48,4 +48,13 @@
       templateUrl: 'modules/eoe/directives/partials/du-disability-brief.client.partial.html'
     };
   }
+
+  function eoeSubmitted() {
+    return {
+      restrict: 'E',
+      templateUrl: 'modules/eoe/directives/partials/eoe-submitted.client.partial.html'
+    };
+  }
+
+
 })();
