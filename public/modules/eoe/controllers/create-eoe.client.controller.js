@@ -21,7 +21,7 @@
                      $state.go('main.listOpenings');
                  }
                  else {
-
+                      vm.eoeSaved = false;
                       vm.disableSaveButton = disableSaveButton;
                       vm.eoe = new Eoe({disability: null});
                       vm.saveEoe = saveEoe;
@@ -30,7 +30,9 @@
                       vm.flagOff = flagOff;
                       vm.declineAnswer = declineAnswer;
                       vm.setSelection = setSelection;
-                      vm.setEoeProvided = setEoeProvided;
+                      vm.returnToOpenings = returnToOpenings;
+                      //vm.setEoeProvided = setEoeProvided; TODO delete if not needed
+
 
                       activate();
 
@@ -39,18 +41,21 @@
 
 
 
-      function setEoeProvided(Application, $stateParams) {
+      //function setEoeProvided(Application, $stateParams) {
+      //
+      //    Application.setEoeProvided({applicationId: $stateParams.applicationId}).$promise
+      //        .then(function() {
+      //            console.log('Eoe Provided flag set.');
+      //        })
+      //        .catch(function (err) {
+      //            Messages.addMessage(err.data.message, 'error');
+      //        });
+      //}
 
-          Application.setEoeProvided({applicationId: $stateParams.applicationId}).$promise
-              .then(function() {
-                  console.log('Eoe Provided flag set.');
-              })
-              .catch(function (err) {
-                  Messages.addMessage(err.data.message, 'error');
-              });
+
+      function returnToOpenings() {
+        $state.go('main.listOpenings');
       }
-
-
 
       function declineOff() {
       if (vm.eoe.race.declined === 'true') {
@@ -93,7 +98,7 @@
 
 
     function disableSaveButton() {
-      return angular.isUndefined(vm.eoeForm) || vm.eoeForm.$invalid || vm.eoeForm.$pristine;
+      return angular.isUndefined(vm.eoeForm) || vm.eoeForm.$invalid || vm.eoeForm.$pristine || vm.eoeSaved;
     }
 
     function getPosition(positionId) {
@@ -182,7 +187,7 @@
                         .$promise
                         .then(function (result) {
                             Messages.addMessage('Thank you for submitted your confidential EOE information.');
-                            $state.go('main.listOpenings');
+                            vm.eoeSaved = true;
                         })
                         .catch(function (error) {
                             Messages.addMessage('There was a problem saving the Eoe ' + error.data.message, 'error');
@@ -203,9 +208,10 @@
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
       /** @type Array Actions we wish to add to the Navigation that we define locally **/
+      //TODO disableIf doesn't work on on second button; want to hideIf, not disable, anyway
       var controllerActions = [
         {title: 'Submit', method: vm.saveEoe, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
-        {title: 'Cancel', method: vm.cancel, type: 'button', style: 'btn-cancel'}
+        {title: 'Return to Openings', method: vm.returnToOpenings, type: 'button', style: 'btn-workflow back'}
       ];
 
       var actions = Eoe.getActions(); // get the actions from the Model
