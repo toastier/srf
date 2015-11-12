@@ -6,6 +6,10 @@
     .directive('eoedemographicForm', eoedemographicForm)
     .directive('eoedisabilityForm', eoedisabilityForm)
     .directive('eoeveteranForm', eoeveteranForm)
+    .directive('duDisabilityManagementSystem', duDisabilityManagementSystem)
+    .directive('duDisabilityBrief', duDisabilityBrief)
+
+
 
   function eoeForm() {
     return {
@@ -30,6 +34,18 @@
     return {
       restrict: 'E',
       templateUrl: 'modules/eoe/directives/partials/eoedisability-form.client.partial.html'
+    };
+  }
+  function duDisabilityManagementSystem() {
+    return {
+      restrict: 'E',
+      templateUrl: 'modules/eoe/directives/partials/du-disability-management-system.client.partial.html'
+    };
+  }
+  function duDisabilityBrief() {
+    return {
+      restrict: 'E',
+      templateUrl: 'modules/eoe/directives/partials/du-disability-brief.client.partial.html'
     };
   }
 })();
