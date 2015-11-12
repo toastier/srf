@@ -8,23 +8,10 @@ section
           label.control-label(for='opening') Opening
           select#opening.form-control(ng-options="opening._id as opening.name for opening in vm.options.openings", ng-change="vm.extractData()", data-ng-model='vm.opening', required='')
             option(value="all") --All Openings--
-  .row
-    .col-xs-12
-      .angular-filtering
-        .col-xs-12
-          //ng-form
-          //  .row
-          //    .form-group.col-md-4
-          //      .input-group
-          //        .input-group-addon Opening
-          //        input.form-control(ng-model='vm.collection.filterCriteria.name', placeholder='Any', ng-change="vm.collection.filterCollection()")
-          //    .form-group.col-md-8
-          //      .input-group
-          //        .input-group-addon Position
-          //        input.form-control(ng-model='vm.collection.filterCriteria.details', placeholder='Any', ng-change="vm.collection.filterCollection()")
-          //  .row
-          //    .col-xs-12
-          //      button.btn.btn-default.btn-undo(ng-click="vm.collection.clearFilters()") Clear Filters
+  //.row
+  //  .col-xs-12
+  //    .angular-filtering
+  //      .col-xs-12
   .container
     .panel-body
       table.table-bordered.table-striped.col-xs-12.col-md-8
@@ -69,10 +56,7 @@ section
         thead
           tr
             th.col-xs-4 Race
-            th.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : 'orderBy'")
-              span.pull-right {{ item.label }}
-            th.col-xs-2
-              span.pull-right Total
+            eoe-report-gender-header
         tbody
           tr(data-ng-repeat="item in vm.eoeData.byRace | toArray | orderBy : 'orderBy'")
             td.col-xs-4 {{ item.label }}
@@ -91,10 +75,7 @@ section
         thead
           tr
             th.col-xs-4 Disability Status
-            th.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : 'orderBy'")
-              span.pull-right {{ item.label }}
-            th.col-xs-2
-              span.pull-right Total
+            eoe-report-gender-header
         tbody
           tr(data-ng-repeat="item in vm.eoeData.byDisability | toArray | orderBy : 'orderBy'")
             td.col-xs-4 {{ item.label }}
