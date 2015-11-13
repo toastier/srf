@@ -39,6 +39,7 @@ var getErrorMessage = function(err) {
 // TODO use better method to parse out req.body
 exports.create = function(req, res) {
 	console.log('creating EOE record...');
+	req.body.position = req.application.opening.position._id;
 	req.body.opening = req.application.opening._id;
 	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
 	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'race', 'veteran', 'vetClass', 'vetDecline']));
@@ -105,7 +106,12 @@ exports.list = function(req, res) {
 
 	EoeDemographic.find()
 	.sort('-postDate')
-	.populate('opening')
+	.populate({
+		path: 'opening',
+		populate: {
+			path: 'position'
+		}
+	})
 	.exec(function(err, eoeDemographic) {
 		if (err) {
 			return res.send(400, {

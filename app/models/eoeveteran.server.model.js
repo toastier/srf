@@ -6,6 +6,10 @@ var eoeVeteranModel = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Opening'
     },
+    position: {
+        type: Schema.Types.ObjectId,
+        ref: 'Position'
+    },
     veteran: {
         type: String, enum: ['yes-id', 'yes-not-id', 'no', 'declined']
     },
