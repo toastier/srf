@@ -17,3 +17,4 @@ public/modules/core/css/dashboard-style.css
 public/modules/core/scss/dashboard-style.css
 public/modules/core/scss/dashboard-style.css.map
 config/env/developer-settings.js
+report/
