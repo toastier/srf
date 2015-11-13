@@ -24,7 +24,9 @@ var getErrorMessage = function (err) {
     }
   } else {
     for (var errName in err.errors) {
-      if (err.errors[errName].message) message = err.errors[errName].message;
+      if (err.errors[errName].message) {
+        message = err.errors[errName].message;
+      }
     }
   }
 
@@ -58,8 +60,8 @@ exports.read = function (req, res) {
 
 /**
  * Get data for opening, if opening is active, open and not closed
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  */
 exports.readCurrent = function (req, res) {
   //@todo add control over 'currentness' of opening
@@ -110,24 +112,24 @@ exports.list = function (req, res) {
     .find()
     .sort('-datePosted')
     .exec(function (err, openings) {
-    if (err) {
-      return res.send(400, {
-        message: getErrorMessage(err)
-      });
-    } else {
-      res.jsonp(openings);
-    }
-  });
+      if (err) {
+        return res.send(400, {
+          message: getErrorMessage(err)
+        });
+      } else {
+        res.jsonp(openings);
+      }
+    });
 };
 
 /**
  * List of Openings for public access
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  */
 exports.current = function (req, res) {
   var conditions = {isActive: true};
-  if(req.params && req.params.position) {
+  if (req.params && req.params.position) {
     conditions.position = req.params.position;
   }
   Opening
@@ -135,7 +137,7 @@ exports.current = function (req, res) {
     .where('dateStart').lte(Date.now())
     .where('dateClose').gte(Date.now())
     .sort('-datePosted')
-    .exec(function(err, openings) {
+    .exec(function (err, openings) {
       if (err) {
         return res.send(400, {
           message: getErrorMessage(err)

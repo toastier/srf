@@ -4,13 +4,12 @@ var mongoose = require('mongoose');
 var WorksheetField = mongoose.model('WorksheetField');
 var _ = require('lodash');
 
-
 /**
  * WorksheetField middleware
- * @param req
- * @param res
- * @param next
- * @param id
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ * @param {String} id
  */
 exports.worksheetFieldById = function (req, res, next, id) {
   WorksheetField

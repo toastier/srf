@@ -38,9 +38,9 @@ exports.applicationByID = function (req, res, next, id) {
         return next(new Error('Failed to load application ' + id));
       }
       //if there is a cv or coverLetter attached, we need to fetch the associated file metadata
-      if(application.cv || application.coverLetter) {
+      if (application.cv || application.coverLetter) {
         getFiles(application)
-          .then(function(result) {
+          .then(function (result) {
             req.application = result;
             next();
           });
@@ -55,7 +55,7 @@ exports.applicationByID = function (req, res, next, id) {
 exports.addFile = function (req, res, next) {
   var application = req.application;
   var uploadType = req.params.type;
-  if(req.newFileId) {
+  if (req.newFileId) {
 
     if (uploadType === 'cv') {
       application.cv = req.newFileId;
@@ -106,29 +106,29 @@ exports.conductPhoneInterview = function (req, res) {
  * @param {Object} res
  * @param {Function} next
  */
-exports.create = function(req, res, next) {
-	var application = new Application(req.body);
+exports.create = function (req, res, next) {
+  var application = new Application(req.body);
   var err;
 
-  if(!application.user) {
+  if (!application.user) {
     err = new Error('No user was provided');
     err.status = 400;
     return next(err);
   }
 
-  if(!application.applicant) {
+  if (!application.applicant) {
     err = new Error('Applicant was not provided');
     err.status = 400;
     return next(err);
   }
 
-  if(!application.opening) {
+  if (!application.opening) {
     err = new Error('Opening was not provided');
     err.status = 400;
     return next(err);
   }
 
-  application.save(function(err, result) {
+  application.save(function (err, result) {
     if (err) {
       err.status = 500;
       return next(err);
@@ -143,10 +143,10 @@ exports.create = function(req, res, next) {
  * @param {Object} res
  * @returns {*}
  */
-exports.createByUser = function(req, res) {
+exports.createByUser = function (req, res) {
   var application = new Application(req.body);
 
-  if(!application.user) {
+  if (!application.user) {
     return res.send(400, {
       message: 'no user given'
     });
@@ -157,7 +157,7 @@ exports.createByUser = function(req, res) {
   /**
    * find an existing Applicant for the given User._id, if one is found call saveApplication(), passing the Applicant,
    * if not found, call createApplicant()
-   * @param userId
+   * @param {String} userId
    */
   function findApplicantByUserId(userId) {
     Applicant.findOne({user: userId})
@@ -166,7 +166,7 @@ exports.createByUser = function(req, res) {
           return err;
         }
 
-        if(foundApplicant && foundApplicant._id) {
+        if (foundApplicant && foundApplicant._id) {
           saveApplication(foundApplicant);
         } else {
           createApplicant();
@@ -189,7 +189,7 @@ exports.createByUser = function(req, res) {
       name: name
     });
 
-    applicant.save(function(err) {
+    applicant.save(function (err) {
       if (err) {
         return res.send(400, {
           message: getErrorMessage(err)
@@ -203,7 +203,7 @@ exports.createByUser = function(req, res) {
   //noinspection ProblematicWhitespace
   /**
    * save the Application and return the response
-   * @param applicant
+   * @param {Object} applicant
    */
   function saveApplication(applicant) {
     application.applicant = applicant._id;
@@ -214,7 +214,7 @@ exports.createByUser = function(req, res) {
       if (err) {
         res.send(500, err);
       } else {
-        resultApplication.save(function(err, result) {
+        resultApplication.save(function (err, result) {
           if (err) {
             return res.send(400, {
               message: getErrorMessage(err)
@@ -239,7 +239,7 @@ exports.delete = function (req, res, next) {
   var application = req.application;
 
   deleteAndRemoveFiles(application)
-    .then(function() {
+    .then(function () {
       application.remove(function (err) {
         if (err) {
           err.status = 400;
@@ -258,14 +258,14 @@ exports.delete = function (req, res, next) {
  * @param {Object} req
  * @param {Object} res
  */
-exports.deleteComment = function(req, res) {
+exports.deleteComment = function (req, res) {
   var comment = req.body.comment
     , matchingComment
     , commentAttachedTo;
 
-  if(req.body && req.body.phoneInterview) {
+  if (req.body && req.body.phoneInterview) {
     commentAttachedTo = 'phoneInterview';
-  } else if(req.body && req.body.review) {
+  } else if (req.body && req.body.review) {
     commentAttachedTo = 'review';
   } else {
     res.send(403, {
@@ -303,9 +303,9 @@ exports.deleteComment = function(req, res) {
     }
   }
 
-  if(deleted) {
-    req.application.save(function(err, application){
-      if(err) {
+  if (deleted) {
+    req.application.save(function (err, application) {
+      if (err) {
         res.send(400, {
           message: 'An error occurred while deleting the comment.'
         });
@@ -333,7 +333,7 @@ exports.forOpening = function (req, res, next) {
   query = addActiveConditionsToQuery(query, isActive);
 
   query
-    .exec(function(err, applications) {
+    .exec(function (err, applications) {
       if (err) {
         return next(err);
       }
@@ -354,7 +354,7 @@ exports.forApplicant = function (req, res, next) {
 
   query
     .populate('opening')
-    .exec(function(err, applications) {
+    .exec(function (err, applications) {
       if (err) {
         return next(err);
       }
@@ -364,8 +364,8 @@ exports.forApplicant = function (req, res, next) {
 
 /**
  * Adds conditions (.where) to the query passed in which will limit results to either active or inactive Applications
- * @param {"mongoose".Query} query
- * @param isActive
+ * @param {Object} query
+ * @param {Boolean|null} isActive
  * @returns {*}
  */
 function addActiveConditionsToQuery(query, isActive) {
@@ -394,16 +394,16 @@ function addActiveConditionsToQuery(query, isActive) {
  */
 exports.forOpeningForUser = function (req, res, next) {
   Application.findOne({user: req.user._id, opening: req.opening._id})
-    .exec(function(err, application){
-      if(err) {
+    .exec(function (err, application) {
+      if (err) {
         return next(err);
       } else {
         if (application && (application.cv || application.coverLetter)) {
           getFiles(application)
-            .then(function(result) {
+            .then(function (result) {
               sendResponse(null, result, res);
             })
-            .catch(function(err) {
+            .catch(function (err) {
               return next(err);
             });
         } else {
@@ -421,8 +421,7 @@ exports.forOpeningForUser = function (req, res, next) {
  * @returns {*}
  */
 exports.hasAuthorization = function (req, res, next) {
-  if ((_.intersection(req.user.roles, ['admin', 'manager']).length)
-  || (req.application.user.toString() === req.user._id)) {
+  if ((_.intersection(req.user.roles, ['admin', 'manager']).length) || (req.application.user.toString() === req.user._id)) {
     next();
   } else {
     var err = new Error('User is not authorized', 403);
@@ -447,7 +446,7 @@ exports.manage = function (req, res) {
 
   if (shouldSetupReviewWorksheet) {
     addWorksheetFields(application, 'reviewWorksheet')
-      .then(function(result) {
+      .then(function (result) {
         application = result;
         addPhoneInterviewWorksheetFields();
       })
@@ -458,14 +457,14 @@ exports.manage = function (req, res) {
     addPhoneInterviewWorksheetFields();
   }
 
-  function addPhoneInterviewWorksheetFields () {
-    if(shouldSetupPhoneInterviewWorksheet) {
+  function addPhoneInterviewWorksheetFields() {
+    if (shouldSetupPhoneInterviewWorksheet) {
       addWorksheetFields(application, 'phoneInterviewWorksheet')
-        .then(function(result) {
+        .then(function (result) {
           application = result;
           doSave();
         })
-        .catch(function(err) {
+        .catch(function (err) {
           sendResponse(err);
         });
     } else {
@@ -473,18 +472,18 @@ exports.manage = function (req, res) {
     }
   }
 
-  function doSave () {
+  function doSave() {
     application.save(function (err) {
       if (err) {
         sendResponse(err);
       } else {
-        if(application.cv || application.coverLetter) {
+        if (application.cv || application.coverLetter) {
           getFiles(application)
-            .then(function(result) {
+            .then(function (result) {
               application = result;
               sendResponse(null, application);
             })
-            .catch(function(err) {
+            .catch(function (err) {
               sendResponse(err);
             });
         } else {
@@ -496,7 +495,7 @@ exports.manage = function (req, res) {
   }
 
   function sendResponse(err, data) {
-    if(err) {
+    if (err) {
       res.send(400, getErrorMessage(err));
     } else {
       res.jsonp(data);
@@ -521,8 +520,8 @@ exports.iAmReviewer = function (req, res) {
     //.or([{'reviewPhase.proceedToPhoneInterview': false}, {'reviewPhase.proceedToPhoneInterview': null}])
     .sort('-dateSubmitted')
     .populate('opening')
-    .exec(function(err, applications) {
-      if(err) {
+    .exec(function (err, applications) {
+      if (err) {
         return res.send(400, {
           message: getErrorMessage(err)
         });
@@ -547,8 +546,8 @@ exports.iAmPhoneInterviewer = function (req, res) {
     })//user is an Assigned Phone Interviewer, and the interview is not completed
     .sort('-dateSubmitted')
     .populate('opening')
-    .exec(function(err, applications) {
-      if(err) {
+    .exec(function (err, applications) {
+      if (err) {
         return res.send(400, {
           message: getErrorMessage(err)
         });
@@ -581,36 +580,36 @@ exports.list = function (req, res) {
 
   /**
    * Computes status and adds to individual applications
-   * @param applications
+   * @param {Array} applications
    */
   function summarizeApplications(applications) {
-    _.forEach(applications, function(application) {
+    _.forEach(applications, function (application) {
       var status = 'Archived';
-      if(application.proceedToReview) {
+      if (application.proceedToReview) {
         status = 'Review Phase Open';
       }
-      if(application.proceedToReview === null) {
+      if (application.proceedToReview === null) {
         status = 'Needs Processing';
       }
-      if(application.proceedToReview === false) {
+      if (application.proceedToReview === false) {
         status = 'Denied prior to Committee Review';
       }
-      if(application.reviewPhase) {
-        if(application.reviewPhase.proceedToPhoneInterview){
+      if (application.reviewPhase) {
+        if (application.reviewPhase.proceedToPhoneInterview) {
           status = 'Phone Interview Open';
-        } else if(application.reviewPhase.proceedToPhoneInterview === false) {
+        } else if (application.reviewPhase.proceedToPhoneInterview === false) {
           status = 'Denied after Review Phase';
         }
       }
-      if(application.phoneInterviewPhase) {
+      if (application.phoneInterviewPhase) {
 
-        if(application.phoneInterviewPhase.proceedToOnSite) {
+        if (application.phoneInterviewPhase.proceedToOnSite) {
           status = 'On Site Phase Open';
-        } else if(application.phoneInterviewPhase.proceedToOnSite === false) {
+        } else if (application.phoneInterviewPhase.proceedToOnSite === false) {
           status = 'Denied after Phone Interview Phase';
         }
       }
-      if(application.onSiteVisitPhase.complete) {
+      if (application.onSiteVisitPhase.complete) {
         status = 'Process Complete';
       }
       var applicantDisplayName = application.firstName + ' ' + application.lastName;
@@ -641,10 +640,10 @@ exports.read = function (req, res) {
 exports.removeFile = function (req, res, next) {
   var fileId = req.params.fileId;
   var matched = false;
-  if(req.application.coverLetter && req.application.coverLetter.toString() === fileId) {
+  if (req.application.coverLetter && req.application.coverLetter.toString() === fileId) {
     matched = true;
     req.application.coverLetter = null;
-  } else if(req.application.cv && req.application.cv.toString() === fileId) {
+  } else if (req.application.cv && req.application.cv.toString() === fileId) {
     matched = true;
     req.application.cv = null;
   }
@@ -665,15 +664,15 @@ exports.removeFile = function (req, res, next) {
  * @param {Object} req
  * @param {Object} res
  */
-exports.saveComment = function(req, res) {
+exports.saveComment = function (req, res) {
   var comment = req.body.comment;
   var mode = 'update';
 
   var commentAttachedTo;
 
-  if(req.body && req.body.phoneInterview) {
+  if (req.body && req.body.phoneInterview) {
     commentAttachedTo = 'phoneInterview';
-  } else if(req.body && req.body.review) {
+  } else if (req.body && req.body.review) {
     commentAttachedTo = 'review';
   } else {
     res.send(403, {
@@ -692,21 +691,21 @@ exports.saveComment = function(req, res) {
 
   comment.commenter = req.user._id;
 
-  if(!comment._id) {
+  if (!comment._id) {
     mode = 'add';
   }
 
   if (mode === 'add') {
     var commentAdded = false;
 
-    if(existingSubject) {
+    if (existingSubject) {
       comment = new Comment(comment);
       existingSubject[worksheet].comments.push(comment);
       comment = existingSubject[worksheet].comments[existingSubject[worksheet].comments.length - 1];
       commentAdded = true;
     }
 
-    if(commentAdded) {
+    if (commentAdded) {
       saveApplication();
     } else {
       sendResponse(400, {
@@ -719,8 +718,8 @@ exports.saveComment = function(req, res) {
     var commentUpdated = false;
     var existingComment = existingSubject[worksheet].comments.id(comment._id);
 
-    if(existingComment) {
-      if(comment.dateUpdated) {
+    if (existingComment) {
+      if (comment.dateUpdated) {
         delete comment.dateUpdated;
       }
       comment = new Comment(comment);
@@ -737,9 +736,9 @@ exports.saveComment = function(req, res) {
     }
   }
 
-  function saveApplication () {
-    req.application.save(function(err, application) {
-      if(err) {
+  function saveApplication() {
+    req.application.save(function (err, application) {
+      if (err) {
         sendResponse({
           message: 'Problem Saving the Comment on the Server'
         });
@@ -765,10 +764,10 @@ exports.saveComment = function(req, res) {
   }
 };
 
-exports.savePhoneInterview = function(req, res) {
+exports.savePhoneInterview = function (req, res) {
   var phoneInterview = req.body.phoneInterview;
 
-  if(isPhoneInterviewer(req)) {
+  if (isPhoneInterviewer(req)) {
     updatePhoneInterviewContent(returnPhoneInterview);
   } else {
     return res.send(400, {
@@ -776,14 +775,14 @@ exports.savePhoneInterview = function(req, res) {
     });
   }
 
-  function updatePhoneInterviewContent (next) {
+  function updatePhoneInterviewContent(next) {
     var updated = false;
 
     var existingPhoneInterview = req.application.phoneInterviewPhase.phoneInterviews.id(phoneInterview._id);
 
     if (existingPhoneInterview && req.user._id === existingPhoneInterview.interviewer._id.toString()) {
       existingPhoneInterview.phoneInterviewWorksheet.body = phoneInterview.phoneInterviewWorksheet.body;
-      if(phoneInterview.phoneInterviewWorksheet.complete) {
+      if (phoneInterview.phoneInterviewWorksheet.complete) {
         existingPhoneInterview.phoneInterviewWorksheet.dateCompleted = Date.now();
       } else {
         existingPhoneInterview.phoneInterviewWorksheet.dateCompleted = null;
@@ -793,8 +792,8 @@ exports.savePhoneInterview = function(req, res) {
     }
 
     if (updated) {
-      req.application.save(function(err, application) {
-        if(err) {
+      req.application.save(function (err, application) {
+        if (err) {
           res.send(400, err);
         }
         next(application);
@@ -806,12 +805,10 @@ exports.savePhoneInterview = function(req, res) {
     }
   }
 
-  function returnPhoneInterview (application) {
+  function returnPhoneInterview(application) {
     var updatedPhoneInterview = application.phoneInterviewPhase.phoneInterviews.id(phoneInterview._id);
     res.jsonp(updatedPhoneInterview);
   }
-
-
 
 };
 
@@ -825,13 +822,13 @@ exports.savePhoneInterview = function(req, res) {
 exports.saveReview = function (req, res) {
   var review = req.body.review;
 
-  function updateReviewContent (next) {
+  function updateReviewContent(next) {
     var updated = false;
 
     var existingReview = req.application.reviewPhase.reviews.id(review._id);
     if (existingReview && req.user._id === existingReview.reviewer._id.toString()) {
       existingReview.reviewWorksheet.body = review.reviewWorksheet.body;
-      if(review.reviewWorksheet.complete) {
+      if (review.reviewWorksheet.complete) {
         existingReview.reviewWorksheet.dateCompleted = Date.now();
       } else {
         existingReview.reviewWorksheet.dateCompleted = null;
@@ -841,8 +838,8 @@ exports.saveReview = function (req, res) {
     }
 
     if (updated) {
-      req.application.save(function(err, application) {
-        if(err) {
+      req.application.save(function (err, application) {
+        if (err) {
           res.send(400, err);
         }
         next(application);
@@ -854,7 +851,7 @@ exports.saveReview = function (req, res) {
     }
   }
 
-  function returnReview (application) {
+  function returnReview(application) {
     var updatedReview = application.reviewPhase.reviews.id(review._id);
     res.jsonp(updatedReview);
   }
@@ -878,7 +875,7 @@ exports.update = function (req, res) {
 
   application = _.extend(application, req.body);
 
-  if(application.submitted && !application.dateSubmitted) {
+  if (application.submitted && !application.dateSubmitted) {
     application.dateSubmitted = Date.now();
   }
 
@@ -889,9 +886,9 @@ exports.update = function (req, res) {
       });
     } else {
 
-      if(application.cv || application.coverLetter) {
+      if (application.cv || application.coverLetter) {
         getFiles(application)
-          .then(function(result) {
+          .then(function (result) {
             req.application = result;
             res.jsonp(application);
           });
@@ -906,25 +903,25 @@ exports.update = function (req, res) {
 };
 
 /**
-* Return true if EOE already provided for Application
-* empty
-* @param {Object} req
-* @param {Object} res
-*/
+ * Return true if EOE already provided for Application
+ * empty
+ * @param {Object} req
+ * @param {Object} res
+ */
 exports.eoeProvided = function (req, res) {
-    Application.findOne({_id: req.application._id})
-        .exec(function (err, application) {
-            console.log('executing eoeProvided for ', application._id);
-            console.log('eoeProvided is', application.eoeProvided);
-            if (err) {
-                return res.send(400, {
-                    message: 'Error looking for existing Application'
-                });
-            }
-            else {
-                res.jsonp(application);
-            }
+  Application.findOne({_id: req.application._id})
+    .exec(function (err, application) {
+      console.log('executing eoeProvided for ', application._id);
+      console.log('eoeProvided is', application.eoeProvided);
+      if (err) {
+        return res.send(400, {
+          message: 'Error looking for existing Application'
         });
+      }
+      else {
+        res.jsonp(application);
+      }
+    });
 };
 
 /**
@@ -941,7 +938,7 @@ function addWorksheetFields(application, worksheetType) {
   WorksheetField
     .find({appliesTo: worksheetType})
     .sort('order')
-    .exec(function(err, result) {
+    .exec(function (err, result) {
       if (err) {
         deferred.reject(err);
       } else {
@@ -951,7 +948,7 @@ function addWorksheetFields(application, worksheetType) {
 
   function createBodyFields(worksheetFields) {
     var bodyFields = [];
-    if(worksheetFields && worksheetFields.length) {
+    if (worksheetFields && worksheetFields.length) {
       _.forEach(worksheetFields, function (worksheetField) {
         bodyFields.push(new BodyField(worksheetField));
       });
@@ -970,25 +967,25 @@ function addWorksheetFields(application, worksheetType) {
     var reviewArray = (worksheetType === 'reviewWorksheet') ? 'reviews' : 'phoneInterviews';
     if (application[phaseName]) {
 
-      if(!application[phaseName][reviewArray]) {
+      if (!application[phaseName][reviewArray]) {
         application[phaseName][reviewArray] = [];
       }
 
       var existingReviewCount = application[phaseName][reviewArray].length;
       var additionalReviewsNeeded = 2 - existingReviewCount;
 
-      for(var i = 0; i < additionalReviewsNeeded; i++ ) {
-        application[phaseName][reviewArray].push( new Review());
+      for (var i = 0; i < additionalReviewsNeeded; i++) {
+        application[phaseName][reviewArray].push(new Review());
       }
 
       _.forEach(application[phaseName][reviewArray], function (review) {
         //if the body object does not exist for the review, add it.
-        if(!_.isObject(review[worksheetType].body)) {
+        if (!_.isObject(review[worksheetType].body)) {
           review[worksheetType].body = {};
         }
         var fields = review[worksheetType].body.fields;
         //if the fields array does not exist or is not populated, we populate it.
-        if(!fields || !_.isArray(fields) || !fields.length) {
+        if (!fields || !_.isArray(fields) || !fields.length) {
           review[worksheetType].body.fields = bodyFields;
         }
       });
@@ -999,18 +996,19 @@ function addWorksheetFields(application, worksheetType) {
       deferred.reject('error: phase specified does not exist');
     }
   }
+
   return deferred.promise;
 }
 
 /**
  * Delete CV and Cover Letter associated with an application
- * @param application
+ * @param {Object} application
  * @returns {deferred.promise|{then}}
  */
 function deleteAndRemoveFiles(application) {
   var deferred = Q.defer();
 
-  if(application.cv) {
+  if (application.cv) {
     var fileId = application.cv;
     doDelete(fileId, application.cv, deleteCoverLetter);
   } else {
@@ -1029,8 +1027,8 @@ function deleteAndRemoveFiles(application) {
   }
 
   function doDelete(fileId, fileReference, callback) {
-    gfs.remove({_id: fileId}, function(err) {
-      if(err) {
+    gfs.remove({_id: fileId}, function (err) {
+      if (err) {
         deferred.resolve(err);
       }
       fileReference = null;
@@ -1044,7 +1042,7 @@ function deleteAndRemoveFiles(application) {
 
 /**
  * Get the error message from the Error Object
- * @param err
+ * @param {Error} err
  * @returns {string}
  */
 function getErrorMessage(err) {
@@ -1072,39 +1070,39 @@ function getErrorMessage(err) {
 
 /**
  * Returns metadata for the given file
- * @param fileId
- * @param callback
+ * @param {String} fileId
+ * @param {Function} callback
  */
-function getFileMetadata (fileId, callback) {
+function getFileMetadata(fileId, callback) {
 
-    gfs.findOne({_id: fileId}, function (err, file) {
-      if (err) {
-        //@todo handle error
-        console.log(err);
-      } else {
-        //if there is no fileId given, gfs.findOne will have returned null, if not we are going to
-        //lookup the metadata on the file and add it as file.metadata
-        if (file !== null) {
-          file.mimeType = mime.lookup(file.filename);
-        }
-        //call back to the async#parallel in fn getFiles
-        callback(null, file);
+  gfs.findOne({_id: fileId}, function (err, file) {
+    if (err) {
+      //@todo handle error
+      console.log(err);
+    } else {
+      //if there is no fileId given, gfs.findOne will have returned null, if not we are going to
+      //lookup the metadata on the file and add it as file.metadata
+      if (file !== null) {
+        file.mimeType = mime.lookup(file.filename);
       }
-    });
+      //call back to the async#parallel in fn getFiles
+      callback(null, file);
+    }
+  });
 }
 
 /**
  *
- * @param application
+ * @param {Object} application
  * @returns {deferred.promise|{then}}
  */
-function getFiles (application) {
+function getFiles(application) {
   var deferred = Q.defer();
   async.parallel([
-    function(callback) {
+    function (callback) {
       getFileMetadata(application.cv, callback);
     },
-    function(callback) {
+    function (callback) {
       getFileMetadata(application.coverLetter, callback);
     }
   ], function (err, results) {
@@ -1112,10 +1110,10 @@ function getFiles (application) {
       console.log(err);
       deferred.reject(err);
     } else {
-      if(results[0]) {
+      if (results[0]) {
         application._doc.cvFileMeta = results[0];
       }
-      if(results[1]){
+      if (results[1]) {
         application._doc.coverLetterFileMeta = results[1];
       }
       //resolve with the application data
@@ -1132,8 +1130,8 @@ function getFiles (application) {
  */
 function isPhoneInterviewer(req) {
   var interviewerFound = false;
-  _.forEach(req.application.phoneInterviewPhase.phoneInterviews, function(phoneInterview) {
-    if((req.user._id === phoneInterview.interviewer._id.toString()) && !interviewerFound) {
+  _.forEach(req.application.phoneInterviewPhase.phoneInterviews, function (phoneInterview) {
+    if ((req.user._id === phoneInterview.interviewer._id.toString()) && !interviewerFound) {
       interviewerFound = true;
     }
   });
@@ -1147,8 +1145,8 @@ function isPhoneInterviewer(req) {
  */
 function isReviewer(req) {
   var reviewerFound = false;
-  _.forEach(req.application.reviewPhase.reviews, function(review) {
-    if((req.user._id === review.reviewer._id.toString()) && !reviewerFound) {
+  _.forEach(req.application.reviewPhase.reviews, function (review) {
+    if ((req.user._id === review.reviewer._id.toString()) && !reviewerFound) {
       reviewerFound = true;
     }
   });
@@ -1162,7 +1160,7 @@ function isReviewer(req) {
  * @param {Object} res
  */
 function sendResponse(err, data, res) {
-  if(err) {
+  if (err) {
     res.send(400, getErrorMessage(err));
   } else {
     res.jsonp(data);

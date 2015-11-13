@@ -5,9 +5,7 @@
  */
 var mongoose = require('mongoose'),
   Applicant = mongoose.model('Applicant'),
-  errorHandler = require('./errors.server.controller'), //this doesn't work
   _ = require('lodash');
-
 
 /**
  * Get the error message from error object
@@ -26,7 +24,9 @@ var getErrorMessage = function (err) {
     }
   } else {
     for (var errName in err.errors) {
-      if (err.errors[errName].message) message = err.errors[errName].message;
+      if (err.errors[errName].message) {
+        message = err.errors[errName].message;
+      }
     }
   }
 
@@ -51,7 +51,6 @@ exports.create = function (req, res) {
     }
   });
 };
-
 
 /**
  * Show the current applicant
@@ -118,8 +117,12 @@ exports.list = function (req, res) {
  */
 exports.applicantByID = function (req, res, next, id) {
   Applicant.findById(id).populate('user', 'displayName').exec(function (err, applicant) {
-    if (err) return next(err);
-    if (!applicant) return next(new Error('Failed to load applicant ' + id));
+    if (err) {
+      return next(err);
+    }
+    if (!applicant) {
+      return next(new Error('Failed to load applicant ' + id));
+    }
     req.applicant = applicant;
     next();
   });
