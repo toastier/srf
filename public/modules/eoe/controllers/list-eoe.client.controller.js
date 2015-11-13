@@ -330,7 +330,8 @@
         vm.eoeData.byVeteran[option.code] = {
           label: option.description,
           orderBy: option.orderBy,
-          counts: {totalCount: 0}
+          counts: {totalCount: 0},
+          classes: {}
         };
         _.forEach(vm.options.genders, function (gender) {
           var veteranCount = _.size(_.filter(veteranData, function (rec) {
@@ -342,10 +343,10 @@
         });
       });
 
+      // APPLICANTS BY VET CLASS X GENDER
+      var vetClassData = vm.eoeData.byVeteran['yes-id'].classes;
       _.forEach(vm.options.vetClasses, function (option) {
-        var vetClassData = vm.eoeData.byVeteran['yes-id'];
-        vetClassData.classes = {};
-        vetClassData.classes[option.code] = {
+        vetClassData[option.code] = {
           label: option.description,
           orderBy: option.orderBy,
           counts: {totalCount: 0}
@@ -360,8 +361,8 @@
             }
           }));
           console.log(option.description + ' - ' + gender.code + ' count is ' + veteranCount);
-          vetClassData.classes[option.code].counts[gender.code] = veteranCount;
-          vetClassData.classes[option.code].counts.totalCount += veteranCount;
+          vetClassData[option.code].counts[gender.code] = veteranCount;
+          vetClassData[option.code].counts.totalCount += veteranCount;
         });
       });
     }

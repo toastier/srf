@@ -1,3 +1,4 @@
+//TODO convert to du pseudo tables
 section
   navigation
   .container
@@ -120,8 +121,8 @@ section
                       span.pull-right {{ item.counts.totalCount }}
               tr(ng-repeat-start="class in item.classes | toArray | orderBy : " +
               "'orderBy'")
-                  td.col-xs-4.text-right
-                      span {{ class.label }}
+                  td.col-xs-4
+                      span(style="padding-left:20px") {{ class.label }}
                   td.col-xs-2(data-ng-repeat="gender in vm.eoeData.byGender | toArray | orderBy : " +
                   "'orderBy'")
                       span.pull-right {{ class.counts[gender.code] }}
