@@ -1,4 +1,4 @@
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var applicantModel = new Schema({
@@ -43,9 +43,9 @@ var applicantModel = new Schema({
     }],
     phoneNumbers: [{
       phoneNumber: {type: String},
-      type: {type: String}, //TODO enumlist
+      type: {type: String},
       note: {type: String},
-      primary: {type: Boolean},
+      primary: {type: Boolean}
     }],
     addresses: [{
       type: {type: String}, //TODO enumList

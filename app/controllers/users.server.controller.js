@@ -10,7 +10,7 @@ var mongoose = require('mongoose'),
 var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
-var developerSettings = require('../../config/env/developer-settings')
+var developerSettings = require('../../config/env/developer-settings');
 
 /**
  * define userRoles
@@ -34,7 +34,9 @@ var getErrorMessage = function (err) {
     }
   } else {
     for (var errName in err.errors) {
-      if (err.errors[errName].message) message = err.errors[errName].message;
+      if (err.errors[errName].message) {
+        message = err.errors[errName].message;
+      }
     }
   }
 
@@ -80,8 +82,8 @@ exports.signup = function (req, res) {
 
 /**
  * Privileged function allowing Admin Users to create Users
- * @param req
- * @param res
+ * @param {ServerRequest} req
+ * @param {ServerResponse} res
  */
 exports.adminCreate = function (req, res) {
   // Init Variables
@@ -102,7 +104,6 @@ exports.adminCreate = function (req, res) {
     }
   });
 };
-
 
 /**
  * Signin after passport authentication
@@ -272,8 +273,12 @@ exports.userByID = function (req, res, next, id) {
   User.findOne({
     _id: id
   }).exec(function (err, user) {
-    if (err) return next(err);
-    if (!user) return next(new Error('Failed to load User ' + id));
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(new Error('Failed to load User ' + id));
+    }
     req.profile = user;
     next();
   });
@@ -288,7 +293,7 @@ exports.requiresLogin = function (req, res, next) {
     err.status = 401;
     return next(err);
   }
-  next();
+  return next();
 };
 
 /**
@@ -370,7 +375,9 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
         // Check if user exists, is not signed in using this provider, and doesn't have that provider data already configured
         if (user && user.provider !== providerUserProfile.provider && (!user.additionalProvidersData || !user.additionalProvidersData[providerUserProfile.provider])) {
           // Add the provider data to the additional provider data field
-          if (!user.additionalProvidersData) user.additionalProvidersData = {};
+          if (!user.additionalProvidersData) {
+            user.additionalProvidersData = {};
+          }
           user.additionalProvidersData[providerUserProfile.provider] = providerUserProfile.providerData;
 
           // Then tell mongoose that we've updated the additionalProvidersData field
@@ -424,8 +431,8 @@ exports.removeOAuthProvider = function (req, res, next) {
 
 /**
  * List of Users
- * @param req
- * @param res
+ * @param {ServerRequest} req
+ * @param {ServerResponse} res
  */
 exports.list = function (req, res) {
   User.find().sort('lastName').exec(function (err, users) {
@@ -444,7 +451,7 @@ exports.committeeMembersOptionList = function (req, res) {
     .sort('lastName')
     .select('displayName lastName _id')
     .exec(function(err, committeeMembers) {
-      if(err) {
+      if (err) {
         res.send(400,
           {
             message: 'An error occurred while retrieving the committee members from the server'
@@ -492,12 +499,12 @@ exports.emailAddressIsUnique = function (req, res, next) {
   var result = {unique: false, local: false};
   User.findOne({email: req.body.email})
     .exec(function(err, user) {
-      if(err) {
+      if (err) {
         err.status = 500;
         return next(err);
       }
-      if(user && user._id) {
-        if(user.provider === 'local') {
+      if (user && user._id) {
+        if (user.provider === 'local') {
           result.local = true;
         }
         return res.jsonp(result);
@@ -510,8 +517,8 @@ exports.emailAddressIsUnique = function (req, res, next) {
 
 /**
  * Masquerade as another user
- * @param req
- * @param res
+ * @param {ServerRequest} req
+ * @param {ServerResponse} res
  */
 exports.masquerade = function(req, res) {
   // Init Variables
@@ -544,9 +551,9 @@ exports.roles = function (req, res) {
  * Method for User(s) created under the 'local' strategy to get a token sent to their email so that they can reset their password.
  * @todo check that the user was created under the 'local' strategy.  this method should not be available to users created under shibboleth as that would be a vulnerability.
  *
- * @param req
- * @param res
- * @param next
+ * @param {ServerRequest} req
+ * @param {ServerResponse} res
+ * @param {Function} next
  * @returns {*}
  */
 exports.forgotPassword = function (req, res, next) {
@@ -595,10 +602,10 @@ exports.forgotPassword = function (req, res, next) {
 
       var sendGridSettings = {
         service: 'SendGrid',
-          auth: {
-            user: 'frs-duson',
-            pass: 'gQrrXqEHnLgM93'
-          }
+        auth: {
+          user: 'frs-duson',
+          pass: 'gQrrXqEHnLgM93'
+        }
       };
 
       var smtpTransport = nodemailer.createTransport(sendGridSettings);
@@ -629,19 +636,19 @@ exports.forgotPassword = function (req, res, next) {
 
 /**
  * Validate email reset token
- * @param req
- * @param res
- * @param next
+ * @param {ServerRequest} req
+ * @param {ServerResponse} res
+ * @param {Function} next
  */
 exports.validateToken = function (req, res, next) {
   var error;
   User.findOne({resetPasswordToken: req.params.token})
     .where('resetPasswordExpires').gte(Date.now())
     .exec(function(err, result) {
-      if(err) {
+      if (err) {
         return next(err);
       }
-      if(!result) {
+      if (!result) {
         error = new Error('The token is not valid');
         error.status = 400;
         return next(err);
@@ -652,9 +659,9 @@ exports.validateToken = function (req, res, next) {
 
 /**
  * Performs password reset using email link with token
- * @param req
- * @param res
- * @param next
+ * @param {ServerRequest} req
+ * @param {ServerResponse} res
+ * @param {Function} next
  */
 exports.resetPassword = function (req, res, next) {
   var error;
@@ -662,10 +669,10 @@ exports.resetPassword = function (req, res, next) {
   User.findOne({resetPasswordToken: req.params.token})
     .where('resetPasswordExpires').gte(Date.now())
     .exec(function(err, user) {
-      if(err) {
+      if (err) {
         return next(err);
       }
-      if(!user) {
+      if (!user) {
         error = new Error('The token is not valid');
         error.status = 400;
         return next(err);
@@ -678,11 +685,11 @@ exports.resetPassword = function (req, res, next) {
       user.resetPasswordState = null;
       user.resetPasswordStateParams = null;
       user.save(function(err, result) {
-        if(err) {
+        if (err) {
           err.status = 400;
           return next(err);
         }
-        if(!result) {
+        if (!result) {
           error = new Error('There was a problem saving the new password');
           return next(err);
         }

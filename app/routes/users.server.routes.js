@@ -22,7 +22,7 @@ module.exports = function (app) {
     .get(users.requiresLogin, users.hasAuthorization(['admin', 'manager']), users.list);
   app.route('/users/password').post(users.changePassword);
   app.route('/users/accounts').delete(users.removeOAuthProvider);
-  app.route('/roles').get(users.requiresLogin, users.hasAuthorization(['admin']), users.roles);
+  app.route('/roles').get(users.requiresLogin, users.hasAuthorization(['admin', 'manager']), users.roles);
   app.route('/users/masquerade').post(users.requiresLogin, users.hasAuthorization(['admin']), users.masquerade);
 
   // Setting up the users api

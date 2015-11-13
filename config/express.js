@@ -116,19 +116,21 @@ module.exports = function (db) {
     require(path.resolve(routePath))(app);
   });
 
-  // Assume 'not found' in the error msgs is a 404. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
-  app.use(function (err, req, res, next) {
-    // If the error object doesn't exists
-    if (!err) return next();
+  app.use(logErrors);
+  app.use(clientErrorHandler);
 
-    // Log it
+  function logErrors(err, req, res, next) {
     console.error(err.stack);
+    next(err);
+  }
 
-    // Error page
-    res.status(500).render('500', {
-      error: err.stack
+  function clientErrorHandler(err, req, res, next) {
+    var message = err.message || 'Internal Server Error';
+    var status = err.status || 500;
+    res.jsonp(status, {
+      message: message
     });
-  });
+  }
 
   // Assume 404 since no middleware responded
   app.use(function (req, res) {

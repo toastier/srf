@@ -11,7 +11,8 @@
     du-display-field(field-model="vm.applicant.name.lastName", field-label="Last Name", field-columns="4")
     du-display-field(field-model="vm.applicant.name.suffix", field-label="Suff", field-columns="1")
 .row
-  .col-md-6
+  .col-md-6(
+    ng-if="vm.applicant.emailAddress.length || vm.applicant.phoneNumbers.length || vm.applicant.addresses.length || vm.applicant.applicantPositions.length || vm.applicant.credentials.length || vm.applicant.focalAreas.length")
     .panel.panel-default(ng-if="vm.applicant.emailAddresses.length")
       .panel-heading
         h4 Email

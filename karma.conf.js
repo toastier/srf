@@ -1,15 +1,17 @@
+// jscs:disable validateIndentation
 'use strict';
 
 /**
  * Module dependencies.
  */
 var applicationConfiguration = require('./config/config');
+var gulpConfig = require('./gulp.config');
 
 // Karma configuration
 module.exports = function(config) {
 	config.set({
 		// Frameworks to use
-		frameworks: ['jasmine'],
+		frameworks: ['chai', 'signon', 'chai-sinon'],
 
 		// List of files / patterns to load in the browser
 		files: applicationConfiguration.assets.lib.js.concat(applicationConfiguration.assets.js, applicationConfiguration.assets.tests),
@@ -27,7 +29,7 @@ module.exports = function(config) {
 
 		// Level of logging
 		// Possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-		logLevel: config.LOG_INFO,
+		logLevel: config.LOG_DEBUG,
 
 		// Enable / disable watching file and executing tests whenever any file changes
 		autoWatch: true,

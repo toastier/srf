@@ -70,8 +70,8 @@ exports.addFile = function (req, res, next) {
 
 /**
  * Method to retrieve Application for the purposes of conducting a review
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  * @returns {*}
  */
 exports.conductReview = function (req, res) {
@@ -86,8 +86,8 @@ exports.conductReview = function (req, res) {
 
 /**
  * Retrieve Application for the purpose of conducting a phone Interview
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  * @returns {*}
  */
 exports.conductPhoneInterview = function (req, res) {
@@ -102,8 +102,9 @@ exports.conductPhoneInterview = function (req, res) {
 
 /**
  * Create an Application
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
  */
 exports.create = function(req, res, next) {
 	var application = new Application(req.body);
@@ -138,8 +139,8 @@ exports.create = function(req, res, next) {
 
 /**
  * User create Application
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  * @returns {*}
  */
 exports.createByUser = function(req, res) {
@@ -230,9 +231,9 @@ exports.createByUser = function(req, res) {
 
 /**
  * Delete an Application
- * @param req
- * @param res
- * @param next
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
  */
 exports.delete = function (req, res, next) {
   var application = req.application;
@@ -254,8 +255,8 @@ exports.delete = function (req, res, next) {
  * Deletes an application.[phase][subjectArray][worksheet].comments[] object
  * @description
  * Multipurpose method used to delete comments from reviewWorksheet(s) and phoneInterviewWorksheet(s)
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  */
 exports.deleteComment = function(req, res) {
   var comment = req.body.comment
@@ -322,9 +323,9 @@ exports.deleteComment = function(req, res) {
 
 /**
  * Find and send JSON array of applications for an Opening
- * @param req
- * @param res
- * @param next
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
  */
 exports.forOpening = function (req, res, next) {
   var isActive = (req.params.isActive === 'true');
@@ -342,9 +343,9 @@ exports.forOpening = function (req, res, next) {
 
 /**
  * Find and send JSON array of applications for an Applicant
- * @param req
- * @param res
- * @param next
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
  */
 exports.forApplicant = function (req, res, next) {
   var isActive = (req.params.isActive === 'true');
@@ -363,7 +364,7 @@ exports.forApplicant = function (req, res, next) {
 
 /**
  * Adds conditions (.where) to the query passed in which will limit results to either active or inactive Applications
- * @param {Query} query
+ * @param {"mongoose".Query} query
  * @param isActive
  * @returns {*}
  */
@@ -387,9 +388,9 @@ function addActiveConditionsToQuery(query, isActive) {
 /**
  * Find and return an existing Application for the authenticated User and given Opening if one exists. Otherwise return
  * empty
- * @param req
- * @param res
- * @param next
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
  */
 exports.forOpeningForUser = function (req, res, next) {
   Application.findOne({user: req.user._id, opening: req.opening._id})
@@ -414,9 +415,9 @@ exports.forOpeningForUser = function (req, res, next) {
 
 /**
  * Application Authorization Middleware
- * @param req
- * @param res
- * @param next
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
  * @returns {*}
  */
 exports.hasAuthorization = function (req, res, next) {
@@ -432,8 +433,8 @@ exports.hasAuthorization = function (req, res, next) {
 /**
  * Manage an existing application
  * assumes that the :applicationId param was in the route, thereby invoking #applicationId and setting req.application
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  */
 exports.manage = function (req, res) {
 
@@ -505,8 +506,8 @@ exports.manage = function (req, res) {
 
 /**
  * Get Applications where Authenticated User is the Reviewer
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  */
 exports.iAmReviewer = function (req, res) {
   Application.find()
@@ -533,8 +534,8 @@ exports.iAmReviewer = function (req, res) {
 
 /**
  * Get Applications where Authenticated User is the Phone Interviewer, and the Phone Interview needs to be completed
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  */
 exports.iAmPhoneInterviewer = function (req, res) {
   Application.find()
@@ -559,8 +560,8 @@ exports.iAmPhoneInterviewer = function (req, res) {
 
 /**
  * Return JSON of Applications
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  */
 exports.list = function (req, res) {
   Application.find()
@@ -601,7 +602,7 @@ exports.list = function (req, res) {
           status = 'Denied after Review Phase';
         }
       }
-      if(application.phoneInterviewPhase ) {
+      if(application.phoneInterviewPhase) {
 
         if(application.phoneInterviewPhase.proceedToOnSite) {
           status = 'On Site Phase Open';
@@ -624,8 +625,8 @@ exports.list = function (req, res) {
 
 /**
  * Return JSON of current Application
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  */
 exports.read = function (req, res) {
   res.jsonp(req.application);
@@ -633,9 +634,9 @@ exports.read = function (req, res) {
 
 /**
  * middleware removes cover letter from req.application Object
- * @param req
- * @param res
- * @param next
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
  */
 exports.removeFile = function (req, res, next) {
   var fileId = req.params.fileId;
@@ -661,8 +662,8 @@ exports.removeFile = function (req, res, next) {
  * on application.[phase][subjectArray][worksheet], or updates an existing comment
  * Used to add comments to reviews and phoneInterviews
  * @todo Ensure comment can only be updated by the commenter
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  */
 exports.saveComment = function(req, res) {
   var comment = req.body.comment;
@@ -695,7 +696,7 @@ exports.saveComment = function(req, res) {
     mode = 'add';
   }
 
-  if(mode === 'add'){
+  if (mode === 'add') {
     var commentAdded = false;
 
     if(existingSubject) {
@@ -817,8 +818,8 @@ exports.savePhoneInterview = function(req, res) {
 /**
  * Saves a Review
  * authorization for the assigned reviewer only
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  * @returns {*}
  */
 exports.saveReview = function (req, res) {
@@ -869,8 +870,8 @@ exports.saveReview = function (req, res) {
 
 /**
  * Update an Application
- * @param req
- * @param res
+ * @param {Object} req
+ * @param {Object} res
  */
 exports.update = function (req, res) {
   var application = req.application;
@@ -907,8 +908,8 @@ exports.update = function (req, res) {
 /**
 * Return true if EOE already provided for Application
 * empty
-* @param req
-* @param res
+* @param {Object} req
+* @param {Object} res
 */
 exports.eoeProvided = function (req, res) {
     Application.findOne({_id: req.application._id})
@@ -1126,7 +1127,7 @@ function getFiles (application) {
 
 /**
  * Check that the authenticated User is an Assigned Phone Interviewer
- * @param req
+ * @param {Object} req
  * @returns {boolean}
  */
 function isPhoneInterviewer(req) {
@@ -1141,7 +1142,7 @@ function isPhoneInterviewer(req) {
 
 /**
  * Check that the authenticated User is an Assigned Reviewer
- * @param req
+ * @param {Object} req
  * @returns {boolean}
  */
 function isReviewer(req) {
@@ -1156,8 +1157,9 @@ function isReviewer(req) {
 
 /**
  * Send server response or error. used by various exported methods where promises are employed
- * @param err
- * @param data
+ * @param {Error|null} err
+ * @param {Object|null} data
+ * @param {Object} res
  */
 function sendResponse(err, data, res) {
   if(err) {

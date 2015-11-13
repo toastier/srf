@@ -25,7 +25,7 @@
     vm.sortingClass = sortingClass;
     vm.tableColumns = [
       {field: 'displayName', label: 'Name', sortable: true, filterable: true},
-      {field: 'username', label: 'Name', sortable: true, filterable: true}
+      {field: 'email', label: 'Email', sortable: true, filterable: true}
     ];
 
     var filterDefinitionArray = [];
@@ -152,14 +152,14 @@
           setupFilters();
         })
         .catch(function (err) {
-          Messages.addMessage(err, 'error', 'Error Loading Users');
+          Messages.addMessage(err.message, 'error', 'Error Loading Users');
         });
       Roles.query().$promise
         .then(function (result) {
           vm.roles = result;
         })
         .catch(function (err) {
-          Messages.addMessage(err, 'error', 'Error Loading Roles');
+          Messages.addMessage(err.message, 'error', 'Error Loading Roles');
         });
 
     }

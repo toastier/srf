@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js",
   "private": true,
+  "devDependencies": {
+    "angular-mocks": "^1.4.5",
+    "sinon": "http://sinonjs.org/releases/sinon-1.12.1.js",
+    "bardjs": "^0.1.4"
+  },
   "dependencies": {
     "bootstrap": "^3",
     "angular": "^1.4.7",
@@ -12,7 +17,7 @@
     "angular-animate": "^1.4.7",
     "angular-touch": "^1.2",
     "angular-sanitize": "^1.2",
-    "angular-bootstrap": ">=0.10.0",
+    "angular-bootstrap": "0.13.4",
     "angular-ui-utils": "^0.1.1",
     "angular-ui-router": "^0.2.10",
     "jquery": "^2.1.4",
@@ -31,9 +36,5 @@
     "ngFx": "~1.1.0",
     "greensock-js": "~1.10.2",
     "angular-toArrayFilter": "~1.0.1"
-  },
-  "resolutions": {
-    "angular": ">=1.3.x",
-    "angular-animate": "^1.4"
   }
 }

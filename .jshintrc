@@ -7,7 +7,7 @@
 	"curly": false, // Require {} for every new block or scope.
 	"eqeqeq": true, // Require triple equals i.e. `===`.
 	"immed": true, // Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`
-	"latedef": true, // Prohibit variable use before definition.
+	"latedef": "nofunc", // Prohibit variable use before definition.
 	"newcap": true, // Require capitalization of all constructor functions e.g. `new F()`.
 	"noarg": true, // Prohibit use of `arguments.caller` and `arguments.callee`.
 	"quotmark": "single", // Define quotes to string values.
@@ -17,12 +17,15 @@
 	"strict": true, // Require `use strict` pragma in every file.
 	"trailing": true, // Prohibit trailing whitespaces.
 	"smarttabs": false, // Suppresses warnings about mixed tabs and spaces
+	"laxcomma": true,
+  "laxbreak": true,
 	"globals": { // Globals variables.
 		"jasmine": true,
 		"angular": true,
 		"ApplicationConfiguration": true
 	},
 	"predef": [ // Extra globals.
+		"angular",
 		"define",
 		"require",
 		"exports",
@@ -36,7 +39,7 @@
 		"inject",
 		"expect"
 	],
-	"indent": 4, // Specify indentation spacing
+	"indent": 2, // Specify indentation spacing
 	"devel": true, // Allow development statements e.g. `console.log();`.
 	"noempty": true // Prohibit use of empty blocks.
 }

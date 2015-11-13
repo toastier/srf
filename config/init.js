@@ -13,9 +13,17 @@ module.exports = function () {
    * Before we begin, lets set the environment variable
    * We'll Look for a valid NODE_ENV variable and if one cannot be found load the development NODE_ENV
    */
-  glob('./config/env/' + process.env.NODE_ENV + '.js', {
-    sync: true
-  }, function (err, environmentFiles) {
+  if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'production') {
+    process.env.NODE_ENV = 'development';
+  }
+
+  if (process.env.NODE_ENV !== undefined) {
+    var files = glob('./config/env/' + process.env.NODE_ENV + '.js', {sync: true});
+
+    processFiles(files);
+  }
+
+  function processFiles (environmentFiles) {
     console.log();
     if (!environmentFiles.length) {
       if (process.env.NODE_ENV) {
@@ -29,7 +37,7 @@ module.exports = function () {
       console.log('\x1b[7m', 'Application loaded using the "' + process.env.NODE_ENV + '" environment configuration');
     }
     console.log('\x1b[0m');
-  });
+  }
 
   /**
    * Add our server node extensions
