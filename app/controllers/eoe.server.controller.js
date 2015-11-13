@@ -7,7 +7,10 @@ var mongoose = require('mongoose'),
 	EoeDemographic = mongoose.model('EoeDemographic'),
 	EoeDisability = mongoose.model('EoeDisability'),
 	EoeVeteran = mongoose.model('EoeVeteran'),
-	_ = require('lodash')
+		Position = mongoose.model('Position'),
+	Q = require('q'),
+
+		_ = require('lodash')
 
 /**
  * Get the error message from error object
@@ -39,51 +42,66 @@ var getErrorMessage = function(err) {
 // TODO use better method to parse out req.body
 exports.create = function(req, res) {
 	console.log('creating EOE record...');
-	req.body.position = req.application.opening.position._id;
 	req.body.opening = req.application.opening._id;
-	var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
-	var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'race', 'veteran', 'vetClass', 'vetDecline']));
-	var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'race', 'disability']));
-	// TODO refactor this...it works but it's sloppy
-	eoeDemographic.save(function (err) {
-		if (err) {
-			return res.send(400, {
-				// this doesn't work, dumping errorHandler into its own controller
-				message: getErrorMessage(err)
-			});
-		} else {
-			eoeDisability.save(function (err) {
-				if (err) {
-					return res.send(400, {
-						// this doesn't work, dumping errorHandler into its own controller
-						message: getErrorMessage(err)
-					});
-				} else {
-					eoeVeteran.save(function (err) {
-						if (err) {
-							return res.send(400, {
-								// this doesn't work, dumping errorHandler into its own controller
-								message: getErrorMessage(err)
-							});
-						} else {
-							var application = req.application;
-							application = _.extend(application, req.application.body);
-							application.eoeProvided = true;
-							application.save(function (err) {
-								if (err) {
-									return res.send(400, {
-										message: getErrorMessage(err)
-									});
-								} else {
-									res.jsonp((_.merge(eoeDemographic, [eoeDisability, eoeVeteran])));
-								}
-							});
-						}
-					});
-				}
-			});
-		}
-	});
+	var getPosition = function() {
+		var deferred = Q.defer();
+		Position.findById(req.application.opening.position._id,
+				function (err, position) {
+					if (err) {
+						deferred.reject(new Error(error));
+					}
+					else {
+						deferred.resolve(position);
+					}
+				});
+		return deferred.promise;
+	}
+	getPosition().then(function (position) {
+		req.body.position = position;
+		var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
+		var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'race', 'veteran', 'vetClass', 'vetDecline']));
+		var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'race', 'disability']));
+		// TODO refactor this...it works but it's sloppy
+		eoeDemographic.save(function (err) {
+			if (err) {
+				return res.send(400, {
+					// this doesn't work, dumping errorHandler into its own controller
+					message: getErrorMessage(err)
+				});
+			} else {
+				eoeDisability.save(function (err) {
+					if (err) {
+						return res.send(400, {
+							// this doesn't work, dumping errorHandler into its own controller
+							message: getErrorMessage(err)
+						});
+					} else {
+						eoeVeteran.save(function (err) {
+							if (err) {
+								return res.send(400, {
+									// this doesn't work, dumping errorHandler into its own controller
+									message: getErrorMessage(err)
+								});
+							} else {
+								var application = req.application;
+								application = _.extend(application, req.application.body);
+								application.eoeProvided = true;
+								application.save(function (err) {
+									if (err) {
+										return res.send(400, {
+											message: getErrorMessage(err)
+										});
+									} else {
+										res.jsonp((_.merge(eoeDemographic, [eoeDisability, eoeVeteran])));
+									}
+								});
+							}
+						});
+					}
+				});
+			}
+		});
+	})
 };
 
 
