@@ -1,0 +1,286 @@
+//
+// Buttons
+// -----------------------------------------------------
+
+.btn.no-text {
+  &:after {
+    margin-left: 0;
+  }
+}
+
+.btn-save {
+  @include button-variant($duke-white, $duke-lime, darken($duke-lime, 5%));
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f0c7';
+  }
+}
+
+.btn-workflow:not(.back) {
+  @include button-variant($duke-white, $duke-lime, darken($duke-lime, 5%));
+  &:not(.dropdown-toggle){
+    &:after {
+      @include font-awesome-icon-after;
+      content: '\f0a9';
+    }
+  }
+}
+
+.btn-workflow.back {
+  @include button-variant($duke-white, $duke-lime, darken($duke-lime, 5%));
+  &:not(.dropdown-toggle){
+    &:before {
+      @include font-awesome-icon-before;
+      content: '\f0a8';
+    }
+  }
+}
+
+.btn-reconcile {
+  @extend .btn-save;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f079';
+  }
+}
+
+.btn-complete {
+  @extend .btn-action;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f079';
+  }
+}
+
+.btn-save-reconcile {
+  @extend .btn-save;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f046';
+  }
+}
+
+.btn-cancel {
+  @include button-variant($duke-white, $duke-orange, darken($duke-orange, 5%));
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f05c';
+  }
+}
+
+.btn-refresh, .btn-reload {
+  @include button-variant($duke-white, $duke-orange, darken($duke-orange, 5%));
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f021';
+  }
+  &:hover:after {
+    -webkit-animation: fa-spin 2s infinite linear;
+    -webkit-animation-name: fa-spin;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-delay: initial;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: initial;
+    -webkit-animation-fill-mode: initial;
+    -webkit-animation-play-state: initial;
+    animation: fa-spin 2s infinite linear;
+  }
+}
+
+.btn-auto {
+  @include button-variant($duke-white, $duke-orange, darken($duke-orange, 5%));
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f0e7';
+  }
+}
+
+.btn-undo {
+  @extend .btn-cancel;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f0e2';
+  }
+}
+
+.btn-delete {
+  @include button-variant($duke-white, $duke-red, darken($duke-red, 5%));
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f014';
+  }
+}
+
+.btn-change {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f0ec';
+  }
+}
+
+.btn-duplicate {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f0c5';
+  }
+}
+
+.btn-multiple {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f12b';
+  }
+}
+
+.btn-email {
+  @extend .btn-primary;
+  &:not(.dropdown-toggle) {
+    &:after {
+      @include font-awesome-icon-after;
+      content: '\f0e0';
+    }
+  }
+  &.no-text {
+    &:not(.dropdown-toggle) {
+      &:after {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.btn-action {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f0ae';
+  }
+}
+
+
+.btn-view {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f06e';
+  }
+}
+
+.btn-edit {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f044';
+  }
+}
+
+.btn-add {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f067';
+  }
+}
+
+.btn-manage, .sliders {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f1de';
+  }
+}
+
+.btn-logout {
+  @extend .btn-action;
+  &:after {
+    content: '\f08b';
+  }
+}
+
+.btn-masquerade {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f21b';
+  }
+}
+
+.btn-end-masquerade {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f05c';
+  }
+}
+
+.btn-search {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f002';
+  }
+}
+
+.btn-info {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f05a';
+  }
+}
+
+.btn-help {
+  @extend .btn-primary;
+  &:not(.dropdown-toggle) {
+    &:after {
+      @include font-awesome-icon-after;
+      content: '\f059';
+    }
+  }
+}
+
+.btn-list {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f03a';
+  }
+}
+
+.btn-login {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f090';
+  }
+}
+
+.btn-waiting {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    -webkit-animation: fa-spin 2s infinite linear;
+    -webkit-animation-name: fa-spin;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-delay: initial;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: initial;
+    -webkit-animation-fill-mode: initial;
+    -webkit-animation-play-state: initial;
+    animation: fa-spin 2s infinite linear;
+    content: '\f110';
+  }
+}
+
+.btn-upload {
+  @extend .btn-primary;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f093';
+  }
+}

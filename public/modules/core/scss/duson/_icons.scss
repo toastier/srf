@@ -1,0 +1,165 @@
+//
+// Anchor Element Icons
+// -----------------------------------------------------
+
+a, i {
+  &.with-icon {
+    color: inherit;
+    cursor: pointer;
+    &:hover {
+      text-decoration: inherit;
+      color: $duke-blue-link-light;
+    }
+
+    &.delete, &.remove {
+      &:hover {
+        color: $duke-red;
+      }
+    }
+
+    &:not(.icon-after) {
+
+      &:before {
+        @include font-awesome-icon-before;
+      }
+
+      &.new-window {
+        &:before {
+          content: '\f08e';
+        }
+      }
+
+
+      &.edit {
+        &:before {
+          content: '\f044';
+        }
+      }
+      &.view {
+        &:before{
+          content: '\f06e';
+        }
+      }
+      &.reconcile {
+        &:before {
+          content: '\f079';
+        }
+      }
+      &.add {
+        &:before {
+          content: '\f055';
+        }
+      }
+      &.delete {
+        &:before {
+          content: '\f014';
+        }
+      }
+      &.remove {
+        &:before {
+          content: '\f057';
+        }
+      }
+      &.download {
+        &:before {
+          content: '\f019';
+        }
+      }
+      &.print {
+        &:before {
+          content: '\f02f';
+        }
+      }
+      &.help {
+        &:before {
+          content: '\f059';
+        }
+      }
+      &.sliders, &.manage {
+        &:before {
+          content: '\f1de';
+        }
+      }
+    }
+
+    &.icon-after {
+      &:after {
+        @include font-awesome-icon-after;
+      }
+      &.new-window {
+        &:after {
+          content: '\f08e';
+        }
+      }
+      &.edit {
+        &:after {
+          content: '\f044';
+        }
+      }
+      &.view {
+        &:after{
+          content: '\f06e';
+        }
+      }
+      &.reconcile {
+        &:after {
+          content: '\f079';
+        }
+      }
+      &.add {
+        &:after {
+          content: '\f055';
+        }
+      }
+      &.delete {
+        &:after {
+          content: '\f014';
+        }
+      }
+      &.remove {
+        &:after {
+          content: '\f057';
+        }
+      }
+      &.download {
+        &:after {
+          content: '\f019';
+        }
+      }
+      &.print {
+        &:after {
+          content: '\f02f';
+        }
+      }
+      &.help {
+        &:after {
+          content: '\f059';
+        }
+      }
+      &.sliders, &.manage {
+        &:after {
+          content: '\f1de';
+        }
+      }
+    }
+  }
+}
+
+.icon-group {
+  display: block;
+  box-sizing: border-box;
+  float: left;
+  margin: auto;
+  padding: 1px 9px;
+  color: $duke-ash;
+  @include light-rounded-border;
+  border-radius: 8px;
+
+  a.with-icon:last-child:not(.icon-after):before {
+    margin-right: 0px;
+  }
+
+  &.size-medium {
+    font-size: 16px;
+  }
+}

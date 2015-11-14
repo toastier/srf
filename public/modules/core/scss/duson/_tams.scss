@@ -1,0 +1,113 @@
+//
+// Teaching Preferences JQuery Ui-Sortable
+// -----------------------------------------------------
+
+.semester{
+  padding:0;
+  &.ui-sortable {
+    .ui-sortable-handle {
+      display: block;
+      border-radius: $border-radius-base;
+      padding: 8px 4px;
+      border: 1px solid $duke-whisp;
+      background-color: $duke-white;
+      @include sheet-metal;
+      cursor: move;
+      margin-bottom: 4px;
+      line-height: 28px;
+
+      &.ui-sortable-helper { //this is the item in the process of being dragged
+        visibility: visible;
+        display: block;
+        border-color: $duke-blue-link-light;
+        @include box-shadow(0 0 10px $duke-blue-link-light);
+
+        &:before {
+          visibility: hidden;
+        }
+      }
+      &:before {
+        display: block;
+        content: '';
+        height: 20px;
+        width: 10px;
+        float:left;
+        margin-right: 8px;
+        margin-left: 4px;
+        color: $duke-blue;
+        font-weight: bold;
+      }
+      &:nth-child(1):before {
+        content: '1';
+      }
+      &:nth-child(2):before {
+        content: '2';
+      }
+      &:nth-child(3):before {
+        content: '3';
+      }
+      &:nth-child(4):before {
+        content: '4';
+      }
+      &:nth-child(5):before {
+        content: '5';
+      }
+      &:nth-child(6):before {
+        content: '6';
+      }
+
+      .course-id {
+        &:before {
+          @include font-awesome-icon-before;
+          content: '\f07d';
+          color: $duke-whisp;
+        }
+      }
+
+      .name {
+      }
+
+      .pref-delete {
+        float:right;
+        a {
+          &:before {
+            display: block;
+            @include font-awesome-icon-before;
+            content: '\f057';
+            color: $duke-red;
+          }
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+table.courses {
+  tr {
+    &.courseOffering {
+      td {
+        background-color: $duke-ash;
+      }
+    }
+    &.is-inactive {
+      td {
+        background-color: $duke-smoke;
+      }
+    }
+  }
+}
+
+//
+// Workflow Directive
+// -----------------------------------------------------
+.workflow-diagram{
+  rect {
+    fill: $duke-smoke;
+    &.approved {
+      fill: $duke-frost-green;
+    }
+  }
+}

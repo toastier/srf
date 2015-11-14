@@ -50,33 +50,6 @@
   }
 }
 
-.animate-switch-container {
-  position:relative;
-  overflow:hidden;
-}
-
-.animate-switch {
-  position:absolute;
-}
-
-.animate-switch.ng-animate {
-  -webkit-transition:all 0.5s;
-  transition:all 0.5s;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-}
-
-.animate-switch.ng-leave.ng-leave-active,
-.animate-switch.ng-enter {
-  opacity: 0;
-}
-.animate-switch.ng-leave,
-.animate-switch.ng-enter.ng-enter-active {
-  opacity: 1.0;
-}
-
 .header-controls,
 .contains-control-without-label{
   @extend .h3-margin-top;
@@ -98,12 +71,6 @@
   opacity: 0.5;
 }
 
-//.message {
-//  display: block;
-//  position: absolute;
-//  top: 0;
-//}
-
 .chip {
   display: block;
   float: left;
@@ -119,71 +86,6 @@
 }
 
 //
-// Animation
-// -----------------------------------------------------
-
-.animate-container {
-}
-
-//
-// ngRepeat Animation
-// -----------------------------------------------------
-
-
-.animate-repeat {
-  position: relative;
-  line-height:40px;
-  height: 40px;
-  box-sizing:border-box;
-}
-
-.animate-repeat.ng-move,
-.animate-repeat.ng-enter,
-.animate-repeat.ng-leave {
-  -webkit-transition:all linear 0.25s;
-  transition:all linear 0.25s;
-}
-
-.animate-repeat.ng-leave {
-  display: none;
-}
-
-.animate-repeat-enter {
-  height: 0;
-  opacity: 1;
-  max-height:0;
-}
-
-.animate-repeat.ng-leave.ng-leave-active,
-.animate-repeat.ng-move {
-  display: table-row;
-  opacity: 0.5;
-  max-height:0;
-}
-
-
-//
-// ngIf Animation
-// -----------------------------------------------------
-
-
-
-.animate-if.ng-enter, .animate-if.ng-leave {
-  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-}
-
-.animate-if.ng-enter,
-.animate-if.ng-leave.ng-leave-active {
-  opacity:0;
-}
-
-.animate-if.ng-leave,
-.animate-if.ng-enter.ng-enter-active {
-  opacity:1;
-}
-
-//
 // Checkmark Colors
 // -----------------------------------------------------
 
@@ -194,36 +96,6 @@
   }
   &.false {
     color: $false-red;
-  }
-}
-
-
-//
-// Override Glyphicons
-// -----------------------------------------------------
-
-.glyphicon {
-
-  font-family: "FontAwesome";
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  font-size: inherit;
-  line-height: inherit;
-  -webkit-font-smoothing: antialiased;
-  text-decoration: none;
-  //the chevrons are used by the ui-bootstrap datepicker widget
-  &.glyphicon-chevron-right {
-    &:before {
-      content: '\f054';
-    }
-  }
-
-  &.glyphicon-chevron-left {
-    &:before {
-      content: '\f053';
-    }
   }
 }
 
@@ -249,75 +121,6 @@ h3.site-name a {
   }
 }
 
-//
-// ngVideo
-// -----------------------------------------------------
-
-
-section.video {
-  &.col-xs-12 {
-    padding: 0;
-  }
-  .video-player {
-    width: 100%;
-  }
-  .timeline-container {
-    box-sizing: border-box;
-    position: absolute;
-    bottom: 5px;
-    padding: 5px 15px;
-    width: 100%;
-  }
-
-  section.controls {
-    position: absolute;
-    top: 15px;
-    right: 25px;
-    width: 48px;
-    z-index: 5;
-    text-align: center;
-    color: white;
-    span {
-      a {
-        margin: 0;
-        padding: 0;
-        cursor: pointer;
-        line-height: 48px;
-        padding-left: 2px;
-        width: 48px;
-        height: 48px;
-        font-size: 20px;
-        transition: background-color .35s;
-        border-radius: 3px;
-        margin-bottom: 10px;
-        color: rgba(255,255,255,0.0);
-        &:hover {
-          text-decoration: none;
-          background-color: rgba(255,255,255,0.5);
-          color: $duke-white;
-        }
-      }
-    }
-  }
-
-  &:hover {
-    section.controls {
-      span {
-        a {
-          color:white;
-          background-color: rgba(0,0,0,0.3)
-        }
-      }
-    }
-  }
-}
-
-.help-item {
-  border-radius: 8px;
-  border: 1px solid #cecece;
-  padding: 15px 0;
-  margin-bottom: 8px;
-}
 
 //
 // User Acceptance
@@ -404,7 +207,6 @@ a {
 .angular-filtering .checkbox-inline {
   padding-top: 0px;
 }
-
 
 
 //
@@ -528,111 +330,6 @@ a {
   }
 }
 
-$success: #00a910;
-$step1: #6ba900;
-$step2: #aac300;
-$caution: #f1c500;
-$error: #8d000b;
-
-//
-// UI Grid
-// -----------------------------------------------------
-
-.full-page-grid {
-  width: 100%;
-}
-.ui-grid .ui-grid-menu-button {
-  height: 30px;
-  padding-left: 2px;
-  background-color: $duke-ash;
-  border-color: $duke-smoke;
-}
-
-.ui-grid [class^="ui-grid-icon-menu"]:before, [class*=" ui-grid-icon-menu"]:before {
-  font-family: "FontAwesome";
-  color: white;
-  content: '\f013';
-}
-
-.ui-grid-grid-footer {
-  position: relative;
-  overflow: hidden;
-  background: #f3f3f3;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eeeeee), color-stop(1, #ffffff));
-  background: -ms-linear-gradient(bottom, #eeeeee, #ffffff);
-  background: -moz-linear-gradient(center bottom, #eeeeee 0%, #ffffff 100%);
-  background: -o-linear-gradient(#ffffff, #eeeeee);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0);
-  -webkit-border-top-right-radius: -1px;
-  -webkit-border-bottom-right-radius: 0;
-  -webkit-border-bottom-left-radius: 0;
-  -webkit-border-top-left-radius: -1px;
-  -moz-border-radius-topright: -1px;
-  -moz-border-radius-bottomright: 0;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-topleft: -1px;
-  border-top-right-radius: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: -1px;
-  -moz-background-clip: padding-box;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  padding: 5px;
-}
-
-//
-// Bootstrap Panel Additions
-// -----------------------------------------------------
-
-.panel {
-  .panel-body {
-    .listing {
-      .row {
-        padding: 4px 0;
-        &:nth-child(2n-1) {
-          background-color: $duke-whisp;
-        }
-      }
-    }
-  }
-}
-
-//
-// Boostrap Form Control Modifications
-// -----------------------------------------------------
-
-.checkbox.add-label-spacing {
-  margin-top: 28px;
-  label {
-    font-weight: bold;
-  }
-}
-// use when a button is in a row with other labeled controls to align the button with the controls
-button.add-label-spacing {
-  margin-top: 25px;
-  label {
-    font-weight: bold;
-  }
-}
-
-//
-// Clickable
-// -----------------------------------------------------
-
-.clickable, .clickable td {
-  cursor: pointer;
-}
-
-//
-// Page Title
-// -----------------------------------------------------
-
-h1.page-title {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
 //
 // From the users.scss file
 // @todo cleanup
@@ -729,51 +426,6 @@ div.ui-select-container.ui-select-multiple.ui-select-bootstrap {
   }
 }
 
-/* Have to set height explicitly on ui-view
-to prevent collapsing during animation*/
-//.ui-view-container {
-//  position: relative;
-//  height: 65px;
-//}
-//
-//[ui-view].ng-enter, [ui-view].ng-leave {
-//  position: absolute;
-//  left: 0;
-//  right: 0;
-//  -webkit-transition:all .25s ease-in-out;
-//  -moz-transition:all .25s ease-in-out;
-//  -o-transition:all .25s ease-in-out;
-//  transition:all .25s ease-in-out;
-//}
-//
-//[ui-view].ng-enter {
-//  opacity: 0;
-//  -webkit-transform:translate3d(-100px, 0, 0);
-//  -moz-transform:translate3d(-100px, 0, 0);
-//  transform:translate3d(-100px, 0, 0);
-//}
-//
-//[ui-view].ng-enter-active {
-//  opacity: 1;
-//  -webkit-transform:translate3d(0, 0, 0);
-//  -moz-transform:translate3d(0, 0, 0);
-//  transform:translate3d(0, 0, 0);
-//}
-//
-//[ui-view].ng-leave {
-//  opacity: 1;
-//  -webkit-transform:translate3d(0, 0, 0);
-//  -moz-transform:translate3d(0, 0, 0);
-//  transform:translate3d(0, 0, 0);
-//}
-//
-//[ui-view].ng-leave-active {
-//  opacity: 0;
-//  -webkit-transform:translate3d(100px, 0, 0);
-//  -moz-transform:translate3d(100px, 0, 0);
-//  transform:translate3d(100px, 0, 0);
-//}
-
 //
 // Static Form Controls
 // -----------------------------------------------------
@@ -869,79 +521,6 @@ td {
 }
 
 //
-// Item Groups - useful way of putting actions on the left of a group
-// -----------------------------------------------------
-
-
-.item-group  {
-  display: table;
-  position: relative;
-  border-collapse: separate;
-  margin-bottom: 3px;
-  background-color: $well-bg;
-  @include light-rounded-border;
-  border-radius: $border-radius-base;
-
-  .item-group-actions {
-    display: table-cell;
-    width: 1%;
-    white-space: nowrap;
-    vertical-align: middle;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1;
-    box-sizing: border-box;
-
-    i {
-      cursor: pointer;
-      color: $duke-smoke;
-      &:hover {
-        color: $duke-coal;
-      }
-    }
-
-    .pin-top-left {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    .pin-top {
-      position: absolute;
-      top: 5px;
-    }
-    .pin-bottom {
-      position: absolute;
-      bottom: 5px;
-    }
-  }
-
-  .item-group-contents {
-    display: table-cell;
-    z-index: 2;
-    width: 100%;
-    float: left;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    @include light-rounded-border;
-    border-top: 0;
-    border-right: 0;
-    border-bottom: 0;
-    border-radius: 0 $border-radius-base $border-radius-base 0;
-    background-color: $duke-white;
-    &.single-row {
-      .form-group {
-        margin-bottom: 0;
-      }
-      .checkbox {
-        margin-top: 8px;
-        margin-bottom: 8px;
-      }
-    }
-  }
-}
-
-//
 // Headings used in item-group-contents
 // -----------------------------------------------------
 
@@ -962,107 +541,6 @@ td {
 
 .badge, .label {
   margin-right: 4px;
-}
-
-//
-// Toggle Switch
-// -----------------------------------------------------
-
-.rocker-switch {
-  position: relative;
-  height: 26px;
-  width: 100px;
-  background-color: $duke-smoke;
-  border: 1px solid #e3e3e3;
-  padding: 2px;
-  border-radius: 4px;
-  transition: all 0.25s;
-  .switch-off-zone,
-  .switch-on-zone {
-    text-align: center;
-    color: $duke-smoke;
-    height:26px;
-    width: 50px;
-    background: transparent;
-    position: absolute;
-    left: 0;
-    top: 0;
-    border-radius: inherit;
-    font-size: 14px;
-    text-transform: uppercase;
-    line-height: 26px;
-    cursor: pointer;
-  }
-  .switch-off-zone {
-    border-radius: 4px 0 0 4px;
-  }
-  .switch-on-zone {
-    border-radius: 0 4px 4px 0;
-    left: auto;
-    right: 0;
-  }
-  .switch {
-    background: $duke-white;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    position: absolute;
-    left: 25%;
-    width: 50px;
-    height:20px;
-    z-index: 100;
-    transition: all 0.25s;
-  }
-  &.off {
-    background-color: $duke-orange;
-
-    .switch-on-zone {
-      color: white;
-      text-shadow: 0 0 3px rgba(0,0,0,0.8);
-    }
-    .switch {
-      left: 2px;
-    }
-  }
-  &.on {
-    background-color: $duke-pea;
-    .switch-off-zone {
-      color: white;
-      text-shadow: 0 0 3px rgba(0,0,0,0.8);
-    }
-    .switch {
-      left: 46px;
-    }
-  }
-}
-
-.multi-column {
-  column-count: 3;
-}
-
-//
-// messages within a form
-// -----------------------------------------------------
-
-.message {
-  @include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
-  display: block;
-  float: none;
-  clear: both;
-  box-sizing: border-box;
-  padding: $padding-small-vertical $padding-small-horizontal;
-  border-radius: $border-radius-base;
-  &.add-label-spacing {
-    margin-top: 26px;
-  }
-  .has-success & {
-    @include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
-  }
-  .has-error & {
-    @include alert-variant($alert-danger-bg, $alert-danger-border, $alert-danger-text);
-  }
-  .has-warning & {
-    @include alert-variant($alert-warning-bg, $alert-warning-border, $alert-warning-text);
-  }
 }
 
 //
@@ -1096,55 +574,3 @@ section[ui-view].ui-view-content {
   }
 }
 
-//
-// Collapsible Widgets
-// -----------------------------------------------------
-
-.collapsible-trigger {
-  cursor: pointer;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f18e';
-    transition: all 0.5s;
-  }
-  &.target-not-collapsed {
-    &:after {
-      transform: rotate(90deg);
-    }
-  }
-}
-
-//
-// Sortable Stuff
-// -----------------------------------------------------
-
-.as-sortable-placeholder {
-  background-color: $duke-whisp;
-}
-
-//
-// Underline Style
-// -----------------------------------------------------
-
-h1, h2, h3, h4, h5 {
-  &.underline {
-    border-bottom: 1px solid $duke-smoke;
-  }
-}
-
-//
-// Retain Formatting
-// -----------------------------------------------------
-
-.pre {
-  white-space: pre;
-}
-
-navigation {
-  display: block;
-  position: relative;
-}
-
-.gulp-test {
-  color: green;
-}

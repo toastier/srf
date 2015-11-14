@@ -148,8 +148,8 @@ div.radio-switch {
     content: ' ';
     height: 100%;
     width: auto;
-    background: url(../img/brand/duke-shield.png) 35px 50% no-repeat;
-    padding-left: 70px;
+    background: url(../img/brand/duke-shield.png) 10px 50% no-repeat;
+    padding-left: 50px;
   }
 }
 
@@ -158,7 +158,7 @@ div.radio-switch {
 // -----------------------------------------------------
 
 .sidebar {
-  @include gradient-horizontal(darken($steel-blue, 5%), lighten($steel-blue,5%));
+  @include gradient-horizontal(darken($steel-blue, 5%), lighten($steel-blue, 5%));
   background-color: lighten($steel-blue, 10%);
   a {
     color: lighten($steel-blue, 50%);
@@ -194,8 +194,8 @@ div.radio-switch {
         &:focus,
         &:hover,
         &:focus:hover {
-            background-color: #ffffff;
-            color: lighten($steel-blue, 30%);
+            background-color: lighten($steel-blue, 30%);
+            color: darken($steel-blue, 30%);
           }
 
         // add icon style to before
@@ -204,10 +204,6 @@ div.radio-switch {
         }
       }
       // specify icons
-      //FRS
-      &.positions > a:before { content: '\f0b1';}
-
-      &.applicants > a:before { content: '\f0c0';}
       //Core
       &.dashboard > a:before { content: '\f0e4';}
       &.styles > a:before { content: '\f1fc';}
@@ -242,7 +238,6 @@ div.radio-switch {
       &.applicants > a:before { content: '\f007';}
       &.applications > a:before, &.file > a:before { content: '\f15c';}
       &.worksheet-fields > a:before { content: '\f03a';}
-
 
       // when opened
       &.open {
@@ -713,459 +708,6 @@ button.btn-filtering {
   margin-top:24px;
 }
 
-//
-// Anchor Element Icons
-// -----------------------------------------------------
-
-a, i {
-  &.with-icon {
-    color: inherit;
-    cursor: pointer;
-    &:hover {
-      text-decoration: inherit;
-      color: $duke-blue-link-light;
-    }
-
-    &.delete, &.remove {
-      &:hover {
-        color: $duke-red;
-      }
-    }
-
-    &:not(.icon-after) {
-
-      &:before {
-        @include font-awesome-icon-before;
-      }
-
-      &.new-window {
-        &:before {
-          content: '\f08e';
-        }
-      }
-
-
-      &.edit {
-        &:before {
-          content: '\f044';
-        }
-      }
-      &.view {
-        &:before{
-          content: '\f06e';
-        }
-      }
-      &.reconcile {
-        &:before {
-          content: '\f079';
-        }
-      }
-      &.add {
-        &:before {
-          content: '\f055';
-        }
-      }
-      &.delete {
-        &:before {
-          content: '\f014';
-        }
-      }
-      &.remove {
-        &:before {
-          content: '\f057';
-        }
-      }
-      &.download {
-        &:before {
-          content: '\f019';
-        }
-      }
-      &.print {
-        &:before {
-          content: '\f02f';
-        }
-      }
-      &.help {
-        &:before {
-          content: '\f059';
-        }
-      }
-      &.sliders, &.manage {
-        &:before {
-          content: '\f1de';
-        }
-      }
-    }
-
-    &.icon-after {
-      &:after {
-        @include font-awesome-icon-after;
-      }
-      &.new-window {
-        &:after {
-          content: '\f08e';
-        }
-      }
-      &.edit {
-        &:after {
-          content: '\f044';
-        }
-      }
-      &.view {
-        &:after{
-          content: '\f06e';
-        }
-      }
-      &.reconcile {
-        &:after {
-          content: '\f079';
-        }
-      }
-      &.add {
-        &:after {
-          content: '\f055';
-        }
-      }
-      &.delete {
-        &:after {
-          content: '\f014';
-        }
-      }
-      &.remove {
-        &:after {
-          content: '\f057';
-        }
-      }
-      &.download {
-        &:after {
-          content: '\f019';
-        }
-      }
-      &.print {
-        &:after {
-          content: '\f02f';
-        }
-      }
-      &.help {
-        &:after {
-          content: '\f059';
-        }
-      }
-      &.sliders, &.manage {
-        &:after {
-          content: '\f1de';
-        }
-      }
-    }
-  }
-}
-
-.icon-group {
-  display: block;
-  box-sizing: border-box;
-  float: left;
-  margin: auto;
-  padding: 1px 9px;
-  color: $duke-ash;
-  @include light-rounded-border;
-  border-radius: 8px;
-
-  a.with-icon:last-child:not(.icon-after):before {
-    margin-right: 0px;
-  }
-
-  &.size-medium {
-    font-size: 16px;
-  }
-}
-
-//
-// Buttons
-// -----------------------------------------------------
-
-.btn.no-text {
-  &:after {
-    margin-left: 0;
-  }
-}
-
-.btn-save {
-  @include button-variant($duke-white, $duke-lime, darken($duke-lime, 5%));
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f0c7';
-  }
-}
-
-.btn-workflow:not(.back) {
-  @include button-variant($duke-white, $duke-lime, darken($duke-lime, 5%));
-  &:not(.dropdown-toggle){
-    &:after {
-      @include font-awesome-icon-after;
-      content: '\f0a9';
-    }
-  }
-}
-
-.btn-workflow.back {
-  @include button-variant($duke-white, $duke-lime, darken($duke-lime, 5%));
-  &:not(.dropdown-toggle){
-    &:before {
-      @include font-awesome-icon-before;
-      content: '\f0a8';
-    }
-  }
-}
-
-.btn-reconcile {
-  @extend .btn-save;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f079';
-  }
-}
-
-.btn-complete {
-  @extend .btn-action;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f079';
-  }
-}
-
-.btn-save-reconcile {
-  @extend .btn-save;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f046';
-  }
-}
-
-.btn-cancel {
-  @include button-variant($duke-white, $duke-orange, darken($duke-orange, 5%));
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f05c';
-  }
-}
-
-.btn-refresh, .btn-reload {
-  @include button-variant($duke-white, $duke-orange, darken($duke-orange, 5%));
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f021';
-  }
-  &:hover:after {
-    -webkit-animation: fa-spin 2s infinite linear;
-    -webkit-animation-name: fa-spin;
-    -webkit-animation-duration: 2s;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-delay: initial;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-direction: initial;
-    -webkit-animation-fill-mode: initial;
-    -webkit-animation-play-state: initial;
-    animation: fa-spin 2s infinite linear;
-  }
-}
-
-.btn-auto {
-  @include button-variant($duke-white, $duke-orange, darken($duke-orange, 5%));
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f0e7';
-  }
-}
-
-.btn-undo {
-  @extend .btn-cancel;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f0e2';
-  }
-}
-
-.btn-delete {
-  @include button-variant($duke-white, $duke-red, darken($duke-red, 5%));
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f014';
-  }
-}
-
-.btn-change {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f0ec';
-  }
-}
-
-.btn-duplicate {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f0c5';
-  }
-}
-
-.btn-multiple {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f12b';
-  }
-}
-
-.btn-email {
-  @extend .btn-primary;
-  &:not(.dropdown-toggle) {
-    &:after {
-      @include font-awesome-icon-after;
-      content: '\f0e0';
-    }
-  }
-  &.no-text {
-    &:not(.dropdown-toggle) {
-      &:after {
-        margin-left: 0;
-      }
-    }
-  }
-}
-
-.btn-action {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f0ae';
-  }
-}
-
-
-.btn-view {
-@extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f06e';
-  }
-}
-
-.btn-edit {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f044';
-  }
-}
-
-.btn-add {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f067';
-  }
-}
-
-.btn-manage, .sliders {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f1de';
-  }
-}
-
-.btn-logout {
-  @extend .btn-action;
-  &:after {
-    content: '\f08b';
-  }
-}
-
-.btn-masquerade {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f21b';
-  }
-}
-
-.btn-end-masquerade {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f05c';
-  }
-}
-
-.btn-search {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f002';
-  }
-}
-
-.btn-info {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f05a';
-  }
-}
-
-.btn-help {
-  @extend .btn-primary;
-  &:not(.dropdown-toggle) {
-    &:after {
-      @include font-awesome-icon-after;
-      content: '\f059';
-    }
-  }
-}
-
-.btn-list {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f03a';
-  }
-}
-
-.btn-login {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f090';
-  }
-}
-
-.btn-waiting {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    -webkit-animation: fa-spin 2s infinite linear;
-    -webkit-animation-name: fa-spin;
-    -webkit-animation-duration: 2s;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-delay: initial;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-direction: initial;
-    -webkit-animation-fill-mode: initial;
-    -webkit-animation-play-state: initial;
-    animation: fa-spin 2s infinite linear;
-    content: '\f110';
-  }
-}
-
-.btn-upload {
-  @extend .btn-primary;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f093';
-  }
-}
-
 form {
   button.btn {
     //margin: 10px 10px 0;
@@ -1243,6 +785,16 @@ form {
 .panel-body {
   p:last-child {
     margin: 0;
+  }
+}
+
+//
+// Underline Style
+// -----------------------------------------------------
+
+h1, h2, h3, h4, h5 {
+  &.underline {
+    border-bottom: 1px solid $duke-smoke;
   }
 }
 
@@ -1424,27 +976,6 @@ a[target=_blank]:not(.with-icon):after {
   content: '\f08e';
 }
 
-//
-// Semantic
-// -----------------------------------------------------
-
-.site-enrollment-group.display-group,
-.site-enrollment.display-group,
-.site-enrollment .display-group,
-.package .display-group {
-  @include sheet-metal();
-
-}
-
-.locked.site-enrollment .display-group {
-  @include sheet-metal-locked();
-}
-
-.display-group.site-enrollment,
-.display-group.preceptor {
-  padding-top: 10px;
-}
-
 .popover {
 
   .popover-content {
@@ -1562,75 +1093,6 @@ a[target=_blank]:not(.with-icon):after {
   }
 }
 
-
-//
-// Pseudo Table used on Contract Requests index
-// -----------------------------------------------------
-
-.contract-requests .pseudo-table > .pseudo-tbody > div > div,
-.contract-requests .pseudo-table > .pseudo-thead > div > div {
-  &.flex-row > div {
-    &.flagged {
-      //width: 20px;
-    }
-    &.id {
-      //flex-grow: 2;
-      //width: 60px;
-    }
-    &.organization {
-      //width: 300px;
-    }
-    &.state {
-      //width: 40px;
-    }
-    &.action-priority {
-      //width: 110px;
-    }
-    &.status-code {
-      //width: 130px;
-    }
-    &.contract-type,
-    &.attachment-type {
-      //width: 130px;
-      .label {
-        display: inline-block;
-      }
-    }
-    &.start-term {
-      //width: 100px;
-    }
-    &.date-requested {
-      //width: 120px;
-    }
-  }
-  &.attachments-addenda {
-    margin: 10px 0;
-    border-color: $duke-whisp;
-
-    border-width: 1px;
-    border-style: solid;
-    &:nth-child(even) {
-    }
-    > div {
-      border-top: none;
-    }
-    &.addenda {
-      @include sheet-metal-blue;
-      .organization,
-      .state,
-      .contact {
-        color: $duke-smoke;
-      }
-    }
-    &.attachment-a {
-      @include sheet-metal-green;
-    }
-    &.amendment {
-      @include sheet-metal-gold;
-    }
-  }
-}
-
 //
 // Modals
 // -----------------------------------------------------
@@ -1743,153 +1205,6 @@ form .input-group.has-warning{
     color: $state-danger-text;
     border-color: $state-danger-text;
     background-color: $state-danger-bg;
-  }
-}
-
-//
-// Site Enrollments
-// -----------------------------------------------------
-
-.canvassing-entries,
-.placement-slots-area,
-.preceptor {
-  .site-controls,
-  .preceptor-controls{
-    width: 25px;
-    float: left;
-    margin-left: 5px;
-    text-align: center;
-    font-size: 18px;
-    line-height: 20px;
-    padding: 7px;
-  }
-}
-
-.fa.hover-on {
-  visibility: hidden;
-}
-
-.preceptor:hover .fa.hover-on {
-  visibility: visible;
-}
-
-//
-// JQuery Ui-Sortable
-// -----------------------------------------------------
-
-.semester{
-  padding:0;
-  &.ui-sortable {
-    .ui-sortable-handle {
-      display: block;
-      border-radius: $border-radius-base;
-      padding: 8px 4px;
-      border: 1px solid $duke-whisp;
-      background-color: $duke-white;
-      @include sheet-metal;
-      cursor: move;
-      margin-bottom: 4px;
-      line-height: 28px;
-
-      &.ui-sortable-helper { //this is the item in the process of being dragged
-        visibility: visible;
-        display: block;
-        border-color: $duke-blue-link-light;
-        @include box-shadow(0 0 10px $duke-blue-link-light);
-
-        &:before {
-        visibility: hidden;
-        }
-      }
-      &:before {
-        display: block;
-        content: '';
-        height: 20px;
-        width: 10px;
-        float:left;
-        margin-right: 8px;
-        margin-left: 4px;
-        color: $duke-blue;
-        font-weight: bold;
-      }
-      &:nth-child(1):before {
-        content: '1';
-      }
-      &:nth-child(2):before {
-        content: '2';
-      }
-      &:nth-child(3):before {
-        content: '3';
-      }
-      &:nth-child(4):before {
-        content: '4';
-      }
-      &:nth-child(5):before {
-        content: '5';
-      }
-      &:nth-child(6):before {
-        content: '6';
-      }
-
-      .course-id {
-        &:before {
-          @include font-awesome-icon-before;
-          content: '\f07d';
-          color: $duke-whisp;
-        }
-      }
-
-      .name {
-      }
-
-      .pref-delete {
-        float:right;
-        a {
-          &:before {
-          display: block;
-          @include font-awesome-icon-before;
-          content: '\f057';
-          color: $duke-red;
-          }
-          &:hover {
-            text-decoration: none;
-          }
-        }
-      }
-    }
-  }
-}
-
-table.courses {
-  tr {
-    &.courseOffering {
-      td {
-        background-color: $duke-ash;
-      }
-    }
-    &.is-inactive {
-      td {
-        background-color: $duke-smoke;
-      }
-    }
-  }
-}
-
-#debug-kit-toolbar {
-  @media print {
-    display: none;
-  }
-}
-
-//
-// Workflow Directive
-// -----------------------------------------------------
-.workflow-diagram{
-  rect {
-    fill: $duke-smoke;
-    &.approved {
-      fill: $duke-frost-green;
-    }
   }
 }
 
@@ -2166,7 +1481,328 @@ p.no-records {
   display: none;
 }
 
+//
+// Toggle Switch
+// -----------------------------------------------------
 
+.rocker-switch {
+  position: relative;
+  height: 26px;
+  width: 100px;
+  background-color: $duke-smoke;
+  border: 1px solid #e3e3e3;
+  padding: 2px;
+  border-radius: 4px;
+  transition: all 0.25s;
+  .switch-off-zone,
+  .switch-on-zone {
+    text-align: center;
+    color: $duke-smoke;
+    height:26px;
+    width: 50px;
+    background: transparent;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: inherit;
+    font-size: 14px;
+    text-transform: uppercase;
+    line-height: 26px;
+    cursor: pointer;
+  }
+  .switch-off-zone {
+    border-radius: 4px 0 0 4px;
+  }
+  .switch-on-zone {
+    border-radius: 0 4px 4px 0;
+    left: auto;
+    right: 0;
+  }
+  .switch {
+    background: $duke-white;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    position: absolute;
+    left: 25%;
+    width: 50px;
+    height:20px;
+    z-index: 100;
+    transition: all 0.25s;
+  }
+  &.off {
+    background-color: $duke-orange;
+
+    .switch-on-zone {
+      color: white;
+      text-shadow: 0 0 3px rgba(0,0,0,0.8);
+    }
+    .switch {
+      left: 2px;
+    }
+  }
+  &.on {
+    background-color: $duke-pea;
+    .switch-off-zone {
+      color: white;
+      text-shadow: 0 0 3px rgba(0,0,0,0.8);
+    }
+    .switch {
+      left: 46px;
+    }
+  }
+}
+
+//
+// Collapsible Widgets
+// -----------------------------------------------------
+
+.collapsible-trigger {
+  cursor: pointer;
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f18e';
+    transition: all 0.5s;
+  }
+  &.target-not-collapsed {
+    &:after {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+//
+// asSortable Stuff
+// -----------------------------------------------------
+
+.as-sortable-placeholder {
+  background-color: $duke-whisp;
+}
+
+
+//
+// Retain Formatting
+// -----------------------------------------------------
+
+.pre {
+  white-space: pre;
+}
+
+//
+// messages within a form
+// -----------------------------------------------------
+
+.message {
+  @include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
+  display: block;
+  float: none;
+  clear: both;
+  box-sizing: border-box;
+  padding: $padding-small-vertical $padding-small-horizontal;
+  border-radius: $border-radius-base;
+  &.add-label-spacing {
+    margin-top: 26px;
+  }
+  .has-success & {
+    @include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
+  }
+  .has-error & {
+    @include alert-variant($alert-danger-bg, $alert-danger-border, $alert-danger-text);
+  }
+  .has-warning & {
+    @include alert-variant($alert-warning-bg, $alert-warning-border, $alert-warning-text);
+  }
+}
+
+//
+// Item Groups - useful way of putting actions on the left of a group
+// -----------------------------------------------------
+
+.item-group  {
+  display: table;
+  position: relative;
+  border-collapse: separate;
+  margin-bottom: 3px;
+  background-color: $well-bg;
+  @include light-rounded-border;
+  border-radius: $border-radius-base;
+
+  .item-group-actions {
+    display: table-cell;
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1;
+    box-sizing: border-box;
+
+    i {
+      cursor: pointer;
+      color: $duke-smoke;
+      &:hover {
+        color: $duke-coal;
+      }
+    }
+
+    .pin-top-left {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .pin-top {
+      position: absolute;
+      top: 5px;
+    }
+    .pin-bottom {
+      position: absolute;
+      bottom: 5px;
+    }
+  }
+
+  .item-group-contents {
+    display: table-cell;
+    z-index: 2;
+    width: 100%;
+    float: left;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    @include light-rounded-border;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-radius: 0 $border-radius-base $border-radius-base 0;
+    background-color: $duke-white;
+    &.single-row {
+      .form-group {
+        margin-bottom: 0;
+      }
+      .checkbox {
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+}
+
+//
+// UI Grid
+// -----------------------------------------------------
+
+.full-page-grid {
+  width: 100%;
+}
+.ui-grid .ui-grid-menu-button {
+  height: 30px;
+  padding-left: 2px;
+  background-color: $duke-ash;
+  border-color: $duke-smoke;
+}
+
+.ui-grid [class^="ui-grid-icon-menu"]:before, [class*=" ui-grid-icon-menu"]:before {
+  font-family: "FontAwesome";
+  color: white;
+  content: '\f013';
+}
+
+.ui-grid-grid-footer {
+  position: relative;
+  overflow: hidden;
+  background: #f3f3f3;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eeeeee), color-stop(1, #ffffff));
+  background: -ms-linear-gradient(bottom, #eeeeee, #ffffff);
+  background: -moz-linear-gradient(center bottom, #eeeeee 0%, #ffffff 100%);
+  background: -o-linear-gradient(#ffffff, #eeeeee);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0);
+  -webkit-border-top-right-radius: -1px;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: -1px;
+  -moz-border-radius-topright: -1px;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: -1px;
+  border-top-right-radius: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: -1px;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 5px;
+}
+
+//
+// Bootstrap Panel Additions
+// -----------------------------------------------------
+
+.panel {
+  .panel-body {
+    .listing {
+      .row {
+        padding: 4px 0;
+        &:nth-child(2n-1) {
+          background-color: $duke-whisp;
+        }
+      }
+    }
+  }
+}
+
+//
+// Boostrap Form Control Modifications
+// -----------------------------------------------------
+
+.checkbox.add-label-spacing {
+  margin-top: 28px;
+  label {
+    font-weight: bold;
+  }
+}
+// use when a button is in a row with other labeled controls to align the button with the controls
+button.add-label-spacing {
+  margin-top: 25px;
+  label {
+    font-weight: bold;
+  }
+}
+
+//
+// Clickable
+// -----------------------------------------------------
+
+.clickable, .clickable td {
+  cursor: pointer;
+}
+
+//
+// Override Glyphicons
+// -----------------------------------------------------
+
+.glyphicon {
+
+  font-family: "FontAwesome";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  text-decoration: none;
+  //the chevrons are used by the ui-bootstrap datepicker widget
+  &.glyphicon-chevron-right {
+    &:before {
+      content: '\f054';
+    }
+  }
+
+  &.glyphicon-chevron-left {
+    &:before {
+      content: '\f053';
+    }
+  }
+}
 
 
 

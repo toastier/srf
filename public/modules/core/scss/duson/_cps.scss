@@ -1,0 +1,115 @@
+//
+// Site Enrollments
+// -----------------------------------------------------
+
+.canvassing-entries,
+.placement-slots-area,
+.preceptor {
+  .site-controls,
+  .preceptor-controls{
+    width: 25px;
+    float: left;
+    margin-left: 5px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 20px;
+    padding: 7px;
+  }
+}
+
+.fa.hover-on {
+  visibility: hidden;
+}
+
+.preceptor:hover .fa.hover-on {
+  visibility: visible;
+}
+
+//
+// Pseudo Table used on Contract Requests index
+// -----------------------------------------------------
+
+.contract-requests .pseudo-table > .pseudo-tbody > div > div,
+.contract-requests .pseudo-table > .pseudo-thead > div > div {
+  &.flex-row > div {
+    &.flagged {
+      //width: 20px;
+    }
+    &.id {
+      //flex-grow: 2;
+      //width: 60px;
+    }
+    &.organization {
+      //width: 300px;
+    }
+    &.state {
+      //width: 40px;
+    }
+    &.action-priority {
+      //width: 110px;
+    }
+    &.status-code {
+      //width: 130px;
+    }
+    &.contract-type,
+    &.attachment-type {
+      //width: 130px;
+      .label {
+        display: inline-block;
+      }
+    }
+    &.start-term {
+      //width: 100px;
+    }
+    &.date-requested {
+      //width: 120px;
+    }
+  }
+  &.attachments-addenda {
+    margin: 10px 0;
+    border-color: $duke-whisp;
+
+    border-width: 1px;
+    border-style: solid;
+    &:nth-child(even) {
+    }
+    > div {
+      border-top: none;
+    }
+    &.addenda {
+      @include sheet-metal-blue;
+      .organization,
+      .state,
+      .contact {
+        color: $duke-smoke;
+      }
+    }
+    &.attachment-a {
+      @include sheet-metal-green;
+    }
+    &.amendment {
+      @include sheet-metal-gold;
+    }
+  }
+}
+
+//
+// Semantic
+// -----------------------------------------------------
+
+.site-enrollment-group.display-group,
+.site-enrollment.display-group,
+.site-enrollment .display-group,
+.package .display-group {
+  @include sheet-metal();
+
+}
+
+.locked.site-enrollment .display-group {
+  @include sheet-metal-locked();
+}
+
+.display-group.site-enrollment,
+.display-group.preceptor {
+  padding-top: 10px;
+}

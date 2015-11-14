@@ -1,3 +1,8 @@
+$success: #00a910;
+$step1: #6ba900;
+$step2: #aac300;
+$caution: #f1c500;
+$error: #8d000b;
 /*
  * Base structure
  */
@@ -72,7 +77,6 @@ body {
   background-color: #428bca;
 }
 
-
 /*
  * Main content
  */
@@ -103,4 +107,91 @@ body {
 .placeholder img {
   display: inline-block;
   border-radius: 50%;
+}
+
+//
+// Navigation Block
+// -----------------------------------------------------
+
+navigation {
+  display: block;
+  position: relative;
+}
+
+//
+// Page Title
+// -----------------------------------------------------
+
+h1.page-title {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+//
+// ngVideo
+// -----------------------------------------------------
+
+section.video {
+  &.col-xs-12 {
+    padding: 0;
+  }
+  .video-player {
+    width: 100%;
+  }
+  .timeline-container {
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 5px;
+    padding: 5px 15px;
+    width: 100%;
+  }
+
+  section.controls {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    width: 48px;
+    z-index: 5;
+    text-align: center;
+    color: white;
+    span {
+      a {
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        line-height: 48px;
+        padding-left: 2px;
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+        transition: background-color .35s;
+        border-radius: 3px;
+        margin-bottom: 10px;
+        color: rgba(255,255,255,0.0);
+        &:hover {
+          text-decoration: none;
+          background-color: rgba(255,255,255,0.5);
+          color: $duke-white;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    section.controls {
+      span {
+        a {
+          color:white;
+          background-color: rgba(0,0,0,0.3)
+        }
+      }
+    }
+  }
+}
+
+.help-item {
+  border-radius: 8px;
+  border: 1px solid #cecece;
+  padding: 15px 0;
+  margin-bottom: 8px;
 }
