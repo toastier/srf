@@ -21,8 +21,13 @@ module.exports = function () {
   var config = {
     alljs: [
       server + '**/*.js',
-      client + './*.js'
+      client + 'modules/' + '**/*.js',
+      '!' + client + '**/*.spec.js',
+      '!' + client + '**/*.test.js',
+      '!' + client + 'dist/**.**',
+      '!' + bower.directory + '**/**'
     ],
+    angularModules: client + 'modules/',
     build: './build/',
     client: client,
     css: client + 'modules/core/css/',
@@ -33,7 +38,11 @@ module.exports = function () {
     images: client + 'images/**/*.*',
     serverHtml: serverHtml,
     index: serverHtml + 'index.server.view.html',
-    // client js, with no specs
+    jadeFiles: [
+      client + 'modules/**/*.jade',
+      client + 'modules/**/**/*.jade'
+    ],
+    // client js, with no specs, tests, or bower dependencies
     js: [
       client + '**/*.module.js',
       client + '**/*.js',
@@ -42,6 +51,7 @@ module.exports = function () {
       '!' + client + 'dist/**.**',
       '!' + bower.directory + '**/**'
     ],
+    // glob pattern for ordering the client side application code (not the bower stuff, which is done my wiredep)
     jsOrder: [
       '**/config.js',
       '**/application.js',
@@ -51,6 +61,7 @@ module.exports = function () {
     ],
     report: report,
     root: root,
+    sass: sass,
     sassBaseFile: sass + 'dashboard-style.scss',
     scssFiles: [
       sass + '*.scss',

@@ -11,7 +11,7 @@ var gulpConfig = require('./gulp.config');
 module.exports = function(config) {
 	config.set({
 		// Frameworks to use
-		frameworks: ['chai', 'signon', 'chai-sinon'],
+		frameworks: ['chai', 'sinon', 'chai-sinon'],
 
 		// List of files / patterns to load in the browser
 		files: applicationConfiguration.assets.lib.js.concat(applicationConfiguration.assets.js, applicationConfiguration.assets.tests),

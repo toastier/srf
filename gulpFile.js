@@ -31,14 +31,15 @@ gulp.task('help', $.taskListing);
 gulp.task('default', ['help']);
 
 /**
- * vet the code and create coverage report
+ * vet-js the code and create coverage report
  * @return {Stream}
  */
-gulp.task('vet', function () {
+gulp.task('vet-js', function () {
   log('Analyzing source with JSHint and JSCS');
 
   return gulp
     .src(config.alljs)
+    .pipe($.plumber())
     .pipe($.if(args.verbose, $.print()))
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish', {verbose: true}))
@@ -59,18 +60,15 @@ gulp.task('plato', function (done) {
 /**
  * compile Jade to Html
  */
-gulp.task('compileJade', function () {
-  var outputDir = config.modulesDirectory;
-  if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
-    outputDir = config.htmlDestination;
-  }
+gulp.task('compile-jade', ['clean-code'], function () {
+
   var LOCALS = {};
   gulp.src(config.jadeFiles)
     .pipe($.jade({
       locals: LOCALS
     }))
-    .pipe(gulp.dest(outputDir));
-  console.log('Jade files compiled to ' + outputDir);
+    .pipe(gulp.dest(config.angularModules));
+  console.log('Jade files compiled to ' + config.angularModules);
 });
 
 /**
@@ -102,7 +100,7 @@ gulp.task('images', ['clean-images'], function () {
  * Create $templateCache from the html templates
  * @return {Stream}
  */
-gulp.task('templatecache', ['clean-code'], function () {
+gulp.task('templatecache', ['compile-jade'], function () {
   log('Creating an AngularJS $templateCache');
 
   return gulp
@@ -314,7 +312,7 @@ gulp.task('clean-code', function (done) {
  *    gulp test --startServers
  * @return {Stream}
  */
-gulp.task('test', ['vet', 'templatecache'], function (done) {
+gulp.task('test', ['vet-js', 'templatecache'], function (done) {
   startTests(true /*singleRun*/, done);
 });
 
@@ -448,7 +446,7 @@ function serve(isDev, specRunner) {
   }
 
   return $.nodemon(nodeOptions)
-    .on('restart', ['vet'], function (ev) {
+    .on('restart', ['vet-js'], function (ev) {
       log('*** nodemon restarted');
       log('files changed:\n' + ev);
       setTimeout(function () {
@@ -474,7 +472,7 @@ function getNodeOptions(isDev) {
     delayTime: 1,
     env: {
       'PORT': port,
-      'NODE_ENV': isDev ? 'dev' : 'build'
+      'NODE_ENV': isDev ? 'development' : 'production'
     },
     watch: [config.server]
   };
@@ -494,8 +492,9 @@ function startBrowserSync(isDev, specRunner) {
   // If build: watches the files, builds, and restarts browser-sync.
   // If dev: watches scss, compiles it to css, browser-sync handles reload
   if (isDev) {
-    gulp.watch([config.scssFiles], ['styles'])
-      .on('change', changeEvent);
+    gulp.watch([config.scssFiles], ['styles']);
+    gulp.watch([config.jadeFiles], ['compile-jade']);
+    gulp.watch([config.js], ['vet-js']);
   } else {
     gulp.watch([config.scssFiles, config.js, config.html], ['browserSyncReload'])
       .on('change', changeEvent);
@@ -505,9 +504,9 @@ function startBrowserSync(isDev, specRunner) {
     proxy: 'localhost:' + port,
     port: 3000,
     files: isDev ? [
-      config.client + '**/*.*',
-      '!' + config.scssFiles,
-      config.temp + '**/*.css'
+      config.angularModules + '**/*.js',
+      config.angularModules + '**/*.html',
+      config.angularModules + '**/*.css'
     ] : [],
     ghostMode: { // these are the defaults t,f,t,t
       clicks: true,
@@ -518,9 +517,9 @@ function startBrowserSync(isDev, specRunner) {
     injectChanges: true,
     logFileChanges: true,
     logLevel: 'info',
-    logPrefix: 'hottowel',
+    logPrefix: 'frs',
     notify: true,
-    reloadDelay: 0 //1000
+    reloadDelay: 1000
   };
   if (specRunner) {
     options.startPath = config.specRunnerFile;
