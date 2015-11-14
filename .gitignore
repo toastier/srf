@@ -14,7 +14,7 @@ npm-debug.log
 public/lib
 src/.tmp/
 src/css/*
-src/lib
+src/lib/*
 src/fonts/*
 report/
 typings/
