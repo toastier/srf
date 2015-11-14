@@ -26,6 +26,7 @@
     };
 
     function duApplicationUploadFileController() {
+      /*jshint validthis:true*/
       var vm = this;
       vm.removeFile = removeFile;
 

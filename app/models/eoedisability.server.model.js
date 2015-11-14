@@ -3,20 +3,20 @@ var mongoose = require('mongoose'),
 
 var eoeDisabilityModel = new Schema({
     opening: {
-        type: Schema.Types.ObjectId,
-        ref: 'Opening'
+      type: Schema.Types.ObjectId,
+      ref: 'Opening'
     },
     disability: {
-        type: String, enum: ['y', 'n', 'd']
+      type: String, enum: ['y', 'n', 'd']
     },
     dateCreated: {
-        type: Date,
-        default: Date.now
+      type: Date,
+      default: Date.now
     }
-},
-    {
-        collection: 'eoeDisability'
-    }
+  },
+  {
+    collection: 'eoeDisability'
+  }
 );
 
 var modelName = 'EoeDisability';

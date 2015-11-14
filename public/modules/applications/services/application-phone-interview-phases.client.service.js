@@ -7,7 +7,7 @@
   function PhoneInterviewPhase () {
     this.$get = providerGetFunction;
 
-    function providerGetFunction ($stateParams, Application, Messages, _ ) {
+    function providerGetFunction ($stateParams, Application, Messages, _) {
 
       var PhoneInterviewPhaseModel = function PhoneInterviewPhaseModel (phoneInterviewPhaseData, proceed, user) {
 
@@ -16,7 +16,6 @@
         phoneInterviewPhase.data = phoneInterviewPhaseData;
         phoneInterviewPhase.user = user;
         phoneInterviewPhase.proceedToPhoneInterviewPhase = proceed;
-
         phoneInterviewPhase.addComment = addComment;
         phoneInterviewPhase.editComment = editComment;
         phoneInterviewPhase.editPhoneInterview = editPhoneInterview;
@@ -58,7 +57,7 @@
         }
 
         function cancelCommentChanges(phoneInterview, comment) {
-          if(!comment._id) {
+          if (!comment._id) {
             removeComment(phoneInterview, comment);
           }
           comment.editing = false;
@@ -76,7 +75,7 @@
         }
 
         function deleteComment(phoneInterview, comment) {
-          if(comment._id) {
+          if (comment._id) {
             var application = {
               _id: $stateParams.applicationId,
               phoneInterview: phoneInterview,
@@ -84,7 +83,7 @@
             };
 
             Application.deleteComment(application).$promise
-              .then(function(){
+              .then(function() {
                 removeComment(phoneInterview, comment);
                 Messages.addMessage('Comment deleted');
               })
@@ -95,13 +94,13 @@
         }
 
         function getPhoneInterviewPhaseStatus() {
-          if(phoneInterviewPhaseIsComplete()) {
+          if (phoneInterviewPhaseIsComplete()) {
             return 'Complete';
           }
-          if(!phoneInterviewPhaseIsOpen()) {
+          if (!phoneInterviewPhaseIsOpen()) {
             return 'Closed';
           }
-          if(phoneInterviewPhaseIsOpen()) {
+          if (phoneInterviewPhaseIsOpen()) {
             return 'Open';
           }
         }
@@ -147,7 +146,7 @@
           };
           application.comment.comment = comment.commentBuffer;
           Application.saveComment(application).$promise
-            .then(function(commentResponse){
+            .then(function(commentResponse) {
               comment.editing = false;
               comment.comment = commentResponse.comment;
               comment.dateCreated = commentResponse.dateCreated;

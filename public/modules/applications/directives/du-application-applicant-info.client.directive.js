@@ -20,6 +20,7 @@
     };
 
     function duApplicationApplicantInfoController() {
+      /*jshint validthis:true*/
       var vm = this;
 
       activate();

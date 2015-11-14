@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
   angular
     .module('core')
@@ -11,13 +11,9 @@
     /**
      * Provides a singular, opinionated way of handling a collection of members, and performing filtering, sorting and pagination
      * works with duTable directive to allow easy creation of tables based on configuration objects
-     * @param Sorting
-     * @param Filtering
-     * @param Pagination
-     * @param _ {Function} lodash
      * @returns {Function}
      */
-    function providerGetFunction ($q, Sorting, Filtering, Pagination, _ ) {
+    function providerGetFunction($q, Sorting, Filtering, Pagination, _) {
 
       /**
        * @typedef ColumnDefinition
@@ -39,7 +35,7 @@
        * @param {Boolean} hidden Whether to hide from table display
        * @constructor
        */
-      var ColumnDefinition = function(field, label, actions, sortable, filterable, hidden) {
+      var ColumnDefinition = function (field, label, actions, sortable, filterable, hidden) {
         /** @type string | null **/
         this.field = field || null;
         /** @type string | null **/
@@ -65,20 +61,20 @@
        * @param {Boolean=} useCache Whether or not to use caching in the Collection
        * @returns {Collection}
        */
-      var Collection = function Collection (identifier, members, columnDefinitions, initialSortOrder, useCache) {
+      var Collection = function Collection(identifier, members, columnDefinitions, initialSortOrder, useCache) {
 
         var collection = this;
 
-        function sortBy (predicate) {
+        function sortBy(predicate) {
           Sorting.prependToSortOrder(predicate);
           paginate();
         }
 
-        function paginate () {
+        function paginate() {
           collection.paginated = Sorting.sortThenPaginate(collection.matched, collection.paginated);
         }
 
-        function filterCollection () {
+        function filterCollection() {
           /*eslint no-use-before-define: 0 */
           collection.matched = filtering.doFiltering();
           paginate();
@@ -142,7 +138,7 @@
           // finish by assigning this collection to Collection.cached[identifier], and returning it
           Collection.cached[identifier] = collection;
         }
-            return deferred.promise;
+        return deferred.promise;
 
       };
 

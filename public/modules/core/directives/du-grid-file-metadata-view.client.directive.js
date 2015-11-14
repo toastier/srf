@@ -22,7 +22,8 @@
       }
     };
 
-    function duGridFileMetadataViewController(Uploads, $scope, $sce, _ ) {
+    function duGridFileMetadataViewController(Uploads, $scope, $sce, _) {
+      /*jshint validthis:true*/
       var vm = this;
 
       vm.fileVisible = false;
@@ -56,10 +57,9 @@
 
       function activate() {
         $scope.$watch('vm.fileMetadata', function (newVal) {
-          if(_.isObject(newVal)) {
+          if (_.isObject(newVal)) {
             newVal.url = $sce.trustAsResourceUrl('/uploads/file/' + newVal._id);
             newVal.downloadUrl = $sce.trustAsResourceUrl('/uploads/file/download/' + newVal._id);
-
           }
         });
       }

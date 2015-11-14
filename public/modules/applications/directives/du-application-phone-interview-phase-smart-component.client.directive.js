@@ -20,17 +20,17 @@
       }
     };
 
-    function duApplicationPhoneInterviewPhaseSmartComponentController($scope, Authentication, PhoneInterviewPhase, _ ) {
+    function duApplicationPhoneInterviewPhaseSmartComponentController($scope, Authentication, PhoneInterviewPhase, _) {
+      /*jshint validthis:true*/
       var vm = this;
 
       activate();
 
       function activate() {
-
-        Authentication.promise.then(function(user) {
+        Authentication.promise.then(function (user) {
           vm.user = user;
           $scope.$watch('vm.phoneInterviewPhase', function (newVal) {
-            if(!_.isUndefined(newVal)) {
+            if (!_.isUndefined(newVal)) {
               vm.phoneInterviewPhaseModel = new PhoneInterviewPhase(vm.phoneInterviewPhase, vm.proceedToPhoneInterviewPhase, vm.user);
             }
           });

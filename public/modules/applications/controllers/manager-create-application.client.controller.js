@@ -4,7 +4,7 @@
     .module('applications')
     .controller('ManagerCreateApplicationController', ManagerCreateApplicationController);
 
-  function ManagerCreateApplicationController($scope, $stateParams, _, resolvedAuth, Application, Applicant, Opening, Messages, Navigation, utility) {
+  function ManagerCreateApplicationController($stateParams, _, resolvedAuth, Application, Applicant, Opening, Messages, Navigation, utility) {
 
     var vm = this;
     vm.user = resolvedAuth;
@@ -32,25 +32,25 @@
 
     function getValueLists() {
       Opening.query().$promise
-        .then(function(result) {
+        .then(function (result) {
           vm.options.openings = result;
-          if($stateParams.openingId) {
+          if ($stateParams.openingId) {
             vm.application.opening = $stateParams.openingId;
             setOpening();
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           Messages.addMessage(error.data.message, 'error');
         });
       Applicant.query().$promise
-        .then(function(result) {
+        .then(function (result) {
           vm.options.applicants = result;
-          if($stateParams.applicantId) {
+          if ($stateParams.applicantId) {
             vm.application.applicant = $stateParams.applicantId;
             setApplicant();
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           Messages.addMessage(error.data.message, 'error');
         });
     }
@@ -59,7 +59,7 @@
       var openings = vm.options.openings;
       var matched = false;
       _.forEach(openings, function (opening) {
-        if(!matched && vm.application.opening === opening._id) {
+        if (!matched && vm.application.opening === opening._id) {
           matched = utility.getIndex(opening, property);
         }
       });
@@ -70,7 +70,7 @@
       var applicants = vm.options.applicants;
       var matched = false;
       _.forEach(applicants, function (applicant) {
-        if(!matched && vm.application.applicant === applicant._id) {
+        if (!matched && vm.application.applicant === applicant._id) {
           matched = utility.getIndex(applicant, property);
         }
       });
@@ -93,12 +93,12 @@
         applicationId: vm.application._id,
         fileId: fileId
       }).$promise
-        .then(function() {
-          if(vm.application.cv === fileId) {
+        .then(function () {
+          if (vm.application.cv === fileId) {
             vm.application.cv = null;
             vm.application.cvFileMeta = null;
           }
-          if(vm.application.coverLetter === fileId) {
+          if (vm.application.coverLetter === fileId) {
             vm.application.coverLetter = null;
             vm.application.coverLetterFileMeta = null;
           }
@@ -135,8 +135,6 @@
       actions.splice(0, 3); // splice out the ones we don't want (were taking them all out here)
       actions = _.union(actions, controllerActions); // merge together actions defined in the controller with those from the Model
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-
-
       Navigation.viewTitle.set('Create Application'); // set the page title
     }
 
@@ -159,12 +157,12 @@
       }
       if (type === 'coverLetter') {
         vm.application.coverLetter = file;
-      } else if(type === 'cv') {
+      } else if (type === 'cv') {
         vm.application.cv = file;
       }
       vm.application.uploadFile(file, type, vm.application._id)
         .then(function (response) {
-          if(type === 'coverLetter') {
+          if (type === 'coverLetter') {
             vm.application.coverLetter = response.data.coverLetter;
             vm.application.coverLetterFileMeta = response.data.coverLetterFileMeta;
           } else {

@@ -17,7 +17,7 @@
     };
 
     function link(scope, element, attrs, ctrl) {
-      if(ctrl && ctrl.$validators.email) {
+      if (ctrl && ctrl.$validators.email) {
 
         ctrl.$validators.email = function(modelValue) {
           return ctrl.$isEmpty(modelValue) || EMAIL_REGEXP.test(modelValue);

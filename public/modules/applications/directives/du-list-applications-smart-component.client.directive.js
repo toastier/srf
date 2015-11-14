@@ -29,6 +29,7 @@
     };
 
     function duListApplicationsSmartComponentController($scope, Authentication, Opening, Application, _) {
+      /*jshint validthis:true*/
       var vm = this;
       vm.clickAction = clickAction;
       vm.panelSuccess = panelSuccess;
@@ -63,7 +64,7 @@
         Authentication.promise
           .then(function (user) {
             vm.user = user;
-            if(vm.user.hasRole(['admin', 'committee member', 'manager'])) {
+            if (vm.user.hasRole(['admin', 'committee member', 'manager'])) {
               switch (vm.viewMode) {
                 case 'iAmReviewer':
                   iAmReviewer();
@@ -92,9 +93,9 @@
 
       /**
        * Method exposed to the View, in turn calls the assigned clickFunction.
-       * @param application
+       * @param {Object} application
        */
-      function clickAction (application) {
+      function clickAction(application) {
         clickFunction(application);
       }
 
@@ -113,7 +114,7 @@
         vm.componentTitle = 'Open Applications';
         vm.buttonTitle = 'View';
         $scope.$watch('vm.openingId', function (newVal) {
-          if(_.isString(newVal)) {
+          if (_.isString(newVal)) {
             Application.forOpening({
               openingId: vm.openingId,
               isActive: true
@@ -144,7 +145,7 @@
       function getForApplicant(isActive) {
         vm.buttonTitle = 'View';
         $scope.$watch('vm.applicantId', function (newVal) {
-          if(_.isString(newVal)) {
+          if (_.isString(newVal)) {
             Application.forApplicant({
               applicantId: vm.applicantId,
               isActive: isActive
@@ -197,7 +198,7 @@
         vm.componentTitle = 'Closed Applications';
         vm.buttonTitle = 'View';
         $scope.$watch('vm.openingId', function (newVal) {
-          if(_.isString(newVal)) {
+          if (_.isString(newVal)) {
             Application.forOpening({
               openingId: vm.openingId,
               isActive: false

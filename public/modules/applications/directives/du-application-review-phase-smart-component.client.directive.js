@@ -20,17 +20,18 @@
       }
     };
 
-    function duApplicationReviewPhaseSmartComponentController($scope, Authentication, ReviewPhase, _ ) {
+    function duApplicationReviewPhaseSmartComponentController($scope, Authentication, ReviewPhase, _) {
+      /*jshint validthis:true */
       var vm = this;
 
       activate();
 
       function activate() {
 
-        Authentication.promise.then(function(user) {
+        Authentication.promise.then(function (user) {
           vm.user = user;
           $scope.$watch('vm.reviewPhase', function (newVal) {
-            if(!_.isUndefined(newVal)) {
+            if (!_.isUndefined(newVal)) {
               vm.reviewPhaseModel = new ReviewPhase(vm.reviewPhase, vm.proceedToReviewPhase, vm.user);
             }
           });

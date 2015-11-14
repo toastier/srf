@@ -4,7 +4,7 @@
     .module('applications')
     .controller('ManageApplicationController', ManageApplicationController);
 
-  function ManageApplicationController ($scope, $stateParams, $modal, resolvedAuth, Messages, Application, Navigation, _, RouterTracker ) {
+  function ManageApplicationController($stateParams, $modal, resolvedAuth, Messages, Application, Navigation, _) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.cancel = Application.listApplications;
@@ -24,14 +24,14 @@
       Application.get({
         applicationId: $stateParams.applicationId
       }).$promise
-        .then(function(result) {
+        .then(function (result) {
           vm.application = result;
-          if(!vm.application.submitted) {
+          if (!vm.application.submitted) {
             addSubmitApplicationToActions();
           }
 
         })
-        .catch(function(err) {
+        .catch(function (err) {
           Messages.addMessage(err.data.message, 'error');
         });
 
@@ -50,7 +50,7 @@
         controllerAs: 'vm',
         size: 'md',
         resolve: {
-          currentOpening: function() {
+          currentOpening: function () {
             return angular.copy(vm.application.opening);
           }
         }
@@ -68,7 +68,7 @@
       }
       vm.application.uploadFile(file, type)
         .then(function (response) {
-          if(type === 'coverLetter') {
+          if (type === 'coverLetter') {
             vm.application.coverLetter = response.data.coverLetter;
             vm.application.coverLetterFileMeta = response.data.coverLetterFileMeta;
           } else {
@@ -83,12 +83,12 @@
         applicationId: $stateParams.applicationId,
         fileId: fileId
       }).$promise
-        .then(function() {
-          if(vm.application.cv === fileId) {
-          vm.application.cv = null;
-          vm.application.cvFileMeta = null;
+        .then(function () {
+          if (vm.application.cv === fileId) {
+            vm.application.cv = null;
+            vm.application.cvFileMeta = null;
           }
-          if(vm.application.coverLetter === fileId) {
+          if (vm.application.coverLetter === fileId) {
             vm.application.coverLetter = null;
             vm.application.coverLetterFileMeta = null;
           }
@@ -135,7 +135,7 @@
       }
     }
 
-    function remove () {
+    function remove() {
       var modalInstance = $modal.open({
         animation: true,
         templateUrl: 'modules/core/partials/yes-no-modal.client.partial.html',
@@ -155,11 +155,11 @@
       modalInstance.result.then(function (result) {
         if (result) {
           vm.application.$remove()
-            .then(function() {
+            .then(function () {
               Messages.addMessage('The Application was permanently deleted.', 'info');
               Application.listApplications();
             })
-            .catch(function(err) {
+            .catch(function (err) {
               Messages.addMessage(err.data.message, 'error', 'Problem deleting Application');
             });
         }
@@ -180,18 +180,18 @@
         });
     }
 
-    function view () {
+    function view() {
       Application.viewApplication(vm.application);
     }
 
-    function update () {
+    function update() {
       vm.application.isNewApplication = false;
 
       vm.application.$manage()
-        .then(function() {
+        .then(function () {
           Messages.addMessage('The Application has been updated', 'success');
         })
-        .catch(function(err) {
+        .catch(function (err) {
           Messages.addMessage(err.data.message, 'error', 'Problem updating Application');
         });
 

@@ -39,8 +39,8 @@ var applicationModel = new Schema({
       type: Schema.Types.ObjectId
     },
     eoeProvided: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false
     },
     proceedToReview: {
       type: Boolean,

@@ -65,7 +65,7 @@
         method: 'GET',
         url: 'applications/forOpeningForUser/:openingId'
       },
-      checkForExistingEoe : {
+      checkForExistingEoe: {
         method: 'GET',
         url: 'applications/eoeProvided/:applicationId'
       },
@@ -115,13 +115,13 @@
       this.reviewer = null;
       this.reviewWorksheet = new ReviewWorksheet();
     }
-    
+
     function InterviewWorksheet() {
       this.complete = false;
       this.body = '';
       this.comments = [];
     }
-    
+
     function Interview() {
       this.interviewer = null;
       this.interviewWorksheet = new InterviewWorksheet();
@@ -142,7 +142,7 @@
         $state.go('main.managerCreateApplication');
       }
     };
-    
+
     /**
      * Methods to add to each result returned by $resource
      * @type {Object} itemMethods
@@ -167,43 +167,43 @@
         $state.go('main.manageApplication', {applicationId: applicationObject._id});
       },
       addReview: function addReview() {
-        if(!this.reviewPhase.reviews) {
+        if (!this.reviewPhase.reviews) {
           this.reviewPhase.reviews = [];
         }
-        if(this.reviewPhase.reviews.length < maxReviews) {
+        if (this.reviewPhase.reviews.length < maxReviews) {
           this.reviewPhase.reviews.push(new Review());
         }
       },
       removeReview: function (review) {
-        if(angular.isObject(review)) {
+        if (angular.isObject(review)) {
           this.reviewPhase.reviews.splice(this.reviewPhase.reviews.indexOf(review), 1);
         }
       },
       addPhoneInterview: function addPhoneInterview() {
-        if(!this.phoneInterviewPhase.phoneInterviews) {
+        if (!this.phoneInterviewPhase.phoneInterviews) {
           this.phoneInterviewPhase.phoneInterviews = [];
         }
-        if(this.phoneInterviewPhase.phoneInterviews.length < maxInterviews) {
+        if (this.phoneInterviewPhase.phoneInterviews.length < maxInterviews) {
           this.phoneInterviewPhase.phoneInterviews.push(new Interview());
         }
       },
       removePhoneInterview: function removePhoneInterview(phoneInterview) {
-        if(angular.isObject(phoneInterview)) {
+        if (angular.isObject(phoneInterview)) {
           this.phoneInterviewPhase.phoneInterviews.splice(this.phoneInterviewPhase.phoneInterviews.indexOf(phoneInterview), 1);
         }
       },
-      showAddReviewButton: function showAddReviewButton () {
+      showAddReviewButton: function showAddReviewButton() {
         return this.reviewPhase.reviews.length < maxReviews;
       },
 
-      showAddPhoneInterviewButton: function showAddPhoneInterviewButton () {
+      showAddPhoneInterviewButton: function showAddPhoneInterviewButton() {
         return this.phoneInterviewPhase.phoneInterviews.length < maxInterviews;
       },
 
-      uploadFile: function(file, type, applicationId) {
+      uploadFile: function (file, type, applicationId) {
         applicationId = applicationId || $stateParams.applicationId;
         var deferred = $q.defer();
-        if(!file) {
+        if (!file) {
           deferred.reject('no file given');
         } else {
 
@@ -218,11 +218,11 @@
             $timeout(function () {
               deferred.resolve(response);
             });
-          }, function(err) {
-            if(err.status > 0) {
+          }, function (err) {
+            if (err.status > 0) {
               Messages.addMessage(err.status + ': ' + err.data);
             }
-          }, function(evt) {
+          }, function (evt) {
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
           });
           return deferred.promise;
@@ -241,19 +241,24 @@
       },
       getActions: function () {
         var modelActions = [
-          {title: 'Create a New Application', method: methods.managerCreateApplication, type: 'button', style: 'btn-add'},
+          {
+            title: 'Create a New Application',
+            method: methods.managerCreateApplication,
+            type: 'button',
+            style: 'btn-add'
+          },
           {title: 'View Application', method: methods.viewThisApplication, type: 'button', style: 'btn-view'},
           {title: 'Edit Application', method: methods.editThisApplication, type: 'button', style: 'btn-edit'}
         ];
         return angular.copy(modelActions);
       },
-      conductReview: function(applicationObject) {
+      conductReview: function (applicationObject) {
         $state.go('main.conductReview', {applicationId: applicationObject._id});
       },
       /**
        * @param {Application} applicationObject Named as such to avoid shadowing
        */
-      conductPhoneInterview: function(applicationObject) {
+      conductPhoneInterview: function (applicationObject) {
         $state.go('main.conductPhoneInterview', {applicationId: applicationObject._id});
       },
       /**
@@ -263,13 +268,13 @@
         $state.go('main.viewApplication', {applicationId: applicationObject._id});
       },
       /**
-       * @param applicationObject
+       * @param {Object} applicationObject
        */
       manageApplication: function (applicationObject) {
         $state.go('main.manageApplication', {applicationId: applicationObject._id});
       }
     };
-    
+
     angular.extend(application.prototype, itemMethods);
     angular.extend(application, modelMethods);
     return application;

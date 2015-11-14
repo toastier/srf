@@ -64,7 +64,7 @@
 
       /**
        * add a single Data Filter
-       * @param filterConfiguration FilterConfigurationObject{{name: String, field: String, matchType: String}}
+       * @param {{name: String, field: String, matchType: String}} filterConfiguration
        */
       function addFilterDefinition(filterConfiguration) {
 
@@ -99,7 +99,7 @@
 
       /**
        * add multiple filterDefinitions
-       * @param filterConfigurationArray FilterConfigurationObject
+       * @param {FilterConfigurationObject} filterConfigurationArray
        */
       function addFilterDefinitions(filterConfigurationArray) {
         angular.forEach(filterConfigurationArray, function (filterConfiguration) {

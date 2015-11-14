@@ -3,34 +3,34 @@ var mongoose = require('mongoose'),
 
 var eoeVeteranModel = new Schema({
     opening: {
-        type: Schema.Types.ObjectId,
-        ref: 'Opening'
+      type: Schema.Types.ObjectId,
+      ref: 'Opening'
     },
     veteran: {
-        type: String, enum: ['yes-id', 'yes-not-id', 'no', 'declined']
+      type: String, enum: ['yes-id', 'yes-not-id', 'no', 'declined']
     },
     vetClass: {
-        disabled: {
-            type: Boolean
-        },
-        recent: {
-            type: Boolean
-        },
-        active: {
-            type: Boolean
-        },
-        medal: {
-            type: Boolean
-        }
+      disabled: {
+        type: Boolean
+      },
+      recent: {
+        type: Boolean
+      },
+      active: {
+        type: Boolean
+      },
+      medal: {
+        type: Boolean
+      }
     },
     dateCreated: {
-        type: Date,
-        default: Date.now
+      type: Date,
+      default: Date.now
     }
-},
-    {
-        collection: 'eoeVeteran'
-    }
+  },
+  {
+    collection: 'eoeVeteran'
+  }
 );
 
 var modelName = 'EoeVeteran';

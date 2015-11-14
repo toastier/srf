@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   angular.module('dashboards').config(['$stateProvider',
-    function($stateProvider) {
+    function ($stateProvider) {
       $stateProvider
         .state('main.dashboards', {
           url: '/dashboards',
@@ -13,10 +13,10 @@
             }
           },
           resolve: {
-            resolvedAuth: function(resolvedAuth) {
+            resolvedAuth: function (resolvedAuth) {
               return resolvedAuth;
             }
           }
         });
-  }]);
+    }]);
 })();

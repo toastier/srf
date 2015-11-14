@@ -27,12 +27,12 @@
 
     /**
      * removes reviews which are not assigned to the authenticated user
-     * @param application
+     * @param {Object} application
      */
     function prunePhoneInterviews(application) {
       var phoneInterviews = application.phoneInterviewPhase.phoneInterviews;
       angular.forEach(phoneInterviews, function(phoneInterview) {
-        if(phoneInterview.interviewer._id !== vm.user._id) {
+        if (phoneInterview.interviewer._id !== vm.user._id) {
           phoneInterviews.splice(phoneInterviews.indexOf(phoneInterview), 1);
         }
       });

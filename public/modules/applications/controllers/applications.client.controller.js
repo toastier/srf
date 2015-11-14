@@ -4,7 +4,7 @@
     .module('applications')
     .controller('ApplicationsController', ApplicationsController);
 
-  function ApplicationsController($scope, $state, Navigation, CollectionModel, resolvedAuth, Messages, Application) {
+  function ApplicationsController(Navigation, CollectionModel, resolvedAuth, Messages, Application) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;
@@ -32,8 +32,8 @@
         ]
       }},
       {field: 'opening.name', hidden: true, label: 'Opening', filterable: true, sortable: false},
-      {field: 'firstName', hidden: true, label: 'First Name', filterable: true, sortable: false },
-      {field: 'lastName', hidden: true, label: 'Last Name', filterable: true, sortable: false },
+      {field: 'firstName', hidden: true, label: 'First Name', filterable: true, sortable: false},
+      {field: 'lastName', hidden: true, label: 'Last Name', filterable: true, sortable: false},
       {field: 'status', label: 'Application Status', filterable: true, sortable: true},
       {field: 'reviewPhase.reviews.reviewer.displayName', label: 'Reviewers', filterable: true, sortable: true},
       {field: 'dateSubmitted', label: 'Submitted On', filterable: false, sortable: true, format: 'standardDate'},
@@ -83,7 +83,7 @@
       }
 
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('Applications'); // set the page title
+      Navigation.viewTitle.set('All Open Applications'); // set the page title
     }
 
   }

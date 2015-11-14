@@ -18,15 +18,12 @@
     };
 
     function link(scope, element) {
-      //link code
-      //var windowWidth;
-      //var windowHeight;
 
       resizeObject();
 
       function resizeObject() {
 
-        if(element[0].clientWidth > 0) {
+        if (element[0].clientWidth > 0) {
           var calculatedHeight = Math.floor(element[0].clientWidth * 1.29);
           if (calculatedHeight > 1070) {
             calculatedHeight = 1070;

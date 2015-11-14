@@ -3,8 +3,8 @@
   angular
     .module('applications')
     .controller('CreateApplicationController', CreateApplicationController);
-  
-  function CreateApplicationController($scope, $state, $stateParams, $location, resolvedAuth, Messages, Application, Applicant, Opening, Navigation, _ ) {
+
+  function CreateApplicationController($scope, $state, $stateParams, $location, resolvedAuth, Messages, Application, Opening, Navigation) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.application = new Application();
@@ -19,7 +19,7 @@
     activate();
 
     function activate() {
-      if(!vm.user.hasRole(['admin', 'manager'])) {
+      if (!vm.user.hasRole(['admin', 'manager'])) {
 
         Opening.getForPublic({
           openingId: $stateParams.openingId
@@ -34,8 +34,8 @@
           });
         vm.application.applicant = null;
 
-        $scope.$watch('vm.user', function(newVal) {
-          if(vm.user._id) {
+        $scope.$watch('vm.user', function (newVal) {
+          if (vm.user._id) {
             processUser(newVal);
           }
         }, true);
@@ -58,13 +58,13 @@
 
     /**
      * Check to see if the User already has an Application for this Opening
-     * @param user
+     * @param {Object} user
      */
     function processUser(user) {
       Application.checkForExistingUserApplication({openingId: $stateParams.openingId}).$promise
-        .then(function(application) {
-          if(application._id) {
-            if(application.submitted) {
+        .then(function (application) {
+          if (application._id) {
+            if (application.submitted) {
               //@todo make this message stick around longer
               Messages.addMessage('Our records indicate that you have already applied for this Opening.  You may only ' +
                 'apply once for any given Opening.');
@@ -91,12 +91,12 @@
         applicationId: vm.application._id,
         fileId: fileId
       }).$promise
-        .then(function() {
-          if(vm.application.cv === fileId) {
+        .then(function () {
+          if (vm.application.cv === fileId) {
             vm.application.cv = null;
             vm.application.cvFileMeta = null;
           }
-          if(vm.application.coverLetter === fileId) {
+          if (vm.application.coverLetter === fileId) {
             vm.application.coverLetter = null;
             vm.application.coverLetterFileMeta = null;
           }
@@ -120,7 +120,7 @@
     function setupPublicNavigation() {
       Navigation.clear();
       Navigation.breadcrumbs.add('Openings', '#!/openings', '#!/openings');
-      Navigation.breadcrumbs.add( vm.opening.name, '#!/openings/' + $stateParams.openingId, '#!/openings/' + $stateParams.openingId);
+      Navigation.breadcrumbs.add(vm.opening.name, '#!/openings/' + $stateParams.openingId, '#!/openings/' + $stateParams.openingId);
       Navigation.viewTitle.set('Apply for Opening');
     }
 
@@ -152,12 +152,12 @@
       }
       if (type === 'coverLetter') {
         vm.application.coverLetter = file;
-      } else if(type === 'cv') {
+      } else if (type === 'cv') {
         vm.application.cv = file;
       }
       vm.application.uploadFile(file, type, vm.application._id)
         .then(function (response) {
-          if(type === 'coverLetter') {
+          if (type === 'coverLetter') {
             vm.application.coverLetter = response.data.coverLetter;
             vm.application.coverLetterFileMeta = response.data.coverLetterFileMeta;
           } else {

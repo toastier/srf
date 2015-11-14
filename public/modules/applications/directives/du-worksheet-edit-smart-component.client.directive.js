@@ -20,6 +20,7 @@
     };
 
     function duWorksheetEditSmartComponentController() {
+      /*jshint validthis:true*/
       var vm = this;
 
       activate();

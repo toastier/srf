@@ -8,14 +8,14 @@
         .state('main.listEoe', {
           url: '/eoe',
           'views': {
-              'content@': {
-                templateUrl: 'modules/eoe/views/list-eoe.client.view.html',
-                controller: 'ListEoeController',
-                controllerAs: 'vm'
-              }
+            'content@': {
+              templateUrl: 'modules/eoe/views/list-eoe.client.view.html',
+              controller: 'ListEoeController',
+              controllerAs: 'vm'
+            }
           },
           resolve: {
-            resolvedAuth: function(resolvedAuth) {
+            resolvedAuth: function (resolvedAuth) {
               return resolvedAuth;
             }
           }
@@ -30,22 +30,22 @@
             }
           },
           resolve: {
-            resolvedAuth: function(resolvedAuth) {
+            resolvedAuth: function (resolvedAuth) {
               return resolvedAuth;
             }
           }
         });
-        //.state('main.viewEoe', {
-        //  url: '/eoe/:eoeId',
-        //  templateUrl: 'modules/eoe/views/view-eoe.client.view.html',
-        //  controller: 'ViewEoeController',
-        //  controllerAs: 'vm',
-        //  resolve: {
-        //    resolvedAuth: function(resolvedAuth) {
-        //      return resolvedAuth;
-        //    }
-        //  }
-        //});
+      //.state('main.viewEoe', {
+      //  url: '/eoe/:eoeId',
+      //  templateUrl: 'modules/eoe/views/view-eoe.client.view.html',
+      //  controller: 'ViewEoeController',
+      //  controllerAs: 'vm',
+      //  resolve: {
+      //    resolvedAuth: function(resolvedAuth) {
+      //      return resolvedAuth;
+      //    }
+      //  }
+      //});
     }
   ]);
 })();

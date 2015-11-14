@@ -1,5 +1,5 @@
 /**
- * @ngdoc directive
+ * directive
  * @description Provides simple Directive to render a Bootstrap styled display of a field value with a label.
  * The attributes 'field-model' and 'field-label' are required.  'field-columns' will default to 3 if not given.
  * 'field-format' can be any named Angular filter (including your own filters), and will be ignored if not provided.
@@ -32,21 +32,22 @@
     };
 
     function duDisplayFieldController($scope, $filter) {
+      /*jshint validthis:true*/
       var vm = this;
 
       activate();
 
       function activate() {
 
-        if(!vm.fieldLabel) {
+        if (!vm.fieldLabel) {
           vm.fieldLabel = 'Label Me!';
         }
 
-        if(!vm.fieldColumns) {
+        if (!vm.fieldColumns) {
           vm.fieldColumns = 3;
         }
 
-        if(vm.fieldFormat) {
+        if (vm.fieldFormat) {
           $scope.$watch('vm.fieldModel', function() {
             vm.fieldModel = $filter(vm.fieldFormat)(vm.fieldModel);
           });

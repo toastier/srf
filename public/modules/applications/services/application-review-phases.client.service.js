@@ -4,12 +4,12 @@
     .module('applications')
     .provider('ReviewPhase', ReviewPhase);
 
-  function ReviewPhase () {
+  function ReviewPhase() {
     this.$get = providerGetFunction;
 
-    function providerGetFunction ($stateParams, Application, Messages, _ ) {
+    function providerGetFunction($stateParams, Application, Messages, _) {
 
-      var ReviewPhaseModel = function ReviewPhaseModel (reviewPhaseData, proceed, user) {
+      var ReviewPhaseModel = function ReviewPhaseModel(reviewPhaseData, proceed, user) {
 
         var reviewPhase = this;
 
@@ -58,7 +58,7 @@
         }
 
         function cancelCommentChanges(review, comment) {
-          if(!comment._id) {
+          if (!comment._id) {
             removeComment(review, comment);
           }
           comment.editing = false;
@@ -76,7 +76,7 @@
         }
 
         function deleteComment(review, comment) {
-          if(comment._id) {
+          if (comment._id) {
             var application = {
               _id: $stateParams.applicationId,
               review: review,
@@ -84,7 +84,7 @@
             };
 
             Application.deleteComment(application).$promise
-              .then(function(){
+              .then(function () {
                 removeComment(review, comment);
                 Messages.addMessage('Comment deleted');
               })
@@ -95,13 +95,13 @@
         }
 
         function getReviewPhaseStatus() {
-          if(reviewPhaseIsComplete()) {
+          if (reviewPhaseIsComplete()) {
             return 'Complete';
           }
-          if(!reviewPhaseIsOpen()) {
+          if (!reviewPhaseIsOpen()) {
             return 'Closed';
           }
-          if(reviewPhaseIsOpen()) {
+          if (reviewPhaseIsOpen()) {
             return 'Open';
           }
         }
@@ -110,11 +110,11 @@
           return (reviewPhase.proceedToReviewPhase === 'true');
         }
 
-        function reviewPhaseIsComplete () {
+        function reviewPhaseIsComplete() {
           return (reviewPhase.data.proceedToPhoneInterview === true || reviewPhase.data.proceedToPhoneInterview === false);
         }
 
-        function reviewPhaseIsOpen () {
+        function reviewPhaseIsOpen() {
           return proceedToReviewPhase() && !reviewPhaseIsComplete();
         }
 
@@ -147,7 +147,7 @@
           };
           application.comment.comment = comment.commentBuffer;
           Application.saveComment(application).$promise
-            .then(function(commentResponse){
+            .then(function (commentResponse) {
               comment.editing = false;
               comment.comment = commentResponse.comment;
               comment.dateCreated = commentResponse.dateCreated;
@@ -170,7 +170,7 @@
           application.review.reviewWorksheet.body = review.reviewWorksheet.bodyBuffer;
           application.review.reviewer = review.reviewer._id;
           Application.saveReview(application).$promise
-            .then(function(updatedReview) {
+            .then(function (updatedReview) {
               review.reviewWorksheet.dateCompleted = updatedReview.reviewWorksheet.dateCompleted;
               review.editing = false;
               Messages.addMessage('Review saved.');

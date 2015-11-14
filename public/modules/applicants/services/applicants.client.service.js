@@ -12,10 +12,10 @@
     });
 
     /**
-     * @param applicantData
+     * @param {Object} applicantData
      * @constructor
      */
-    function ApplicantModel (applicantData) {
+    function ApplicantModel(applicantData) {
       applicantData = applicantData || {
           name: {}
         };
@@ -30,10 +30,10 @@
     }
 
     /**
-     * @param addressData
+     * @param {Object} addressData
      * @constructor
      */
-    function Address (addressData) {
+    function Address(addressData) {
       addressData = addressData || {};
 
       this.type = addressData.type;
@@ -47,10 +47,10 @@
     }
 
     /**
-     * @param applicantPositionData
+     * @param {Object} applicantPositionData
      * @constructor
      */
-    function ApplicantPosition (applicantPositionData) {
+    function ApplicantPosition(applicantPositionData) {
       applicantPositionData = applicantPositionData || {
           institution: {}
         };
@@ -67,10 +67,10 @@
     }
 
     /**
-     * @param credentialData
+     * @param {Object} credentialData
      * @constructor
      */
-    function Credential (credentialData) {
+    function Credential(credentialData) {
       credentialData = credentialData || {};
 
       this.credential = credentialData.credential;
@@ -81,10 +81,10 @@
     }
 
     /**
-     * @param emailAddressData
+     * @param {Object} emailAddressData
      * @constructor
      */
-    function EmailAddress (emailAddressData) {
+    function EmailAddress(emailAddressData) {
       emailAddressData = emailAddressData || {};
       this.emailAddress = emailAddressData.emailAddress;
       this.primary = !!emailAddressData.primary;
@@ -92,27 +92,26 @@
     }
 
     /**
-     * @param focalAreaData
+     * @param {Object} focalAreaData
      * @constructor
      */
-    function FocalArea (focalAreaData) {
+    function FocalArea(focalAreaData) {
       focalAreaData = focalAreaData || {};
 
       this.focalArea = focalAreaData.focalArea;
     }
 
     /**
-     * @param phoneNumberData
+     * @param {Object} phoneNumberData
      * @constructor
      */
-    function PhoneNumber (phoneNumberData) {
+    function PhoneNumber(phoneNumberData) {
       phoneNumberData = phoneNumberData || {};
       this.phoneNumber = phoneNumberData.phoneNumber;
       this.type = phoneNumberData.type;
       this.note = phoneNumberData.note;
       this.primary = !!phoneNumberData.primary;
     }
-
 
     var methods = {
       editThisApplicant: function () {
@@ -144,7 +143,7 @@
         this.emailAddresses.push(new EmailAddress(emailAddressData));
       },
 
-      removeEmailAddress: function(emailAddress) {
+      removeEmailAddress: function (emailAddress) {
         this.emailAddresses.splice(this.emailAddresses.indexOf(emailAddress), 1);
       },
 
@@ -155,18 +154,18 @@
         this.phoneNumbers.push(new PhoneNumber(phoneNumberData));
       },
 
-      removePhoneNumber: function(phoneNumber) {
+      removePhoneNumber: function (phoneNumber) {
         this.phoneNumbers.splice(this.phoneNumbers.indexOf(phoneNumber), 1);
       },
 
-      addCredential: function(credentialData) {
+      addCredential: function (credentialData) {
         if (!this.credentials) {
           this.credentials = [];
         }
         this.credentials.push(new Credential(credentialData));
       },
 
-      removeCredential: function(credential) {
+      removeCredential: function (credential) {
         this.credentials.splice(this.credentials.indexOf(credential), 1);
       },
 
@@ -219,12 +218,12 @@
       },
       getFocalAreaOptions: function () {
         var focalAreaOptions = [
-          { focalArea: 'Acute / Critical Care'},
-          { focalArea: 'Reproductive Health'},
-          { focalArea: 'Pediatrics' },
-          { focalArea: 'Oncology' },
-          { focalArea: 'Geriatrics'},
-          { focalArea: 'Informatics'}
+          {focalArea: 'Acute / Critical Care'},
+          {focalArea: 'Reproductive Health'},
+          {focalArea: 'Pediatrics'},
+          {focalArea: 'Oncology'},
+          {focalArea: 'Geriatrics'},
+          {focalArea: 'Informatics'}
         ];
 
         return angular.copy(focalAreaOptions);
