@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var glob = require('glob');
+var _ = require('lodash');
 
 /**
  * Module init function.
@@ -13,18 +14,18 @@ module.exports = function () {
    * Before we begin, lets set the environment variable
    * We'll Look for a valid NODE_ENV variable and if one cannot be found load the development NODE_ENV
    */
+  if (process.env.NODE_ENV)
   if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'production') {
     process.env.NODE_ENV = 'development';
   }
 
-  if (process.env.NODE_ENV !== undefined) {
+  if (!_.isUndefined(process.env.NODE_ENV)) {
     var files = glob('./config/env/' + process.env.NODE_ENV + '.js', {sync: true});
 
     processFiles(files);
   }
 
   function processFiles (environmentFiles) {
-    console.log();
     if (!environmentFiles.length) {
       if (process.env.NODE_ENV) {
         console.log('\x1b[31m', 'No configuration file found for "' + process.env.NODE_ENV + '" environment using development instead');

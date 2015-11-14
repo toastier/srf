@@ -35,9 +35,6 @@ module.exports = function (db) {
   app.locals.title = config.app.title;
   app.locals.description = config.app.description;
   app.locals.keywords = config.app.keywords;
-  //app.locals.facebookAppId = config.facebook.clientID;
-  app.locals.jsFiles = config.getJavaScriptAssets();
-  app.locals.cssFiles = config.getCSSAssets();
 
   // Passing the request url to environment locals
   app.use(function (req, res, next) {
@@ -66,7 +63,7 @@ module.exports = function (db) {
   // Environment dependent middleware
   if (process.env.NODE_ENV === 'development') {
     // Enable logger (morgan)
-    app.use(morgan('dev'));
+    //app.use(morgan('dev'));
 
     // Disable views cache
     app.set('view cache', false);

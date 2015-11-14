@@ -1,53 +1,13 @@
 'use strict';
 
 module.exports = {
-	app: {
-		title: 'Faculty Recruitment System',
-		description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
-		keywords: 'MongoDB, Express, AngularJS, Node.js'
-	},
-	port: process.env.PORT || 3000,
-	templateEngine: 'swig',
-	sessionSecret: 'MEAN',
-	sessionCollection: 'sessions',
-	assets: {
-		lib: {
-			css: [
-				'public/lib/bootstrap/dist/css/bootstrap.css',
-				'public/modules/**/css/*.css',
-				'public/lib/angular-ui-select/dist/select.css',
-				'public/lib/angular-toastr/dist/angular-toastr.css',
-				'public/lib/ng-sortable/dist/ng-sortable.css',
-				'public/lib/ng-sortable/dist/ng-sortable-style.css'
-			],
-			js: [
-				'public/lib/angular/angular.js',
-				'public/lib/angular-resource/angular-resource.js', 
-				'public/lib/angular-cookies/angular-cookies.js',  
-				'public/lib/angular-animate/angular-animate.js',
-				'public/lib/ngFx/dist/ngFx.js',
-				'public/lib/angular-touch/angular-touch.js', 
-				'public/lib/angular-sanitize/angular-sanitize.js', 
-				'public/lib/angular-ui-router/release/angular-ui-router.js',
-				'public/lib/angular-ui-utils/ui-utils.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
-				'public/lib/angular-ui-select/dist/select.js',
-				'public/lib/angular-toastr/dist/angular-toastr.js',
-				'public/lib/ng-sortable/dist/ng-sortable.js'
-			]
-		},
-		css: [
-			'public/modules/**/css/*.css'
-		],
-		js: [
-			'public/config.js',
-			'public/application.js',
-			'public/modules/*/*.js',
-			'public/modules/*/*[!tests]*/*.js'
-		],
-		tests: [
-			'public/lib/angular-mocks/angular-mocks.js',
-			'public/modules/*/tests/*.js'
-		]
-	}
+  app: {
+    title: 'Faculty Recruitment System',
+    description: 'Application for Candidates, Faculty and Staff of DUSON',
+    keywords: 'Duke, Duke University, FRS, Faculty Recruitment'
+  },
+  port: process.env.PORT || 3000,
+  templateEngine: 'swig',
+  sessionSecret: 'MEAN',
+  sessionCollection: 'sessions'
 };
