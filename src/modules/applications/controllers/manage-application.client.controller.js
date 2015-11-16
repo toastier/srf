@@ -17,6 +17,8 @@
     vm.update = update;
     vm.uploadFile = uploadFile;
     vm.view = view;
+    vm.editReviewPhaseCollectiveComments = false;
+    vm.editPhoneInterviewPhaseCollectiveComments = false;
 
     activate();
 
@@ -190,6 +192,8 @@
       vm.application.$manage()
         .then(function () {
           Messages.addMessage('The Application has been updated', 'success');
+          vm.editPhoneInterviewPhaseCollectiveComments = false;
+          vm.editReviewPhaseCollectiveComments = false;
         })
         .catch(function (err) {
           Messages.addMessage(err.data.message, 'error', 'Problem updating Application');

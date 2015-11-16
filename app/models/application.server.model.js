@@ -148,7 +148,8 @@ var applicationModel = new Schema({
             ]
           }
         }
-      ]
+      ],
+      committeeComments: String
     },
     phoneInterviewPhase: {
       proceedToOnSite: {
@@ -227,7 +228,8 @@ var applicationModel = new Schema({
             ]
           }
         }
-      ]
+      ],
+      committeeComments: String
     },
     onSiteVisitPhase: {
       complete: {

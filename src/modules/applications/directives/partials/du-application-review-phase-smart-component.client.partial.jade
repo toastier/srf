@@ -2,6 +2,11 @@
 .col-xs-12
   h2 Review Phase {{ vm.reviewPhaseModel.reviewPhaseStatus }}
   h3 Proceed to Phone Interview? {{ vm.reviewPhaseModel.data.proceedToPhoneInterview | yesNoNoDecision }}
+  .row
+    .col-xs-12(ng-if="vm.reviewPhaseModel.data.committeeComments")
+      h3 Collective Comments on Review Phase&nbsp;
+      div.well(ng-bind-html="vm.reviewPhaseModel.data.committeeComments")
+
   .panel.panel-default(ng-repeat="review in vm.reviewPhaseModel.data.reviews", ng-class="{'panel-success': review.reviewWorksheet.complete }")
     .panel-heading
       .row
