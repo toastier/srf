@@ -11,9 +11,9 @@ app/data/uploads/coverLetter/*
 config/env/developer-settings.js
 node_modules/
 npm-debug.log
-public/lib
 src/.tmp/
-src/css/*
+src/styles/*
+src/lib/
 src/lib/*
 src/fonts/*
 report/
