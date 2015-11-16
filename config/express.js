@@ -25,6 +25,7 @@ var crypto = require('crypto');
 module.exports = function (db) {
   // Initialize express app
   var app = express();
+  var staticFolder = './src';
 
   // Globbing model files
   config.getGlobbedFiles('./app/models/**/*.js').forEach(function (modelPath) {
@@ -68,6 +69,7 @@ module.exports = function (db) {
     // Disable views cache
     app.set('view cache', false);
   } else if (process.env.NODE_ENV === 'production') {
+    staticFolder = './dist';
     app.locals.cache = 'memory';
   }
 
@@ -106,7 +108,7 @@ module.exports = function (db) {
   app.disable('x-powered-by');
 
   // Setting the app router and static folder
-  app.use(express.static(path.resolve('./public')));
+  app.use(express.static(path.resolve(staticFolder)));
 
   // Globbing routing files
   config.getGlobbedFiles('./app/routes/**/*.js').forEach(function (routePath) {

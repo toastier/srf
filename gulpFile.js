@@ -61,14 +61,14 @@ gulp.task('plato', function (done) {
  * compile Jade to Html
  */
 gulp.task('compile-jade', ['clean-code'], function () {
-
+  log('Compiling Jade to Html');
   var LOCALS = {};
   gulp.src(config.jadeFiles)
     .pipe($.jade({
       locals: LOCALS
     }))
     .pipe(gulp.dest(config.angularModules));
-  console.log('Jade files compiled to ' + config.angularModules);
+  log('Jade files compiled to ' + config.angularModules);
 });
 
 /**
@@ -80,7 +80,19 @@ gulp.task('fonts', ['clean-fonts'], function () {
 
   return gulp
     .src(config.fonts)
-    .pipe(gulp.dest(config.build + 'fonts'));
+    .pipe(gulp.dest(config.dist + 'fonts'));
+});
+
+/**
+ * Copy fonts for dev
+ * @return {Stream}
+ */
+gulp.task('dev-fonts', function () {
+  log('Copying fonts for dev');
+
+  return gulp
+    .src(config.fonts)
+    .pipe(gulp.dest(config.clientSource + 'fonts'));
 });
 
 /**
@@ -92,8 +104,10 @@ gulp.task('images', ['clean-images'], function () {
 
   return gulp
     .src(config.images)
-    .pipe($.imagemin({optimizationLevel: 4}))
-    .pipe(gulp.dest(config.build + 'images'));
+    .pipe($.plumber())
+    //@todo imagemin was taken out of the workflow because of an error in calling spawn. Probably just a blow away the node_modules thing, but don't need it at this point so.
+    //.pipe($.imagemin({optimizationLevel: 4}))
+    .pipe(gulp.dest(config.dist + 'img'));
 });
 
 /**
@@ -132,16 +146,16 @@ gulp.task('wiredep', function () {
     .src(config.index)
     .pipe(wiredep(options))
     .pipe(inject(js, '', config.jsOrder))
-    .pipe(gulp.dest(config.serverHtml));
+    .pipe(gulp.dest(config.clientSource));
 });
 
-gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function () {
+gulp.task('inject', ['wiredep', 'dev-fonts', 'styles', 'templatecache'], function () {
   log('Wire up css into the html, after files are ready');
 
   return gulp
     .src(config.index)
-    .pipe(inject(config.css))
-    .pipe(gulp.dest(config.client));
+    .pipe(inject(config.styles))
+    .pipe(gulp.dest(config.clientSource));
 });
 
 /**
@@ -186,12 +200,12 @@ gulp.task('build-specs', ['templatecache'], function (done) {
  * This is separate so we can run tests on
  * optimize before handling image or fonts
  */
-gulp.task('build', ['optimize', 'images', 'fonts'], function () {
+gulp.task('build-dist', ['optimize', 'images', 'fonts'], function () {
   log('Building everything');
 
   var msg = {
-    title: 'gulp build',
-    subtitle: 'Deployed to the build folder',
+    title: 'gulp build distribution',
+    subtitle: 'Deployed to the dist folder',
     message: 'Running `gulp serve-build`'
   };
   del(config.temp);
@@ -204,10 +218,10 @@ gulp.task('build', ['optimize', 'images', 'fonts'], function () {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('optimize', ['inject', 'test'], function () {
+gulp.task('optimize', ['inject'/*, 'test'*/], function () {
   log('Optimizing the js, css, and html');
 
-  var assets = $.useref.assets({searchPath: './'});
+  var assets = $.useref.assets({searchPath: './src'});
   // Filters are named for the gulp-useref path
   var cssFilter = $.filter('**/*.css');
   var jsAppFilter = $.filter('**/' + config.optimized.app);
@@ -241,7 +255,7 @@ gulp.task('optimize', ['inject', 'test'], function () {
     .pipe($.useref())
     // Replace the file names in the html with rev numbers
     .pipe($.revReplace())
-    .pipe(gulp.dest(config.build));
+    .pipe(gulp.dest(config.dist));
 });
 
 gulp.task('styles', function () {
@@ -251,57 +265,58 @@ gulp.task('styles', function () {
     .pipe($.sass({sourceComments: true}))
     .pipe($.sass().on('error', $.sass.logError))
     .pipe($.sourcemaps.write('./'))
-    .pipe(gulp.dest(config.cssDestination));
-  console.log('Sass Transpiled to ' + config.cssDestination);
+    .pipe(gulp.dest(config.styles));
+  log('Sass Transpiled to ' + config.styles);
 });
 
 /**
- * Remove all files from the build, temp, and reports folders
+ * Remove all files from the dist, temp, and reports folders
  * @param  {Function} done - callback when complete
  */
 gulp.task('clean', function (done) {
-  var delconfig = [].concat(config.build, config.temp, config.report);
+  var delconfig = [].concat(config.dist, config.temp, config.report);
   log('Cleaning: ' + $.util.colors.blue(delconfig));
   del(delconfig, done);
 });
 
 /**
- * Remove all fonts from the build folder
+ * Remove all fonts from the dist folder
  * @param  {Function} done - callback when complete
  */
 gulp.task('clean-fonts', function (done) {
-  clean(config.build + 'fonts/**/*.*', done);
+  clean(config.dist + 'fonts/**/*.*', done);
 });
 
 /**
- * Remove all images from the build folder
+ * Remove all images from the dist folder
  * @param  {Function} done - callback when complete
  */
 gulp.task('clean-images', function (done) {
-  clean(config.build + 'images/**/*.*', done);
+  clean(config.dist + 'img/**/*.*', done);
 });
 
 /**
- * Remove all styles from the build and temp folders
+ * Remove all styles from the dist and temp folders
  * @param  {Function} done - callback when complete
  */
 gulp.task('clean-styles', function (done) {
   var files = [].concat(
     config.temp + '**/*.css',
-    config.build + 'styles/**/*.css'
+    config.dist + 'styles/**/*.css'
   );
   clean(files, done);
 });
 
 /**
- * Remove all js and html from the build and temp folders
+ * Remove all js and html from the dist and temp folders
  * @param  {Function} done - callback when complete
  */
 gulp.task('clean-code', function (done) {
+  log('Removing js and html files from ./dist and ./src/.tmp')
   var files = [].concat(
     config.temp + '**/*.js',
-    config.build + 'js/**/*.js',
-    config.build + '**/*.html'
+    config.dist + 'js/**/*.js',
+    config.dist + '**/*.html'
   );
   clean(files, done);
 });
@@ -336,11 +351,11 @@ gulp.task('serve-dev', ['inject'], function () {
 });
 
 /**
- * serve the build environment
+ * serve the dist environment
  * --debug-brk or --debug
  * --nosync
  */
-gulp.task('serve-build', ['build'], function () {
+gulp.task('serve-build', ['build-dist'], function () {
   serve(false /*isDev*/);
 });
 
@@ -407,7 +422,7 @@ function clean(path, done) {
  * @returns {Stream}   The stream
  */
 function inject(src, label, order) {
-  var options = {read: false, ignorePath: '/public'};
+  var options = {read: false, ignorePath: '/src'};
   if (label) {
     options.name = 'inject:' + label;
   }

@@ -1,1 +1,0 @@
-<div id="main_menu-menu" ng-controller="SidebarController as sidebar" class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar"><li ng-repeat="item in sidebar.menu.items | orderBy : '+position'" ng-if="item.shouldRender(sidebar.user)" class="{{ item.itemClass }}"><a ng-href="/{{item.uiRoute}}">{{ item.title }}</a></li></ul></div>

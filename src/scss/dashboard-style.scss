@@ -1,0 +1,97 @@
+@import "duson/duke-pallete";
+@import "duson/variables";
+
+// Transpile bootstrap
+
+// Core variables and mixins
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+
+// Reset and dependencies
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/print";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons";
+
+// Core CSS
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/type";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/code";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/grid";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/tables";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/forms";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/buttons";
+
+// Components
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/component-animations";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/dropdowns";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/button-groups";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/input-groups";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/navs";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/navbar";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/breadcrumbs";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/pagination";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/pager";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/labels";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/badges";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/alerts";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/progress-bars";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/media";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/list-group";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/panels";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/responsive-embed";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/wells";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/close";
+
+// Components w/ JavaScript
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/modals";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/tooltip";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/popovers";
+
+// Utility classes
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/utilities";
+@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
+
+// DUSON Mixins
+@import "duson/duson-mixins";
+
+// Font Awesome bootstrap
+@import "../lib/fontawesome/scss/font-awesome";
+
+// Animate Sass library
+@import "../lib/animate-sass/animate";
+
+// Dashboard styles
+@import "duson/dashboard";
+
+// Duson styles
+@import "duson/components";
+
+// CPS Specific
+//@import "duson/cps";
+
+// TAMS Specific
+//@import "duson/tams";
+
+// Button styles
+@import "duson/buttons";
+
+// Icon styles
+@import "duson/icons";
+
+// Custom Animations
+@import "duson/animations";
+
+// Local styles
+@import "local-styles";
+
+body {
+  -webkit-backface-visibility: hidden; // Addresses a small issue in webkit: http://bit.ly/NEdoDq
+}
+.animated {
+  @include animate-prefixer(animation-duration, $base-duration);
+  @include animate-prefixer(animation-fill-mode, both);
+
+  &.hinge {
+    @include animate-prefixer(animation-duration, $base-duration * 2);
+  }
+}

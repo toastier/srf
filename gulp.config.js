@@ -1,57 +1,58 @@
 'use strict';
 
 module.exports = function () {
-  var client = './public/';
+  var clientSource = './src/';
   var server = './app/';
   var report = './report/';
   var root = './';
   var specRunnerFile = 'specs.html';
-  var temp = './.tmp/';
+  var temp = clientSource + '.tmp/';
   var wiredep = require('wiredep');
   var bowerFiles = wiredep({devDependencies: true})['js'];
   var nodeModules = 'node_modules';
   var bower = {
     json: require('./bower.json'),
-    directory: client + 'lib/',
+    directory: clientSource + 'lib/',
     ignorePath: '../..'
   };
-  var sass = client + 'modules/core/scss/';
-  var serverHtml = server + 'views/';
+  var sass = clientSource + 'scss/';
 
   var config = {
     alljs: [
       server + '**/*.js',
-      client + 'modules/' + '**/*.js',
-      '!' + client + '**/*.spec.js',
-      '!' + client + '**/*.test.js',
-      '!' + client + 'dist/**.**',
+      clientSource + 'modules/' + '**/*.js',
+      '!' + clientSource + '**/*.spec.js',
+      '!' + clientSource + '**/*.test.js',
+      '!' + clientSource + 'dist/**.**',
       '!' + bower.directory + '**/**'
     ],
-    angularModules: client + 'modules/',
-    build: './build/',
-    client: client,
-    css: client + 'modules/core/css/',
-    cssDestination: client + 'modules/core/css/',
+    angularModules: clientSource + 'modules/',
+    bower: bower,
+    browserReloadDelay: 1000,
+    clientSource: clientSource,
+    defaultPort: '8001',
+    dist: './dist/',
     fonts: bower.directory + 'font-awesome/fonts/**/*.*',
-    html: client + '**/*.html',
-    htmlTemplates: client + '**/*.html',
-    images: client + 'images/**/*.*',
-    serverHtml: serverHtml,
-    index: serverHtml + 'index.server.view.html',
+    html: clientSource + '**/*.html',
+    htmlTemplates: clientSource + '**/*.html',
+    images: clientSource + 'img/**/*.*',
+    index: clientSource + 'index.html',
     jadeFiles: [
-      client + 'modules/**/*.jade',
-      client + 'modules/**/**/*.jade'
+      clientSource + 'index.jade',
+      clientSource + 'modules/**/*.jade',
+      clientSource + 'modules/**/**/*.jade',
+      '!' + clientSource + 'lib/'
     ],
-    // client js, with no specs, tests, or bower dependencies
+    // clientSource js, with no specs, tests, or bower dependencies
     js: [
-      client + '**/*.module.js',
-      client + '**/*.js',
-      '!' + client + '**/*.spec.js',
-      '!' + client + '**/*.test.js',
-      '!' + client + 'dist/**.**',
+      clientSource + '**/*.module.js',
+      clientSource + '**/*.js',
+      '!' + clientSource + '**/*.spec.js',
+      '!' + clientSource + '**/*.test.js',
+      '!' + clientSource + 'dist/**.**',
       '!' + bower.directory + '**/**'
     ],
-    // glob pattern for ordering the client side application code (not the bower stuff, which is done my wiredep)
+    // glob pattern for ordering the clientSource side application code (not the bower stuff, which is done my wiredep)
     jsOrder: [
       '**/config.js',
       '**/application.js',
@@ -59,6 +60,18 @@ module.exports = function () {
       '**/**.module.js',
       '**/*.js'
     ],
+    optimized: {
+      app: 'app.js',
+      lib: 'lib.js'
+    },
+    nodeServer: 'server.js',
+    packages: [
+      './package.json',
+      './bower.json'
+    ],
+    plato: {js: clientSource + '**/*.js'},
+    specRunner: clientSource + specRunnerFile,
+    specRunnerFile: specRunnerFile,
     report: report,
     root: root,
     sass: sass,
@@ -68,17 +81,15 @@ module.exports = function () {
       sass + '**/*.scss'
     ],
     server: server,
+    serverIntegrationSpecs: [clientSource + '/tests/server-integration/**/*.spec.js'],
+    specHelpers: [clientSource + 'test-helpers/*.js'],
+    specs: [clientSource + '**/*.spec.js'],
     stubsJs: [
       bower.directory + 'angular-mocks/angular-mocks.js',
-      client + 'stubs/**/*.js'
+      clientSource + 'stubs/**/*.js'
     ],
+    styles: clientSource + 'styles/',
     temp: temp,
-    optimized: {
-      app: 'app.js',
-      lib: 'lib.js'
-    },
-    plato: {js: client + '**/*.js'},
-    browserReloadDelay: 1000,
     templateCache: {
       file: 'templates.js',
       options: {
@@ -87,16 +98,6 @@ module.exports = function () {
         standalone: false
       }
     },
-    /**
-     * Bower and NPM files
-     */
-    bower: bower,
-    packages: [
-      './package.json',
-      './bower.json'
-    ],
-    specRunner: client + specRunnerFile,
-    specRunnerFile: specRunnerFile,
     /**
      * The sequence of the injections into specs.html:
      *  1 testlibraries
@@ -111,17 +112,7 @@ module.exports = function () {
       nodeModules + '/mocha/mocha.js',
       nodeModules + '/chai/chai.js',
       nodeModules + '/sinon-chai/lib/sinon-chai.js'
-    ],
-    specHelpers: [client + 'test-helpers/*.js'],
-    specs: [client + '**/*.spec.js'],
-    serverIntegrationSpecs: [client + '/tests/server-integration/**/*.spec.js'],
-
-    /**
-     * Node settings
-     */
-    nodeServer: 'server.js',
-    defaultPort: '8001',
-    nodemonWatch: ['app/**/*.js', 'config/**/*.js']
+    ]
   };
 
   /**
@@ -131,7 +122,7 @@ module.exports = function () {
     var options = {
       bowerJson: config.bower.json,
       directory: config.bower.directory,
-      ignorePath: config.bower.ignorePath + '/public'
+      ignorePath: config.bower.ignorePath + '/src'
     };
     return options;
   };
@@ -148,8 +139,8 @@ module.exports = function () {
       files: [].concat(
         bowerFiles,
         config.specHelpers,
-        client + '**/*.module.js',
-        client + '**/*.js',
+        clientSource + '**/*.module.js',
+        clientSource + '**/*.js',
         temp + config.templateCache.file,
         config.serverIntegrationSpecs
       ),
@@ -165,7 +156,7 @@ module.exports = function () {
       },
       preprocessors: {}
     };
-    options.preprocessors[client + '**/!(*.spec)+(.js)'] = ['coverage'];
+    options.preprocessors[clientSource + '**/!(*.spec)+(.js)'] = ['coverage'];
     return options;
   }
 };
