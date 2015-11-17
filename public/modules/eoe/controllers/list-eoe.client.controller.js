@@ -284,7 +284,7 @@
       if (vm.position !== "all") {
         disabilityData = _.filter(disabilityData, function (rec) {
           if (rec.position) {
-            return (rec.position._id === vm.position);
+            return (rec.position === vm.position);
           }
         });
       }
@@ -320,7 +320,7 @@
       if (vm.position !== "all") {
         veteranData = _.filter(veteranData, function (rec) {
           if (rec.position) {
-            return (rec.position._id === vm.position);
+            return (rec.position === vm.position);
           }
         });
       }

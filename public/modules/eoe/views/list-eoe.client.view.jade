@@ -6,9 +6,9 @@ section
         form.form-horizontal(novalidate='')
           fieldset
             .form-group.col-xs-12.col-md-6
-              label.control-label(for='opening') Opening
-              select#opening.form-control(ng-options="opening._id as opening.name for opening in vm.options.openings", ng-change="vm.extractData()", data-ng-model='vm.opening', required='')
-                option(value="all") --All Openings--
+              label.control-label(for='position') Position
+              select#position.form-control(ng-options="position._id as position.name for position in vm.options.positions", ng-change="vm.extractData()", data-ng-model='vm.position', required='')
+                option(value="all") --All Positions--
   .container
     .panel-body
       table.table-bordered.table-striped.col-xs-12.col-md-8
