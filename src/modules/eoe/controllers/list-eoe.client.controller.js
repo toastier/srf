@@ -136,14 +136,17 @@
     vm.options.disabilities = [
         {
         code: 'y',
-        description: 'Yes'
+          orderBy: 1,
+          description: 'Yes'
       },
         {
           code: 'n',
+          orderBy: 2,
           description: 'No'
         },
         {
           code: 'd',
+          orderBy: 89,
           description: 'Declined to Answer'
         }
       ];
@@ -151,27 +154,35 @@
     vm.options.veterans = [
       {
         code: 'yes-id',
+        orderBy: 1,
         description: 'Yes, identify as veteran'
       },
       {
         code: 'yes-not-id',
+        orderBy: 2,
         description: 'Yes, but do not identify'
       },
       {
         code: 'no',
+        orderBy: 3,
         description: 'No'
       },
       {
         code: 'declined',
+        orderBy: 89,
         description: 'Declined to Answer'
       }
     ];
 
     vm.options.vetClasses = [
-      { code: 'disabled', description: 'Disabled Veteran' },
-      { code: 'recent', description: 'Recently Separated Veteran', detail: 'Discharged or released from active duty within 36 months' },
-      { code: 'active', description: 'Active Duty Wartime or Campaign Badge Veteran', detail: 'Served on active duty in the U.S. military during a war or in a campaign or expedition for which a campaign badge is awarded' },
-      { code: 'medal', description: 'Armed Forces Service Medal Veteran', detail: 'While serving on active duty in the Armed Forces, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.' }
+      { code: 'disabled',         orderBy: 1,
+        description: 'Disabled Veteran' },
+      { code: 'recent',         orderBy: 2,
+        description: 'Recently Separated Veteran', detail: 'Discharged or released from active duty within 36 months' },
+      { code: 'active',         orderBy: 3,
+        description: 'Active Duty Wartime or Campaign Badge Veteran', detail: 'Served on active duty in the U.S. military during a war or in a campaign or expedition for which a campaign badge is awarded' },
+      { code: 'medal',         orderBy: 4,
+        description: 'Armed Forces Service Medal Veteran', detail: 'While serving on active duty in the Armed Forces, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.' }
     ];
 
     function reportDataInit() {
@@ -194,6 +205,9 @@
     }
 
     function parseDemographic(result) {
+
+      // FILTER EOE DATA FOR DEMOGRAPHIC DATA (Gender, Race, Ethnicity)
+
       var demographicData = (_.find(result, function(data) {
         return (data.type === "demographic");
       })).data;
@@ -204,21 +218,26 @@
           return (rec.opening._id === vm.opening);
         });
       }
-
+      //TODO total account will be number of applicants
       vm.eoeData.totalCount = _.size(demographicData);
+
+
+      // APPLICANTS BY GENDER
 
       _.forEach(vm.options.genders, function(gender) {
         var genderCount=_.size(_.filter(demographicData, function(rec) {
           return (rec.gender === gender.code);
         }));
         console.log(gender.description + ' count is ' + genderCount);
-        vm.eoeData.byGender[gender.code] = { "count": genderCount, orderBy: gender.orderBy, "label" : gender.description};
+        vm.eoeData.byGender[gender.code] = { "count": genderCount, orderBy: gender.orderBy, "label" : gender.description, "code": gender.code};
       });
+
+
+      // APPLICANTS BY ETHNICITY x GENDER
 
       _.forEach(vm.options.ethnicities, function(ethnicity) {
         vm.eoeData.byEthnicity[ethnicity.code] = { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : 0 }} ;
         _.forEach(vm.options.genders, function(gender) {
-          vm.eoeData.byEthnicity[ethnicity.code][gender.code] = 0  ;
           var ethnicityCount =_.size(_.filter(demographicData, function(rec) {
             return (rec.ethnicity === ethnicity.code && rec.gender === gender.code);
           }));
@@ -226,15 +245,14 @@
           vm.eoeData.byEthnicity[ethnicity.code].counts[gender.code] = ethnicityCount;
           vm.eoeData.byEthnicity[ethnicity.code].counts.totalCount += ethnicityCount;
         });
-        //vm.eoeData.byEthnicity.totalCount += vm.eoeData.byEthnicity[ethnicity.code].counts.totalCount;
       });
 
-      //TODO RacexGender table grand total should be M+F, not sum of races (since there
-      // are multiples)
+
+      // APPLICANTS BY RACE x GENDER
+
       _.forEach(vm.options.races, function(race) {
         vm.eoeData.byRace[race.code] = {label: race.description, orderBy: race.orderBy, counts: {totalCount: 0}};
         _.forEach(vm.options.genders, function (gender) {
-          vm.eoeData.byRace[race.code][gender.code] = 0;
           var raceCount = _.size(_.filter(demographicData, function (rec) {
             return (rec.race[race.code] === true && rec.gender === gender.code);
           }));
@@ -242,10 +260,10 @@
           vm.eoeData.byRace[race.code].counts[gender.code] = raceCount;
           vm.eoeData.byRace[race.code].counts.totalCount += raceCount;
         });
-        //vm.eoeData.byRace.totalCount += vm.eoeData.byRace[race.code].counts.totalCount;
       });
+
+      // APPLICANTS OF MULTIPLE RACE x GENDER
       _.forEach(vm.options.genders, function (gender) {
-        vm.eoeData.byRace.multiple[gender.code] = 0;
         var raceCount =  _.size(_.filter(demographicData, function (rec) {
           return ((_.size(_.keys(_.pick(rec.race, _.identity))) > 1) && rec.gender === gender.code);
         }));
@@ -254,51 +272,101 @@
       });
     }
 
+
+    // APPLICANTS BY DISABILITY STATUS x GENDER
     function parseDisability(result) {
-      var disabilityData = (_.find(result, function(data) {
+
+      // FILTER EOE DATA FOR DISABILITY STATUS DATA
+
+      var disabilityData = (_.find(result, function (data) {
         return data.type === "disability";
       })).data;
       if (vm.opening !== "all") {
-        disabilityData = _.filter(disabilityData, function(rec) {
+        disabilityData = _.filter(disabilityData, function (rec) {
           if (rec.opening) {
             return (rec.opening._id === vm.opening);
           }
-          else {
-            return false;
+        });
+      }
+
+      // APPLICANTS BY DISABILITY x GENDER
+      _.forEach(vm.options.disabilities, function (option) {
+
+        vm.eoeData.byDisability[option.code] = {
+          label: option.description,
+          orderBy: option.orderBy,
+          counts: {totalCount: 0}
+        };
+        _.forEach(vm.options.genders, function (gender) {
+          var disabilityCount = _.size(_.filter(disabilityData, function (rec) {
+            return (rec.disability === option.code && rec.gender === gender.code);
+          }));
+          console.log(option.description + ' - ' + gender.code + ' count is ' + disabilityCount);
+          vm.eoeData.byDisability[option.code].counts[gender.code] = disabilityCount;
+          vm.eoeData.byDisability[option.code].counts.totalCount += disabilityCount;
+        });
+      });
+    }
+    
+    // APPLICANTS BY VETERAN IDENTIFICATION x GENDER
+    function parseVeteran(result) {
+
+      // FILTER EOE DATA FOR VETERAN IDENTIFICATION DATA
+
+      var veteranData = (_.find(result, function (data) {
+        return data.type === "veteran";
+      })).data;
+
+      if (vm.opening !== "all") {
+        veteranData = _.filter(veteranData, function (rec) {
+          if (rec.opening) {
+            return (rec.opening._id === vm.opening);
           }
         });
       }
-      _.forEach(vm.options.disabilities, function(option) {
-        var disabilityCount=_.size(_.filter(disabilityData, function(rec) {
-          return rec.disability === option.code;
-        }));
-        console.log(option.description + ' count is ' + disabilityCount);
-        vm.eoeData.byDisability[option.code] = { "count": disabilityCount, "label" : option.description};
+
+      // APPLICANTS BY VETERAN x GENDER
+      _.forEach(vm.options.veterans, function (option) {
+        vm.eoeData.byVeteran[option.code] = {
+          label: option.description,
+          orderBy: option.orderBy,
+          counts: {totalCount: 0},
+          classes: {}
+        };
+        _.forEach(vm.options.genders, function (gender) {
+          var veteranCount = _.size(_.filter(veteranData, function (rec) {
+            return (rec.veteran === option.code && rec.gender === gender.code);
+          }));
+          console.log(option.description + ' - ' + gender.code + ' count is ' + veteranCount);
+          vm.eoeData.byVeteran[option.code].counts[gender.code] = veteranCount;
+          vm.eoeData.byVeteran[option.code].counts.totalCount += veteranCount;
+        });
+      });
+
+      // APPLICANTS BY VET CLASS X GENDER
+      var vetClassData = vm.eoeData.byVeteran['yes-id'].classes;
+      _.forEach(vm.options.vetClasses, function (option) {
+        vetClassData[option.code] = {
+          label: option.description,
+          orderBy: option.orderBy,
+          counts: {totalCount: 0}
+        };
+        _.forEach(vm.options.genders, function (gender) {
+          var veteranCount = _.size(_.filter(veteranData, function (rec) {
+            if (_.has(rec, 'vetClass')) {
+              return (rec.vetClass[option.code] === true && rec.gender === gender.code);
+            }
+            else {
+              return false;
+            }
+          }));
+          console.log(option.description + ' - ' + gender.code + ' count is ' + veteranCount);
+          vetClassData[option.code].counts[gender.code] = veteranCount;
+          vetClassData[option.code].counts.totalCount += veteranCount;
+        });
       });
     }
 
-    function parseVeteran(result) {
-      var veteranData = (_.find(result, function(data) {
-        return data.type === "veteran";
-      })).data;
-      if (vm.opening !== "all") {
-        veteranData = _.filter(veteranData, function(rec) {
-          if (rec.opening) {
-            return (rec.opening._id === vm.opening);
-          }
-          else {
-            return false;
-          }
-        });
-      }
-      _.forEach(vm.options.veterans, function(option) {
-        var veteranCount=_.size(_.filter(veteranData, function(rec) {
-          return rec.veteran === option.code;
-        }));
-        console.log(option.description + ' count is ' + veteranCount);
-        vm.eoeData.byVeteran[option.code] = { "count": veteranCount, "label" : option.description};
-      });
-    }
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation

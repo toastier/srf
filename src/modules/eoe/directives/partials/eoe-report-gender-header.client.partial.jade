@@ -1,0 +1,5 @@
+td.col-xs-2(data-ng-repeat="gender in vm.eoeData.byGender | toArray | orderBy : " +
+"'orderBy'")
+    span.pull-right {{ item.counts[gender.code] }}
+th.col-xs-2
+    strong.pull-right Total

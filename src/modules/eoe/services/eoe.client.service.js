@@ -35,12 +35,6 @@
     };
 
     var methods = {
-      editThisEoe: function () {
-        $state.go('main.editEoe', {eoeId: $stateParams.eoeId});
-      },
-      viewThisEoe: function () {
-        $state.go('main.viewEoe', {eoeId: $stateParams.eoeId});
-      },
       createEoe: function () {
         $state.go('main.createEoe', {applicationID: $stateParams.applicationID});
       }
