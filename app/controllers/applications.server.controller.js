@@ -11,6 +11,7 @@ var _ = require('lodash');
 var Application = mongoose.model('Application');
 var Applicant = mongoose.model('Applicant');
 var WorksheetField = mongoose.model('WorksheetField');
+var Opening = mongoose.model('Opening');
 var async = require('async');
 var mime = require('mime-types');
 var Q = require('q');
@@ -434,27 +435,91 @@ exports.hasAuthorization = function (req, res, next) {
  * assumes that the :applicationId param was in the route, thereby invoking #applicationId and setting req.application
  * @param {Object} req
  * @param {Object} res
+ * @param {Function} next
  */
-exports.manage = function (req, res) {
+exports.manage = function (req, res, next) {
 
   var application = req.application
     , updatedApplication = req.body
     , shouldSetupReviewWorksheet = (updatedApplication.proceedToReview)
-    , shouldSetupPhoneInterviewWorksheet = (updatedApplication.reviewPhase.proceedToPhoneInterview);
+    , shouldSetupPhoneInterviewWorksheet = (updatedApplication.reviewPhase.proceedToPhoneInterview)
+    , error
+    , openingFillStatus;
 
   application = _.extend(application, updatedApplication);
+  req.body.offer = req.body.offer || {};
+  openingFillStatus = (req.body.offer.extended && req.body.offer.accepted && !req.body.offer.retracted);
 
-  if (shouldSetupReviewWorksheet) {
-    addWorksheetFields(application, 'reviewWorksheet')
-      .then(function (result) {
-        application = result;
-        addPhoneInterviewWorksheetFields();
-      })
-      .catch(function (err) {
-        sendResponse(err);
+  setOpeningFilledState(openingFillStatus, req.application._id, req.application.opening)
+    .then(function () {
+      updateApplication();
+    })
+    .catch(function (err) {
+      sendResponse(err);
+    });
+
+  /**
+   * Updates the associated Opening with the information about whether the opening has been filled
+   * @param {Boolean} setFilledTo
+   * @param {Object} applicationId
+   * @param {Object} openingId
+   * @returns {deferred.promise|{then}}
+   */
+  function setOpeningFilledState (setFilledTo, applicationId, openingId) {
+    var deferred = Q.defer();
+    var proceed = false;
+    Opening.findById(openingId)
+      .exec(function (err, opening) {
+        if (err) {
+          deferred.reject(err);
+        }
+        if (setFilledTo && !opening.successfulApplication) {
+          opening.filled = true;
+          opening.successfulApplication = applicationId;
+          proceed = true;
+        } else if (!setFilledTo && !!opening.successfulApplication && (opening.successfulApplication.toString() === applicationId.toString())) {
+          opening.filled = false;
+          opening.successfulApplication = null;
+          proceed = true;
+        } else if (setFilledTo && opening.successfulApplication.toString() !== applicationId.toString()) {
+          error = new Error('Another Offer for this same Opening has already been accepted. You need to Retract the other Offer.');
+          error.status = 400;
+          deferred.reject(error);
+        }
+
+        if (proceed) {
+          opening.save(function (err, result) {
+            if (err) {
+              deferred.reject(error);
+            }
+            if (result) {
+              deferred.resolve(true);
+            } else {
+              error = new Error('A problem Occured when saving the Opening');
+              error.status = 400;
+              deferred.reject(error);
+            }
+          });
+        } else {
+          deferred.resolve(true);
+        }
       });
-  } else {
-    addPhoneInterviewWorksheetFields();
+    return deferred.promise;
+  }
+
+  function updateApplication () {
+    if (shouldSetupReviewWorksheet) {
+      addWorksheetFields(application, 'reviewWorksheet')
+        .then(function (result) {
+          application = result;
+          addPhoneInterviewWorksheetFields();
+        })
+        .catch(function (err) {
+          sendResponse(err);
+        });
+    } else {
+      addPhoneInterviewWorksheetFields();
+    }
   }
 
   function addPhoneInterviewWorksheetFields() {
@@ -473,6 +538,27 @@ exports.manage = function (req, res) {
   }
 
   function doSave() {
+    if (application.onSiteVisitPhase.complete && !application.onSiteVisitPhase.dateCompleted) {
+      application.onSiteVisitPhase.dateCompleted = new Date();
+    }
+    if (application.offer.extended && !application.offer.dateOffered) {
+      application.offer.dateOffered = new Date();
+    }
+    if (application.offer.accepted && !application.offer.dateAccepted) {
+      application.offer.dateAccepted = new Date();
+    }
+    if (application.offer.retracted && !application.offer.dateRetracted) {
+      application.offer.dateRetracted = new Date();
+    }
+    if (!application.offer.extended) {
+      application.offer.dateOffered = null;
+    }
+    if (!application.offer.accepted) {
+      application.offer.dateAccepted = null;
+    }
+    if (!application.offer.retracted) {
+      application.offer.dateRetracted = null;
+    }
     application.save(function (err) {
       if (err) {
         sendResponse(err);
@@ -496,7 +582,8 @@ exports.manage = function (req, res) {
 
   function sendResponse(err, data) {
     if (err) {
-      res.send(400, getErrorMessage(err));
+      err.status = 400;
+      next(err);
     } else {
       res.jsonp(data);
     }

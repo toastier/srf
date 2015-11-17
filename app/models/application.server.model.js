@@ -235,7 +235,26 @@ var applicationModel = new Schema({
       complete: {
         type: Boolean,
         default: false
-      }
+      },
+      dateCompleted: Date,
+      surveyResults: Schema.Types.ObjectId
+    },
+    offer: {
+      extended: {
+        type: Boolean,
+        default: null
+      },
+      dateOffered: Date,
+      retracted: {
+        type: Boolean,
+        default: null
+      },
+      dateRetracted: Date,
+      accepted: {
+        type: Boolean,
+        default: null
+      },
+      dateAccepted: Date
     }
   }
 );

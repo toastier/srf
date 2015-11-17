@@ -1,6 +1,9 @@
 section
   navigation
   du-application-applicant-info(application="vm.application")
+  .row(ng-if="vm.application.onSiteVisitPhase.complete")
+    .col-xs-12
+      du-application-offer(application="vm.application", mode="edit")
   .row
     .col-xs-12
       du-grid-file-metadata-view(ng-if="vm.application.coverLetter", heading="Cover Letter", file-metadata="vm.application.coverLetterFileMeta", remove-file-method="vm.removeFile(fileId)", show-remove-option='true')
@@ -24,15 +27,22 @@ section
         du-toggle-switch(toggle-switch-model="vm.application.phoneInterviewPhase.proceedToOnSite")
   .col-xs-12
     .row(ng-if="!!vm.application.proceedToReview")
-      h3 Reviews&nbsp;
+      h3 Review Phase&nbsp;
         i.fa.fa-plus-circle(ng-show="vm.application.showAddReviewButton()", ng-click="vm.application.addReview()")
       .col-xs-12
         .row.well
           application-review-form
   .col-xs-12
     .row(ng-if="!!vm.application.proceedToReview && !!vm.application.reviewPhase.proceedToPhoneInterview")
-      h3 Phone Interviews&nbsp;
+      h3 Phone Interview Phase&nbsp;
         i.fa.fa-plus-circle(ng-show="vm.application.showAddPhoneInterviewButton()", ng-click="vm.application.addPhoneInterview()")
       .col-xs-12
         .row.well
           application-phone-interview-form
+  .col-xs-12
+    .row(ng-if="!!vm.application.proceedToReview && !!vm.application.reviewPhase.proceedToPhoneInterview && !!vm.application.phoneInterviewPhase.proceedToOnSite")
+      h3 On-Campus Phase
+      .col-xs-12
+        .row.well
+          du-application-on-site-form
+
