@@ -4,7 +4,7 @@
     .module('eoe')
     .controller('ListEoeController', ListEoeController);
 
-  function ListEoeController($scope, $state, Navigation, Eoe, Messages, Opening, resolvedAuth, _) {
+  function ListEoeController($scope, $state, Navigation, Eoe, Messages, Position, resolvedAuth, _) {
     var vm = this;
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
@@ -16,7 +16,7 @@
     vm.raceCount = raceCount;
     vm.extractData = extractData;
     vm.rawData = [];
-    vm.opening = "all";
+    vm.position = "all";
     vm.options = { };
 
     function allowView () {
@@ -36,7 +36,7 @@
 
     function extractData() {
       reportDataInit();
-      parseDemographic(vm.rawData, vm.opening);
+      parseDemographic(vm.rawData, vm.position);
       parseDisability(vm.rawData);
       parseVeteran(vm.rawData);
     }
@@ -212,10 +212,10 @@
         return (data.type === "demographic");
       })).data;
 
-      if (vm.opening !== "all") {
+      if (vm.position !== "all") {
          demographicData = _.filter(demographicData, function(rec) {
            console.log(rec._id);
-          return (rec.opening._id === vm.opening);
+          return (rec.position === vm.position);
         });
       }
       //TODO total account will be number of applicants
@@ -281,10 +281,10 @@
       var disabilityData = (_.find(result, function (data) {
         return data.type === "disability";
       })).data;
-      if (vm.opening !== "all") {
+      if (vm.position !== "all") {
         disabilityData = _.filter(disabilityData, function (rec) {
-          if (rec.opening) {
-            return (rec.opening._id === vm.opening);
+          if (rec.position) {
+            return (rec.position._id === vm.position);
           }
         });
       }
@@ -317,10 +317,10 @@
         return data.type === "veteran";
       })).data;
 
-      if (vm.opening !== "all") {
+      if (vm.position !== "all") {
         veteranData = _.filter(veteranData, function (rec) {
-          if (rec.opening) {
-            return (rec.opening._id === vm.opening);
+          if (rec.position) {
+            return (rec.position._id === vm.position);
           }
         });
       }
@@ -386,8 +386,8 @@
           .then(function(result) {
                vm.rawData = result;
                reportDataInit();
-               parseDemographic(result, vm.opening);
-               parseDisability(result, vm.opening);
+               parseDemographic(result, vm.position);
+               parseDisability(result, vm.position);
                parseVeteran(result);
           });
 
@@ -395,9 +395,9 @@
     }
 
     function getValueLists() {
-      Opening.query().$promise
+      Position.query().$promise
           .then(function(result) {
-            vm.options.openings = result;
+            vm.options.positions = result;
           })
           .catch(function(error) {
             Messages.addMessage(error.data.message, 'error');
