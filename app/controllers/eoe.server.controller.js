@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
 	EoeDemographic = mongoose.model('EoeDemographic'),
 	EoeDisability = mongoose.model('EoeDisability'),
 	EoeVeteran = mongoose.model('EoeVeteran'),
-		Position = mongoose.model('Position'),
+	Opening = mongoose.model('Opening'),
 	Q = require('q'),
 
 		_ = require('lodash')
@@ -45,13 +45,13 @@ exports.create = function(req, res) {
 	req.body.opening = req.application.opening._id;
 	var getPosition = function() {
 		var deferred = Q.defer();
-		Position.findById(req.application.opening.position._id,
-				function (err, position) {
+		Opening.findById(req.application.opening._id,
+				function (err, opening) {
 					if (err) {
 						deferred.reject(new Error(error));
 					}
 					else {
-						deferred.resolve(position);
+						deferred.resolve(opening.position);
 					}
 				});
 		return deferred.promise;
