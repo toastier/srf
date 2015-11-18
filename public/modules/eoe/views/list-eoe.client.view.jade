@@ -1,14 +1,7 @@
 //TODO convert to du pseudo tables
 section
   navigation
-  .container
-      .col-md-12
-        form.form-horizontal(novalidate='')
-          fieldset
-            .form-group.col-xs-12.col-md-6
-              label.control-label(for='position') Position
-              select#position.form-control(ng-options="position._id as position.name for position in vm.options.positions", ng-change="vm.extractData()", data-ng-model='vm.position', required='')
-                option(value="all") --All Positions--
+  include ./report-eoe-search.client.partial.jade
   .container
     .panel-body
       table.table-bordered.table-striped.col-xs-12.col-md-8

@@ -17,6 +17,8 @@
     vm.extractData = extractData;
     vm.rawData = [];
     vm.position = "all";
+    vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
+    vm.toggleDatePicker = toggleDatePicker;
     vm.options = { };
 
     function allowView () {
@@ -402,6 +404,11 @@
           .catch(function(error) {
             Messages.addMessage(error.data.message, 'error');
           });
+    }
+
+    function toggleDatePicker(event, datePicker) {
+      var datePickerOpenName = datePicker + 'Open';
+      vm.datePickerStates[datePickerOpenName] = !vm.datePickerStates[datePickerOpenName];
     }
 
     function viewEoe (Eoe) {
