@@ -21,7 +21,7 @@ var ApplicationConfiguration = (function () {
     'as.sortable',
     'textAngular',
     //'ngFx', //@todo production build runs but app throws errors with this dependency
-    //'angular-toArrayFilter'  //@todo production build runs but app throws errors with this dependency
+    'angular-toArrayFilter'  //@todo production build runs but app throws errors with this dependency
   ];
 
   // Add a new vertical module
