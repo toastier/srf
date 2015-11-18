@@ -15,6 +15,7 @@
     vm.setIsActive = setIsActive;
     vm.raceCount = raceCount;
     vm.extractData = extractData;
+    vm.filterByType = filterByType;
     vm.filterByDate = filterByDate;
     vm.filterByPosition = filterByPosition;
     vm.rawData = [];
@@ -208,6 +209,14 @@
       };
     }
 
+    // Filter by EOE data type
+    function filterByType(result, dataType) {
+      var typeData = (_.find(result, function(data) {
+        return (data.type === dataType);
+      })).data;
+      return typeData;
+    }
+
     // Filter for Position
     function filterByPosition(data) {
       if (vm.position !== "all") {
@@ -238,11 +247,9 @@
 
       // FILTER EOE DATA FOR DEMOGRAPHIC DATA (Gender, Race, Ethnicity)
 
-      var demographicData = (_.find(result, function(data) {
-        return (data.type === "demographic");
-      })).data;
 
 
+      var demographicData = vm.filterByType(result, 'demographic');
       demographicData = vm.filterByPosition(demographicData);
       demographicData = vm.filterByDate(demographicData);
 
@@ -302,10 +309,7 @@
 
       // FILTER EOE DATA FOR DISABILITY STATUS DATA
 
-      var disabilityData = (_.find(result, function (data) {
-        return data.type === "disability";
-      })).data;
-
+      var disabilityData = vm.filterByType(result, 'disability');
       disabilityData = vm.filterByPosition(disabilityData);
       disabilityData = vm.filterByDate(disabilityData);
 
@@ -332,11 +336,7 @@
     function parseVeteran(result) {
 
       // FILTER EOE DATA FOR VETERAN IDENTIFICATION DATA
-
-      var veteranData = (_.find(result, function (data) {
-        return data.type === "veteran";
-      })).data;
-
+      var veteranData = vm.filterByType(result, 'veteran');
       veteranData= vm.filterByPosition(veteranData);
       veteranData = vm.filterByDate(veteranData);
 
