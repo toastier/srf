@@ -104,6 +104,36 @@
         url: 'applications/allOpen',
         isArray: true
       },
+      allClosed: {
+        method: 'GET',
+        url: 'applications/allClosed',
+        isArray: true
+      },
+      allReviewPhase: {
+        method: 'GET',
+        url: 'applications/allReviewPhase',
+        isArray: true
+      },
+      allPhoneInterviewPhase: {
+        method: 'GET',
+        url: 'applications/allPhoneInterviewPhase',
+        isArray: true
+      },
+      allOnSiteVisitPhase: {
+        method: 'GET',
+        url: 'applications/allOnSiteVisitPhase',
+        isArray: true
+      },
+      allNotSubmitted: {
+        method: 'GET',
+        url: 'applications/allNotSubmitted',
+        isArray: true
+      },
+      allSuccessful: {
+        method: 'GET',
+        url: 'applications/allSuccessful',
+        isArray: true
+      },
       successfulForOpening: {
         method: 'GET',
         url: 'applications/successfulForOpening/:openingId',

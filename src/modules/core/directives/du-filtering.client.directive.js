@@ -16,7 +16,6 @@
     function duFilteringController($scope) {
       /*jshint validthis:true*/
       var duFilter = this;
-      duFilter.filters = [];
 
       //  when vm.collection is resolved, setup the filters
       $scope.$watch('vm.collection', function () {
@@ -29,6 +28,7 @@
       function setupFilters() {
         if ($scope.vm.collection) {
           duFilter.filterCriteria = $scope.vm.collection.filterCriteria;
+          duFilter.filters = [];
           angular.forEach($scope.vm.collection.columnDefinitions, function (columnDefinition) {
             if (columnDefinition.filterable) {
               var cols = (columnDefinition.filterable.size) ? columnDefinition.filterable.size : 4;

@@ -4,12 +4,15 @@
     .module('applications')
     .controller('ApplicationsController', ApplicationsController);
 
-  function ApplicationsController(Navigation, CollectionModel, resolvedAuth, Messages, Application) {
+  function ApplicationsController(Navigation, CollectionModel, resolvedAuth, Messages, Application, Filtering) {
     var vm = this;
+    var viewTitle = 'Open Applications';
+    vm.viewMode = 'open';
     vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;
     vm.allowView = allowView;
     vm.allowManage = allowManage;
+    vm.getApplications = getApplications;
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
       {field: 'summary', label: 'Summary', sortable: true, filterable: false, format: 'summary', actions: {
@@ -57,9 +60,54 @@
     activate();
 
     function activate() {
-      Application.query().$promise
+      getApplications();
+      setupNavigation();
+    }
+
+    function getApplications(viewMode) {
+      var query;
+      vm.viewMode = viewMode || 'open';
+
+      switch (vm.viewMode) {
+        case 'all':
+          query = Application.query();
+          viewTitle = 'All Applications';
+          break;
+        case 'closed':
+          query = Application.allClosed();
+          viewTitle = 'Un-successful Applications';
+          break;
+        case 'notSubmitted':
+          query = Application.allNotSubmitted();
+          viewTitle = 'Applications Not Submitted';
+          break;
+        case 'phoneInterview':
+          query = Application.allPhoneInterviewPhase();
+          viewTitle = 'Applications in Phone Interview Phase';
+          break;
+        case 'review':
+          query = Application.allReviewPhase();
+          viewTitle = 'Applications in Review Phase';
+          break;
+        case 'onSiteVisit':
+          query = Application.allOnSiteVisitPhase();
+          viewTitle = 'Applications in On-Campus Visit Phase';
+          break;
+        case 'successful':
+          query = Application.allSuccessful();
+          viewTitle = 'Successful Applications';
+          break;
+        default:
+          query = Application.allOpen();
+          viewTitle = 'Open Applications';
+      }
+
+      Navigation.viewTitle.set(viewTitle);
+
+      query.$promise
         .then(function(result) {
           Messages.addMessage('Applications Loaded', 'success', null, 'dev');
+          vm.collection.filterCriteria = {};
           new CollectionModel('ApplicationsController', result, vm.columnDefinitions, initialSortOrder)
             .then(function(collection) {
               vm.collection = collection;
@@ -69,7 +117,18 @@
           Messages.addMessage(err.data.message, 'error', 'Problem Loading Applications');
         });
 
-      setupNavigation();
+      function getAll() {
+
+      }
+      function getOpen() {
+
+      }
+      function getClosed() {
+
+      }
+      function getNotSubmitted() {
+
+      }
     }
 
     function setupNavigation() {
@@ -83,7 +142,6 @@
       }
 
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('All Open Applications'); // set the page title
     }
 
   }

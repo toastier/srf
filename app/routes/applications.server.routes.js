@@ -17,6 +17,24 @@ module.exports = function (app) {
   app.route('/applications/allOpen')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allOpen);
 
+  app.route('/applications/allClosed')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allClosed);
+
+  app.route('/applications/allReviewPhase')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allReviewPhase);
+
+  app.route('/applications/allPhoneInterviewPhase')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allPhoneInterviewPhase);
+
+  app.route('/applications/allOnSiteVisitPhase')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allOnSiteVisitPhase);
+
+  app.route('/applications/allNotSubmitted')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allNotSubmitted);
+
+  app.route('/applications/allSuccessful')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allSuccessful);
+
   app.route('/applications/createByUser')
     .post(users.requiresLogin, users.hasAuthorization(['user']), applications.createByUser);
 

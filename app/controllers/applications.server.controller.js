@@ -16,6 +16,103 @@ var async = require('async');
 var mime = require('mime-types');
 var Q = require('q');
 
+
+/**
+ * Return JSON of Closed Applications
+ * @param {Object} req
+ * @param {ServerResponse} res
+ */
+exports.allClosed = function (req, res) {
+  var query = Application.find();
+  query = addActiveConditionsToQuery(query, false);
+  executeListingQuery(query, res);
+};
+
+/**
+ * Return JSON of Applications Not Submitted
+ * @param {Object} req
+ * @param {ServerResponse} res
+ */
+exports.allNotSubmitted = function (req, res) {
+  var query = Application.find();
+  query.where('submitted').equals(false);
+  executeListingQuery(query, res);
+};
+
+/**
+ * Return JSON of Open Applications
+ * @param {Object} req
+ * @param {ServerResponse} res
+ */
+exports.allOpen = function (req, res) {
+  var query = Application.find();
+  query = addActiveConditionsToQuery(query, true);
+
+  executeListingQuery(query, res);
+};
+
+exports.allReviewPhase = function (req, res) {
+  var query = Application.find();
+  query = addActiveConditionsToQuery(query, true);
+  query
+    .where('proceedToReview').equals(true)
+    .where('reviewPhase.proceedToPhoneInterview').equals(null);
+
+  executeListingQuery(query, res);
+};
+
+exports.allPhoneInterviewPhase = function (req, res) {
+  var query = Application.find();
+  query = addActiveConditionsToQuery(query, true);
+  query
+    .where('proceedToReview').equals(true)
+    .where('reviewPhase.proceedToPhoneInterview').equals(true)
+    .where('phoneInterviewPhase.proceedToOnSite').equals(null);
+
+  executeListingQuery(query, res);
+};
+
+exports.allOnSiteVisitPhase = function (req, res) {
+  var query = Application.find();
+  query = addActiveConditionsToQuery(query, true);
+  query
+    .where('proceedToReview').equals(true)
+    .where('reviewPhase.proceedToPhoneInterview').equals(true)
+    .where('phoneInterviewPhase.proceedToOnSite').equals(true)
+    .where('onSiteVisitPhase.complete').equals(false);
+
+  executeListingQuery(query, res);
+};
+
+exports.allSuccessful = function (req, res) {
+  var query = Application.find();
+  query = addSuccessfulApplicationConditionsToQuery(query);
+
+  executeListingQuery(query, res);
+};
+
+/**
+ * Appends boilerplate mongoose methods and executes a query for a 'listing' style result set
+ * @param {Object} query
+ * @param {ServerResponse} res
+ */
+function executeListingQuery(query, res) {
+  query
+    .sort('-postDate')
+    .populate('applicant')
+    .populate('opening')
+    .populate('reviewPhase.reviews.reviewer')
+    .exec(function (err, applications) {
+      if (err) {
+        sendResponse(err, null, res);
+      } else {
+        sendResponse(null, summarizeApplications(applications), res);
+      }
+    });
+};
+
+
+
 /**
  * Application middleware
  */
@@ -658,6 +755,7 @@ exports.list = function (req, res) {
       }
     });
 };
+
 /**
  * Computes status and adds to individual applications
  * @param {Array} applications
@@ -666,7 +764,7 @@ function summarizeApplications(applications) {
   _.forEach(applications, function (application) {
     var status = 'Archived';
     if (application.proceedToReview) {
-      status = 'Review Phase Open';
+      status = 'Review Phase';
     }
     if (application.proceedToReview === null) {
       status = 'Needs Processing';
@@ -676,7 +774,7 @@ function summarizeApplications(applications) {
     }
     if (application.reviewPhase) {
       if (application.reviewPhase.proceedToPhoneInterview) {
-        status = 'Phone Interview Open';
+        status = 'Phone Interview Phase';
       } else if (application.reviewPhase.proceedToPhoneInterview === false) {
         status = 'Denied after Review Phase';
       }
@@ -684,13 +782,25 @@ function summarizeApplications(applications) {
     if (application.phoneInterviewPhase) {
 
       if (application.phoneInterviewPhase.proceedToOnSite) {
-        status = 'On Site Phase Open';
+        status = 'On-Campus Visit Phase';
       } else if (application.phoneInterviewPhase.proceedToOnSite === false) {
         status = 'Denied after Phone Interview Phase';
       }
     }
     if (application.onSiteVisitPhase.complete) {
-      status = 'Process Complete';
+      status = 'Pending Decision';
+      if (application.offer.extended) {
+        status = 'Offer Extended';
+        if (application.offer.accepted) {
+          status = 'Successful Application';
+        }
+        if (application.offer.accepted === false) {
+          status = 'Offer Declined';
+        }
+        if (application.offer.retracted) {
+          status = 'Offer Retracted';
+        }
+      }
     }
     var applicantDisplayName = application.firstName + ' ' + application.lastName;
     application._doc.isNew = (application.isNewApplication) ? true : false;
@@ -700,28 +810,6 @@ function summarizeApplications(applications) {
   });
   return applications;
 }
-/**
- * Return JSON of Applications
- * @param {Object} req
- * @param {Object} res
- */
-exports.allOpen = function (req, res, next) {
-  var query = Application.find();
-  query = addActiveConditionsToQuery(query, true);
-
-  query
-    .sort('-postDate')
-    .populate('applicant')
-    .populate('opening')
-    .populate('reviewPhase.reviews.reviewer')
-    .exec(function (err, applications) {
-      if (err) {
-        return next(err);
-      } else {
-        res.jsonp(summarizeApplications(applications));
-      }
-    });
-};
 
 /**
  * Return JSON of current Application
@@ -1050,6 +1138,19 @@ function addActiveConditionsToQuery(query, isActive) {
         {'offer.accepted': false}
       ]);
   }
+  return query;
+}
+
+/**
+ * Add conditions for an Application to be considered successful to the given query and returns query
+ * @param {Object} query
+ * @returns {Object}
+ */
+function addSuccessfulApplicationConditionsToQuery(query) {
+  query = query
+    .where('offer.extended').equals(true)
+    .where('offer.accepted').equals(true)
+    .where('offer.retracted').ne(true);
   return query;
 }
 
