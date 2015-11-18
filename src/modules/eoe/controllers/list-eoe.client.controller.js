@@ -4,7 +4,7 @@
     .module('eoe')
     .controller('ListEoeController', ListEoeController);
 
-  function ListEoeController($scope, $state, Navigation, Eoe, Messages, Opening, resolvedAuth, _) {
+  function ListEoeController($scope, $state, Navigation, Eoe, Messages, Position, resolvedAuth, _) {
     var vm = this;
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
@@ -15,8 +15,13 @@
     vm.setIsActive = setIsActive;
     vm.raceCount = raceCount;
     vm.extractData = extractData;
+    vm.filterByType = filterByType;
+    vm.filterByDate = filterByDate;
+    vm.filterByPosition = filterByPosition;
     vm.rawData = [];
-    vm.opening = "all";
+    vm.position = "all";
+    vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
+    vm.toggleDatePicker = toggleDatePicker;
     vm.options = { };
 
     function allowView () {
@@ -36,7 +41,7 @@
 
     function extractData() {
       reportDataInit();
-      parseDemographic(vm.rawData, vm.opening);
+      parseDemographic(vm.rawData, vm.position);
       parseDisability(vm.rawData);
       parseVeteran(vm.rawData);
     }
@@ -204,23 +209,50 @@
       };
     }
 
+    // Filter by EOE data type
+    function filterByType(result, dataType) {
+      var typeData = (_.find(result, function(data) {
+        return (data.type === dataType);
+      })).data;
+      return typeData;
+    }
+
+    // Filter for Position
+    function filterByPosition(data) {
+      if (vm.position !== "all") {
+        data = _.filter(data, function(rec) {
+          console.log(rec._id);
+          return (rec.position === vm.position);
+        });
+      }
+      return data;
+    }
+
+    //TODO add validation for data ranges
+    function filterByDate(data) {
+      var dateStart = new Date(angular.isDate(vm.dateStart) ? vm.dateStart : '1/1/1900');
+      var dateEnd = new Date(angular.isDate(vm.dateEnd) ? (vm.dateEnd).setDate((vm.dateEnd).getDate()+1) : '12/31/2029');
+      //var dateEnd = new Date((vm.dateEnd).setDate((vm.dateEnd).getDate()+1));
+      data = _.filter(data, function(rec) {
+        var eoeDateCreated = new Date(rec.dateCreated);
+
+        console.log(dateStart + ' ' + dateEnd + '' + eoeDateCreated);
+        return (eoeDateCreated >= dateStart && eoeDateCreated <= dateEnd);
+      });
+      //TODO total account will be number of applicants
+      vm.eoeData.totalCount = _.size(data);
+      return data;
+    }
+
     function parseDemographic(result) {
 
       // FILTER EOE DATA FOR DEMOGRAPHIC DATA (Gender, Race, Ethnicity)
 
-      var demographicData = (_.find(result, function(data) {
-        return (data.type === "demographic");
-      })).data;
 
-      if (vm.opening !== "all") {
-         demographicData = _.filter(demographicData, function(rec) {
-           console.log(rec._id);
-          return (rec.opening._id === vm.opening);
-        });
-      }
-      //TODO total account will be number of applicants
-      vm.eoeData.totalCount = _.size(demographicData);
 
+      var demographicData = vm.filterByType(result, 'demographic');
+      demographicData = vm.filterByPosition(demographicData);
+      demographicData = vm.filterByDate(demographicData);
 
       // APPLICANTS BY GENDER
 
@@ -278,16 +310,9 @@
 
       // FILTER EOE DATA FOR DISABILITY STATUS DATA
 
-      var disabilityData = (_.find(result, function (data) {
-        return data.type === "disability";
-      })).data;
-      if (vm.opening !== "all") {
-        disabilityData = _.filter(disabilityData, function (rec) {
-          if (rec.opening) {
-            return (rec.opening._id === vm.opening);
-          }
-        });
-      }
+      var disabilityData = vm.filterByType(result, 'disability');
+      disabilityData = vm.filterByPosition(disabilityData);
+      disabilityData = vm.filterByDate(disabilityData);
 
       // APPLICANTS BY DISABILITY x GENDER
       _.forEach(vm.options.disabilities, function (option) {
@@ -312,18 +337,9 @@
     function parseVeteran(result) {
 
       // FILTER EOE DATA FOR VETERAN IDENTIFICATION DATA
-
-      var veteranData = (_.find(result, function (data) {
-        return data.type === "veteran";
-      })).data;
-
-      if (vm.opening !== "all") {
-        veteranData = _.filter(veteranData, function (rec) {
-          if (rec.opening) {
-            return (rec.opening._id === vm.opening);
-          }
-        });
-      }
+      var veteranData = vm.filterByType(result, 'veteran');
+      veteranData= vm.filterByPosition(veteranData);
+      veteranData = vm.filterByDate(veteranData);
 
       // APPLICANTS BY VETERAN x GENDER
       _.forEach(vm.options.veterans, function (option) {
@@ -386,8 +402,8 @@
           .then(function(result) {
                vm.rawData = result;
                reportDataInit();
-               parseDemographic(result, vm.opening);
-               parseDisability(result, vm.opening);
+               parseDemographic(result, vm.position);
+               parseDisability(result, vm.position);
                parseVeteran(result);
           });
 
@@ -395,13 +411,18 @@
     }
 
     function getValueLists() {
-      Opening.query().$promise
+      Position.query().$promise
           .then(function(result) {
-            vm.options.openings = result;
+            vm.options.positions = result;
           })
           .catch(function(error) {
             Messages.addMessage(error.data.message, 'error');
           });
+    }
+
+    function toggleDatePicker(event, datePicker) {
+      var datePickerOpenName = datePicker + 'Open';
+      vm.datePickerStates[datePickerOpenName] = !vm.datePickerStates[datePickerOpenName];
     }
 
     function viewEoe (Eoe) {
