@@ -1,0 +1,43 @@
+.container
+    .col-md-12
+        form.form-horizontal(novalidate='')
+            .form-group
+                .col-xs-12.col-md-9
+                    label.control-label(for='position') Position
+                    select#position.form-control(ng-options="position._id as position.name for position in vm.options.positions", ng-change="vm.extractData()", data-ng-model='vm.position', required='')
+                        option(value="all") --All Positions--
+                .col-xs-12.col-md-4
+                    label.control-label Start Date
+                    p.input-group
+                        input.form-control(
+                        name="dateStart",
+                        type="text",
+                        datepicker-popup="",
+                        is-open="vm.datePickerStates.dateStartOpen",
+                        close-text="Close",
+                        ng-model="vm.dateStart",
+                        ng-change="vm.extractData()",
+                        novalidate
+                        )
+                        span.input-group-btn
+                            button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, " +
+                            "'dateStart')")
+                                i.fa.fa-calendar
+                .col-xs-12.col-md-4.col-md-push-1
+                    label.control-label End Date
+                    p.input-group
+                        input.form-control(
+                        name="dateEnd",
+                        type="text",
+                        datepicker-popup="",
+                        is-open="vm.datePickerStates.dateEndOpen",
+                        close-text="Close",
+                        ng-model="vm.dateEnd",
+                        ng-change="vm.extractData()",
+                        novalidate
+                        )
+                        span.input-group-btn
+                            button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, " +
+                            "'dateEnd')")
+                                i.fa.fa-calendar
+

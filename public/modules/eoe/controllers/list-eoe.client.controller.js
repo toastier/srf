@@ -230,14 +230,15 @@
 
     //TODO add validation for data ranges
     function filterByDate(data) {
-      if (angular.isDate(vm.dateStart) || angular.isDate(vm.dateEnd)) {
-        data = _.filter(data, function(rec) {
-          var eoeDateCreated = new Date(rec.dateCreated);
-          var dateEnd = new Date((vm.dateEnd).setDate((vm.dateEnd).getDate()+1));
-          //console.log(vm.dateStart + ' (input) - (eoe Record) ' + eoeDateCreated);
-          return (eoeDateCreated >= vm.dateStart && eoeDateCreated <= dateEnd);
-        });
-      }
+      var dateStart = new Date(angular.isDate(vm.dateStart) ? vm.dateStart : '1/1/1900');
+      var dateEnd = new Date(angular.isDate(vm.dateEnd) ? (vm.dateEnd).setDate((vm.dateEnd).getDate()+1) : '12/31/2029');
+      //var dateEnd = new Date((vm.dateEnd).setDate((vm.dateEnd).getDate()+1));
+      data = _.filter(data, function(rec) {
+        var eoeDateCreated = new Date(rec.dateCreated);
+
+        console.log(dateStart + ' ' + dateEnd + '' + eoeDateCreated);
+        return (eoeDateCreated >= dateStart && eoeDateCreated <= dateEnd);
+      });
       //TODO total account will be number of applicants
       vm.eoeData.totalCount = _.size(data);
       return data;

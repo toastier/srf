@@ -2,8 +2,16 @@
   'use strict';
   angular
     .module('eoe')
-      .directive('genderTotals', eoeReportGenderTotals);
-    //.directive('eoeReportGenderHeader', eoeReportGenderHeader);
+      .directive('eoeReportGenderTotals', eoeReportGenderTotals)
+      .directive('eoeReportGenderHeader', eoeReportGenderHeader)
+      .directive('eoeReportSearchCriteria', eoeReportSearchCriteria)
+
+  function eoeReportSearchCriteria() {
+    return {
+      restrict: 'E',
+      templateUrl: 'modules/eoe/directives/partials/eoe-report-search-criteria.client.partial.html'
+    };
+  }
 
   function eoeReportGenderHeader() {
     return {
