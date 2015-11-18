@@ -18,3 +18,5 @@ src/lib/*
 src/fonts/*
 report/
 typings/
+src/scss/*.css
+src/scss/*.map
