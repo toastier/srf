@@ -7,7 +7,14 @@ var mongoose = require('mongoose'),
   EoeDemographic = mongoose.model('EoeDemographic'),
   EoeDisability = mongoose.model('EoeDisability'),
   EoeVeteran = mongoose.model('EoeVeteran'),
-  _ = require('lodash');
+    _ = require('lodash'),
+    EoeDemographic = mongoose.model('EoeDemographic'),
+	EoeDisability = mongoose.model('EoeDisability'),
+	EoeVeteran = mongoose.model('EoeVeteran'),
+	Opening = mongoose.model('Opening'),
+	Q = require('q'),
+
+		_ = require('lodash')
 
 /**
  * Get the error message from error object
@@ -39,52 +46,68 @@ var getErrorMessage = function (err) {
  * Create EOE records
  */
 // TODO use better method to parse out req.body
-exports.create = function (req, res) {
-  console.log('creating EOE record...');
-  req.body.opening = req.application.opening._id;
-  var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
-  var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'gender', 'race', 'veteran', 'vetClass', 'vetDecline']));
-  var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'gender', 'race', 'disability']));
-  // TODO refactor this...it works but it's sloppy
-  eoeDemographic.save(function (err) {
-    if (err) {
-      return res.send(400, {
-        // this doesn't work, dumping errorHandler into its own controller
-        message: getErrorMessage(err)
-      });
-    } else {
-      eoeDisability.save(function (err) {
-        if (err) {
-          return res.send(400, {
-            // this doesn't work, dumping errorHandler into its own controller
-            message: getErrorMessage(err)
-          });
-        } else {
-          eoeVeteran.save(function (err) {
-            if (err) {
-              return res.send(400, {
-                // this doesn't work, dumping errorHandler into its own controller
-                message: getErrorMessage(err)
-              });
-            } else {
-              var application = req.application;
-              application = _.extend(application, req.application.body);
-              application.eoeProvided = true;
-              application.save(function (err) {
-                if (err) {
-                  return res.send(400, {
-                    message: getErrorMessage(err)
-                  });
-                } else {
-                  res.jsonp((_.merge(eoeDemographic, [eoeDisability, eoeVeteran])));
-                }
-              });
-            }
-          });
-        }
-      });
-    }
-  });
+exports.create = function(req, res) {
+	console.log('creating EOE record...');
+	req.body.opening = req.application.opening._id;
+	var getPosition = function() {
+		var deferred = Q.defer();
+		Opening.findById(req.application.opening._id,
+				function (err, opening) {
+					if (err) {
+						deferred.reject(new Error(error));
+					}
+					else {
+						deferred.resolve(opening.position);
+					}
+				});
+		return deferred.promise;
+	}
+	getPosition().then(function (position) {
+		req.body.position = position;
+		var eoeDemographic = new EoeDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
+		var eoeDisability = new EoeDisability(_.omit(req.body, ['ethnicity', 'race', 'veteran', 'vetClass', 'vetDecline']));
+		var eoeVeteran = new EoeVeteran(_.omit(req.body, ['ethnicity', 'race', 'disability']));
+		// TODO refactor this...it works but it's sloppy
+		eoeDemographic.save(function (err) {
+			if (err) {
+				return res.send(400, {
+					// this doesn't work, dumping errorHandler into its own controller
+					message: getErrorMessage(err)
+				});
+			} else {
+				eoeDisability.save(function (err) {
+					if (err) {
+						return res.send(400, {
+							// this doesn't work, dumping errorHandler into its own controller
+							message: getErrorMessage(err)
+						});
+					} else {
+						eoeVeteran.save(function (err) {
+							if (err) {
+								return res.send(400, {
+									// this doesn't work, dumping errorHandler into its own controller
+									message: getErrorMessage(err)
+								});
+							} else {
+								var application = req.application;
+								application = _.extend(application, req.application.body);
+								application.eoeProvided = true;
+								application.save(function (err) {
+									if (err) {
+										return res.send(400, {
+											message: getErrorMessage(err)
+										});
+									} else {
+										res.jsonp((_.merge(eoeDemographic, [eoeDisability, eoeVeteran])));
+									}
+								});
+							}
+						});
+					}
+				});
+			}
+		});
+	})
 };
 
 /**
@@ -104,43 +127,48 @@ exports.list = function (req, res) {
     eoeDataSet[i].data = subData;
   };
 
-  EoeDemographic.find()
-    .sort('-postDate')
-    .populate('opening')
-    .exec(function (err, eoeDemographic) {
-      if (err) {
-        return res.send(400, {
-          message: getErrorMessage(err)
-        });
-      } else {
-        eoeDataSetAdd(eoeDemographic, 'demographic');
-        EoeDisability.find()
-          .sort('-postDate')
-          .populate('opening')
-          .exec(function (err, eoeDisability) {
-            if (err) {
-              return res.send(400, {
-                message: getErrorMessage(err)
-              });
-            } else {
-              eoeDataSetAdd(eoeDisability, 'disability');
-              EoeVeteran.find()
-                .sort('-postDate')
-                .populate('opening')
-                .exec(function (err, eoeVeteran) {
-                  if (err) {
-                    return res.send(400, {
-                      message: getErrorMessage(err)
-                    });
-                  } else {
-                    eoeDataSetAdd(eoeVeteran, 'veteran');
-                    res.jsonp(eoeDataSet);
-                  }
-                });
-            }
-          });
-      }
-    });
+	EoeDemographic.find()
+	.sort('-postDate')
+	.populate({
+		path: 'opening',
+		populate: {
+			path: 'position'
+		}
+	})
+	.exec(function(err, eoeDemographic) {
+		if (err) {
+			return res.send(400, {
+				message: getErrorMessage(err)
+			});
+		} else {
+			eoeDataSetAdd(eoeDemographic, "demographic");
+			EoeDisability.find()
+				.sort('-postDate')
+				.populate('opening')
+				.exec(function(err, eoeDisability) {
+					if (err) {
+						return res.send(400, {
+							message: getErrorMessage(err)
+						});
+					} else {
+						eoeDataSetAdd(eoeDisability, "disability");
+						EoeVeteran.find()
+							.sort('-postDate')
+							.populate('opening')
+							.exec(function(err, eoeVeteran) {
+								if (err) {
+									return res.send(400, {
+										message: getErrorMessage(err)
+									});
+								} else {
+									eoeDataSetAdd(eoeVeteran, "veteran");
+									res.jsonp(eoeDataSet);
+								}
+						})
+					}
+				})
+			}
+		});
 };
 
 /**
