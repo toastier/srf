@@ -8,3 +8,10 @@
               i.fa.fa-times-circle(ng-click="vm.application.removePhoneInterview(phoneInterview)")
               | &nbsp; Phone Interviewer
             select.form-control(ng-options="committeeMember._id as committeeMember.displayName for committeeMember in phoneInterviewPhase.options.committeeMembers", ng-model="phoneInterview.interviewer._id")
+  .row
+    ng-form(name="phoneInterviewPhase.phoneInterviewForm")
+      label.control-label Collective Comments on Phone Interview Phase&nbsp;
+        i.fa.fa-edit(ng-if="!vm.editPhoneInterviewPhaseCollectiveComments", ng-click="vm.editPhoneInterviewPhaseCollectiveComments = true")
+      div(ng-show="vm.editPhoneInterviewPhaseCollectiveComments", text-angular, ng-model="vm.application.phoneInterviewPhase.committeeComments")
+      div(ng-show="!vm.editPhoneInterviewPhaseCollectiveComments", ng-bind-html="vm.application.phoneInterviewPhase.committeeComments")
+  

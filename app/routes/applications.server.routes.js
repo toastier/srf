@@ -14,6 +14,27 @@ module.exports = function (app) {
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.list)
     .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), applications.create);
 
+  app.route('/applications/allOpen')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allOpen);
+
+  app.route('/applications/allClosed')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allClosed);
+
+  app.route('/applications/allReviewPhase')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allReviewPhase);
+
+  app.route('/applications/allPhoneInterviewPhase')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allPhoneInterviewPhase);
+
+  app.route('/applications/allOnSiteVisitPhase')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allOnSiteVisitPhase);
+
+  app.route('/applications/allNotSubmitted')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allNotSubmitted);
+
+  app.route('/applications/allSuccessful')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allSuccessful);
+
   app.route('/applications/createByUser')
     .post(users.requiresLogin, users.hasAuthorization(['user']), applications.createByUser);
 
@@ -28,6 +49,9 @@ module.exports = function (app) {
 
   app.route('/applications/iAmPhoneInterviewer')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.iAmPhoneInterviewer);
+
+  app.route('/applications/successfulForOpening/:opening')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.successfulForOpening);
 
   app.route('/applications/:applicationId/conductPhoneInterview')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.conductPhoneInterview);

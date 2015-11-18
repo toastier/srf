@@ -1,3 +1,37 @@
 section
   navigation
+  .row
+    .col-md-12.btn-group
+      button.btn.btn-default(
+        ng-click="vm.getApplications('open')",
+        ng-class="{'btn-primary': vm.viewMode === 'open'}"
+      ) Open
+      button.btn.btn-default(
+        ng-click="vm.getApplications('review')",
+        ng-class="{'btn-primary': vm.viewMode === 'review'}"
+      ) Review Phase
+      button.btn.btn-default(
+        ng-click="vm.getApplications('phoneInterview')",
+        ng-class="{'btn-primary': vm.viewMode === 'phoneInterview'}"
+      ) Phone Interview Phase
+      button.btn.btn-default(
+        ng-click="vm.getApplications('onSiteVisit')",
+        ng-class="{'btn-primary': vm.viewMode === 'onSiteVisit'}"
+      ) On-Campus Visit Phase
+      button.btn.btn-default(
+        ng-click="vm.getApplications('successful')",
+        ng-class="{'btn-primary': vm.viewMode === 'successful'}"
+      ) Successful
+      button.btn.btn-default(
+        ng-click="vm.getApplications('closed')",
+        ng-class="{'btn-primary': vm.viewMode === 'closed'}"
+      ) Not Successful
+      button.btn.btn-default(
+        ng-click="vm.getApplications('notSubmitted')",
+        ng-class="{'btn-primary': vm.viewMode === 'notSubmitted'}"
+      ) Not Submitted
+      button.btn.btn-default(
+        ng-click="vm.getApplications('all')",
+        ng-class="{'btn-primary': vm.viewMode === 'all'}"
+      ) All
   du-table

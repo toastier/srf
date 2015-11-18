@@ -1,4 +1,4 @@
 (function () {
   'use strict';
-  ApplicationConfiguration.registerModule('applicants');
+  ApplicationConfiguration.registerModule('applicants'); // jshint ignore:line
 })();

@@ -8,4 +8,9 @@
               i.fa.fa-times-circle(ng-click="vm.application.removeReview(review)")
               | &nbsp; Reviewer
             select.form-control(ng-options="committeeMember._id as committeeMember.displayName for committeeMember in reviewPhase.options.committeeMembers", ng-model="review.reviewer._id")
-
+  .row
+    ng-form(name="reviewPhase.reviewForm")
+      label.control-label Collective Comments on Review Phase&nbsp;
+        i.fa.fa-edit(ng-if="!vm.editReviewPhaseCollectiveComments", ng-click="vm.editReviewPhaseCollectiveComments = true")
+      div(ng-show="vm.editReviewPhaseCollectiveComments", text-angular, ng-model="vm.application.reviewPhase.committeeComments")
+      div(ng-show="!vm.editReviewPhaseCollectiveComments", ng-bind-html="vm.application.reviewPhase.committeeComments")

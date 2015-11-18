@@ -11,9 +11,107 @@ var _ = require('lodash');
 var Application = mongoose.model('Application');
 var Applicant = mongoose.model('Applicant');
 var WorksheetField = mongoose.model('WorksheetField');
+var Opening = mongoose.model('Opening');
 var async = require('async');
 var mime = require('mime-types');
 var Q = require('q');
+
+
+/**
+ * Return JSON of Closed Applications
+ * @param {Object} req
+ * @param {ServerResponse} res
+ */
+exports.allClosed = function (req, res) {
+  var query = Application.find();
+  query = addActiveConditionsToQuery(query, false);
+  executeListingQuery(query, res);
+};
+
+/**
+ * Return JSON of Applications Not Submitted
+ * @param {Object} req
+ * @param {ServerResponse} res
+ */
+exports.allNotSubmitted = function (req, res) {
+  var query = Application.find();
+  query.where('submitted').equals(false);
+  executeListingQuery(query, res);
+};
+
+/**
+ * Return JSON of Open Applications
+ * @param {Object} req
+ * @param {ServerResponse} res
+ */
+exports.allOpen = function (req, res) {
+  var query = Application.find();
+  query = addActiveConditionsToQuery(query, true);
+
+  executeListingQuery(query, res);
+};
+
+exports.allReviewPhase = function (req, res) {
+  var query = Application.find();
+  query = addActiveConditionsToQuery(query, true);
+  query
+    .where('proceedToReview').equals(true)
+    .where('reviewPhase.proceedToPhoneInterview').equals(null);
+
+  executeListingQuery(query, res);
+};
+
+exports.allPhoneInterviewPhase = function (req, res) {
+  var query = Application.find();
+  query = addActiveConditionsToQuery(query, true);
+  query
+    .where('proceedToReview').equals(true)
+    .where('reviewPhase.proceedToPhoneInterview').equals(true)
+    .where('phoneInterviewPhase.proceedToOnSite').equals(null);
+
+  executeListingQuery(query, res);
+};
+
+exports.allOnSiteVisitPhase = function (req, res) {
+  var query = Application.find();
+  query = addActiveConditionsToQuery(query, true);
+  query
+    .where('proceedToReview').equals(true)
+    .where('reviewPhase.proceedToPhoneInterview').equals(true)
+    .where('phoneInterviewPhase.proceedToOnSite').equals(true)
+    .where('onSiteVisitPhase.complete').equals(false);
+
+  executeListingQuery(query, res);
+};
+
+exports.allSuccessful = function (req, res) {
+  var query = Application.find();
+  query = addSuccessfulApplicationConditionsToQuery(query);
+
+  executeListingQuery(query, res);
+};
+
+/**
+ * Appends boilerplate mongoose methods and executes a query for a 'listing' style result set
+ * @param {Object} query
+ * @param {ServerResponse} res
+ */
+function executeListingQuery(query, res) {
+  query
+    .sort('-postDate')
+    .populate('applicant')
+    .populate('opening')
+    .populate('reviewPhase.reviews.reviewer')
+    .exec(function (err, applications) {
+      if (err) {
+        sendResponse(err, null, res);
+      } else {
+        sendResponse(null, summarizeApplications(applications), res);
+      }
+    });
+};
+
+
 
 /**
  * Application middleware
@@ -362,28 +460,21 @@ exports.forApplicant = function (req, res, next) {
     });
 };
 
-/**
- * Adds conditions (.where) to the query passed in which will limit results to either active or inactive Applications
- * @param {Object} query
- * @param {Boolean|null} isActive
- * @returns {*}
- */
-function addActiveConditionsToQuery(query, isActive) {
-  if (isActive) {
-    query = query
-      .where('proceedToReview').ne(false)
-      .where('reviewPhase.proceedToPhoneInterview').ne(false)
-      .where('phoneInterviewPhase.proceedToOnSite').ne(false);
-  } else {
-    query = query
-      .or([
-        {'proceedToReview': false},
-        {'reviewPhase.proceedToPhoneInterview': false},
-        {'phoneInterviewPhase.proceedToOnSite': false}
-      ]);
-  }
-  return query;
-}
+exports.successfulForOpening = function (req, res, next) {
+  var openingId = req.params.opening;
+  Application
+    .findOne()
+    .where('opening').equals(openingId)
+    .where('offer.accepted').equals(true)
+    .where('offer.retracted').ne(true)
+    .exec(function (err, application) {
+      if (err) {
+        err.status = 400;
+        return next(err);
+      }
+      res.jsonp(application);
+    });
+};
 
 /**
  * Find and return an existing Application for the authenticated User and given Opening if one exists. Otherwise return
@@ -434,27 +525,91 @@ exports.hasAuthorization = function (req, res, next) {
  * assumes that the :applicationId param was in the route, thereby invoking #applicationId and setting req.application
  * @param {Object} req
  * @param {Object} res
+ * @param {Function} next
  */
-exports.manage = function (req, res) {
+exports.manage = function (req, res, next) {
 
   var application = req.application
     , updatedApplication = req.body
     , shouldSetupReviewWorksheet = (updatedApplication.proceedToReview)
-    , shouldSetupPhoneInterviewWorksheet = (updatedApplication.reviewPhase.proceedToPhoneInterview);
+    , shouldSetupPhoneInterviewWorksheet = (updatedApplication.reviewPhase.proceedToPhoneInterview)
+    , error
+    , openingFillStatus;
 
   application = _.extend(application, updatedApplication);
+  req.body.offer = req.body.offer || {};
+  openingFillStatus = (req.body.offer.extended && req.body.offer.accepted && !req.body.offer.retracted);
 
-  if (shouldSetupReviewWorksheet) {
-    addWorksheetFields(application, 'reviewWorksheet')
-      .then(function (result) {
-        application = result;
-        addPhoneInterviewWorksheetFields();
-      })
-      .catch(function (err) {
-        sendResponse(err);
+  setOpeningFilledState(openingFillStatus, req.application._id, req.application.opening)
+    .then(function () {
+      updateApplication();
+    })
+    .catch(function (err) {
+      sendResponse(err);
+    });
+
+  /**
+   * Updates the associated Opening with the information about whether the opening has been filled
+   * @param {Boolean} setFilledTo
+   * @param {Object} applicationId
+   * @param {Object} openingId
+   * @returns {deferred.promise|{then}}
+   */
+  function setOpeningFilledState (setFilledTo, applicationId, openingId) {
+    var deferred = Q.defer();
+    var proceed = false;
+    Opening.findById(openingId)
+      .exec(function (err, opening) {
+        if (err) {
+          deferred.reject(err);
+        }
+        if (setFilledTo && !opening.successfulApplication) {
+          opening.filled = true;
+          opening.successfulApplication = applicationId;
+          proceed = true;
+        } else if (!setFilledTo && !!opening.successfulApplication && (opening.successfulApplication.toString() === applicationId.toString())) {
+          opening.filled = false;
+          opening.successfulApplication = null;
+          proceed = true;
+        } else if (setFilledTo && opening.successfulApplication.toString() !== applicationId.toString()) {
+          error = new Error('Another Offer for this same Opening has already been accepted. You need to Retract the other Offer.');
+          error.status = 400;
+          deferred.reject(error);
+        }
+
+        if (proceed) {
+          opening.save(function (err, result) {
+            if (err) {
+              deferred.reject(error);
+            }
+            if (result) {
+              deferred.resolve(true);
+            } else {
+              error = new Error('A problem Occured when saving the Opening');
+              error.status = 400;
+              deferred.reject(error);
+            }
+          });
+        } else {
+          deferred.resolve(true);
+        }
       });
-  } else {
-    addPhoneInterviewWorksheetFields();
+    return deferred.promise;
+  }
+
+  function updateApplication () {
+    if (shouldSetupReviewWorksheet) {
+      addWorksheetFields(application, 'reviewWorksheet')
+        .then(function (result) {
+          application = result;
+          addPhoneInterviewWorksheetFields();
+        })
+        .catch(function (err) {
+          sendResponse(err);
+        });
+    } else {
+      addPhoneInterviewWorksheetFields();
+    }
   }
 
   function addPhoneInterviewWorksheetFields() {
@@ -473,6 +628,27 @@ exports.manage = function (req, res) {
   }
 
   function doSave() {
+    if (application.onSiteVisitPhase.complete && !application.onSiteVisitPhase.dateCompleted) {
+      application.onSiteVisitPhase.dateCompleted = new Date();
+    }
+    if (application.offer.extended && !application.offer.dateOffered) {
+      application.offer.dateOffered = new Date();
+    }
+    if (application.offer.accepted && !application.offer.dateAccepted) {
+      application.offer.dateAccepted = new Date();
+    }
+    if (application.offer.retracted && !application.offer.dateRetracted) {
+      application.offer.dateRetracted = new Date();
+    }
+    if (!application.offer.extended) {
+      application.offer.dateOffered = null;
+    }
+    if (!application.offer.accepted) {
+      application.offer.dateAccepted = null;
+    }
+    if (!application.offer.retracted) {
+      application.offer.dateRetracted = null;
+    }
     application.save(function (err) {
       if (err) {
         sendResponse(err);
@@ -496,7 +672,8 @@ exports.manage = function (req, res) {
 
   function sendResponse(err, data) {
     if (err) {
-      res.send(400, getErrorMessage(err));
+      err.status = 400;
+      next(err);
     } else {
       res.jsonp(data);
     }
@@ -577,50 +754,62 @@ exports.list = function (req, res) {
         res.jsonp(summarizeApplications(applications));
       }
     });
-
-  /**
-   * Computes status and adds to individual applications
-   * @param {Array} applications
-   */
-  function summarizeApplications(applications) {
-    _.forEach(applications, function (application) {
-      var status = 'Archived';
-      if (application.proceedToReview) {
-        status = 'Review Phase Open';
-      }
-      if (application.proceedToReview === null) {
-        status = 'Needs Processing';
-      }
-      if (application.proceedToReview === false) {
-        status = 'Denied prior to Committee Review';
-      }
-      if (application.reviewPhase) {
-        if (application.reviewPhase.proceedToPhoneInterview) {
-          status = 'Phone Interview Open';
-        } else if (application.reviewPhase.proceedToPhoneInterview === false) {
-          status = 'Denied after Review Phase';
-        }
-      }
-      if (application.phoneInterviewPhase) {
-
-        if (application.phoneInterviewPhase.proceedToOnSite) {
-          status = 'On Site Phase Open';
-        } else if (application.phoneInterviewPhase.proceedToOnSite === false) {
-          status = 'Denied after Phone Interview Phase';
-        }
-      }
-      if (application.onSiteVisitPhase.complete) {
-        status = 'Process Complete';
-      }
-      var applicantDisplayName = application.firstName + ' ' + application.lastName;
-      application._doc.isNew = (application.isNewApplication) ? true : false;
-      application._doc.applicantDisplayName = applicantDisplayName;
-      application._doc.status = status;
-      application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
-    });
-    return applications;
-  }
 };
+
+/**
+ * Computes status and adds to individual applications
+ * @param {Array} applications
+ */
+function summarizeApplications(applications) {
+  _.forEach(applications, function (application) {
+    var status = 'Archived';
+    if (application.proceedToReview) {
+      status = 'Review Phase';
+    }
+    if (application.proceedToReview === null) {
+      status = 'Needs Processing';
+    }
+    if (application.proceedToReview === false) {
+      status = 'Denied prior to Committee Review';
+    }
+    if (application.reviewPhase) {
+      if (application.reviewPhase.proceedToPhoneInterview) {
+        status = 'Phone Interview Phase';
+      } else if (application.reviewPhase.proceedToPhoneInterview === false) {
+        status = 'Denied after Review Phase';
+      }
+    }
+    if (application.phoneInterviewPhase) {
+
+      if (application.phoneInterviewPhase.proceedToOnSite) {
+        status = 'On-Campus Visit Phase';
+      } else if (application.phoneInterviewPhase.proceedToOnSite === false) {
+        status = 'Denied after Phone Interview Phase';
+      }
+    }
+    if (application.onSiteVisitPhase.complete) {
+      status = 'Pending Decision';
+      if (application.offer.extended) {
+        status = 'Offer Extended';
+        if (application.offer.accepted) {
+          status = 'Successful Application';
+        }
+        if (application.offer.accepted === false) {
+          status = 'Offer Declined';
+        }
+        if (application.offer.retracted) {
+          status = 'Offer Retracted';
+        }
+      }
+    }
+    var applicantDisplayName = application.firstName + ' ' + application.lastName;
+    application._doc.isNew = (application.isNewApplication) ? true : false;
+    application._doc.applicantDisplayName = applicantDisplayName;
+    application._doc.status = status;
+    application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
+  });
+  return applications;
+}
 
 /**
  * Return JSON of current Application
@@ -923,6 +1112,47 @@ exports.eoeProvided = function (req, res) {
       }
     });
 };
+
+/**
+ * Adds conditions to the query passed in which will limit results to either active or inactive Applications
+ * @param {Object} query
+ * @param {Boolean|null} isActive
+ * @returns {*}
+ */
+function addActiveConditionsToQuery(query, isActive) {
+  if (isActive) {
+    query = query
+      .where('proceedToReview').ne(false)
+      .where('reviewPhase.proceedToPhoneInterview').ne(false)
+      .where('phoneInterviewPhase.proceedToOnSite').ne(false)
+      .where('offer.extended').ne(false)
+      .nor([{'offer.accepted': true}, {'offer.accepted': false}]);
+  } else {
+    query = query
+      .or([
+        {'proceedToReview': false},
+        {'reviewPhase.proceedToPhoneInterview': false},
+        {'phoneInterviewPhase.proceedToOnSite': false},
+        {'offer.extended': false},
+        {'offer.retracted': true},
+        {'offer.accepted': false}
+      ]);
+  }
+  return query;
+}
+
+/**
+ * Add conditions for an Application to be considered successful to the given query and returns query
+ * @param {Object} query
+ * @returns {Object}
+ */
+function addSuccessfulApplicationConditionsToQuery(query) {
+  query = query
+    .where('offer.extended').equals(true)
+    .where('offer.accepted').equals(true)
+    .where('offer.retracted').ne(true);
+  return query;
+}
 
 /**
  * Add fields to a worksheet.  It will only add the fields if the existing fields array is missing or empty.

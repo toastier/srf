@@ -45,38 +45,14 @@ var openingModel = new Schema({
       type: Schema.ObjectId,
       ref: 'Position'
     },
-    applications: [{
-      type: Schema.ObjectId,
+    filled: {
+      type: Boolean,
+      default: false
+    },
+    successfulApplication: {
+      type: Schema.Types.ObjectId,
       ref: 'Application'
-    }],
-    offers: [{
-      date: {
-        type: Date
-      },
-      offeredTo: {
-        type: Schema.ObjectId,
-        ref: 'Applicant'
-      },
-      accepted: {
-        type: Boolean
-      },
-      acceptedDate: {
-        type: Date
-      },
-      declined: {
-        type: Boolean
-      },
-      declinedDate: {
-        type: Date
-      },
-      retracted: {
-        type: Boolean
-      },
-      retractedDate: {
-        type: Date
-      }
-    }]
-
+    }
   }
 );
 

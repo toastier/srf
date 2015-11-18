@@ -148,7 +148,8 @@ var applicationModel = new Schema({
             ]
           }
         }
-      ]
+      ],
+      committeeComments: String
     },
     phoneInterviewPhase: {
       proceedToOnSite: {
@@ -227,13 +228,33 @@ var applicationModel = new Schema({
             ]
           }
         }
-      ]
+      ],
+      committeeComments: String
     },
     onSiteVisitPhase: {
       complete: {
         type: Boolean,
         default: false
-      }
+      },
+      dateCompleted: Date,
+      surveyResults: Schema.Types.ObjectId
+    },
+    offer: {
+      extended: {
+        type: Boolean,
+        default: null
+      },
+      dateOffered: Date,
+      retracted: {
+        type: Boolean,
+        default: null
+      },
+      dateRetracted: Date,
+      accepted: {
+        type: Boolean,
+        default: null
+      },
+      dateAccepted: Date
     }
   }
 );

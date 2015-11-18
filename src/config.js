@@ -20,8 +20,7 @@ var ApplicationConfiguration = (function () {
     'ngFileUpload',
     'as.sortable',
     'textAngular',
-    //'ngFx', //@todo production build runs but app throws errors with this dependency
-    'angular-toArrayFilter'  //@todo production build runs but app throws errors with this dependency
+    'angular-toArrayFilter'
   ];
 
   // Add a new vertical module

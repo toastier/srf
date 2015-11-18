@@ -2,6 +2,10 @@
 .col-xs-12
   h2 Phone Interview Phase {{ vm.phoneInterviewPhaseModel.phoneInterviewPhaseStatus }}
   h3 Proceed to On Site Visit? {{ vm.phoneInterviewPhaseModel.data.proceedToOnSite | yesNoNoDecision }}
+  .row
+    .col-xs-12(ng-if="vm.phoneInterviewPhaseModel.data.committeeComments")
+      h3 Collective Comments on Review Phase&nbsp;
+      div.well(ng-bind-html="vm.phoneInterviewPhaseModel.data.committeeComments")
   .panel.panel-default(ng-repeat="phoneInterview in vm.phoneInterviewPhaseModel.data.phoneInterviews", ng-class="{'panel-success': phoneInterview.phoneInterviewWorksheet.complete }")
     .panel-heading
       .row

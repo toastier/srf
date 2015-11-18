@@ -1,0 +1,18 @@
+.col-xs-12
+  .row
+    .col-md-3.form-group
+      label.checkbox-inline
+        input.checkbox-inline(type="checkbox", ng-model="vm.application.onSiteVisitPhase.complete")
+        | Complete?
+    .col-md-3.form-group(ng-if="vm.application.onSiteVisitPhase.complete")
+      label.control-label Date Completed
+      p.input-group
+        input.form-control(name="dateCompleted", type="text", datepicker-popup="", is-open="onSitePhase.datePickerStates.dateCompletedOpen", close-text="Close", ng-model="vm.application.onSiteVisitPhase.dateCompleted", novalidate)
+        span.input-group-btn
+          button.btn.btn-default(type="button", ng-click="onSitePhase.toggleDatePicker($event, 'dateCompleted')")
+            i.fa.fa-calendar
+    .col-md-6.form-group(ng-if="vm.application.onSiteVisitPhase.complete")
+      label.control-label Survey Results
+        //@todo allow manager to upload survey results
+
+

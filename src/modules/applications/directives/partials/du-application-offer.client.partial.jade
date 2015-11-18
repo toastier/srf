@@ -1,0 +1,75 @@
+.panel.panel-default
+  .panel-heading
+    h4 Offer
+  .panel-body
+    .row(ng-if="vm.mode ==='view'")
+      .col-md-4(ng-if="vm.application.offer.extended")
+        | Offered on: {{ vm.application.offer.dateOffered | standardDate }}
+      .col-md-4(ng-if="vm.application.offer.extended && vm.application.offer.accepted")
+        | Accepted on {{ vm.application.offer.dateAccepted | standardDate }}
+      .col-md-4(ng-if="vm.application.offer.extended && vm.application.offer.retracted")
+        | Retracted on {{ vm.application.offer.dateRetracted | standardDate }}
+    .row(ng-if="vm.mode === 'edit'")
+      .col-md-4
+        .row
+          .col-md-12.form-group
+            label.control-label Offer Extended?
+            du-toggle-switch(toggle-switch-model="vm.application.offer.extended")
+        .row
+          .col-md-12.form-group(ng-if="vm.application.offer.extended")
+            label.control-label Date Offered
+            p.input-group
+              input.form-control(
+                name="dateOffered",
+                type="text",
+                datepicker-popup="",
+                is-open="vm.datePickerStates.dateOfferedOpen",
+                close-text="Close",
+                ng-model="vm.application.offer.dateOffered",
+                novalidate
+              )
+              span.input-group-btn
+                button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateOffered')")
+                  i.fa.fa-calendar
+      .col-md-4
+        .row
+          .col-md-12.form-group(ng-if="vm.application.offer.extended")
+            label.control-label Offer Accepted?
+            du-toggle-switch(toggle-switch-model="vm.application.offer.accepted")
+        .row
+          .col-md-12.form-group(ng-if="vm.application.offer.extended && vm.application.offer.accepted")
+            label.control-label Date Accepted
+            p.input-group
+              input.form-control(
+              name="dateAccepted",
+              type="text",
+              datepicker-popup="",
+              is-open="vm.datePickerStates.dateAcceptedOpen",
+              close-text="Close",
+              ng-model="vm.application.offer.dateAccepted",
+              novalidate
+              )
+              span.input-group-btn
+                button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateAccepted')")
+                  i.fa.fa-calendar
+      .col-md-4
+        .row
+          .col-md-12.form-group(ng-if="vm.application.offer.extended")
+            label.control-label Offer Retracted?
+            du-toggle-switch(toggle-switch-model="vm.application.offer.retracted")
+        .row
+          .col-md-12.form-group(ng-if="vm.application.offer.extended && vm.application.offer.retracted")
+            label.control-label Date Retracted
+            p.input-group
+              input.form-control(
+              name="dateRetracted",
+              type="text",
+              datepicker-popup="",
+              is-open="vm.datePickerStates.dateRetractedOpen",
+              close-text="Close",
+              ng-model="vm.application.offer.dateRetracted",
+              novalidate
+              )
+              span.input-group-btn
+                button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, 'dateRetracted')")
+                  i.fa.fa-calendar

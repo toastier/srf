@@ -1,6 +1,9 @@
 section
   navigation
   du-application-applicant-info(application="vm.application")
+  .row(ng-if="vm.application.onSiteVisitPhase.complete")
+    .col-xs-12
+      du-application-offer(application="vm.application", mode="view")
   .row
     .col-xs-12
       du-grid-file-metadata-view(heading="Cover Letter", file-metadata="vm.application.coverLetterFileMeta")

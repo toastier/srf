@@ -13,29 +13,16 @@
     vm.remove = remove;
     vm.removeFile = removeFile;
     vm.submitApplication = submitApplication;
-    vm.toggleSwitch = toggleSwitch;
     vm.update = update;
     vm.uploadFile = uploadFile;
     vm.view = view;
+    vm.editReviewPhaseCollectiveComments = false;
+    vm.editPhoneInterviewPhaseCollectiveComments = false;
 
     activate();
 
     function activate() {
-      Application.get({
-        applicationId: $stateParams.applicationId
-      }).$promise
-        .then(function (result) {
-          vm.application = result;
-          if (!vm.application.submitted) {
-            addSubmitApplicationToActions();
-          }
-
-        })
-        .catch(function (err) {
-          Messages.addMessage(err.data.message, 'error');
-        });
-
-      setupNavigation();
+      getApplication();
     }
 
     function addSubmitApplicationToActions() {
@@ -60,6 +47,22 @@
         vm.application.opening = result;
       });
 
+    }
+
+    function getApplication() {
+      Application.get({
+        applicationId: $stateParams.applicationId
+      }).$promise
+        .then(function (result) {
+          vm.application = result;
+          if (!vm.application.submitted) {
+            addSubmitApplicationToActions();
+          }
+        })
+        .catch(function (err) {
+          Messages.addMessage(err.data.message, 'error');
+        });
+      setupNavigation();
     }
 
     function uploadFile(file, type) {
@@ -117,24 +120,6 @@
       Navigation.viewTitle.set('Manage Application'); // set the page title
     }
 
-    function toggleSwitch(event) {
-      switch (event.currentTarget.className) {
-        case 'switch-on-zone':
-          if (vm.application.proceedToReview === null) {
-            vm.application.proceedToReview = true;
-          } else {
-            vm.application.proceedToReview = null;
-          }
-          break;
-        case 'switch-off-zone':
-          if (vm.application.proceedToReview === null) {
-            vm.application.proceedToReview = false;
-          } else {
-            vm.application.proceedToReview = null;
-          }
-      }
-    }
-
     function remove() {
       var modalInstance = $modal.open({
         animation: true,
@@ -190,9 +175,12 @@
       vm.application.$manage()
         .then(function () {
           Messages.addMessage('The Application has been updated', 'success');
+          vm.editPhoneInterviewPhaseCollectiveComments = false;
+          vm.editReviewPhaseCollectiveComments = false;
         })
         .catch(function (err) {
           Messages.addMessage(err.data.message, 'error', 'Problem updating Application');
+          getApplication();
         });
 
     }
