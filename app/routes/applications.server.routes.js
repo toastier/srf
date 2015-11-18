@@ -14,6 +14,9 @@ module.exports = function (app) {
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.list)
     .post(users.requiresLogin, users.hasAuthorization(['manager', 'admin']), applications.create);
 
+  app.route('/applications/allOpen')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allOpen);
+
   app.route('/applications/createByUser')
     .post(users.requiresLogin, users.hasAuthorization(['user']), applications.createByUser);
 
@@ -28,6 +31,9 @@ module.exports = function (app) {
 
   app.route('/applications/iAmPhoneInterviewer')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.iAmPhoneInterviewer);
+
+  app.route('/applications/successfulForOpening/:opening')
+    .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.successfulForOpening);
 
   app.route('/applications/:applicationId/conductPhoneInterview')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.conductPhoneInterview);

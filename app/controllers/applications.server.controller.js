@@ -363,28 +363,21 @@ exports.forApplicant = function (req, res, next) {
     });
 };
 
-/**
- * Adds conditions (.where) to the query passed in which will limit results to either active or inactive Applications
- * @param {Object} query
- * @param {Boolean|null} isActive
- * @returns {*}
- */
-function addActiveConditionsToQuery(query, isActive) {
-  if (isActive) {
-    query = query
-      .where('proceedToReview').ne(false)
-      .where('reviewPhase.proceedToPhoneInterview').ne(false)
-      .where('phoneInterviewPhase.proceedToOnSite').ne(false);
-  } else {
-    query = query
-      .or([
-        {'proceedToReview': false},
-        {'reviewPhase.proceedToPhoneInterview': false},
-        {'phoneInterviewPhase.proceedToOnSite': false}
-      ]);
-  }
-  return query;
-}
+exports.successfulForOpening = function (req, res, next) {
+  var openingId = req.params.opening;
+  Application
+    .findOne()
+    .where('opening').equals(openingId)
+    .where('offer.accepted').equals(true)
+    .where('offer.retracted').ne(true)
+    .exec(function (err, application) {
+      if (err) {
+        err.status = 400;
+        return next(err);
+      }
+      res.jsonp(application);
+    });
+};
 
 /**
  * Find and return an existing Application for the authenticated User and given Opening if one exists. Otherwise return
@@ -664,49 +657,70 @@ exports.list = function (req, res) {
         res.jsonp(summarizeApplications(applications));
       }
     });
+};
+/**
+ * Computes status and adds to individual applications
+ * @param {Array} applications
+ */
+function summarizeApplications(applications) {
+  _.forEach(applications, function (application) {
+    var status = 'Archived';
+    if (application.proceedToReview) {
+      status = 'Review Phase Open';
+    }
+    if (application.proceedToReview === null) {
+      status = 'Needs Processing';
+    }
+    if (application.proceedToReview === false) {
+      status = 'Denied prior to Committee Review';
+    }
+    if (application.reviewPhase) {
+      if (application.reviewPhase.proceedToPhoneInterview) {
+        status = 'Phone Interview Open';
+      } else if (application.reviewPhase.proceedToPhoneInterview === false) {
+        status = 'Denied after Review Phase';
+      }
+    }
+    if (application.phoneInterviewPhase) {
 
-  /**
-   * Computes status and adds to individual applications
-   * @param {Array} applications
-   */
-  function summarizeApplications(applications) {
-    _.forEach(applications, function (application) {
-      var status = 'Archived';
-      if (application.proceedToReview) {
-        status = 'Review Phase Open';
+      if (application.phoneInterviewPhase.proceedToOnSite) {
+        status = 'On Site Phase Open';
+      } else if (application.phoneInterviewPhase.proceedToOnSite === false) {
+        status = 'Denied after Phone Interview Phase';
       }
-      if (application.proceedToReview === null) {
-        status = 'Needs Processing';
-      }
-      if (application.proceedToReview === false) {
-        status = 'Denied prior to Committee Review';
-      }
-      if (application.reviewPhase) {
-        if (application.reviewPhase.proceedToPhoneInterview) {
-          status = 'Phone Interview Open';
-        } else if (application.reviewPhase.proceedToPhoneInterview === false) {
-          status = 'Denied after Review Phase';
-        }
-      }
-      if (application.phoneInterviewPhase) {
+    }
+    if (application.onSiteVisitPhase.complete) {
+      status = 'Process Complete';
+    }
+    var applicantDisplayName = application.firstName + ' ' + application.lastName;
+    application._doc.isNew = (application.isNewApplication) ? true : false;
+    application._doc.applicantDisplayName = applicantDisplayName;
+    application._doc.status = status;
+    application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
+  });
+  return applications;
+}
+/**
+ * Return JSON of Applications
+ * @param {Object} req
+ * @param {Object} res
+ */
+exports.allOpen = function (req, res, next) {
+  var query = Application.find();
+  query = addActiveConditionsToQuery(query, true);
 
-        if (application.phoneInterviewPhase.proceedToOnSite) {
-          status = 'On Site Phase Open';
-        } else if (application.phoneInterviewPhase.proceedToOnSite === false) {
-          status = 'Denied after Phone Interview Phase';
-        }
+  query
+    .sort('-postDate')
+    .populate('applicant')
+    .populate('opening')
+    .populate('reviewPhase.reviews.reviewer')
+    .exec(function (err, applications) {
+      if (err) {
+        return next(err);
+      } else {
+        res.jsonp(summarizeApplications(applications));
       }
-      if (application.onSiteVisitPhase.complete) {
-        status = 'Process Complete';
-      }
-      var applicantDisplayName = application.firstName + ' ' + application.lastName;
-      application._doc.isNew = (application.isNewApplication) ? true : false;
-      application._doc.applicantDisplayName = applicantDisplayName;
-      application._doc.status = status;
-      application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
     });
-    return applications;
-  }
 };
 
 /**
@@ -1010,6 +1024,34 @@ exports.eoeProvided = function (req, res) {
       }
     });
 };
+
+/**
+ * Adds conditions to the query passed in which will limit results to either active or inactive Applications
+ * @param {Object} query
+ * @param {Boolean|null} isActive
+ * @returns {*}
+ */
+function addActiveConditionsToQuery(query, isActive) {
+  if (isActive) {
+    query = query
+      .where('proceedToReview').ne(false)
+      .where('reviewPhase.proceedToPhoneInterview').ne(false)
+      .where('phoneInterviewPhase.proceedToOnSite').ne(false)
+      .where('offer.extended').ne(false)
+      .nor([{'offer.accepted': true}, {'offer.accepted': false}]);
+  } else {
+    query = query
+      .or([
+        {'proceedToReview': false},
+        {'reviewPhase.proceedToPhoneInterview': false},
+        {'phoneInterviewPhase.proceedToOnSite': false},
+        {'offer.extended': false},
+        {'offer.retracted': true},
+        {'offer.accepted': false}
+      ]);
+  }
+  return query;
+}
 
 /**
  * Add fields to a worksheet.  It will only add the fields if the existing fields array is missing or empty.

@@ -98,8 +98,19 @@
           isActive: '@isActive'
         },
         isArray: true
+      },
+      allOpen: {
+        method: 'GET',
+        url: 'applications/allOpen',
+        isArray: true
+      },
+      successfulForOpening: {
+        method: 'GET',
+        url: 'applications/successfulForOpening/:openingId',
+        params: {
+          openingId: '@openingId'
+        }
       }
-
     });
 
     var maxReviews = 2;

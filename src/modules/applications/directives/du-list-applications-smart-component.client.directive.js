@@ -84,6 +84,12 @@
                 case 'inactiveForApplicant':
                   inactiveForApplicant();
                   break;
+                case 'allOpen':
+                  allOpen();
+                  break;
+                case 'successfulForOpening':
+                  successfulForOpening();
+                  break;
                 default:
                   allApplications();
               }
@@ -129,8 +135,20 @@
       /**
        * Gets all Applications
        */
-      function allApplications() {
+      function allOpen() {
         vm.componentTitle = 'All Open Applications';
+        vm.buttonTitle = 'View';
+        Application.allOpen().$promise
+          .then(function (applications) {
+            vm.applications = applications;
+          });
+      }
+
+      /**
+       * Gets all Applications
+       */
+      function allApplications() {
+        vm.componentTitle = 'All Applications';
         vm.buttonTitle = 'View';
         Application.query().$promise
           .then(function (applications) {
@@ -205,6 +223,22 @@
             }).$promise
               .then(function (applications) {
                 vm.applications = applications;
+              });
+          }
+        });
+      }
+
+      function successfulForOpening() {
+        vm.componentTitle = 'Successful Application';
+        vm.buttonTitle = 'View';
+        $scope.$watch('vm.openingId', function (newVal) {
+          if (_.isString(newVal)) {
+            Application.successfulForOpening({
+              openingId: vm.openingId
+            }).$promise
+              .then(function (application) {
+                vm.applications = [];
+                vm.applications.push(application);
               });
           }
         });

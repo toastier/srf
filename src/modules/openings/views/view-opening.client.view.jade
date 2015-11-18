@@ -4,20 +4,26 @@ section
     .col-xs-12
       opening-view
       .row
-        .col-xs-6
+        .col-md-6
           du-list-applications-smart-component(
-          ng-if="vm.user.hasRole(['admin', 'committee member'])",
+            ng-if="vm.user.hasRole(['admin', 'committee member', 'manager'])",
+            view-mode="successfulForOpening",
+            opening-id="vm.opening._id"
+          )
+        .col-md-6
+          du-list-applications-smart-component(
+            ng-if="vm.user.hasRole(['admin', 'committee member', 'manager'])",
             view-mode="activeForOpening",
             opening-id="vm.opening._id"
           )
-        .col-xs-6
+        .col-md-6
           du-list-applications-smart-component(
-            ng-if="vm.user.hasRole(['admin', 'committee member'])",
+            ng-if="vm.user.hasRole(['admin', 'committee member', 'manager'])",
             view-mode="inactiveForOpening",
             opening-id="vm.opening._id"
           )
 
       du-position-info-smart-component(
-        ng-if="vm.user.hasRole(['admin', 'committee member'])",
+        ng-if="vm.user.hasRole(['admin', 'committee member', 'manager'])",
         position-id="vm.opening.position"
       )
