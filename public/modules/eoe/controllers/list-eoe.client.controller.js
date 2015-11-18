@@ -220,6 +220,14 @@
           return (rec.position === vm.position);
         });
       }
+
+      if (angular.isDate(vm.dateStart)) {
+        demographicData = _.filter(demographicData, function(rec) {
+          var eoeDateCreated = new Date(rec.dateCreated);
+          console.log(vm.dateStart + ' (input) - (eoe Record) ' + eoeDateCreated);
+          return (eoeDateCreated >= vm.dateStart);
+        });
+      }
       //TODO total account will be number of applicants
       vm.eoeData.totalCount = _.size(demographicData);
 
