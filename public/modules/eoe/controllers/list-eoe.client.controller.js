@@ -214,18 +214,22 @@
         return (data.type === "demographic");
       })).data;
 
+      // Filter for Position
       if (vm.position !== "all") {
          demographicData = _.filter(demographicData, function(rec) {
            console.log(rec._id);
           return (rec.position === vm.position);
         });
       }
-
-      if (angular.isDate(vm.dateStart)) {
+//TODO add validation for data ranges
+      // TODO refactor this into one method
+      // Filter for Date Range
+      if (angular.isDate(vm.dateStart) || angular.isDate(vm.dateEnd)) {
         demographicData = _.filter(demographicData, function(rec) {
           var eoeDateCreated = new Date(rec.dateCreated);
-          console.log(vm.dateStart + ' (input) - (eoe Record) ' + eoeDateCreated);
-          return (eoeDateCreated >= vm.dateStart);
+          var dateEnd = new Date((vm.dateEnd).setDate((vm.dateEnd).getDate()+1));
+          //console.log(vm.dateStart + ' (input) - (eoe Record) ' + eoeDateCreated);
+          return (eoeDateCreated >= vm.dateStart && eoeDateCreated <= dateEnd);
         });
       }
       //TODO total account will be number of applicants
@@ -299,6 +303,17 @@
         });
       }
 
+      // Filter for Date Range
+      if (angular.isDate(vm.dateStart) || angular.isDate(vm.dateEnd)) {
+        disabilityData = _.filter(disabilityData, function(rec) {
+          var eoeDateCreated = new Date(rec.dateCreated);
+          //console.log(vm.dateStart + ' (input) - (eoe Record) ' + eoeDateCreated);
+          return (eoeDateCreated >= vm.dateStart && eoeDateCreated <= vm.dateEnd);
+        });
+      }
+      //TODO total account will be number of applicants
+      vm.eoeData.totalCount = _.size(disabilityData);
+
       // APPLICANTS BY DISABILITY x GENDER
       _.forEach(vm.options.disabilities, function (option) {
 
@@ -334,6 +349,18 @@
           }
         });
       }
+
+      // Filter for Date Range
+      if (angular.isDate(vm.dateStart) || angular.isDate(vm.dateEnd)) {
+        veteranData = _.filter(veteranData, function(rec) {
+          var eoeDateCreated = new Date(rec.dateCreated);
+          //console.log(vm.dateStart + ' (input) - (eoe Record) ' + eoeDateCreated);
+          return (eoeDateCreated >= vm.dateStart && eoeDateCreated <= vm.dateEnd);
+        });
+      }
+
+      //TODO total account will be number of applicants
+      vm.eoeData.totalCount = _.size(veteranData);
 
       // APPLICANTS BY VETERAN x GENDER
       _.forEach(vm.options.veterans, function (option) {
