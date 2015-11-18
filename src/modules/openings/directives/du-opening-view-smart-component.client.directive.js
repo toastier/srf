@@ -21,10 +21,11 @@
       bindToController: true
     };
 
-    function duOpeningViewSmartComponentController($scope, Opening, Messages) {
+    function duOpeningViewSmartComponentController($scope, Opening, Messages, Authentication) {
       var vm = this;
       vm.isCollapsed = false;
       vm.toggleOpening = toggleOpening;
+      vm.viewOpening = viewOpening;
 
       function toggleOpening() {
         vm.isCollapsed = !vm.isCollapsed;
@@ -42,14 +43,22 @@
           });
       }
 
+      function viewOpening() {
+        Opening.viewOpening(vm.opening);
+      }
+
       function activate() {
 
-        if(vm.startCollapsed === 'true') {
+        Authentication.promise.then(function(user) {
+          vm.user = user;
+        });
+
+        if (vm.startCollapsed === 'true') {
           vm.isCollapsed = true;
         }
 
         $scope.$watch('vm.openingId', function(newVal) {
-          if(angular.isString(newVal)) {
+          if (angular.isString(newVal)) {
             getOpening();
           }
         });

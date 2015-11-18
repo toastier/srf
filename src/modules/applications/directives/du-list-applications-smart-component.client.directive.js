@@ -236,9 +236,8 @@
             Application.successfulForOpening({
               openingId: vm.openingId
             }).$promise
-              .then(function (application) {
-                vm.applications = [];
-                vm.applications.push(application);
+              .then(function (applications) {
+                vm.applications = applications;
               });
           }
         });

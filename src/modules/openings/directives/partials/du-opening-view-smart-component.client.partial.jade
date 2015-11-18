@@ -1,11 +1,17 @@
 .col-xs-12
-  h2.collapsible-trigger(ng-click="vm.toggleOpening()", ng-class="{'target-collapsed': vm.isCollapsed, 'target-not-collapsed': !vm.isCollapsed}") Opening: {{ vm.opening.name }}
-  .panel.panel-default(collapse="vm.isCollapsed")
-    .panel-body
+  .panel.panel-default
+    .panel-heading
+      h3.collapsible-trigger(ng-click="vm.toggleOpening()", ng-class="{'target-collapsed': vm.isCollapsed, 'target-not-collapsed': !vm.isCollapsed}") Opening: {{ vm.opening.name }}
+    .panel-body(collapse="vm.isCollapsed")
       .row
         .col-md-9.form-group
           label.control-label Opening Title
-          .form-control-static(type='text', data-ng-bind='vm.opening.name')
+          .form-control-static
+            span {{ vm.opening.name }} &nbsp;
+            a.btn.btn-xs.btn-view.no-text(
+            ng-if="vm.user.hasRole(['admin','committee member', 'manager'])",
+            ng-click="vm.viewOpening()"
+            )
         .col-md-3(ng-if="vm.user.hasRole(['admin', 'committee member'])")
           label.control-label Date Requested
           .form-control-static(ng-bind="vm.opening.dateRequested | date")

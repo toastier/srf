@@ -1,68 +1,66 @@
-//@todo remove comments prior to production release
-.col-xs-12
-  h2 Review Phase {{ vm.reviewPhaseModel.reviewPhaseStatus }}
-  h3 Proceed to Phone Interview? {{ vm.reviewPhaseModel.data.proceedToPhoneInterview | yesNoNoDecision }}
-  .row
-    .col-xs-12(ng-if="vm.reviewPhaseModel.data.committeeComments")
-      h3 Collective Comments on Review Phase&nbsp;
-      div.well(ng-bind-html="vm.reviewPhaseModel.data.committeeComments")
-
-  .panel.panel-default(ng-repeat="review in vm.reviewPhaseModel.data.reviews", ng-class="{'panel-success': review.reviewWorksheet.complete }")
-    .panel-heading
-      .row
-        .col-xs-12
-          h4
-            strong {{ review.reviewer.displayName }}
-            span(ng-if="review.reviewWorksheet.complete") &nbsp;completed the review on {{ review.reviewWorksheet.dateCompleted | standardDateAtTime }}
-            span(ng-if="!review.reviewWorksheet.complete") &nbsp;is an assigned Reviewer. This review is incomplete.
-    .panel-body
-      .row
-        .col-xs-12
-          h3 Review Worksheet &nbsp;
-            i.fa.fa-edit(ng-if="vm.reviewPhaseModel.reviewIsEditable(review) && !review.editing", ng-click="vm.reviewPhaseModel.editReview(review)")
-          .panel.panel-default(ng-if="!review.editing")
-            .panel-body
-              du-worksheet-view-smart-component(worksheet-fields="review.reviewWorksheet.body.fields")
-          .panel.panel-default(ng-if="review.editing")
-            .panel-body
-              du-worksheet-edit-smart-component(worksheet-fields="review.reviewWorksheet.bodyBuffer.fields")
+.panel.panel-default
+  .panel-heading
+    .row
+      .col-md-6
+        h3.collapsible-trigger(ng-click="vm.toggleReviewPhase()", ng-class="{'target-collapsed': vm.isCollapsed, 'target-not-collapsed': !vm.isCollapsed}") Review Phase: {{ vm.reviewPhaseModel.reviewPhaseStatus }}
+      .col-md-6.text-right
+        h4
+          span.label.label-default(
+          ng-class="{'label-success': vm.reviewPhaseModel.data.proceedToPhoneInterview === true, 'label-warning': vm.reviewPhaseModel.data.proceedToPhoneInterview === false }"
+          ) Proceed to Phone Interview: {{ vm.reviewPhaseModel.data.proceedToPhoneInterview | yesNoNoDecision }}
+  .panel-body(collapse="vm.isCollapsed")
+    .panel.panel-default(ng-if="vm.reviewPhaseModel.data.committeeComments")
+      .panel-heading
+        h4 Collective Comments on Review Phase&nbsp;
+      .panel-body
+        div(ng-bind-html="vm.reviewPhaseModel.data.committeeComments")
+    .panel.panel-default(ng-repeat="review in vm.reviewPhaseModel.data.reviews", ng-class="{'panel-success': review.reviewWorksheet.complete }")
+      .panel-heading
+        .row
+          .col-xs-12
+            h4 Review by&nbsp;
+              strong {{ review.reviewer.displayName }}
+              span(ng-if="review.reviewWorksheet.complete") &nbsp;completed on {{ review.reviewWorksheet.dateCompleted | standardDateAtTime }} &nbsp;
+              span(ng-if="!review.reviewWorksheet.complete") &nbsp;is incomplete &nbsp;
+              i.fa.fa-edit(ng-if="vm.reviewPhaseModel.reviewIsEditable(review) && !review.editing", ng-click="vm.reviewPhaseModel.editReview(review)")
+      .panel-body(ng-if="!review.editing")
+        du-worksheet-view-smart-component(worksheet-fields="review.reviewWorksheet.body.fields")
+      .panel-body(ng-if="review.editing")
+        du-worksheet-edit-smart-component(worksheet-fields="review.reviewWorksheet.bodyBuffer.fields")
+        .row
+          .col-xs-12
+            .btn-group
+              button.btn.btn-default.btn-undo(ng-click="vm.reviewPhaseModel.cancelReviewChanges(review)") Cancel Changes
+              button.btn.btn-save(ng-click="vm.reviewPhaseModel.saveReview(review)") Save Changes
+              button.btn.btn-complete(ng-click="vm.reviewPhaseModel.saveAndCompleteReview(review)") Save and Mark Review Worksheet as Complete
+        .row
+          .col-xs-12
+            h3 Search Committee Comments &nbsp;
+          .col-xs-12(ng-repeat="comment in review.reviewWorksheet.comments")
+            .col-xs-12(ng-if="!comment.editing")
               .row
-                .col-xs-12
-                  .btn-group
-                    button.btn.btn-default.btn-undo(ng-click="vm.reviewPhaseModel.cancelReviewChanges(review)") Cancel Changes
-                    button.btn.btn-save(ng-click="vm.reviewPhaseModel.saveReview(review)") Save Changes
-                    button.btn.btn-complete(ng-click="vm.reviewPhaseModel.saveAndCompleteReview(review)") Save and Mark Review Worksheet as Complete
-      .row
-        .col-xs-12
-          h3 Search Committee Comments &nbsp;
-        .col-xs-12(ng-repeat="comment in review.reviewWorksheet.comments")
-          .col-xs-12(ng-if="!comment.editing")
-            .row
-              .panel.panel-default
-                .panel-heading
-                  .row
-                    .col-md-10
-                      strong {{ comment.commenter.displayName }}&nbsp;
-                      | commented on {{ comment.dateCreated | standardDateAtTime }}
-                      span(ng-if="comment.dateCreated !== comment.dateUpdated") &nbsp;
-                        i.fa.fa-clock-o(tooltip="updated {{ comment.dateUpdated | standardDateAtTime }}")
-                    .col-md-2.text-right(ng-if="vm.reviewPhaseModel.commentIsEditable(review, comment)")
-                      //a.with-icon.no-text.edit
-                      button(ng-click="vm.reviewPhaseModel.editComment(comment)").btn.btn-sm.btn-edit Edit
-                .panel-body
-                  .col-md-12 {{ comment.comment }}
-          .col-xs-12.well(ng-if="comment.editing")
-              .row
-                .col-xs-12.form-group
-                  textarea.form-control(ng-model="comment.commentBuffer")
-              .row
-                .col-xs-12.text-right
-                  .btn-group
-                    button.btn.btn-default.btn-delete(ng-if="comment._id", ng-click="vm.reviewPhaseModel.deleteComment(review, comment)") Remove Comment
-                    button.btn.btn-default.btn-undo(ng-click="vm.reviewPhaseModel.cancelCommentChanges(review, comment)") Cancel Changes
-                    button.btn.btn-default.btn-save(ng-click="vm.reviewPhaseModel.saveComment(review, comment)") Save Comment
-        .col-xs-12.text-right
-          button.btn.btn-default.btn-primary(ng-if="vm.reviewPhaseModel.reviewIsCommentable(review)", ng-click="vm.reviewPhaseModel.addComment(review)") Comment
-  //.well
-  //  .row
-  //    pre.col-xs-12 {{ vm.reviewPhaseModel.reviewPhase | json }}
+                .panel.panel-default
+                  .panel-heading
+                    .row
+                      .col-md-10
+                        strong {{ comment.commenter.displayName }}&nbsp;
+                        | commented on {{ comment.dateCreated | standardDateAtTime }}
+                        span(ng-if="comment.dateCreated !== comment.dateUpdated") &nbsp;
+                          i.fa.fa-clock-o(tooltip="updated {{ comment.dateUpdated | standardDateAtTime }}")
+                      .col-md-2.text-right(ng-if="vm.reviewPhaseModel.commentIsEditable(review, comment)")
+                        //a.with-icon.no-text.edit
+                        button(ng-click="vm.reviewPhaseModel.editComment(comment)").btn.btn-sm.btn-edit Edit
+                  .panel-body
+                    .col-md-12 {{ comment.comment }}
+            .col-xs-12.well(ng-if="comment.editing")
+                .row
+                  .col-xs-12.form-group
+                    textarea.form-control(ng-model="comment.commentBuffer")
+                .row
+                  .col-xs-12.text-right
+                    .btn-group
+                      button.btn.btn-default.btn-delete(ng-if="comment._id", ng-click="vm.reviewPhaseModel.deleteComment(review, comment)") Remove Comment
+                      button.btn.btn-default.btn-undo(ng-click="vm.reviewPhaseModel.cancelCommentChanges(review, comment)") Cancel Changes
+                      button.btn.btn-default.btn-save(ng-click="vm.reviewPhaseModel.saveComment(review, comment)") Save Comment
+          .col-xs-12.text-right
+            button.btn.btn-default.btn-primary(ng-if="vm.reviewPhaseModel.reviewIsCommentable(review)", ng-click="vm.reviewPhaseModel.addComment(review)") Comment

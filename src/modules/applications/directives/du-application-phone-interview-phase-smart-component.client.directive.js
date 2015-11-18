@@ -16,13 +16,15 @@
       bindToController: true,
       scope: {
         phoneInterviewPhase: '=',
-        proceedToPhoneInterviewPhase: '@'
+        proceedToPhoneInterviewPhase: '@',
+        startCollapsed: '@'
       }
     };
 
     function duApplicationPhoneInterviewPhaseSmartComponentController($scope, Authentication, PhoneInterviewPhase, _) {
       /*jshint validthis:true*/
       var vm = this;
+      vm.togglePhoneInterviewPhase = togglePhoneInterviewPhase;
 
       activate();
 
@@ -32,9 +34,16 @@
           $scope.$watch('vm.phoneInterviewPhase', function (newVal) {
             if (!_.isUndefined(newVal)) {
               vm.phoneInterviewPhaseModel = new PhoneInterviewPhase(vm.phoneInterviewPhase, vm.proceedToPhoneInterviewPhase, vm.user);
+              if (vm.phoneInterviewPhaseModel.phoneInterviewPhaseStatus === 'Complete' || vm.phoneInterviewPhaseModel.phoneInterviewPhaseStatus === 'Closed') {
+                vm.isCollapsed = true;
+              }
             }
           });
         });
+      }
+
+      function togglePhoneInterviewPhase() {
+        vm.isCollapsed = !vm.isCollapsed;
       }
     }
   }

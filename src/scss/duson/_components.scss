@@ -1558,14 +1558,17 @@ p.no-records {
 
 .collapsible-trigger {
   cursor: pointer;
-  &:after {
-    @include font-awesome-icon-after;
-    content: '\f18e';
+  &:before {
+    @include font-awesome-icon-before;
+    content: '\f0c9';
     transition: all 0.5s;
+    transform: scaleY(0.5);
   }
   &.target-not-collapsed {
-    &:after {
-      transform: rotate(90deg);
+    &:before {
+      transform: scaleY(1.0);
+      //content: '\f147';
+      //transform: rotate(90deg);
     }
   }
 }

@@ -468,11 +468,15 @@ exports.successfulForOpening = function (req, res, next) {
     .where('offer.accepted').equals(true)
     .where('offer.retracted').ne(true)
     .exec(function (err, application) {
+      var applications = [];
       if (err) {
         err.status = 400;
         return next(err);
       }
-      res.jsonp(application);
+      if (!_.isNull(application)) {
+        applications.push(application);
+      }
+      res.jsonp(applications);
     });
 };
 
@@ -757,58 +761,69 @@ exports.list = function (req, res) {
 };
 
 /**
- * Computes status and adds to individual applications
+ * Computes status and adds to array of applications
+ * @uses this.summarizeApplication();
  * @param {Array} applications
  */
 function summarizeApplications(applications) {
   _.forEach(applications, function (application) {
-    var status = 'Archived';
-    if (application.proceedToReview) {
-      status = 'Review Phase';
-    }
-    if (application.proceedToReview === null) {
-      status = 'Needs Processing';
-    }
-    if (application.proceedToReview === false) {
-      status = 'Denied prior to Committee Review';
-    }
-    if (application.reviewPhase) {
-      if (application.reviewPhase.proceedToPhoneInterview) {
-        status = 'Phone Interview Phase';
-      } else if (application.reviewPhase.proceedToPhoneInterview === false) {
-        status = 'Denied after Review Phase';
-      }
-    }
-    if (application.phoneInterviewPhase) {
-
-      if (application.phoneInterviewPhase.proceedToOnSite) {
-        status = 'On-Campus Visit Phase';
-      } else if (application.phoneInterviewPhase.proceedToOnSite === false) {
-        status = 'Denied after Phone Interview Phase';
-      }
-    }
-    if (application.onSiteVisitPhase.complete) {
-      status = 'Pending Decision';
-      if (application.offer.extended) {
-        status = 'Offer Extended';
-        if (application.offer.accepted) {
-          status = 'Successful Application';
-        }
-        if (application.offer.accepted === false) {
-          status = 'Offer Declined';
-        }
-        if (application.offer.retracted) {
-          status = 'Offer Retracted';
-        }
-      }
-    }
-    var applicantDisplayName = application.firstName + ' ' + application.lastName;
-    application._doc.isNew = (application.isNewApplication) ? true : false;
-    application._doc.applicantDisplayName = applicantDisplayName;
-    application._doc.status = status;
-    application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
+    application = summarizeApplication(application);
   });
   return applications;
+}
+
+/**
+ * Computes status and adds to an individual applications
+ * @param {Object} application
+ * @returns {*}
+ */
+function summarizeApplication(application) {
+  var status = 'Archived';
+  if (application.proceedToReview) {
+    status = 'Review Phase';
+  }
+  if (application.proceedToReview === null) {
+    status = 'Needs Processing';
+  }
+  if (application.proceedToReview === false) {
+    status = 'Denied prior to Committee Review';
+  }
+  if (application.reviewPhase) {
+    if (application.reviewPhase.proceedToPhoneInterview) {
+      status = 'Phone Interview Phase';
+    } else if (application.reviewPhase.proceedToPhoneInterview === false) {
+      status = 'Denied after Review Phase';
+    }
+  }
+  if (application.phoneInterviewPhase) {
+
+    if (application.phoneInterviewPhase.proceedToOnSite) {
+      status = 'On-Campus Visit Phase';
+    } else if (application.phoneInterviewPhase.proceedToOnSite === false) {
+      status = 'Denied after Phone Interview Phase';
+    }
+  }
+  if (application.onSiteVisitPhase.complete) {
+    status = 'Pending Decision';
+    if (application.offer.extended) {
+      status = 'Offer Extended';
+      if (application.offer.accepted) {
+        status = 'Successful Application';
+      }
+      if (application.offer.accepted === false) {
+        status = 'Offer Declined';
+      }
+      if (application.offer.retracted) {
+        status = 'Offer Retracted';
+      }
+    }
+  }
+  var applicantDisplayName = application.firstName + ' ' + application.lastName;
+  application._doc.isNew = (application.isNewApplication) ? true : false;
+  application._doc.applicantDisplayName = applicantDisplayName;
+  application._doc.status = status;
+  application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
+  return application;
 }
 
 /**
@@ -817,7 +832,7 @@ function summarizeApplications(applications) {
  * @param {Object} res
  */
 exports.read = function (req, res) {
-  res.jsonp(req.application);
+  res.jsonp(summarizeApplication(req.application));
 };
 
 /**

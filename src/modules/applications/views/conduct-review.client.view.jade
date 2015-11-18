@@ -17,9 +17,8 @@ section
       opening-id="vm.application.opening._id",
       start-collapsed='true'
       )
-    du-application-review-phase-smart-component(
-      review-phase="vm.application.reviewPhase",
-      proceed-to-review-phase="{{ vm.application.proceedToReview }}"
-      )
-  //.row
-  //  pre.col-xs-12 {{ vm.application | json }}
+    .col-xs-12
+      du-application-review-phase-smart-component(
+        review-phase="vm.application.reviewPhase",
+        proceed-to-review-phase="{{ vm.application.proceedToReview }}"
+        )
