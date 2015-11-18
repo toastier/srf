@@ -16,13 +16,15 @@
       bindToController: true,
       scope: {
         reviewPhase: '=',
-        proceedToReviewPhase: '@'
+        proceedToReviewPhase: '@',
+        startCollapsed: '@'
       }
     };
 
     function duApplicationReviewPhaseSmartComponentController($scope, Authentication, ReviewPhase, _) {
       /*jshint validthis:true */
       var vm = this;
+      vm.toggleReviewPhase = toggleReviewPhase;
 
       activate();
 
@@ -33,9 +35,20 @@
           $scope.$watch('vm.reviewPhase', function (newVal) {
             if (!_.isUndefined(newVal)) {
               vm.reviewPhaseModel = new ReviewPhase(vm.reviewPhase, vm.proceedToReviewPhase, vm.user);
+              if (vm.reviewPhaseModel.reviewPhaseStatus === 'Complete' || vm.reviewPhaseModel.reviewPhaseStatus === 'Closed') {
+                vm.isCollapsed = true;
+              }
             }
           });
         });
+
+        if (vm.startCollapsed === 'true') {
+          vm.isCollapsed = true;
+        }
+      }
+
+      function toggleReviewPhase() {
+        vm.isCollapsed = !vm.isCollapsed;
       }
     }
   }

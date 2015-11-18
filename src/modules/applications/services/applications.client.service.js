@@ -139,7 +139,8 @@
         url: 'applications/successfulForOpening/:openingId',
         params: {
           openingId: '@openingId'
-        }
+        },
+        isArray: true
       }
     });
 

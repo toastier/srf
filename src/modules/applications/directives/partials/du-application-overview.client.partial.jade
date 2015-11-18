@@ -1,0 +1,10 @@
+section
+  .panel.panel-default
+    .panel-heading
+      h3(ng-bind="vm.application.summary")
+    .panel-body
+      .row
+        du-display-field(field-model="vm.application.status", field-label="Status")
+        du-display-field(field-model="vm.application.dateCreated", field-label="Created", field-format="standardDate")
+        du-display-field(field-model="vm.application.submitted", field-label="Submitted", field-format="checkMark")
+        du-display-field(field-model="vm.application.dateSubmitted", field-label="Date Submitted", field-format="standardDate")
