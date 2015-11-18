@@ -16,6 +16,7 @@
     vm.raceCount = raceCount;
     vm.extractData = extractData;
     vm.filterByDate = filterByDate;
+    vm.filterByPosition = filterByPosition;
     vm.rawData = [];
     vm.position = "all";
     vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
@@ -207,6 +208,18 @@
       };
     }
 
+    // Filter for Position
+    function filterByPosition(data) {
+      if (vm.position !== "all") {
+        data = _.filter(data, function(rec) {
+          console.log(rec._id);
+          return (rec.position === vm.position);
+        });
+      }
+      return data;
+    }
+
+    //TODO add validation for data ranges
     function filterByDate(data) {
       if (angular.isDate(vm.dateStart) || angular.isDate(vm.dateEnd)) {
         data = _.filter(data, function(rec) {
@@ -229,27 +242,8 @@
         return (data.type === "demographic");
       })).data;
 
-      // Filter for Position
-      if (vm.position !== "all") {
-         demographicData = _.filter(demographicData, function(rec) {
-           console.log(rec._id);
-          return (rec.position === vm.position);
-        });
-      }
-//TODO add validation for data ranges
-      // TODO refactor this into one method
-      // Filter for Date Range
-      //if (angular.isDate(vm.dateStart) || angular.isDate(vm.dateEnd)) {
-      //  demographicData = _.filter(demographicData, function(rec) {
-      //    var eoeDateCreated = new Date(rec.dateCreated);
-      //    var dateEnd = new Date((vm.dateEnd).setDate((vm.dateEnd).getDate()+1));
-      //    //console.log(vm.dateStart + ' (input) - (eoe Record) ' + eoeDateCreated);
-      //    return (eoeDateCreated >= vm.dateStart && eoeDateCreated <= dateEnd);
-      //  });
-      //}
-      ////TODO total account will be number of applicants
-      //vm.eoeData.totalCount = _.size(demographicData);
 
+      demographicData = vm.filterByPosition(demographicData);
       demographicData = vm.filterByDate(demographicData);
 
       // APPLICANTS BY GENDER
@@ -311,14 +305,8 @@
       var disabilityData = (_.find(result, function (data) {
         return data.type === "disability";
       })).data;
-      if (vm.position !== "all") {
-        disabilityData = _.filter(disabilityData, function (rec) {
-          if (rec.position) {
-            return (rec.position === vm.position);
-          }
-        });
-      }
 
+      disabilityData = vm.filterByPosition(disabilityData);
       disabilityData = vm.filterByDate(disabilityData);
 
       // APPLICANTS BY DISABILITY x GENDER
@@ -349,14 +337,7 @@
         return data.type === "veteran";
       })).data;
 
-      if (vm.position !== "all") {
-        veteranData = _.filter(veteranData, function (rec) {
-          if (rec.position) {
-            return (rec.position === vm.position);
-          }
-        });
-      }
-
+      veteranData= vm.filterByPosition(veteranData);
       veteranData = vm.filterByDate(veteranData);
 
       // APPLICANTS BY VETERAN x GENDER
