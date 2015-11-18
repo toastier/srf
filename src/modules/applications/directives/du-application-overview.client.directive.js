@@ -3,14 +3,14 @@
 
   angular
     .module('applications')
-    .directive('duApplicationApplicantInfo', duApplicationApplicantInfo);
+    .directive('duApplicationOverview', duApplicationOverview);
 
   /* @ngInject */
-  function duApplicationApplicantInfo() {
+  function duApplicationOverview() {
 
     return {
       restrict: 'E',
-      templateUrl: 'modules/applications/directives/partials/du-application-applicant-info.client.partial.html',
+      templateUrl: 'modules/applications/directives/partials/du-application-overview.client.partial.html',
       controller: duApplicationApplicantInfoController,
       controllerAs: 'vm',
       bindToController: true,
