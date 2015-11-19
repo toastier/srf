@@ -91,6 +91,24 @@ exports.allSuccessful = function (req, res) {
   executeListingQuery(query, res);
 };
 
+exports.countByDate = function (req, res) {
+  var query = Application.count();
+  var dateStart = (new Date(req.params.dateStart)).toISOString();
+  var dateEnd = new Date(req.params.dateEnd).toISOString();
+  query
+      .populate('opening')
+      .where('dateSubmitted').gte(dateStart)
+      .where('dateSubmitted').lte(dateEnd)
+      //.where('opening.position').equals(req.params.position)
+      .exec(function (err, count) {
+        if (err) {
+          sendResponse(err, null, res);
+        } else {
+          return count;
+        }
+      });
+}
+
 /**
  * Appends boilerplate mongoose methods and executes a query for a 'listing' style result set
  * @param {Object} query

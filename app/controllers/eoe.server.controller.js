@@ -7,14 +7,10 @@ var mongoose = require('mongoose'),
   EoeDemographic = mongoose.model('EoeDemographic'),
   EoeDisability = mongoose.model('EoeDisability'),
   EoeVeteran = mongoose.model('EoeVeteran'),
-    _ = require('lodash'),
-    EoeDemographic = mongoose.model('EoeDemographic'),
-	EoeDisability = mongoose.model('EoeDisability'),
-	EoeVeteran = mongoose.model('EoeVeteran'),
-	Opening = mongoose.model('Opening'),
-	Q = require('q'),
-
-		_ = require('lodash')
+  _ = require('lodash'),
+  Opening = mongoose.model('Opening'),
+  Q = require('q'),
+  _ = require('lodash')
 
 /**
  * Get the error message from error object

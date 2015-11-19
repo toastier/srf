@@ -4,7 +4,7 @@
     .module('eoe')
     .controller('ListEoeController', ListEoeController);
 
-  function ListEoeController($scope, $state, Navigation, Eoe, Messages, Position, resolvedAuth, _) {
+  function ListEoeController($scope, $state, Navigation, Eoe, Messages, Application, Position, resolvedAuth, _) {
     var vm = this;
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
@@ -20,6 +20,7 @@
     vm.filterByPosition = filterByPosition;
     vm.rawData = [];
     vm.position = "all";
+    vm.applicationCount = -2;
     vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
     vm.toggleDatePicker = toggleDatePicker;
     vm.options = { };
@@ -248,8 +249,6 @@
 
       // FILTER EOE DATA FOR DEMOGRAPHIC DATA (Gender, Race, Ethnicity)
 
-
-
       var demographicData = vm.filterByType(result, 'demographic');
       demographicData = vm.filterByPosition(demographicData);
       demographicData = vm.filterByDate(demographicData);
@@ -383,6 +382,19 @@
       });
     }
 
+    function getApplicationCount() {
+      var dateStart = new Date(angular.isDate(vm.dateStart) ? vm.dateStart : '1/1/1900');
+      var dateEnd = new Date(angular.isDate(vm.dateEnd) ? (vm.dateEnd).setDate((vm.dateEnd).getDate()+1) : '12/31/2029');
+      var position = vm.position ? vm.position : 'all';
+      Application.countByDate({dateStart: dateStart, dateEnd: dateEnd}).$promise
+          .then(function(result) {
+            vm.applicationCount = result;
+          })
+          .catch(function(error) {
+            Messages.addMessage(error.data.message, 'error');
+          });
+    }
+
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
@@ -397,6 +409,9 @@
     function activate () {
       $scope._ = _;
       getValueLists();
+      getApplicationCount()
+          .$promise
+          .then(function () {
       Eoe.query()
           .$promise
           .then(function(result) {
