@@ -1,6 +1,4 @@
 //TODO convert to du pseudo tables
-p Application Count
-    span(data-ng-bind="vm.applicationCount")
 section
   navigation
   eoe-report-search-criteria
@@ -18,9 +16,13 @@ section
             td.col-xs-4
               span.pull-right {{ item.count }}
           tr
+            td.col-xs-8 Unknown
+            td.col-xs-4
+                span.pull-right {{ vm.applicationCount - vm.eoeData.totalCount }}
+          tr
             td.col-xs-8 TOTAL
             td.col-xs-4
-              span.pull-right {{ vm.eoeData.totalCount }}
+              span.pull-right {{ vm.applicationCount }}
     .panel-body
       table.table-bordered.table-striped.col-xs-12.col-md-8
         thead
@@ -38,13 +40,20 @@ section
               span.pull-right {{ item.counts[gender.code] }}
             td.col-xs-2
               span.pull-right {{ item.counts.totalCount }}
-          tr
+         tr
+              td.col-xs-4 Unknown
+              td.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : " +
+             "'orderBy'")
+                span.pull-right TBD
+              td.col-xs-2
+                  span.pull-right {{ vm.applicationCount - vm.eoeData.totalCount }}
+         tr
             td.col-xs-4 TOTAL
             td.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : " +
             "'orderBy'")
               span.pull-right {{ item.count }}
             td.col-xs-2
-              span.pull-right {{ vm.eoeData.totalCount }}
+              span.pull-right {{ vm.applicationCount }}
           //gender-totals
           // TODO this partial isn't working, why not?
     .panel-body
@@ -66,12 +75,19 @@ section
             td.col-xs-2
               span.pull-right {{ item.counts.totalCount }}
           tr
+            td.col-xs-4 Unknown
+            td.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : " +
+            "'orderBy'")
+                span.pull-right TBD
+            td.col-xs-2
+                span.pull-right {{ vm.applicationCount - vm.eoeData.totalCount }}
+          tr
               td.col-xs-4 TOTAL
               td.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : " +
               "'orderBy'")
                   span.pull-right {{ item.count }}
               td.col-xs-2
-                  span.pull-right {{ vm.eoeData.totalCount }}
+                  span.pull-right {{ vm.applicationCount }}
     .panel-body
       table.table-bordered.table-striped.col-xs-12.col-md-8
         thead
@@ -90,12 +106,19 @@ section
             td.col-xs-2
               span.pull-right {{ item.counts.totalCount }}
           tr
+              td.col-xs-4 Unknown
+              td.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : " +
+              "'orderBy'")
+                  span.pull-right TBD
+              td.col-xs-2
+                  span.pull-right {{ vm.applicationCount - vm.eoeData.totalCount }}
+          tr
             td.col-xs-4 TOTAL
             td.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : " +
             "'orderBy'")
                 span.pull-right {{ item.count }}
             td.col-xs-2
-                span.pull-right {{ vm.eoeData.totalCount }}
+                span.pull-right {{ vm.applicationCount }}
     .panel-body
       table.table-bordered.table-striped.col-xs-12.col-md-8
           thead
@@ -126,12 +149,20 @@ section
               tr(ng-repeat-end, ng-hide="true")
               tr(ng-repeat-end, ng-hide="true")
               tr
+                td.col-xs-4 Unknown
+                td.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : " +
+                "'orderBy'")
+                    span.pull-right TBD
+                td.col-xs-2
+                    span.pull-right {{ vm.applicationCount - vm.eoeData.totalCount }}
+
+              tr
                   td.col-xs-4 TOTAL
                   td.col-xs-2(data-ng-repeat="item in vm.eoeData.byGender | toArray | orderBy : " +
                   "'orderBy'")
                       span.pull-right {{ item.count }}
                   td.col-xs-2
-                      span.pull-right {{ vm.eoeData.totalCount }}
+                      span.pull-right {{ vm.applicationCount }}
 
 
 
