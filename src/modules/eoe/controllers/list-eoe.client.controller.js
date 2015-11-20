@@ -42,6 +42,7 @@
 
     function extractData() {
       reportDataInit();
+      getApplicationCount();
       parseDemographic(vm.rawData, vm.position);
       parseDisability(vm.rawData);
       parseVeteran(vm.rawData);
@@ -386,16 +387,8 @@
       var dateStart = new Date(angular.isDate(vm.dateStart) ? vm.dateStart : '1/1/1900');
       var dateEnd = new Date(angular.isDate(vm.dateEnd) ? (vm.dateEnd).setDate((vm.dateEnd).getDate()+1) : '12/31/2029');
       var position = vm.position ? vm.position : 'all';
-      //Application.countByDate({dateStart: dateStart, dateEnd: dateEnd}).$promise
-      //    .then(function(result) {
-      //      deferred.resolve(result);
-      //      vm.applicationCount = result;
-      //    })
-      //    .catch(function(error) {
-      //      Messages.addMessage(error.data.message, 'error');
-      //    });
 
-      Application.countByDate({dateStart: dateStart, dateEnd: dateEnd})
+      Application.countByDate({dateStart: dateStart, dateEnd: dateEnd, position: position})
           .$promise
           .then(function(results) {
             vm.applicationCount = results.count;
@@ -404,17 +397,6 @@
             Messages.addMessage(error.data.message, 'error');
           });
     }
-
-  //.exec(function (err, count) {
-  //    if (err) {
-  //      deferred.reject(new Error(err));
-  //      sendResponse(err, null, res);
-  //    } else {
-  //      deferred.resolve(count);
-  //      sendResponse(null, count, res);
-  //    }
-  //  });
-
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation

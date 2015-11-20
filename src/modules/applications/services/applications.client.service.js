@@ -144,11 +144,12 @@
       },
       countByDate: {
         method: 'GET',
-        url: 'applications/countByDate/:dateStart/:dateEnd',
+        url: 'applications/countByDate/:dateStart/:dateEnd/:position',
         params: {
           //position: '@position',
           dateStart: '@dateStart',
-          dateEnd: '@dateEnd'
+          dateEnd: '@dateEnd',
+          position: '@position'
         }
       }
     });
