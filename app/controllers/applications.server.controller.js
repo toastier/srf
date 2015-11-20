@@ -93,6 +93,8 @@ exports.allSuccessful = function (req, res) {
 
 exports.countByDate = function (req, res) {
   var query = Application.count();
+  //var deferred = Q.defer();
+
   var dateStart = (new Date(req.params.dateStart)).toISOString();
   var dateEnd = new Date(req.params.dateEnd).toISOString();
   query
@@ -100,14 +102,45 @@ exports.countByDate = function (req, res) {
       .where('dateSubmitted').gte(dateStart)
       .where('dateSubmitted').lte(dateEnd)
       //.where('opening.position').equals(req.params.position)
+      // this was return 3 in response but client still seeing a promise
+      //.exec(function (err, count) {
+      //  if (err) {
+      //    deferred.reject(new Error(err));
+      //    sendResponse(err, null, res);
+      //  } else {
+      //    sendResponse(null, count, res);
+      //  }
+      //});
       .exec(function (err, count) {
         if (err) {
+          //deferred.reject(new Error(err));
           sendResponse(err, null, res);
         } else {
-          return count;
+          //deferred.resolve(count); Do I even need this?
+          var data = { 'count' : count};
+          sendResponse(null, data, res);
         }
       });
 }
+
+//Application.findOne({user: req.user._id, opening: req.opening._id})
+//    .exec(function (err, application) {
+//      if (err) {
+//        return next(err);
+//      } else {
+//        if (application && (application.cv || application.coverLetter)) {
+//          getFiles(application)
+//              .then(function (result) {
+//                sendResponse(null, result, res);
+//              })
+//              .catch(function (err) {
+//                return next(err);
+//              });
+//        } else {
+//          sendResponse(null, application, res);
+//        }
+//      }
+//    });
 
 /**
  * Appends boilerplate mongoose methods and executes a query for a 'listing' style result set

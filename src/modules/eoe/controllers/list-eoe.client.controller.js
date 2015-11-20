@@ -386,14 +386,34 @@
       var dateStart = new Date(angular.isDate(vm.dateStart) ? vm.dateStart : '1/1/1900');
       var dateEnd = new Date(angular.isDate(vm.dateEnd) ? (vm.dateEnd).setDate((vm.dateEnd).getDate()+1) : '12/31/2029');
       var position = vm.position ? vm.position : 'all';
-      Application.countByDate({dateStart: dateStart, dateEnd: dateEnd}).$promise
-          .then(function(result) {
-            vm.applicationCount = result;
+      //Application.countByDate({dateStart: dateStart, dateEnd: dateEnd}).$promise
+      //    .then(function(result) {
+      //      deferred.resolve(result);
+      //      vm.applicationCount = result;
+      //    })
+      //    .catch(function(error) {
+      //      Messages.addMessage(error.data.message, 'error');
+      //    });
+
+      Application.countByDate({dateStart: dateStart, dateEnd: dateEnd})
+          .$promise
+          .then(function(results) {
+            vm.applicationCount = results.count;
           })
           .catch(function(error) {
             Messages.addMessage(error.data.message, 'error');
           });
     }
+
+  //.exec(function (err, count) {
+  //    if (err) {
+  //      deferred.reject(new Error(err));
+  //      sendResponse(err, null, res);
+  //    } else {
+  //      deferred.resolve(count);
+  //      sendResponse(null, count, res);
+  //    }
+  //  });
 
 
     function setupNavigation() {
@@ -409,20 +429,17 @@
     function activate () {
       $scope._ = _;
       getValueLists();
-      getApplicationCount()
-          .$promise
-          .then(function () {
       Eoe.query()
           .$promise
-          .then(function(result) {
-               vm.rawData = result;
-               reportDataInit();
-               parseDemographic(result, vm.position);
-               parseDisability(result, vm.position);
-               parseVeteran(result);
+          .then(function (result) {
+            vm.rawData = result;
+            reportDataInit();
+            parseDemographic(result, vm.position);
+            parseDisability(result, vm.position);
+            parseVeteran(result);
+            setupNavigation();
           });
-
-      setupNavigation();
+      getApplicationCount();
     }
 
     function getValueLists() {
