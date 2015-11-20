@@ -387,7 +387,7 @@ exports.deleteComment = function (req, res) {
     if (matchingComment) {
       if (matchingComment.commenter && matchingComment.commenter._id.toString() === req.user._id) {
         var comments = existingSubject[worksheet].comments;
-        comments.splice(comments.indexOf(matchingComment));
+        comments.splice(comments.indexOf(matchingComment), 1);
         deleted = true;
       } else {
         res.send(400, {
@@ -674,12 +674,12 @@ exports.manage = function (req, res, next) {
     });
   }
 
-  function sendResponse(err, data) {
+  function sendResponse(err) {
     if (err) {
       err.status = 400;
       next(err);
     } else {
-      res.jsonp(data);
+      res.jsonp(addApplicationStatus(application, true));
     }
   }
 };
@@ -762,66 +762,85 @@ exports.list = function (req, res) {
 
 /**
  * Computes status and adds to array of applications
- * @uses this.summarizeApplication();
+ * @uses this.addApplicationStatus();
  * @param {Array} applications
  */
 function summarizeApplications(applications) {
   _.forEach(applications, function (application) {
-    application = summarizeApplication(application);
+    application = addApplicationStatus(application);
   });
   return applications;
 }
 
 /**
  * Computes status and adds to an individual applications
- * @param {Object} application
+ * @param {Object|Array} applications
+ * @param {Boolean=} addSummary whether to add summary data to application
  * @returns {*}
  */
-function summarizeApplication(application) {
-  var status = 'Archived';
-  if (application.proceedToReview) {
-    status = 'Review Phase';
+function addApplicationStatus(applications, addSummary) {
+  addSummary = (addSummary === false) ? false : true;
+  if (_.isArray(applications)) {
+    _.forEach(applications, function (application) {
+      application = addStatus(application);
+    });
+  } else {
+    applications = addStatus(applications);
   }
-  if (application.proceedToReview === null) {
-    status = 'Needs Processing';
-  }
-  if (application.proceedToReview === false) {
-    status = 'Denied prior to Committee Review';
-  }
-  if (application.reviewPhase) {
-    if (application.reviewPhase.proceedToPhoneInterview) {
-      status = 'Phone Interview Phase';
-    } else if (application.reviewPhase.proceedToPhoneInterview === false) {
-      status = 'Denied after Review Phase';
-    }
-  }
-  if (application.phoneInterviewPhase) {
 
-    if (application.phoneInterviewPhase.proceedToOnSite) {
-      status = 'On-Campus Visit Phase';
-    } else if (application.phoneInterviewPhase.proceedToOnSite === false) {
-      status = 'Denied after Phone Interview Phase';
+  function addStatus(application) {
+    var status = 'Archived';
+    if (application.proceedToReview) {
+      status = 'Review Phase';
     }
-  }
-  if (application.onSiteVisitPhase.complete) {
-    status = 'Pending Decision';
-    if (application.offer.extended) {
-      status = 'Offer Extended';
-      if (application.offer.accepted) {
-        status = 'Successful Application';
-      }
-      if (application.offer.accepted === false) {
-        status = 'Offer Declined';
-      }
-      if (application.offer.retracted) {
-        status = 'Offer Retracted';
+    if (application.proceedToReview === null) {
+      status = 'Needs Processing';
+    }
+    if (application.proceedToReview === false) {
+      status = 'Denied prior to Committee Review';
+    }
+    if (application.reviewPhase) {
+      if (application.reviewPhase.proceedToPhoneInterview) {
+        status = 'Phone Interview Phase';
+      } else if (application.reviewPhase.proceedToPhoneInterview === false) {
+        status = 'Denied after Review Phase';
       }
     }
+    if (application.phoneInterviewPhase) {
+
+      if (application.phoneInterviewPhase.proceedToOnSite) {
+        status = 'On-Campus Visit Phase';
+      } else if (application.phoneInterviewPhase.proceedToOnSite === false) {
+        status = 'Denied after Phone Interview Phase';
+      }
+    }
+    if (application.onSiteVisitPhase.complete) {
+      status = 'Pending Decision';
+      if (application.offer.extended) {
+        status = 'Offer Extended';
+        if (application.offer.accepted) {
+          status = 'Successful Application';
+        }
+        if (application.offer.accepted === false) {
+          status = 'Offer Declined';
+        }
+        if (application.offer.retracted) {
+          status = 'Offer Retracted';
+        }
+      }
+    }
+
+    application._doc.status = status;
+    application = (addSummary) ? addSummaryToApplication(application) : application;
+    return application;
   }
+
+  return applications;
+}
+
+function addSummaryToApplication(application) {
   var applicantDisplayName = application.firstName + ' ' + application.lastName;
-  application._doc.isNew = (application.isNewApplication) ? true : false;
   application._doc.applicantDisplayName = applicantDisplayName;
-  application._doc.status = status;
   application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
   return application;
 }
@@ -832,7 +851,7 @@ function summarizeApplication(application) {
  * @param {Object} res
  */
 exports.read = function (req, res) {
-  res.jsonp(summarizeApplication(req.application));
+  res.jsonp(addApplicationStatus(req.application, true));
 };
 
 /**

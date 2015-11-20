@@ -219,11 +219,21 @@ var applicationModel = new Schema({
               type: Date
             },
             comments: [
-              {commenter: {
-                type: Schema.ObjectId,
-                ref: 'User'
-              },
-                comment: {type: String}
+              {
+                commenter: {
+                  type: Schema.ObjectId,
+                  ref: 'User'
+                },
+                comment: {
+                  type: String
+                },
+                dateCreated: {
+                  type: Date,
+                  default: Date.now
+                },
+                dateUpdated: {
+                  type: Date
+                }
               }
             ]
           }

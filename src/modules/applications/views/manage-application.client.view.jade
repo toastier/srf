@@ -15,16 +15,17 @@ section
     du-opening-view-smart-component(opening-id="vm.application.opening._id", start-collapsed='true')
   h2 Application Workflow
   .col-xs-12(ng-if="vm.application.submitted === 'true' || vm.application.submitted === '\u2713'")
-    .row.well
-      .col-md-4
-        label.control-label Proceed to Review?
-        du-toggle-switch(toggle-switch-model="vm.application.proceedToReview")
-      .col-md-4(ng-show="vm.application.proceedToReview")
-        label.control-label Proceed to Phone Interview?
-        du-toggle-switch(toggle-switch-model="vm.application.reviewPhase.proceedToPhoneInterview")
-      .col-md-4(ng-show="vm.application.proceedToReview && vm.application.reviewPhase.proceedToPhoneInterview")
-        label.control-label Proceed to On-Campus Visit?
-        du-toggle-switch(toggle-switch-model="vm.application.phoneInterviewPhase.proceedToOnSite")
+    .well.row
+      .row
+        .col-md-4
+          label.control-label Proceed to Review?
+          du-toggle-switch(toggle-switch-model="vm.application.proceedToReview")
+        .col-md-4(ng-show="vm.application.proceedToReview")
+          label.control-label Proceed to Phone Interview?
+          du-toggle-switch(toggle-switch-model="vm.application.reviewPhase.proceedToPhoneInterview")
+        .col-md-4(ng-show="vm.application.proceedToReview && vm.application.reviewPhase.proceedToPhoneInterview")
+          label.control-label Proceed to On-Campus Visit?
+          du-toggle-switch(toggle-switch-model="vm.application.phoneInterviewPhase.proceedToOnSite")
   .col-xs-12
     .row(ng-if="!!vm.application.proceedToReview")
       h3 Review Phase&nbsp;
