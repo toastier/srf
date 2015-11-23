@@ -44,6 +44,9 @@ module.exports = function (app) {
   app.route('/applications/eoeProvided/:applicationId')
       .get(applications.eoeProvided);
 
+  app.route('/applications/countByDate/:dateStart/:dateEnd/:position')
+      .get(applications.countByDate);
+
   app.route('/applications/iAmReviewer')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.iAmReviewer);
 

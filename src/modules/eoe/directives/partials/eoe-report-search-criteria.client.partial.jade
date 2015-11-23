@@ -1,14 +1,16 @@
-.container
-    .col-md-12
-        form.form-horizontal(novalidate='')
-            .form-group
-                .col-xs-12.col-md-9
-                    label.control-label(for='position') Position
-                    select#position.form-control(ng-options="position._id as position.name for position in vm.options.positions", ng-change="vm.extractData()", data-ng-model='vm.position', required='')
-                        option(value="all") --All Positions--
+form
+    .angular-filtering.inline-controls
+        .col-xs-12
+            .row
+                .col-xs-12.col-md-8
+                    .input-group
+                        .input-group-addon-30 Position
+                        select.form-control(ng-model="vm.position", ng-change="vm.extractData()", ng-options="position._id as position.name for position in vm.options.positions")
+                            option(value="") -- All Positions --
+            .row
                 .col-xs-12.col-md-4
-                    label.control-label Start Date
-                    p.input-group
+                    .input-group
+                        .input-group-addon-30 Start Date
                         input.form-control(
                         name="dateStart",
                         type="text",
@@ -23,9 +25,9 @@
                             button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, " +
                             "'dateStart')")
                                 i.fa.fa-calendar
-                .col-xs-12.col-md-4.col-md-push-1
-                    label.control-label End Date
-                    p.input-group
+                .col-xs-12.col-md-4
+                    .input-group
+                        .input-group-addon-30 End Date
                         input.form-control(
                         name="dateEnd",
                         type="text",
@@ -40,4 +42,9 @@
                             button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, " +
                             "'dateEnd')")
                                 i.fa.fa-calendar
+                .col-md-4.text-right
+                    button.btn.btn-undo(ng-click="vm.clearFilters()") Clear Filters
+
+
+
 

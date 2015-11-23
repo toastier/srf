@@ -4,7 +4,7 @@
     .module('eoe')
     .controller('ListEoeController', ListEoeController);
 
-  function ListEoeController($scope, $state, Navigation, Eoe, Messages, Position, resolvedAuth, _) {
+  function ListEoeController($scope, $state, Navigation, Eoe, Messages, Application, Position, resolvedAuth, _) {
     var vm = this;
     vm.noFilteringDirective = true;
     vm.user = resolvedAuth;
@@ -19,10 +19,12 @@
     vm.filterByDate = filterByDate;
     vm.filterByPosition = filterByPosition;
     vm.rawData = [];
-    vm.position = "all";
+    vm.position = "";
+    vm.applicationCount = -2;
     vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
     vm.toggleDatePicker = toggleDatePicker;
     vm.options = { };
+    vm.clearFilters = clearFilters;
 
     function allowView () {
       return true;
@@ -41,9 +43,10 @@
 
     function extractData() {
       reportDataInit();
+      getApplicationCount();
       parseDemographic(vm.rawData, vm.position);
-      parseDisability(vm.rawData);
-      parseVeteran(vm.rawData);
+      parseDisability(vm.rawData, vm.position);
+      parseVeteran(vm.rawData, vm.position);
     }
 
     function setIsActive (source) {
@@ -218,10 +221,9 @@
     }
 
     // Filter for Position
-    function filterByPosition(data) {
-      if (vm.position !== "all") {
+    function filterByPosition(data){
+      if (vm.position !== "") {
         data = _.filter(data, function(rec) {
-          console.log(rec._id);
           return (rec.position === vm.position);
         });
       }
@@ -235,11 +237,8 @@
       //var dateEnd = new Date((vm.dateEnd).setDate((vm.dateEnd).getDate()+1));
       data = _.filter(data, function(rec) {
         var eoeDateCreated = new Date(rec.dateCreated);
-
-        console.log(dateStart + ' ' + dateEnd + '' + eoeDateCreated);
         return (eoeDateCreated >= dateStart && eoeDateCreated <= dateEnd);
       });
-      //TODO total account will be number of applicants
       vm.eoeData.totalCount = _.size(data);
       return data;
     }
@@ -247,8 +246,6 @@
     function parseDemographic(result) {
 
       // FILTER EOE DATA FOR DEMOGRAPHIC DATA (Gender, Race, Ethnicity)
-
-
 
       var demographicData = vm.filterByType(result, 'demographic');
       demographicData = vm.filterByPosition(demographicData);
@@ -260,7 +257,6 @@
         var genderCount=_.size(_.filter(demographicData, function(rec) {
           return (rec.gender === gender.code);
         }));
-        console.log(gender.description + ' count is ' + genderCount);
         vm.eoeData.byGender[gender.code] = { "count": genderCount, orderBy: gender.orderBy, "label" : gender.description, "code": gender.code};
       });
 
@@ -273,7 +269,6 @@
           var ethnicityCount =_.size(_.filter(demographicData, function(rec) {
             return (rec.ethnicity === ethnicity.code && rec.gender === gender.code);
           }));
-          console.log(ethnicity.description + ' - ' + gender.description + ' count is ' + ethnicityCount);
           vm.eoeData.byEthnicity[ethnicity.code].counts[gender.code] = ethnicityCount;
           vm.eoeData.byEthnicity[ethnicity.code].counts.totalCount += ethnicityCount;
         });
@@ -288,7 +283,6 @@
           var raceCount = _.size(_.filter(demographicData, function (rec) {
             return (rec.race[race.code] === true && rec.gender === gender.code);
           }));
-          console.log(race.description + ' - ' + gender.description + ' count is ' + raceCount);
           vm.eoeData.byRace[race.code].counts[gender.code] = raceCount;
           vm.eoeData.byRace[race.code].counts.totalCount += raceCount;
         });
@@ -326,7 +320,6 @@
           var disabilityCount = _.size(_.filter(disabilityData, function (rec) {
             return (rec.disability === option.code && rec.gender === gender.code);
           }));
-          console.log(option.description + ' - ' + gender.code + ' count is ' + disabilityCount);
           vm.eoeData.byDisability[option.code].counts[gender.code] = disabilityCount;
           vm.eoeData.byDisability[option.code].counts.totalCount += disabilityCount;
         });
@@ -353,7 +346,6 @@
           var veteranCount = _.size(_.filter(veteranData, function (rec) {
             return (rec.veteran === option.code && rec.gender === gender.code);
           }));
-          console.log(option.description + ' - ' + gender.code + ' count is ' + veteranCount);
           vm.eoeData.byVeteran[option.code].counts[gender.code] = veteranCount;
           vm.eoeData.byVeteran[option.code].counts.totalCount += veteranCount;
         });
@@ -376,13 +368,26 @@
               return false;
             }
           }));
-          console.log(option.description + ' - ' + gender.code + ' count is ' + veteranCount);
           vetClassData[option.code].counts[gender.code] = veteranCount;
           vetClassData[option.code].counts.totalCount += veteranCount;
         });
       });
     }
 
+    function getApplicationCount() {
+      var dateStart = new Date(angular.isDate(vm.dateStart) ? vm.dateStart : '1/1/1900');
+      var dateEnd = new Date(angular.isDate(vm.dateEnd) ? (vm.dateEnd).setDate((vm.dateEnd).getDate()+1) : '12/31/2029');
+      var position = (vm.position !== "") ? vm.position : 'all';
+
+      Application.countByDate({dateStart: dateStart, dateEnd: dateEnd, position: position})
+          .$promise
+          .then(function(results) {
+            vm.applicationCount = results.count;
+          })
+          .catch(function(error) {
+            Messages.addMessage(error.data.message, 'error');
+          });
+    }
 
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
@@ -391,7 +396,7 @@
       actions.splice(1, 2); // splice out the ones we don't want (were taking them all out here)
 
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('EOE Report'); // set the page title
+      Navigation.viewTitle.set('Equal Employment Opportunity Report'); // set the page title
     }
 
     function activate () {
@@ -399,15 +404,15 @@
       getValueLists();
       Eoe.query()
           .$promise
-          .then(function(result) {
-               vm.rawData = result;
-               reportDataInit();
-               parseDemographic(result, vm.position);
-               parseDisability(result, vm.position);
-               parseVeteran(result);
+          .then(function (result) {
+            vm.rawData = result;
+            reportDataInit();
+            parseDemographic(result);
+            parseDisability(result);
+            parseVeteran(result);
+            setupNavigation();
           });
-
-      setupNavigation();
+      getApplicationCount();
     }
 
     function getValueLists() {
@@ -429,6 +434,12 @@
       $state.go('main.viewEoe', { EoeId: Eoe._id });
     }
 
+    function clearFilters() {
+      vm.position = '';
+      vm.dateStart = null;
+      vm.dateEnd = null;
+      vm.extractData();
+    }
 
     activate();
 

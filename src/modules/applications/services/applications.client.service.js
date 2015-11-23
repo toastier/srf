@@ -141,6 +141,16 @@
           openingId: '@openingId'
         },
         isArray: true
+      },
+      countByDate: {
+        method: 'GET',
+        url: 'applications/countByDate/:dateStart/:dateEnd/:position',
+        params: {
+          //position: '@position',
+          dateStart: '@dateStart',
+          dateEnd: '@dateEnd',
+          position: '@position'
+        }
       }
     });
 

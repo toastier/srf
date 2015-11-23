@@ -16,6 +16,8 @@ var async = require('async');
 var mime = require('mime-types');
 var Q = require('q');
 
+mongoose.set('debug', true);
+
 
 /**
  * Return JSON of Closed Applications
@@ -90,6 +92,34 @@ exports.allSuccessful = function (req, res) {
 
   executeListingQuery(query, res);
 };
+
+
+// countByDate not currently needed as date filtering will be done on client side but will use method
+// with default start dates and end dates provided initially by client (1900 - 2029)
+exports.countByDate = function (req, res) {
+  var query = Application.find();
+  var dateStart = (new Date(req.params.dateStart)).toISOString();
+  var dateEnd = new Date(req.params.dateEnd).toISOString();
+  var position = (req.params.position === 'all') ? 'all' : mongoose.Types.ObjectId(req.params.position);
+  query
+      .populate('opening')
+      .where('dateSubmitted').gte(dateStart)
+      .where('dateSubmitted').lte(dateEnd)
+      .exec(function (err, docs) {
+        if (position !== 'all') {
+          docs = docs.filter(function(doc){
+            return (doc.opening.position.toString() === position.toString())
+          });
+        }
+        var data = { 'count' : docs.length };
+        if (err) {
+          sendResponse(err, null, res);
+        } else {
+          sendResponse(null, data, res);
+        }
+      });
+}
+
 
 /**
  * Appends boilerplate mongoose methods and executes a query for a 'listing' style result set
