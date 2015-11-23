@@ -1185,6 +1185,17 @@ form .warning {
   color: $state-danger-text;
 }
 
+form .input-group {
+  width: 100%;
+  select {
+    text-indent: 6px;
+  }
+  .input-group-addon-30 {
+    @extend .input-group-addon;
+    width: 30%;
+  }
+}
+
 form .form-group.has-warning,
 form .input-group.has-warning{
   label {

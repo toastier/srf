@@ -396,7 +396,7 @@
       actions.splice(1, 2); // splice out the ones we don't want (were taking them all out here)
 
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('EOE Report'); // set the page title
+      Navigation.viewTitle.set('Equal Employment Opportunity Report'); // set the page title
     }
 
     function activate () {
