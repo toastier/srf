@@ -24,6 +24,7 @@
     vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
     vm.toggleDatePicker = toggleDatePicker;
     vm.options = { };
+    vm.clearFilters = clearFilters;
 
     function allowView () {
       return true;
@@ -433,6 +434,12 @@
       $state.go('main.viewEoe', { EoeId: Eoe._id });
     }
 
+    function clearFilters() {
+      vm.position = '';
+      vm.dateStart = null;
+      vm.dateEnd = null;
+      vm.extractData();
+    }
 
     activate();
 
