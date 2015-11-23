@@ -106,9 +106,11 @@ exports.countByDate = function (req, res) {
       .where('dateSubmitted').gte(dateStart)
       .where('dateSubmitted').lte(dateEnd)
       .exec(function (err, docs) {
-        docs = docs.filter(function(doc){
-          return (doc.opening.position.toString() === position.toString())
-        });
+        if (position !== 'all') {
+          docs = docs.filter(function(doc){
+            return (doc.opening.position.toString() === position.toString())
+          });
+        }
         var data = { 'count' : docs.length };
         if (err) {
           sendResponse(err, null, res);
