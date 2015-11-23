@@ -44,8 +44,8 @@
       reportDataInit();
       getApplicationCount();
       parseDemographic(vm.rawData, vm.position);
-      parseDisability(vm.rawData);
-      parseVeteran(vm.rawData);
+      parseDisability(vm.rawData, vm.position);
+      parseVeteran(vm.rawData, vm.position);
     }
 
     function setIsActive (source) {
@@ -223,7 +223,6 @@
     function filterByPosition(data){
       if (vm.position !== "") {
         data = _.filter(data, function(rec) {
-          console.log(rec._id);
           return (rec.position === vm.position);
         });
       }
@@ -237,11 +236,8 @@
       //var dateEnd = new Date((vm.dateEnd).setDate((vm.dateEnd).getDate()+1));
       data = _.filter(data, function(rec) {
         var eoeDateCreated = new Date(rec.dateCreated);
-
-        console.log(dateStart + ' ' + dateEnd + '' + eoeDateCreated);
         return (eoeDateCreated >= dateStart && eoeDateCreated <= dateEnd);
       });
-      //TODO total account will be number of applicants
       vm.eoeData.totalCount = _.size(data);
       return data;
     }
@@ -260,7 +256,6 @@
         var genderCount=_.size(_.filter(demographicData, function(rec) {
           return (rec.gender === gender.code);
         }));
-        console.log(gender.description + ' count is ' + genderCount);
         vm.eoeData.byGender[gender.code] = { "count": genderCount, orderBy: gender.orderBy, "label" : gender.description, "code": gender.code};
       });
 
@@ -273,7 +268,6 @@
           var ethnicityCount =_.size(_.filter(demographicData, function(rec) {
             return (rec.ethnicity === ethnicity.code && rec.gender === gender.code);
           }));
-          console.log(ethnicity.description + ' - ' + gender.description + ' count is ' + ethnicityCount);
           vm.eoeData.byEthnicity[ethnicity.code].counts[gender.code] = ethnicityCount;
           vm.eoeData.byEthnicity[ethnicity.code].counts.totalCount += ethnicityCount;
         });
@@ -288,7 +282,6 @@
           var raceCount = _.size(_.filter(demographicData, function (rec) {
             return (rec.race[race.code] === true && rec.gender === gender.code);
           }));
-          console.log(race.description + ' - ' + gender.description + ' count is ' + raceCount);
           vm.eoeData.byRace[race.code].counts[gender.code] = raceCount;
           vm.eoeData.byRace[race.code].counts.totalCount += raceCount;
         });
@@ -326,7 +319,6 @@
           var disabilityCount = _.size(_.filter(disabilityData, function (rec) {
             return (rec.disability === option.code && rec.gender === gender.code);
           }));
-          console.log(option.description + ' - ' + gender.code + ' count is ' + disabilityCount);
           vm.eoeData.byDisability[option.code].counts[gender.code] = disabilityCount;
           vm.eoeData.byDisability[option.code].counts.totalCount += disabilityCount;
         });
@@ -353,7 +345,6 @@
           var veteranCount = _.size(_.filter(veteranData, function (rec) {
             return (rec.veteran === option.code && rec.gender === gender.code);
           }));
-          console.log(option.description + ' - ' + gender.code + ' count is ' + veteranCount);
           vm.eoeData.byVeteran[option.code].counts[gender.code] = veteranCount;
           vm.eoeData.byVeteran[option.code].counts.totalCount += veteranCount;
         });
@@ -376,7 +367,6 @@
               return false;
             }
           }));
-          console.log(option.description + ' - ' + gender.code + ' count is ' + veteranCount);
           vetClassData[option.code].counts[gender.code] = veteranCount;
           vetClassData[option.code].counts.totalCount += veteranCount;
         });
@@ -386,7 +376,7 @@
     function getApplicationCount() {
       var dateStart = new Date(angular.isDate(vm.dateStart) ? vm.dateStart : '1/1/1900');
       var dateEnd = new Date(angular.isDate(vm.dateEnd) ? (vm.dateEnd).setDate((vm.dateEnd).getDate()+1) : '12/31/2029');
-      var position = vm.position ? vm.position : 'all';
+      var position = (vm.position !== "") ? vm.position : 'all';
 
       Application.countByDate({dateStart: dateStart, dateEnd: dateEnd, position: position})
           .$promise
@@ -416,8 +406,8 @@
           .then(function (result) {
             vm.rawData = result;
             reportDataInit();
-            parseDemographic(result, vm.position);
-            parseDisability(result, vm.position);
+            parseDemographic(result);
+            parseDisability(result);
             parseVeteran(result);
             setupNavigation();
           });
