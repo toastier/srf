@@ -19,7 +19,7 @@
     vm.filterByDate = filterByDate;
     vm.filterByPosition = filterByPosition;
     vm.rawData = [];
-    vm.position = "all";
+    vm.position = "";
     vm.applicationCount = -2;
     vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
     vm.toggleDatePicker = toggleDatePicker;
@@ -220,8 +220,8 @@
     }
 
     // Filter for Position
-    function filterByPosition(data) {
-      if (vm.position !== "all") {
+    function filterByPosition(data){
+      if (vm.position !== "") {
         data = _.filter(data, function(rec) {
           console.log(rec._id);
           return (rec.position === vm.position);
