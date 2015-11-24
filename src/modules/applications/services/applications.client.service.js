@@ -65,13 +65,13 @@
         method: 'GET',
         url: 'applications/forOpeningForUser/:openingId'
       },
-      checkForExistingEoe: {
+      checkForExistingEeo: {
         method: 'GET',
-        url: 'applications/eoeProvided/:applicationId'
+        url: 'applications/eeoProvided/:applicationId'
       },
-      setEoeProvided: {
+      setEeoProvided: {
         method: 'PUT',
-        url: '/applications/:applicationId/setEoeProvided'
+        url: '/applications/:applicationId/setEeoProvided'
       },
       removeFile: {
         method: 'PUT',

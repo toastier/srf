@@ -1160,16 +1160,16 @@ exports.update = function (req, res) {
 };
 
 /**
- * Return true if EOE already provided for Application
+ * Return true if EEO already provided for Application
  * empty
  * @param {Object} req
  * @param {Object} res
  */
-exports.eoeProvided = function (req, res) {
+exports.eeoProvided = function (req, res) {
   Application.findOne({_id: req.application._id})
     .exec(function (err, application) {
-      console.log('executing eoeProvided for ', application._id);
-      console.log('eoeProvided is', application.eoeProvided);
+      console.log('executing eeoProvided for ', application._id);
+      console.log('eeoProvided is', application.eeoProvided);
       if (err) {
         return res.send(400, {
           message: 'Error looking for existing Application'

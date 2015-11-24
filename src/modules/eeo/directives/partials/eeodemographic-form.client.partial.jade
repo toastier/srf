@@ -1,0 +1,56 @@
+.panel.panel-default
+  .panel-heading.large Voluntary Self-Identification of Gender, Race & Ethnicity
+  .panel-body
+
+    .row
+      .col-md-12
+        .row
+          .col-md-12.form-group
+            label.control-label Gender
+            .col-md-12.control-group
+                .radio
+                  label
+                    input.radio#female(type='radio', value='f', ng-model='vm.eeo.gender')
+                    span Female
+                .radio
+                  label
+                    input.radio#male(type='radio', value='m', ng-model='vm.eeo.gender')
+                    span Male
+                .radio
+                  label
+                    input.radio#decline(type='radio', value='d', ng-model='vm.eeo.gender')
+                    span I decline to answer
+    .row
+      .col-md-12
+        .row
+          .col-md-12.form-group
+            label.control-label Ethnicity
+              .col-md-12.control-group
+                .radio(data-ng-repeat='ethnicity in vm.options.ethnicities')
+                  label
+                    input.radio#hispanic(type='radio', value='h', ng-model='vm.eeo.ethnicity')
+                    span {{ethnicity.description}}
+                    i.fa.fa-info-circle.fa-fw(tooltip='{{ethnicity.detail}}', tooltip-class="customClass", tooltip-animation="true", tooltip-placement="right")
+                .radio
+                  label
+                    input.radio#nothispanic(type='radio', value='n', ng-model='vm.eeo.ethnicity')
+                    span Not Hispanic or Latino
+                .radio
+                  label
+                    input.radio#decline(type='radio', value='d', ng-model='vm.eeo.ethnicity')
+                    span I decline to answer
+    .row
+      .col-md-12
+        .row
+          .col-md-12.form-group
+            label.control-label Race
+            .col-md-12.control-group
+              .checkbox(data-ng-repeat='race in vm.options.races')
+                label
+                  input.checkbox-inline(type="checkbox", ng-change="vm.declineOff()", ng-model=('vm.eeo.race[race.code]'), checklist-value='race.description')
+                  span {{race.description}}
+                  i.fa.fa-info-circle.fa-fw(ng-show='race.detail', tooltip='{{race.detail}}', tooltip-class="customClass", tooltip-animation="true", tooltip-placement="right")
+              .radio
+                label
+                  input.radio#decline(type='radio', ng-change="vm.declineAnswer(vm.eeo.race)", value='true', ng-model='vm.eeo.race.declined')
+                  span I decline to answer

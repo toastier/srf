@@ -38,7 +38,7 @@ var applicationModel = new Schema({
     coverLetter: {
       type: Schema.Types.ObjectId
     },
-    eoeProvided: {
+    eeoProvided: {
       type: Boolean,
       default: false
     },
