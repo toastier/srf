@@ -201,7 +201,7 @@ div.radio-switch {
         // add icon style to before
         &:before {
           @include font-awesome-icon-before();
-          min-width: 20px;
+          min-width: 18px;
         }
       }
       // specify icons

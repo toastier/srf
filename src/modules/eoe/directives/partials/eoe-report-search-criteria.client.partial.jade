@@ -1,14 +1,14 @@
 form
-    .angular-filtering.inline-controls
+    .angular-filtering
         .col-xs-12
             .row
-                .col-xs-12.col-md-8
+                .form-group.col-xs-12.col-md-8
                     .input-group
                         .input-group-addon-30 Position
                         select.form-control(ng-model="vm.position", ng-change="vm.extractData()", ng-options="position._id as position.name for position in vm.options.positions")
                             option(value="") -- All Positions --
             .row
-                .col-xs-12.col-md-4
+                .form-group.col-xs-12.col-md-4
                     .input-group
                         .input-group-addon-30 Start Date
                         input.form-control(
@@ -25,7 +25,7 @@ form
                             button.btn.btn-default(type="button", ng-click="vm.toggleDatePicker($event, " +
                             "'dateStart')")
                                 i.fa.fa-calendar
-                .col-xs-12.col-md-4
+                .form-group.col-xs-12.col-md-4
                     .input-group
                         .input-group-addon-30 End Date
                         input.form-control(
