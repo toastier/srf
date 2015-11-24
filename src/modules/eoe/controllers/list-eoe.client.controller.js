@@ -20,7 +20,8 @@
     vm.filterByPosition = filterByPosition;
     vm.rawData = [];
     vm.position = "";
-    vm.applicationCount = -2;
+    vm.applicationCount = 0;
+    vm.hired = [];
     vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
     vm.toggleDatePicker = toggleDatePicker;
     vm.options = { };
@@ -383,6 +384,7 @@
           .$promise
           .then(function(results) {
             vm.applicationCount = results.count;
+            vm.hired = results.hired;
           })
           .catch(function(error) {
             Messages.addMessage(error.data.message, 'error');

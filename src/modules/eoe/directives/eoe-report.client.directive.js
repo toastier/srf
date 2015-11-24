@@ -5,12 +5,20 @@
       .directive('eoeReportGenderTotals', eoeReportGenderTotals)
       .directive('eoeReportGenderHeader', eoeReportGenderHeader)
       .directive('eoeReportSearchCriteria', eoeReportSearchCriteria)
+      .directive('eoeReportApplicantsHired', eoeReportApplicantsHired)
 
   function eoeReportSearchCriteria() {
     return {
       restrict: 'E',
       templateUrl: 'modules/eoe/directives/partials/eoe-report-search-criteria.client.partial.html'
     };
+  }
+
+  function eoeReportApplicantsHired() {
+      return {
+        restrict: 'E',
+        templateUrl: 'modules/eoe/directives/partials/eoe-report-applicants-hired.client.partial.html'
+      };
   }
 
   function eoeReportGenderHeader() {

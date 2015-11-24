@@ -104,14 +104,18 @@ exports.countByDate = function (req, res) {
   query
       .populate('opening')
       .where('dateSubmitted').gte(dateStart)
-      .where('dateSubmitted').lte(dateEnd)
+      .where('dateSubmitted').lt(dateEnd)
       .exec(function (err, docs) {
         if (position !== 'all') {
           docs = docs.filter(function(doc){
             return (doc.opening.position.toString() === position.toString())
           });
+          var hired = docs.filter(function(doc){
+            return (doc.offer.accepted === true)
+          });
+          console.log (hired);
         }
-        var data = { 'count' : docs.length };
+        var data = { 'count' : docs.length, 'hired' : hired };
         if (err) {
           sendResponse(err, null, res);
         } else {

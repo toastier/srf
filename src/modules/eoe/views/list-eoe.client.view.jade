@@ -1,9 +1,8 @@
 //TODO convert to du pseudo tables
 navigation
 section
-    .row
-        .col-xs-12
-            eoe-report-search-criteria
+    eoe-report-search-criteria
+    eoe-report-applicants-hired(data-ng-show="vm.hired.length > 0")
     .panel.panel-info
         .panel-heading Applicants by Gender
         .panel-body
