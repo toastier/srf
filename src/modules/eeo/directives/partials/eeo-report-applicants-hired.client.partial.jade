@@ -1,0 +1,10 @@
+.panel.panel-info
+   .panel-heading Hired
+   .panel-body
+      .list-group-item(data-ng-repeat="applicant in vm.hired")
+            p
+               strong {{ applicant.honorific }} {{ applicant.firstName }} {{ applicant.middleName }} {{ applicant.lastName }}
+            p
+               span.label.label-info Application Submitted: {{ applicant.dateSubmitted | standardDate }}
+            p
+               span.label.label-info Offer Accepted: {{ applicant.offer.dateAccepted | standardDate }}

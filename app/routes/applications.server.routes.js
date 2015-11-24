@@ -41,8 +41,11 @@ module.exports = function (app) {
   app.route('/applications/forOpeningForUser/:openingId')
     .get(applications.forOpeningForUser); //@todo look at security on this
 
-  app.route('/applications/eoeProvided/:applicationId')
-      .get(applications.eoeProvided);
+  app.route('/applications/eeoProvided/:applicationId')
+      .get(applications.eeoProvided);
+
+  app.route('/applications/countByDate/:dateStart/:dateEnd/:position')
+      .get(applications.countByDate);
 
   app.route('/applications/iAmReviewer')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.iAmReviewer);

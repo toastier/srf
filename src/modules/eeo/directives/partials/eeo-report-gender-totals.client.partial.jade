@@ -1,0 +1,7 @@
+tr
+    td.col-xs-4 TOTAL
+    td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy : " +
+    "'orderBy'")
+        span.pull-right {{ item.count }}
+    td.col-xs-2
+        span.pull-right {{ vm.eeoData.totalCount }}
