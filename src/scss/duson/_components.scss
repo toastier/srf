@@ -201,6 +201,7 @@ div.radio-switch {
         // add icon style to before
         &:before {
           @include font-awesome-icon-before();
+          min-width: 18px;
         }
       }
       // specify icons
@@ -1190,6 +1191,14 @@ form .input-group {
   select {
     text-indent: 6px;
   }
+  .input-group-addon-10 {
+    @extend .input-group-addon;
+    width: 10%;
+  }
+  .input-group-addon-20 {
+    @extend .input-group-addon;
+    width: 20%;
+  }
   .input-group-addon-30 {
     @extend .input-group-addon;
     width: 30%;
@@ -1814,6 +1823,33 @@ button.add-label-spacing {
   &.glyphicon-chevron-left {
     &:before {
       content: '\f053';
+    }
+
+  }
+}
+
+
+
+// CONTAINER MODIFICATION ACCOUNTING FOR SIDE NAV OF 200 PX
+
+@media (min-width: 768px) {
+  .container-fluid {
+    .container {
+      width: 600px;
+    }
+  }
+}
+@media (min-width: 992px) {
+  .container-fluid {
+    .container {
+      width: 820px;
+    }
+  }
+}
+@media (min-width: 1200px) {
+  .container-fluid {
+    .container {
+      width: 1020px;
     }
   }
 }
