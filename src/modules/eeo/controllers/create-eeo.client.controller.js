@@ -169,8 +169,14 @@
                         .then(function (result) {
                             Messages.addMessage('Thank you for submitted your confidential EEO information.');
                             vm.eeoSaved = true;
-                            if (vm.eeoData.disability !== 'y') {
+                            if (vm.eeo.disability !== 'y') {
                                 $state.go('main.listOpenings');
+                            }
+                            else {
+                                var controllerAction =
+                                    { title: 'Return to Openings', method: vm.returnToOpenings, type: 'button', style: 'btn-workflow back'};
+                                Navigation.actions.clear();
+                                Navigation.actions.add(controllerAction);
                             }
                         })
                         .catch(function (error) {
