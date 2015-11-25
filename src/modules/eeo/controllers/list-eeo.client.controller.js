@@ -209,7 +209,8 @@
         },
         byDisability: {},
         byVeteran: {},
-        totalCount: 0
+        totalCount: 0,
+        totalCounts: {}
       };
     }
 
@@ -253,7 +254,7 @@
       demographicData = vm.filterByDate(demographicData);
 
       // APPLICANTS BY GENDER
-
+      vm.eeoData.totalCounts.byGender = demographicData.length;
       _.forEach(vm.options.genders, function(gender) {
         var genderCount=_.size(_.filter(demographicData, function(rec) {
           return (rec.gender === gender.code);
@@ -263,7 +264,7 @@
 
 
       // APPLICANTS BY ETHNICITY x GENDER
-
+      vm.eeoData.totalCounts.byEthnicity = demographicData.length;
       _.forEach(vm.options.ethnicities, function(ethnicity) {
         vm.eeoData.byEthnicity[ethnicity.code] = { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : 0 }} ;
         _.forEach(vm.options.genders, function(gender) {
@@ -277,7 +278,7 @@
 
 
       // APPLICANTS BY RACE x GENDER
-
+      vm.eeoData.totalCounts.byRace = demographicData.length;
       _.forEach(vm.options.races, function(race) {
         vm.eeoData.byRace[race.code] = {label: race.description, orderBy: race.orderBy, counts: {totalCount: 0}};
         _.forEach(vm.options.genders, function (gender) {
@@ -310,8 +311,8 @@
       disabilityData = vm.filterByDate(disabilityData);
 
       // APPLICANTS BY DISABILITY x GENDER
+      vm.eeoData.totalCounts.byDisability = disabilityData.length;
       _.forEach(vm.options.disabilities, function (option) {
-
         vm.eeoData.byDisability[option.code] = {
           label: option.description,
           orderBy: option.orderBy,
@@ -336,6 +337,7 @@
       veteranData = vm.filterByDate(veteranData);
 
       // APPLICANTS BY VETERAN x GENDER
+      vm.eeoData.totalCounts.byVeteran = veteranData.length;
       _.forEach(vm.options.veterans, function (option) {
         vm.eeoData.byVeteran[option.code] = {
           label: option.description,
