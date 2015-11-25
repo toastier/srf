@@ -25,16 +25,16 @@
                             .col-md-12.control-group
                                 .radio
                                     label
-                                        input.radio#yes(type='radio', value='y', ng-model='vm.eeo.disability')
+                                        input.radio#yes(type='radio', value='y', ng-model='vm.eeo'+'.disability', name='disability', required)
                                         span Yes
                                         span , I have a disability (or previously had a disability)
                                 .radio
                                     label
-                                        input.radio#no(type='radio', value='n', ng-model='vm.eeo.disability')
+                                        input.radio#no(type='radio', value='n', ng-model='vm.eeo.disability', name='disability', required)
                                         span No
                                         span , I don't have a disability
                                 .radio
                                     label
-                                        input.radio#decline(type='radio', value='d', ng-model='vm.eeo.disability')
+                                        input.radio#decline(type='radio', value='d', ng-model='vm.eeo.disability', name='disability', required)
                                         span I decline to answer
         du-disability-brief(ng-show="vm.eeo.disability === 'y'")

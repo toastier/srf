@@ -10,15 +10,15 @@
             .col-md-12.control-group
                 .radio
                   label
-                    input.radio#female(type='radio', value='f', ng-model='vm.eeo.gender')
+                    input.radio#female(type='radio', value='f', ng-model='vm.eeo.gender',name='gender', required)
                     span Female
                 .radio
                   label
-                    input.radio#male(type='radio', value='m', ng-model='vm.eeo.gender')
+                    input.radio#male(type='radio', value='m', ng-model='vm.eeo.gender',name='gender', required)
                     span Male
                 .radio
                   label
-                    input.radio#decline(type='radio', value='d', ng-model='vm.eeo.gender')
+                    input.radio#decline(type='radio', value='d', ng-model='vm.eeo.gender',name='gender', required)
                     span I decline to answer
     .row
       .col-md-12
@@ -28,16 +28,16 @@
               .col-md-12.control-group
                 .radio(data-ng-repeat='ethnicity in vm.options.ethnicities')
                   label
-                    input.radio#hispanic(type='radio', value='h', ng-model='vm.eeo.ethnicity')
+                    input.radio#hispanic(type='radio', value='h', ng-model='vm.eeo.ethnicity',name='ethnicity', required)
                     span {{ethnicity.description}}
                     i.fa.fa-info-circle.fa-fw(tooltip='{{ethnicity.detail}}', tooltip-class="customClass", tooltip-animation="true", tooltip-placement="right")
                 .radio
                   label
-                    input.radio#nothispanic(type='radio', value='n', ng-model='vm.eeo.ethnicity')
+                    input.radio#nothispanic(type='radio', value='n', ng-model='vm.eeo.ethnicity',name='ethnicity', required)
                     span Not Hispanic or Latino
                 .radio
                   label
-                    input.radio#decline(type='radio', value='d', ng-model='vm.eeo.ethnicity')
+                    input.radio#decline(type='radio', value='d', ng-model='vm.eeo.ethnicity',name='ethnicity', required)
                     span I decline to answer
     .row
       .col-md-12
@@ -52,5 +52,7 @@
                   i.fa.fa-info-circle.fa-fw(ng-show='race.detail', tooltip='{{race.detail}}', tooltip-class="customClass", tooltip-animation="true", tooltip-placement="right")
               .radio
                 label
-                  input.radio#decline(type='radio', ng-change="vm.declineAnswer(vm.eeo.race)", value='true', ng-model='vm.eeo.race.declined')
+                  input.radio#decline(type='radio', ng-change="vm.declineAnswer(vm.eeo.race)",
+                  value='true', ng-model='vm.eeo.race.declined', name='declined')
                   span I decline to answer
+              input(type='hidden', ng-model='vm.eeo.race.declined', required)

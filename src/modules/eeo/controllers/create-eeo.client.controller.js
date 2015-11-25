@@ -44,14 +44,14 @@
       }
 
       function declineOff() {
-      if (vm.eeo.race.declined === 'true') {
+      //if (vm.eeo.race.declined === 'true') {
         for(var race in vm.eeo.race) {
           if (vm.eeo.race[race] === true) {
             console.log('race is ', vm.eeo.race[race])
             vm.eeo.race.declined = false;
           }
         }
-      }
+      //}
     }
 
    function setSelection($event, key, value) {
