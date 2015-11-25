@@ -87,6 +87,7 @@
       return angular.isUndefined(vm.eeoForm) || vm.eeoForm.$invalid || vm.eeoForm.$pristine || vm.eeoSaved;
     }
 
+
     function getPosition(positionId) {
       var matched = false;
       angular.forEach(vm.options.positions, function(position) {
@@ -168,6 +169,9 @@
                         .then(function (result) {
                             Messages.addMessage('Thank you for submitted your confidential EEO information.');
                             vm.eeoSaved = true;
+                            if (vm.eeoData.disability !== 'y') {
+                                $state.go('main.listOpenings');
+                            }
                         })
                         .catch(function (error) {
                             Messages.addMessage('There was a problem saving the Eeo ' + error.data.message, 'error');
@@ -198,7 +202,7 @@
       actions.splice(0, 3); // splice out the ones we don't want (were taking them all out here)
       actions = _.union(actions, controllerActions); // merge together actions defined in the controller with those from the Model
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      //Navigation.viewTitle.set('EEO Survey'); // set the page title
+      Navigation.viewTitle.set(''); // set the page title
     }
 
 

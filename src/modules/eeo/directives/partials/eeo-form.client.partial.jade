@@ -10,6 +10,6 @@
         eeodemographic-form
         eeodisability-form
         eeoveteran-form
-.container(ng-show="vm.eeoSaved")
-    eeo-submitted
+.container(ng-show="vm.eeoSaved && vm.eeo.disability === 'y'")
+    du-disability-management-system
 
