@@ -15,6 +15,10 @@ var Opening = mongoose.model('Opening');
 var async = require('async');
 var mime = require('mime-types');
 var Q = require('q');
+var config = require('../../config/env/all');
+var developerSettings = require('../../config/env/developer-settings');
+var nodemailer = require('nodemailer');
+
 
 mongoose.set('debug', true);
 
@@ -353,7 +357,40 @@ exports.createByUser = function (req, res) {
             });
           }
           if (result) {
+            emailApplicant(applicant);
             return res.jsonp(result);
+          }
+        });
+      }
+
+      function emailApplicant(applicant) {
+        var emailTo = (process.env.NODE_ENV === 'production') ? applicant.email : developerSettings.developerEmail;
+
+        //var sendGridSettings = {
+        //  service: 'SendGrid',
+        //  auth: {
+        //    user: 'frs-duson',
+        //    pass: 'gQrrXqEHnLgM93'
+        //  }
+        //};
+
+        var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
+
+        //var smtpTransport = nodemailer.createTransport(sendGridSettings);
+        var mailOptions = {
+          to: emailTo,
+          from: 'noreply@frs.nursing.duke.edu',
+          subject: 'DUSON Faculty Application Received',
+          text: 'We have received your application for the position!\n\n' +
+          'Thanks!\n\n' + '[Verbiage pending]'
+          //+ req.headers.host word will remain unchanged.\n'
+        };
+        smtpTransport.sendMail(mailOptions, function (err) {
+          if (err) {
+            err.status = 400;
+            return next(err);
+          } else {
+            console.log('Email sent to applicant');
           }
         });
       }

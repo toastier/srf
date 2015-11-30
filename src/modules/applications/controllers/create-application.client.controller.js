@@ -130,6 +130,7 @@
         .then(function (saveResponse) {
           Messages.addMessage('The Application for ' + saveResponse.firstName + ' ' + saveResponse.lastName + ' was Submitted.');
           //TODO convert this to an EEO method
+          Application.emailConfirmationApplicant(vm.application);
           $location.path('/eeo/' + saveResponse._id);
         })
         .catch(function (err) {
