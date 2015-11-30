@@ -376,9 +376,9 @@ exports.createByUser = function (req, res) {
         })).emailAddress;
         //var emailTo = (process.env.NODE_ENV === 'production') ? applicant.email : developerSettings.developerEmail;
         var emailTo = (process.env.NODE_ENV === 'production') ? primaryEmail: primaryEmail;
+
         var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
 
-        //var smtpTransport = nodemailer.createTransport(sendGridSettings);
         var mailOptions = {
           to: emailTo,
           from: 'noreply@frs.nursing.duke.edu',
