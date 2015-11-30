@@ -376,15 +376,6 @@ exports.createByUser = function (req, res) {
         })).emailAddress;
         //var emailTo = (process.env.NODE_ENV === 'production') ? applicant.email : developerSettings.developerEmail;
         var emailTo = (process.env.NODE_ENV === 'production') ? primaryEmail: primaryEmail;
-
-        //var sendGridSettings = {
-        //  service: 'SendGrid',
-        //  auth: {
-        //    user: 'frs-duson',
-        //    pass: 'gQrrXqEHnLgM93'
-        //  }
-        //};
-
         var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
 
         //var smtpTransport = nodemailer.createTransport(sendGridSettings);

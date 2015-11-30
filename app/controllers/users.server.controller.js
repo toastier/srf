@@ -601,17 +601,8 @@ exports.forgotPassword = function (req, res, next) {
 
       var emailTo = (process.env.NODE_ENV === 'production') ? user.email : developerSettings.developerEmail;
 
-      //var sendGridSettings = {
-      //  service: 'SendGrid',
-      //  auth: {
-      //    user: 'frs-duson',
-      //    pass: 'gQrrXqEHnLgM93'
-      //  }
-      //};
-
       var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
 
-      //var smtpTransport = nodemailer.createTransport(sendGridSettings);
       var mailOptions = {
         to: emailTo,
         from: 'noreply@frs.nursing.duke.edu',
