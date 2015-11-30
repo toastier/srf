@@ -1173,6 +1173,41 @@ exports.update = function (req, res) {
 
   if (application.submitted && !application.dateSubmitted) {
     application.dateSubmitted = Date.now();
+    var applicant = Applicant.findById(application.applicant)
+        .exec(function (err, applicant) {
+          if (err)
+          {}
+          else {
+            emailApplicant(applicant);
+          }
+        })
+  }
+
+  function emailApplicant(applicant) {
+    var primaryEmail = (_.find(applicant.emailAddresses, function(emailAddress) {
+      return emailAddress.primary = true;
+    })).emailAddress;
+    //var emailTo = (process.env.NODE_ENV === 'production') ? applicant.email : developerSettings.developerEmail;
+    var emailTo = (process.env.NODE_ENV === 'production') ? primaryEmail: primaryEmail;
+
+    var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
+
+    var mailOptions = {
+      to: emailTo,
+      from: 'noreply@frs.nursing.duke.edu',
+      subject: 'DUSON Faculty Application Received',
+      text: 'We have received your application for the position!\n\n' +
+      'Thanks!\n\n' + '[Verbiage pending]'
+      //+ req.headers.host word will remain unchanged.\n'
+    };
+    smtpTransport.sendMail(mailOptions, function (err) {
+      if (err) {
+        err.status = 400;
+        return next(err);
+      } else {
+        console.log('Email sent to ' + mailOptions.to);
+      }
+    });
   }
 
   application.save(function (err) {
