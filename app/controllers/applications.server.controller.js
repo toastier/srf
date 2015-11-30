@@ -305,7 +305,7 @@ exports.createByUser = function (req, res) {
         if (foundApplicant && foundApplicant._id) {
           saveApplication(foundApplicant);
         } else {
-          createApplicant();
+          createApplicant(req);
         }
       });
   }
@@ -313,7 +313,7 @@ exports.createByUser = function (req, res) {
   /**
    * create a new Applicant based on data in the Application, call save Application passing the Applicant
    */
-  function createApplicant() {
+  function createApplicant(req) {
     var name = {
       firstName: application.firstName,
       honorific: application.honorific,
@@ -322,7 +322,14 @@ exports.createByUser = function (req, res) {
     };
     var applicant = new Applicant({
       user: application.user,
-      name: name
+      name: name,
+      emailAddresses: [
+        {
+          emailAddress: req.user.email,
+          primary: true,
+          note: 'Same as applicant userid'
+        }
+      ]
     });
 
     applicant.save(function (err) {
@@ -364,7 +371,11 @@ exports.createByUser = function (req, res) {
       }
 
       function emailApplicant(applicant) {
-        var emailTo = (process.env.NODE_ENV === 'production') ? applicant.email : developerSettings.developerEmail;
+        var primaryEmail = (_.find(applicant.emailAddresses, function(emailAddress) {
+          return emailAddress.primary = true;
+        })).emailAddress;
+        //var emailTo = (process.env.NODE_ENV === 'production') ? applicant.email : developerSettings.developerEmail;
+        var emailTo = (process.env.NODE_ENV === 'production') ? primaryEmail: primaryEmail;
 
         //var sendGridSettings = {
         //  service: 'SendGrid',
@@ -390,7 +401,7 @@ exports.createByUser = function (req, res) {
             err.status = 400;
             return next(err);
           } else {
-            console.log('Email sent to applicant');
+            console.log('Email sent to ' + mailOptions.to);
           }
         });
       }
