@@ -1157,12 +1157,14 @@ exports.update = function (req, res) {
                   else {
                     var opening = opening.name;
                     emailApplicant(applicant, opening);
+                    emailNewApplication(applicant, opening);
                   }
                  });
           }
         });
   }
 
+  //TODO refactor to get most of this outside of controller
   function emailApplicant(applicant, opening) {
     var email = (_.find(applicant.emailAddresses, function(emailAddress) {
       return emailAddress.primary = true;
@@ -1193,6 +1195,35 @@ exports.update = function (req, res) {
         return next(err);
       } else {
         console.log('Email sent to ' + mailOptions.to);
+      }
+    });
+  }
+
+  //TODO instead of hard-coding dfa email in config, lookup DFA user role, make a method on User
+  function emailNewApplication(applicant, opening) {
+    var email = (_.find(applicant.emailAddresses, function(emailAddress) {
+      return emailAddress.primary = true;
+    })).emailAddress;
+    var emailTo = (process.env.NODE_ENV === 'production') ? config.email.dfa : developerSettings.developerEmail;
+
+    var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
+
+    var applicantName = applicant.name.firstName + ' ' + applicant.name.lastName;
+    var mailOptions = {
+      to: emailTo,
+      from: 'noreply@frs.nursing.duke.edu',
+      subject: 'FRS Application Submitted: ' + applicantName + ' for ' + opening
+    };
+
+    mailOptions.text =  'Applicant: ' + applicantName + '\n\n' +
+        'Opening: ' + opening;
+
+    smtpTransport.sendMail(mailOptions, function (err) {
+      if (err) {
+        err.status = 400;
+        return next(err);
+      } else {
+        console.log('Email sent to DFA: ' + mailOptions.to);
       }
     });
   }
