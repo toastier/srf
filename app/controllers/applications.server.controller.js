@@ -15,6 +15,10 @@ var Opening = mongoose.model('Opening');
 var async = require('async');
 var mime = require('mime-types');
 var Q = require('q');
+var config = require('../../config/env/all');
+var developerSettings = require('../../config/env/developer-settings');
+var nodemailer = require('nodemailer');
+
 
 mongoose.set('debug', true);
 
@@ -301,7 +305,7 @@ exports.createByUser = function (req, res) {
         if (foundApplicant && foundApplicant._id) {
           saveApplication(foundApplicant);
         } else {
-          createApplicant();
+          createApplicant(req);
         }
       });
   }
@@ -309,7 +313,7 @@ exports.createByUser = function (req, res) {
   /**
    * create a new Applicant based on data in the Application, call save Application passing the Applicant
    */
-  function createApplicant() {
+  function createApplicant(req) {
     var name = {
       firstName: application.firstName,
       honorific: application.honorific,
@@ -318,7 +322,14 @@ exports.createByUser = function (req, res) {
     };
     var applicant = new Applicant({
       user: application.user,
-      name: name
+      name: name,
+      emailAddresses: [
+        {
+          emailAddress: req.user.email,
+          primary: true,
+          note: 'Same as applicant userid'
+        }
+      ]
     });
 
     applicant.save(function (err) {
@@ -1134,6 +1145,56 @@ exports.update = function (req, res) {
 
   if (application.submitted && !application.dateSubmitted) {
     application.dateSubmitted = Date.now();
+    var applicant = Applicant.findById(application.applicant)
+        .exec(function (err, applicant) {
+          if (err) {
+          }
+          else {
+            var opening = Opening.findById(application.opening)
+                .exec(function (err, opening) {
+                  if (err) {
+                  }
+                  else {
+                    var opening = opening.name;
+                    emailApplicant(applicant, opening);
+                  }
+                 });
+          }
+        });
+  }
+
+  function emailApplicant(applicant, opening) {
+    var email = (_.find(applicant.emailAddresses, function(emailAddress) {
+      return emailAddress.primary = true;
+    })).emailAddress;
+    var emailTo = (process.env.NODE_ENV === 'production') ? email : developerSettings.developerEmail;
+
+    var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
+
+    var mailOptions = {
+      to: emailTo,
+      from: 'noreply@frs.nursing.duke.edu',
+      subject: 'DUSON Faculty Application Received'
+    };
+
+    mailOptions.text =  'Dear ' + (applicant.name.honorific ? applicant.name.honorific + ' ' : '') + applicant.name.lastName + ',' + '\n\n' +
+      'Thank you for your interest in the ' + opening + ' opening. Your application has been' +
+        ' received. We will review each application to determine which of the applicants will be' +
+        ' invited to participate in a phone interview with members of the faculty search' +
+        ' committee.' + '\n\nWe anticipate that we will be back in touch with you within the next' +
+        ' 2 weeks to inform you of the results of this process. \nIn the meantime, please' +
+        ' contact me with questions you have about the school, the position, or the process.' +
+        '\n\n' + 'Sincerely,' + '\r\n' + 'Crystal Arthur' + '\r\n' + 'Director, Faculty Affairs' + '\r\n'
+        + 'Duke University School of Nursing' + '\r\n' + '307 Trent Drive' + '\r\n' + 'Durham, NC 27710' + '\r\n' + '919.684.9759'
+
+    smtpTransport.sendMail(mailOptions, function (err) {
+      if (err) {
+        err.status = 400;
+        return next(err);
+      } else {
+        console.log('Email sent to ' + mailOptions.to);
+      }
+    });
   }
 
   application.save(function (err) {

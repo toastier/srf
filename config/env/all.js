@@ -9,5 +9,12 @@ module.exports = {
   port: process.env.PORT || 3000,
   templateEngine: 'swig',
   sessionSecret: 'MEAN',
-  sessionCollection: 'sessions'
+  sessionCollection: 'sessions',
+  sendGridSettings: {
+    service: 'SendGrid',
+    auth: {
+      user: 'frs-duson',
+      pass: 'gQrrXqEHnLgM93'
+    }
+  }
 };

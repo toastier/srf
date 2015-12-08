@@ -31,8 +31,6 @@
                       vm.declineAnswer = declineAnswer;
                       vm.setSelection = setSelection;
                       vm.returnToOpenings = returnToOpenings;
-                      //vm.setEeoProvided = setEeoProvided; TODO delete if not needed
-
 
                       activate();
 
@@ -41,31 +39,19 @@
 
 
 
-      //function setEeoProvided(Application, $stateParams) {
-      //
-      //    Application.setEeoProvided({applicationId: $stateParams.applicationId}).$promise
-      //        .then(function() {
-      //            console.log('Eeo Provided flag set.');
-      //        })
-      //        .catch(function (err) {
-      //            Messages.addMessage(err.data.message, 'error');
-      //        });
-      //}
-
-
       function returnToOpenings() {
         $state.go('main.listOpenings');
       }
 
       function declineOff() {
-      if (vm.eeo.race.declined === 'true') {
+      //if (vm.eeo.race.declined === 'true') {
         for(var race in vm.eeo.race) {
           if (vm.eeo.race[race] === true) {
             console.log('race is ', vm.eeo.race[race])
             vm.eeo.race.declined = false;
           }
         }
-      }
+      //}
     }
 
    function setSelection($event, key, value) {
@@ -101,6 +87,7 @@
       return angular.isUndefined(vm.eeoForm) || vm.eeoForm.$invalid || vm.eeoForm.$pristine || vm.eeoSaved;
     }
 
+
     function getPosition(positionId) {
       var matched = false;
       angular.forEach(vm.options.positions, function(position) {
@@ -112,13 +99,7 @@
     }
 
     function getValueLists() {
-      //Opening.query().$promise
-      //    .then(function(result) {
-      //      vm.options.openings = result;
-      //    })
-      //    .catch(function(error) {
-      //      Messages.addMessage(error.data.message, 'error');
-      //    });
+
       vm.options.races = [{
           code: 'native',
           description: 'American Indian or Alaskan Native',
@@ -188,6 +169,15 @@
                         .then(function (result) {
                             Messages.addMessage('Thank you for submitted your confidential EEO information.');
                             vm.eeoSaved = true;
+                            if (vm.eeo.disability !== 'y') {
+                                $state.go('main.listOpenings');
+                            }
+                            else {
+                                var controllerAction =
+                                    { title: 'Return to Openings', method: vm.returnToOpenings, type: 'button', style: 'btn-workflow back'};
+                                Navigation.actions.clear();
+                                Navigation.actions.add(controllerAction);
+                            }
                         })
                         .catch(function (error) {
                             Messages.addMessage('There was a problem saving the Eeo ' + error.data.message, 'error');
@@ -211,14 +201,14 @@
       //TODO disableIf doesn't work on on second button; want to hideIf, not disable, anyway
       var controllerActions = [
         {title: 'Submit', method: vm.saveEeo, type: 'button', style: 'btn-save', disableIf: vm.disableSaveButton},
-        {title: 'Return to Openings', method: vm.returnToOpenings, type: 'button', style: 'btn-workflow back'}
+        //{title: 'Return to Openings', method: vm.returnToOpenings, type: 'button', style: 'btn-workflow back'}
       ];
 
       var actions = Eeo.getActions(); // get the actions from the Model
       actions.splice(0, 3); // splice out the ones we don't want (were taking them all out here)
       actions = _.union(actions, controllerActions); // merge together actions defined in the controller with those from the Model
       Navigation.actions.addMany(actions); // add the actions to the Navigation service
-      Navigation.viewTitle.set('EEO Survey'); // set the page title
+      Navigation.viewTitle.set(''); // set the page title
     }
 
 

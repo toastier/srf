@@ -20,7 +20,7 @@ section
               tr
                 td.col-xs-8 Unknown
                 td.col-xs-4
-                    span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                    span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byGender }}
               tr
                 td.col-xs-8 TOTAL
                 td.col-xs-4
@@ -54,16 +54,16 @@ section
                  "'orderBy'")
                     span.pull-right -
                   td.col-xs-1
-                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byEthnicity }}
                   td.col-xs-2
-                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byEthnicity }}
              tr
                 td.col-xs-3 TOTAL
                 td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy : " +
                 "'orderBy'")
                   span.pull-right {{ item.count }}
                 td.col-xs-1
-                 span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                 span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byEthnicity }}
                 td.col-xs-2
                   span.pull-right {{ vm.applicationCount }}
     .panel.panel-info
@@ -96,16 +96,16 @@ section
                 "'orderBy'")
                     span.pull-right -
                 td.col-xs-1
-                  span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                  span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byRace }}
                 td.col-xs-2
-                  span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                  span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byRace }}
               tr
                   td.col-xs-3 TOTAL
                   td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy : " +
                   "'orderBy'")
                       span.pull-right {{ item.count }}
                   td.col-xs-1
-                    span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                    span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byRace }}
                   td.col-xs-2
                     span.pull-right {{ vm.applicationCount }}
     .panel.panel-info
@@ -137,16 +137,16 @@ section
                   "'orderBy'")
                       span.pull-right -
                   td.col-xs-1
-                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byDisability }}
                   td.col-xs-2
-                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byDisability }}
               tr
                 td.col-xs-3 TOTAL
                 td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy : " +
                 "'orderBy'")
                     span.pull-right {{ item.count }}
                 td.col-xs-1
-                  span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                  span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byDisability }}
                 td.col-xs-2
                   span.pull-right {{ vm.applicationCount }}
     .panel.panel-info
@@ -192,9 +192,9 @@ section
                     "'orderBy'")
                         span.pull-right -
                     td.col-xs-1
-                        span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                        span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byVeteran }}
                     td.col-xs-2
-                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byVeteran }}
 
                   tr
                       td.col-xs-3 TOTAL
@@ -202,7 +202,7 @@ section
                       "'orderBy'")
                           span.pull-right {{ item.count }}
                       td.col-xs-1
-                        span.pull-right {{ vm.applicationCount - vm.eeoData.totalCount }}
+                        span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byVeteran }}
                       td.col-xs-2
                           span.pull-right {{ vm.applicationCount }}
 
