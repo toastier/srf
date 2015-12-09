@@ -1156,8 +1156,12 @@ exports.update = function (req, res) {
                   }
                   else {
                     var opening = opening.name;
+                    var options = {
+                      url : req.headers.host + '/#!/applications/' + application._id
+                    };
+                    console.log(options.server);
                     emailApplicant(applicant, opening);
-                    emailNewApplication(applicant, opening);
+                    emailNewApplication(applicant, opening, options);
                   }
                  });
           }
@@ -1200,7 +1204,7 @@ exports.update = function (req, res) {
   }
 
   //TODO instead of hard-coding dfa email in config, lookup DFA user role, make a method on User
-  function emailNewApplication(applicant, opening) {
+  function emailNewApplication(applicant, opening, options) {
     var email = (_.find(applicant.emailAddresses, function(emailAddress) {
       return emailAddress.primary = true;
     })).emailAddress;
@@ -1212,16 +1216,19 @@ exports.update = function (req, res) {
     var mailOptions = {
       to: emailTo,
       from: 'noreply@frs.nursing.duke.edu',
-      subject: 'FRS Application Submitted: ' + applicantName + ' for ' + opening
+      subject: 'FRS Application Submitted: ' + applicantName + ' for ' + opening,
+      url: options.url
     };
+    console.log('Mail Options: ', mailOptions);
 
     mailOptions.text =  'Applicant: ' + applicantName + '\n\n' +
-        'Opening: ' + opening;
+        'Opening: ' + opening + '\n\n' +
+            'View Application: ' + mailOptions.url;
 
     smtpTransport.sendMail(mailOptions, function (err) {
       if (err) {
         err.status = 400;
-        return next(err);
+        console.log(err);
       } else {
         console.log('Email sent to DFA: ' + mailOptions.to);
       }
