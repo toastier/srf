@@ -1183,15 +1183,18 @@ exports.update = function (req, res) {
       subject: 'DUSON Faculty Application Received'
     };
 
-    mailOptions.text =  'Dear ' + (applicant.name.honorific ? applicant.name.honorific + ' ' : '') + applicant.name.lastName + ',' + '\n\n' +
-      'Thank you for your interest in the ' + opening + ' opening. Your application has been' +
-        ' received. We will review each application to determine which of the applicants will be' +
-        ' invited to participate in a phone interview with members of the faculty search' +
-        ' committee.' + '\n\nWe anticipate that we will be back in touch with you within the next' +
-        ' 2 weeks to inform you of the results of this process. \nIn the meantime, please' +
-        ' contact me with questions you have about the school, the position, or the process.' +
-        '\n\n' + 'Sincerely,' + '\r\n' + 'Crystal Arthur' + '\r\n' + 'Director, Faculty Affairs' + '\r\n'
-        + 'Duke University School of Nursing' + '\r\n' + '307 Trent Drive' + '\r\n' + 'Durham, NC 27710' + '\r\n' + '919.684.9759'
+    mailOptions.html =  '<!DOCTYPE html> <p>Dear ' + (applicant.name.honorific ? applicant.name.honorific + ' ' : '') + applicant.name.lastName + ',</p>' +
+          '<p>Thank you for your interest in the ' + opening + ' opening. Your application has been' +
+            ' received. We will review each application to determine which of the applicants will be' +
+            ' invited to participate in a phone interview with members of the faculty search' +
+            ' committee.</p>' + '<p>We anticipate that we will be back in touch with you within the next' +
+            ' 2 weeks to inform you of the results of this process. In the meantime, please' +
+            ' contact me with questions you have about the school, the position, or the process.</p>' +
+            '<p>Sincerely,<br/>' + 'Crystal Arthur' + '<br/>' + 'Director, Faculty' +
+        ' Affairs' + '<br/>'
+            + 'Duke University School of Nursing' + '<br/>' + '307 Trent Drive' + '<br/>Durham, NC 27710' + '<br/>' + '919.684.9759</p>'
+
+    mailOptions.text = (mailOptions.html).replace(/<\/?[^>]+>/ig, " ");
 
     smtpTransport.sendMail(mailOptions, function (err) {
       if (err) {
@@ -1217,13 +1220,22 @@ exports.update = function (req, res) {
       to: emailTo,
       from: 'noreply@frs.nursing.duke.edu',
       subject: 'FRS Application Submitted: ' + applicantName + ' for ' + opening,
-      url: options.url
+      url: options.url,
+      styles: {
+        button : "border: 1px solid black; padding: 5px; text-transform: uppercase;" +
+        " border-radius: 5px; background: #eee; float: left",
+        link : "text-transform: uppercase; color: #eee",
+        span : "color: #000"
+      }
     };
     console.log('Mail Options: ', mailOptions);
 
-    mailOptions.text =  'Applicant: ' + applicantName + '\n\n' +
-        'Opening: ' + opening + '\n\n' +
-            'View Application: ' + mailOptions.url;
+    mailOptions.html =  '<!DOCTYPE html> <p>Applicant: ' + applicantName + '<br/>' +
+        'Opening: ' + opening + '</p>' + '<div style="' + mailOptions.styles.button + '"/><a' +
+        ' style=' + mailOptions.styles.link +
+        ' href="http://' + mailOptions.url + '">' + '<span style="' + mailOptions.styles.span + '">View Application' + '</span></a></div>';
+
+    mailOptions.text = (mailOptions.html).replace(/<\/?[^>]+>/ig, " ");
 
     smtpTransport.sendMail(mailOptions, function (err) {
       if (err) {

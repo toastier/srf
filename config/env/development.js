@@ -10,5 +10,8 @@ module.exports = {
   saml: {
     path: '/auth/saml/callback',
     callbackURL: 'http://localhost:3000/auth/saml/callback'
+  },
+  email: {
+    dfa: 'bullcitydave@gmail.com'
   }
 };
