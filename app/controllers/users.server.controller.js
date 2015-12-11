@@ -737,3 +737,4 @@ function SanitizedUser (user) {
   this.resetPasswordStateParams = user.resetPasswordStateParams || null;
 
 }
+

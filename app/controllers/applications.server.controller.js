@@ -1163,10 +1163,20 @@ exports.update = function (req, res) {
                     console.log(options.server);
                     emailApplicant(applicant, opening);
                     var managerEmails = [];
-                    getManagerEmail(managerEmails).then(function (managerEmails) {
+                    //getManagerEmail(managerEmails).then(function (managerEmails) {
+                    //  options.emailTo = managerEmails;
+                    //  emailManagerNewApplication(applicant, opening, options);
+                    //});
+                    getEmailAddressesByRole(managerEmails, 'manager').then(function(managerEmails) {
                       options.emailTo = managerEmails;
                       emailManagerNewApplication(applicant, opening, options);
-                    })
+                    });
+                    // [wip] just testing out below, will put in proper place
+                    var scmEmails = [];
+                    getEmailAddressesByRole(scmEmails, 'committee member').then(function(scmEmails) {
+                      options.emailTo = scmEmails;
+                      emailSCMApprovedApplication(applicant, opening, options);
+                    });
                   }
                 });
           }
@@ -1668,3 +1678,22 @@ function Review() {
   this.dateCompleted = null;
   this.comments = [];
 }
+
+//TODO where is the best place to put this
+
+function getEmailAddressesByRole(emailAddresses, role) {
+  var deferred = Q.defer();
+  User.find({roles: role})
+      .select('email')
+      .exec(function(err, res) {
+        if (err) {
+          //TODO what would xyou do except log it?
+          deferred.reject(err);
+        } else {
+          emailAddresses = _(res).pluck('email').join(", ");
+          deferred.resolve(emailAddresses);
+        }
+      });
+  return deferred.promise;
+};
+
