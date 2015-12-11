@@ -12,6 +12,7 @@ var Application = mongoose.model('Application');
 var Applicant = mongoose.model('Applicant');
 var WorksheetField = mongoose.model('WorksheetField');
 var Opening = mongoose.model('Opening');
+var User = mongoose.model('User');
 var async = require('async');
 var mime = require('mime-types');
 var Q = require('q');
@@ -1161,12 +1162,34 @@ exports.update = function (req, res) {
                     };
                     console.log(options.server);
                     emailApplicant(applicant, opening);
-                    emailNewApplication(applicant, opening, options);
+                    var managerEmails = [];
+                    getManagerEmail(managerEmails).then(function (managerEmails) {
+                      options.emailTo = managerEmails;
+                      emailManagerNewApplication(applicant, opening, options);
+                    })
                   }
-                 });
+                });
           }
         });
   }
+
+  function getManagerEmail(emailAddresses) {
+    var deferred = Q.defer();
+    User.find({roles: 'manager'})
+        .sort('lastName')
+        .select('email')
+        .exec(function(err, res) {
+          if (err) {
+            //TODO what would you do except log it?
+            deferred.reject(err);
+          } else {
+            emailAddresses = _(res).pluck('email').join(", ");
+            deferred.resolve(emailAddresses);
+          }
+        });
+    return deferred.promise;
+  }
+
 
   //TODO refactor to get most of this outside of controller
   function emailApplicant(applicant, opening) {
@@ -1206,8 +1229,43 @@ exports.update = function (req, res) {
     });
   }
 
-  //TODO instead of hard-coding dfa email in config, lookup DFA user role, make a method on User
-  function emailNewApplication(applicant, opening, options) {
+  function emailManagerNewApplication(applicant, opening, options) {
+    var applicantEmail = (_.find(applicant.emailAddresses, function(emailAddress) {
+      return emailAddress.primary = true;
+    })).emailAddress;
+
+    var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
+
+    var applicantName = applicant.name.firstName + ' ' + applicant.name.lastName;
+    var mailOptions = {
+      to: options.emailTo,
+      from: 'noreply@frs.nursing.duke.edu',
+      subject: 'FRS Application Submitted: ' + applicantName + ' for ' + opening,
+      url: options.url,
+      styles: {
+        button : "border: 1px solid black; padding: 5px; text-transform: uppercase;" +
+        " border-radius: 5px; background: #eee; float: left",
+        link : "text-transform: uppercase; color: #eee",
+        span : "color: #000"
+      }
+    };
+    console.log('Mail Options: ', mailOptions);
+
+    mailOptions.html =  '<!DOCTYPE html> <p>Applicant: ' + applicantName + '<br/>' + 'Email: '  + '<a href="mailto:' + applicantEmail + '">' + applicantEmail + '</a><br/>' + 'Opening: ' + opening + '</p>' + '<div style="' + mailOptions.styles.button + '"/><a' + ' style=' + mailOptions.styles.link + ' href="http://' + mailOptions.url + '">' + '<span style="' + mailOptions.styles.span + '">View Application' + '</span></a></div>';
+
+    mailOptions.text = (mailOptions.html).replace(/<\/?[^>]+>/ig, " ");
+
+    smtpTransport.sendMail(mailOptions, function (err) {
+      if (err) {
+        err.status = 400;
+        console.log(err);
+      } else {
+        console.log('Email sent to DFA: ' + mailOptions.to);
+      }
+    });
+  }
+
+  function emailSCMApprovedApplication(applicant, opening, options) {
     var email = (_.find(applicant.emailAddresses, function(emailAddress) {
       return emailAddress.primary = true;
     })).emailAddress;
@@ -1219,7 +1277,7 @@ exports.update = function (req, res) {
     var mailOptions = {
       to: emailTo,
       from: 'noreply@frs.nursing.duke.edu',
-      subject: 'FRS Application Submitted: ' + applicantName + ' for ' + opening,
+      subject: 'FRS Application Approved for Further Review: ' + applicantName + ' for ' + opening,
       url: options.url,
       styles: {
         button : "border: 1px solid black; padding: 5px; text-transform: uppercase;" +
@@ -1242,7 +1300,7 @@ exports.update = function (req, res) {
         err.status = 400;
         console.log(err);
       } else {
-        console.log('Email sent to DFA: ' + mailOptions.to);
+        console.log('Email sent to SCM: ' + mailOptions.to);
       }
     });
   }
