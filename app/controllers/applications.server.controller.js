@@ -1117,7 +1117,6 @@ exports.saveReview = function (req, res) {
             url : req.headers.host + '/#!/applications/' + application._id
           };
           emailSCMApplicationReviews(application, options);
-          next(application);
         }
       });
     } else {
@@ -1141,11 +1140,11 @@ exports.saveReview = function (req, res) {
   }
 
   function reviewsCompleted(application) {
-    var completedReviews = _.size(application.reviewPhase.reviews, function(review) {
-      return worksheet.reviewWorksheet.complete === true;
+    var completedReviews = _.every(application.reviewPhase.reviews, function(review) {
+      return review.reviewWorksheet.complete === true;
     });
-    var reviewCount = _.size(application.reviewPhase.reviews);
-    return (completedReviews === reviewCount);
+    //var reviewCount = _.size(application.reviewPhase.reviews);
+    return completedReviews;
   }
 };
 
