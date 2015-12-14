@@ -1141,7 +1141,11 @@ exports.saveReview = function (req, res) {
   }
 
   function reviewsCompleted(application) {
-    return true;
+    var completedReviews = _.size(application.reviewPhase.reviews, function(review) {
+      return worksheet.reviewWorksheet.complete === true;
+    });
+    var reviewCount = _.size(application.reviewPhase.reviews);
+    return (completedReviews === reviewCount);
   }
 };
 
