@@ -1111,7 +1111,14 @@ exports.saveReview = function (req, res) {
         if (err) {
           res.send(400, err);
         }
-        next(application);
+        //TODO move to model
+        if (reviewsCompleted(application)) {
+          var options = {
+            url : req.headers.host + '/#!/applications/' + application._id
+          };
+          emailSCMApplicationReviews(application, options);
+          next(application);
+        }
       });
     } else {
       res.send(400, {
@@ -1131,6 +1138,10 @@ exports.saveReview = function (req, res) {
     return res.send(400, {
       message: 'You are not an assigned Reviewer for this Application'
     });
+  }
+
+  function reviewsCompleted(application) {
+    return true;
   }
 };
 
@@ -1172,33 +1183,33 @@ exports.update = function (req, res) {
                       emailManagerNewApplication(applicant, opening, options);
                     });
                     // [wip] just testing out below, will put in proper place
-                    var scmEmails = [];
-                    getEmailAddressesByRole(scmEmails, 'committee member').then(function(scmEmails) {
-                      options.emailTo = scmEmails;
-                      emailSCMApprovedApplication(applicant, opening, options);
-                    });
+                    //var scmEmails = [];
+                    //getEmailAddressesByRole(scmEmails, 'committee member').then(function(scmEmails) {
+                    //  options.emailTo = scmEmails;
+                    //  emailSCMApprovedApplication(applicant, opening, options);
+                    //});
                   }
                 });
           }
         });
   }
 
-  function getManagerEmail(emailAddresses) {
-    var deferred = Q.defer();
-    User.find({roles: 'manager'})
-        .sort('lastName')
-        .select('email')
-        .exec(function(err, res) {
-          if (err) {
-            //TODO what would you do except log it?
-            deferred.reject(err);
-          } else {
-            emailAddresses = _(res).pluck('email').join(", ");
-            deferred.resolve(emailAddresses);
-          }
-        });
-    return deferred.promise;
-  }
+  //function getManagerEmail(emailAddresses) {
+  //  var deferred = Q.defer();
+  //  User.find({roles: 'manager'})
+  //      .sort('lastName')
+  //      .select('email')
+  //      .exec(function(err, res) {
+  //        if (err) {
+  //          //TODO what would you do except log it?
+  //          deferred.reject(err);
+  //        } else {
+  //          emailAddresses = _(res).pluck('email').join(", ");
+  //          deferred.resolve(emailAddresses);
+  //        }
+  //      });
+  //  return deferred.promise;
+  //}
 
 
   //TODO refactor to get most of this outside of controller
@@ -1271,46 +1282,6 @@ exports.update = function (req, res) {
         console.log(err);
       } else {
         console.log('Email sent to DFA: ' + mailOptions.to);
-      }
-    });
-  }
-
-  function emailSCMApprovedApplication(applicant, opening, options) {
-    var email = (_.find(applicant.emailAddresses, function(emailAddress) {
-      return emailAddress.primary = true;
-    })).emailAddress;
-    var emailTo = (process.env.NODE_ENV === 'production') ? config.email.dfa : developerSettings.developerEmail;
-
-    var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
-
-    var applicantName = applicant.name.firstName + ' ' + applicant.name.lastName;
-    var mailOptions = {
-      to: emailTo,
-      from: 'noreply@frs.nursing.duke.edu',
-      subject: 'FRS Application Approved for Further Review: ' + applicantName + ' for ' + opening,
-      url: options.url,
-      styles: {
-        button : "border: 1px solid black; padding: 5px; text-transform: uppercase;" +
-        " border-radius: 5px; background: #eee; float: left",
-        link : "text-transform: uppercase; color: #eee",
-        span : "color: #000"
-      }
-    };
-    console.log('Mail Options: ', mailOptions);
-
-    mailOptions.html =  '<!DOCTYPE html> <p>Applicant: ' + applicantName + '<br/>' +
-        'Opening: ' + opening + '</p>' + '<div style="' + mailOptions.styles.button + '"/><a' +
-        ' style=' + mailOptions.styles.link +
-        ' href="http://' + mailOptions.url + '">' + '<span style="' + mailOptions.styles.span + '">View Application' + '</span></a></div>';
-
-    mailOptions.text = (mailOptions.html).replace(/<\/?[^>]+>/ig, " ");
-
-    smtpTransport.sendMail(mailOptions, function (err) {
-      if (err) {
-        err.status = 400;
-        console.log(err);
-      } else {
-        console.log('Email sent to SCM: ' + mailOptions.to);
       }
     });
   }
@@ -1696,4 +1667,70 @@ function getEmailAddressesByRole(emailAddresses, role) {
       });
   return deferred.promise;
 };
+
+
+function emailSCMApplicationReviews(application, options) {
+  //TODO refactor - most of this code is replicated from exports.update
+  var applicant = Applicant.findById(application.applicant)
+      .exec(function (err, applicant) {
+        if (err) {
+        }
+        else {
+          var opening = Opening.findById(application.opening)
+              .exec(function (err, opening) {
+                if (err) {
+                }
+                else {
+                  var opening = opening.name;
+                  var scmEmails = [];
+                  getEmailAddressesByRole(scmEmails, 'committee member').then(function(scmEmails) {
+                    options.emailTo = scmEmails;
+                    emailSCMApprovedApplication(applicant, opening, options);
+                  });
+                }
+              });
+        }
+      });
+
+  function emailSCMApprovedApplication(applicant, opening, options) {
+    var email = (_.find(applicant.emailAddresses, function(emailAddress) {
+      return emailAddress.primary = true;
+    })).emailAddress;
+    var emailTo = (process.env.NODE_ENV === 'production') ? config.email.dfa : developerSettings.developerEmail;
+
+    var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
+
+    var applicantName = applicant.name.firstName + ' ' + applicant.name.lastName;
+    var mailOptions = {
+      to: emailTo,
+      from: 'noreply@frs.nursing.duke.edu',
+      subject: 'FRS Application Approved for Further Review: ' + applicantName + ' for ' + opening,
+      url: options.url,
+      styles: {
+        button : "border: 1px solid black; padding: 5px; text-transform: uppercase;" +
+        " border-radius: 5px; background: #eee; float: left",
+        link : "text-transform: uppercase; color: #eee",
+        span : "color: #000"
+      }
+    };
+    console.log('Mail Options: ', mailOptions);
+
+    mailOptions.html =  '<!DOCTYPE html> <p>Applicant: ' + applicantName + '<br/>' +
+        'Opening: ' + opening + '</p>' + '<div style="' + mailOptions.styles.button + '"/><a' +
+        ' style=' + mailOptions.styles.link +
+        ' href="http://' + mailOptions.url + '">' + '<span style="' + mailOptions.styles.span + '">View Application' + '</span></a></div>';
+
+    mailOptions.text = (mailOptions.html).replace(/<\/?[^>]+>/ig, " ");
+
+    smtpTransport.sendMail(mailOptions, function (err) {
+      if (err) {
+        err.status = 400;
+        console.log(err);
+      } else {
+        console.log('Email sent to SCM: ' + mailOptions.to);
+      }
+    });
+  }
+
+}
 
