@@ -1697,17 +1697,16 @@ function emailSCMApplicationReviews(application, options) {
 
   function emailSCMApprovedApplication(applicant, opening, options) {
     var email = (_.find(applicant.emailAddresses, function(emailAddress) {
-      return emailAddress.primary = true;
+      return emailAddress.primary === true;
     })).emailAddress;
-    var emailTo = (process.env.NODE_ENV === 'production') ? config.email.dfa : developerSettings.developerEmail;
 
     var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
 
     var applicantName = applicant.name.firstName + ' ' + applicant.name.lastName;
     var mailOptions = {
-      to: emailTo,
+      to: options.emailTo,
       from: 'noreply@frs.nursing.duke.edu',
-      subject: 'FRS Application Approved for Further Review: ' + applicantName + ' for ' + opening,
+      subject: "FRS Application Reviewed and Ready for Comments: " + applicantName + " for " + opening,
       url: options.url,
       styles: {
         button : "border: 1px solid black; padding: 5px; text-transform: uppercase;" +
@@ -1719,7 +1718,8 @@ function emailSCMApplicationReviews(application, options) {
     console.log('Mail Options: ', mailOptions);
 
     mailOptions.html =  '<!DOCTYPE html> <p>Applicant: ' + applicantName + '<br/>' +
-        'Opening: ' + opening + '</p>' + '<div style="' + mailOptions.styles.button + '"/><a' +
+        'Opening: ' + opening + '</p>' +
+        '<div style="' + mailOptions.styles.button + '"/><a' +
         ' style=' + mailOptions.styles.link +
         ' href="http://' + mailOptions.url + '">' + '<span style="' + mailOptions.styles.span + '">View Application' + '</span></a></div>';
 
