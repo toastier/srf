@@ -14,8 +14,8 @@
         h4 Collective Comments on Review Phase&nbsp;
       .panel-body
         div(ng-bind-html="vm.reviewPhaseModel.data.committeeComments")
-    .panel.panel-default(ng-repeat="review in vm.reviewPhaseModel.data.reviews", ng-class="{'panel-success': review.reviewWorksheet.complete }")
-      .panel-heading
+    .panel.panel-default(ng-repeat="review in vm.reviewPhaseModel.data.reviews",ng-class="{'panel-success': review.reviewWorksheet.complete }")
+      .panel-heading(ng-if="review.reviewer")
         .row
           .col-xs-12
             h4 Review by&nbsp;
@@ -23,7 +23,7 @@
               span(ng-if="review.reviewWorksheet.complete") &nbsp;completed on {{ review.reviewWorksheet.dateCompleted | standardDateAtTime }} &nbsp;
               span(ng-if="!review.reviewWorksheet.complete") &nbsp;is incomplete &nbsp;
               i.fa.fa-edit(ng-if="vm.reviewPhaseModel.reviewIsEditable(review) && !review.editing", ng-click="vm.reviewPhaseModel.editReview(review)")
-      .panel-body(ng-if="!review.editing")
+      .panel-body(ng-if="!review.editing && review.reviewer")
         du-worksheet-view-smart-component(worksheet-fields="review.reviewWorksheet.body.fields")
         .panel.panel-default
           .panel-heading
@@ -56,7 +56,7 @@
             .col-xs-12.text-right
               button.btn.btn-default.btn-primary(ng-if="vm.reviewPhaseModel.reviewIsCommentable(review)", ng-click="vm.reviewPhaseModel.addComment(review)") Comment
 
-      .panel-body(ng-if="review.editing")
+      .panel-body(ng-if="review.editing && review.reviewer")
         du-worksheet-edit-smart-component(worksheet-fields="review.reviewWorksheet.bodyBuffer.fields")
         .row
           .col-xs-12
