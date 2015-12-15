@@ -1597,7 +1597,7 @@ function isPhoneInterviewer(req) {
 function isReviewer(req) {
   var reviewerFound = false;
   _.forEach(req.application.reviewPhase.reviews, function (review) {
-    if ((req.user._id === review.reviewer._id.toString()) && !reviewerFound) {
+    if ((review.reviewer && req.user._id === review.reviewer._id.toString()) && !reviewerFound) {
       reviewerFound = true;
     }
   });

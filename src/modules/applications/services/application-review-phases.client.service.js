@@ -123,11 +123,11 @@
         }
 
         function reviewIsCommentable(review) {
-          return !reviewIsEditable(review) && reviewPhaseIsOpen() && reviewIsComplete(review);
+          return review.reviewer && !reviewIsEditable(review) && reviewPhaseIsOpen() && reviewIsComplete(review);
         }
 
         function reviewIsEditable(review) {
-          return reviewPhase.user.isMe(review.reviewer) && reviewPhaseIsOpen() && !reviewIsComplete(review);
+          return review.reviewer && reviewPhase.user.isMe(review.reviewer) && reviewPhaseIsOpen() && !reviewIsComplete(review);
         }
 
         function removeComment(review, comment) {

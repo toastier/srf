@@ -32,7 +32,7 @@
     function pruneReviews(application) {
       var reviews = application.reviewPhase.reviews;
       angular.forEach(reviews, function (review) {
-        if (review.reviewer._id !== vm.user._id) {
+        if (reviews.reviewer && (review.reviewer._id !== vm.user._id)) {
           reviews.splice(reviews.indexOf(review), 1);
         }
       });
