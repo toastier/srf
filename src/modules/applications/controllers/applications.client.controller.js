@@ -13,7 +13,6 @@
     vm.allowView = allowView;
     vm.allowManage = allowManage;
     vm.getApplications = getApplications;
-    vm.hasReviewer = hasReviewer;
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
       {field: 'summary', label: 'Summary', sortable: true, filterable: false, format: 'summary', actions: {
