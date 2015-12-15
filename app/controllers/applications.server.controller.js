@@ -1141,7 +1141,7 @@ exports.saveReview = function (req, res) {
 
   function reviewsCompleted(application) {
     var completedReviews = _.every(application.reviewPhase.reviews, function(review) {
-      return review.reviewWorksheet.complete === true;
+      return (review.reviewWorksheet.complete === true || !review.reviewer);
     });
     //var reviewCount = _.size(application.reviewPhase.reviews);
     return completedReviews;
