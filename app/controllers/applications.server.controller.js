@@ -12,6 +12,7 @@ var Application = mongoose.model('Application');
 var Applicant = mongoose.model('Applicant');
 var WorksheetField = mongoose.model('WorksheetField');
 var Opening = mongoose.model('Opening');
+var User = mongoose.model('User');
 var async = require('async');
 var mime = require('mime-types');
 var Q = require('q');
@@ -1088,7 +1089,7 @@ exports.savePhoneInterview = function (req, res) {
  * @returns {*}
  */
 exports.saveReview = function (req, res) {
-  var review = req.body.review;
+    var review = req.body.review;
 
   function updateReviewContent(next) {
     var updated = false;
@@ -1110,7 +1111,13 @@ exports.saveReview = function (req, res) {
         if (err) {
           res.send(400, err);
         }
-        next(application);
+        //TODO move to model
+        if (reviewsCompleted(application)) {
+          var options = {
+            url : req.headers.host + '/#!/applications/' + application._id
+          };
+          emailSCMApplicationReviews(application, options);
+        }
       });
     } else {
       res.send(400, {
@@ -1130,6 +1137,13 @@ exports.saveReview = function (req, res) {
     return res.send(400, {
       message: 'You are not an assigned Reviewer for this Application'
     });
+  }
+
+  function reviewsCompleted(application) {
+    var completedReviews = _.every(application.reviewPhase.reviews, function(review) {
+      return (review.reviewWorksheet.complete === true || !review.reviewer);
+    });
+    return completedReviews;
   }
 };
 
@@ -1156,13 +1170,25 @@ exports.update = function (req, res) {
                   }
                   else {
                     var opening = opening.name;
+                    var options = {
+                      url : req.headers.host + '/#!/applications/' + application._id
+                    };
+                    console.log(options.server);
                     emailApplicant(applicant, opening);
+                    var managerEmails = [];
+                    getEmailAddressesByRole(managerEmails, 'manager').then(function(managerEmails) {
+                      options.emailTo = managerEmails;
+                      emailManagerNewApplication(applicant, opening, options);
+                    });
                   }
-                 });
+                });
           }
         });
   }
 
+
+
+  //TODO refactor to get most of this outside of controller
   function emailApplicant(applicant, opening) {
     var email = (_.find(applicant.emailAddresses, function(emailAddress) {
       return emailAddress.primary = true;
@@ -1177,15 +1203,18 @@ exports.update = function (req, res) {
       subject: 'DUSON Faculty Application Received'
     };
 
-    mailOptions.text =  'Dear ' + (applicant.name.honorific ? applicant.name.honorific + ' ' : '') + applicant.name.lastName + ',' + '\n\n' +
-      'Thank you for your interest in the ' + opening + ' opening. Your application has been' +
-        ' received. We will review each application to determine which of the applicants will be' +
-        ' invited to participate in a phone interview with members of the faculty search' +
-        ' committee.' + '\n\nWe anticipate that we will be back in touch with you within the next' +
-        ' 2 weeks to inform you of the results of this process. \nIn the meantime, please' +
-        ' contact me with questions you have about the school, the position, or the process.' +
-        '\n\n' + 'Sincerely,' + '\r\n' + 'Crystal Arthur' + '\r\n' + 'Director, Faculty Affairs' + '\r\n'
-        + 'Duke University School of Nursing' + '\r\n' + '307 Trent Drive' + '\r\n' + 'Durham, NC 27710' + '\r\n' + '919.684.9759'
+    mailOptions.html =  '<!DOCTYPE html> <p>Dear ' + (applicant.name.honorific ? applicant.name.honorific + ' ' : '') + applicant.name.lastName + ',</p>' +
+          '<p>Thank you for your interest in the ' + opening + ' opening. Your application has been' +
+            ' received. We will review each application to determine which of the applicants will be' +
+            ' invited to participate in a phone interview with members of the faculty search' +
+            ' committee.</p>' + '<p>We anticipate that we will be back in touch with you within the next' +
+            ' 2 weeks to inform you of the results of this process. In the meantime, please' +
+            ' contact me with questions you have about the school, the position, or the process.</p>' +
+            '<p>Sincerely,<br/>' + 'Crystal Arthur' + '<br/>' + 'Director, Faculty' +
+        ' Affairs' + '<br/>'
+            + 'Duke University School of Nursing' + '<br/>' + '307 Trent Drive' + '<br/>Durham, NC 27710' + '<br/>' + '919.684.9759</p>'
+
+    mailOptions.text = (mailOptions.html).replace(/<\/?[^>]+>/ig, " ");
 
     smtpTransport.sendMail(mailOptions, function (err) {
       if (err) {
@@ -1193,6 +1222,42 @@ exports.update = function (req, res) {
         return next(err);
       } else {
         console.log('Email sent to ' + mailOptions.to);
+      }
+    });
+  }
+
+  function emailManagerNewApplication(applicant, opening, options) {
+    var applicantEmail = (_.find(applicant.emailAddresses, function(emailAddress) {
+      return emailAddress.primary = true;
+    })).emailAddress;
+
+    var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
+
+    var applicantName = applicant.name.firstName + ' ' + applicant.name.lastName;
+    var mailOptions = {
+      to: options.emailTo,
+      from: 'noreply@frs.nursing.duke.edu',
+      subject: 'FRS Application Submitted: ' + applicantName + ' for ' + opening,
+      url: options.url,
+      styles: {
+        button : "border: 1px solid black; padding: 5px; text-transform: uppercase;" +
+        " border-radius: 5px; background: #eee; float: left",
+        link : "text-transform: uppercase; color: #eee",
+        span : "color: #000"
+      }
+    };
+    console.log('Mail Options: ', mailOptions);
+
+    mailOptions.html =  '<!DOCTYPE html> <p>Applicant: ' + applicantName + '<br/>' + 'Email: '  + '<a href="mailto:' + applicantEmail + '">' + applicantEmail + '</a><br/>' + 'Opening: ' + opening + '</p>' + '<div style="' + mailOptions.styles.button + '"/><a' + ' style=' + mailOptions.styles.link + ' href="http://' + mailOptions.url + '">' + '<span style="' + mailOptions.styles.span + '">View Application' + '</span></a></div>';
+
+    mailOptions.text = (mailOptions.html).replace(/<\/?[^>]+>/ig, " ");
+
+    smtpTransport.sendMail(mailOptions, function (err) {
+      if (err) {
+        err.status = 400;
+        console.log(err);
+      } else {
+        console.log('Email sent to DFA: ' + mailOptions.to);
       }
     });
   }
@@ -1505,7 +1570,7 @@ function isPhoneInterviewer(req) {
 function isReviewer(req) {
   var reviewerFound = false;
   _.forEach(req.application.reviewPhase.reviews, function (review) {
-    if ((req.user._id === review.reviewer._id.toString()) && !reviewerFound) {
+    if ((review.reviewer && req.user._id === review.reviewer._id.toString()) && !reviewerFound) {
       reviewerFound = true;
     }
   });
@@ -1560,3 +1625,88 @@ function Review() {
   this.dateCompleted = null;
   this.comments = [];
 }
+
+//TODO where is the best place to put this
+
+function getEmailAddressesByRole(emailAddresses, role) {
+  var deferred = Q.defer();
+  User.find({roles: role})
+      .select('email')
+      .exec(function(err, res) {
+        if (err) {
+          //TODO what would xyou do except log it?
+          deferred.reject(err);
+        } else {
+          emailAddresses = _(res).pluck('email').join(", ");
+          deferred.resolve(emailAddresses);
+        }
+      });
+  return deferred.promise;
+};
+
+
+function emailSCMApplicationReviews(application, options) {
+  //TODO refactor - most of this code is replicated from exports.update
+  var applicant = Applicant.findById(application.applicant)
+      .exec(function (err, applicant) {
+        if (err) {
+        }
+        else {
+          var opening = Opening.findById(application.opening)
+              .exec(function (err, opening) {
+                if (err) {
+                }
+                else {
+                  var opening = opening.name;
+                  var scmEmails = [];
+                  getEmailAddressesByRole(scmEmails, 'committee member').then(function(scmEmails) {
+                    options.emailTo = scmEmails;
+                    emailSCMApprovedApplication(applicant, opening, options);
+                  });
+                }
+              });
+        }
+      });
+
+  function emailSCMApprovedApplication(applicant, opening, options) {
+    var email = (_.find(applicant.emailAddresses, function(emailAddress) {
+      return emailAddress.primary === true;
+    })).emailAddress;
+
+    var smtpTransport = nodemailer.createTransport(config.sendGridSettings);
+
+    var applicantName = applicant.name.firstName + ' ' + applicant.name.lastName;
+    var mailOptions = {
+      to: options.emailTo,
+      from: 'noreply@frs.nursing.duke.edu',
+      subject: "FRS Application Reviewed and Ready for Comments: " + applicantName + " for " + opening,
+      url: options.url,
+      styles: {
+        button : "border: 1px solid black; padding: 5px; text-transform: uppercase;" +
+        " border-radius: 5px; background: #eee; float: left",
+        link : "text-transform: uppercase; color: #eee",
+        span : "color: #000"
+      }
+    };
+    console.log('Mail Options: ', mailOptions);
+
+    mailOptions.html =  '<!DOCTYPE html> <p>Applicant: ' + applicantName + '<br/>' +
+        'Opening: ' + opening + '</p>' +
+        '<div style="' + mailOptions.styles.button + '"/><a' +
+        ' style=' + mailOptions.styles.link +
+        ' href="http://' + mailOptions.url + '">' + '<span style="' + mailOptions.styles.span + '">View Application' + '</span></a></div>';
+
+    mailOptions.text = (mailOptions.html).replace(/<\/?[^>]+>/ig, " ");
+
+    smtpTransport.sendMail(mailOptions, function (err) {
+      if (err) {
+        err.status = 400;
+        console.log(err);
+      } else {
+        console.log('Email sent to SCM: ' + mailOptions.to);
+      }
+    });
+  }
+
+}
+
