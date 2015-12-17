@@ -123,8 +123,8 @@ exports.list = function (req, res) {
     eeoDataSet[i].data = subData;
   };
 
-	EeoDemographic.find()
-	.sort('-postDate')
+	EeoDemographic
+	.find()
 	.populate({
 		path: 'opening',
 		populate: {
@@ -138,8 +138,8 @@ exports.list = function (req, res) {
 			});
 		} else {
 			eeoDataSetAdd(eeoDemographic, "demographic");
-			EeoDisability.find()
-				.sort('-postDate')
+			EeoDisability
+				.find()
 				.populate('opening')
 				.exec(function(err, eeoDisability) {
 					if (err) {
@@ -149,7 +149,6 @@ exports.list = function (req, res) {
 					} else {
 						eeoDataSetAdd(eeoDisability, "disability");
 						EeoVeteran.find()
-							.sort('-postDate')
 							.populate('opening')
 							.exec(function(err, eeoVeteran) {
 								if (err) {
