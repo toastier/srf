@@ -8,7 +8,6 @@
     var vm = this;
     vm.user = resolvedAuth;
     vm.application = new Application();
-    vm.options = {};
     vm.createApplication = createApplication;
     vm.saveApplication = saveApplication;
     vm.submitApplication = submitApplication;

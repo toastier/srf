@@ -8,9 +8,6 @@
     var vm = this;
     vm.user = resolvedAuth;
     vm.cancel = Application.listApplications;
-    vm.options = {
-      ethnicities : Eeo.options.ethnicities
-    };
     vm.changeOpening = changeOpening;
     vm.remove = remove;
     vm.removeFile = removeFile;

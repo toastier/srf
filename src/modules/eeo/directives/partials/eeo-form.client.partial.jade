@@ -6,7 +6,7 @@
                     In order to measure how well we are doing, we need to have accurate data regarding the composition of our applicant pools.
                 p We would appreciate, therefore, having your self-identification by ethnicity, race and gender, and letting us know if you have a disability or if you are a protected veteran. Completing this part is voluntary, but we hope that you will choose to fill it out. Your decision not to supply this information will not prejudice our consideration of your application, but it will hinder our efforts to review and evaluate our hiring procedures and practices. The information you supply will be kept private and will not be used against you in any way.
 .container(ng-show="!vm.eeoSaved")
-    ng-form(name="vm.eeoForm")
+    ng-form(ng-init="view = 'self'", name="vm.eeoForm")
         eeodemographic-form
         eeodisability-form
         eeoveteran-form
