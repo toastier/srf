@@ -2,25 +2,21 @@
   .panel-heading.large(ng-hide="view === 'interviewee'") Voluntary Self-Identification of Gender,
     | Race & Ethnicity
   .panel-body
-
     .row
       .col-md-12
         .row
           .col-md-12.form-group
             label.control-label Gender
             .col-md-12.control-group
-                .radio
+                .radio(data-ng-repeat='gender in vm.options.genders')
                   label
-                    input.radio#female(type='radio', value='f', ng-model='vm.eeo.gender',name='gender', required)
-                    span Female
-                .radio
-                  label
-                    input.radio#male(type='radio', value='m', ng-model='vm.eeo.gender',name='gender', required)
-                    span Male
-                .radio
-                  label
-                    input.radio#decline(type='radio', value='d', ng-model='vm.eeo.gender',name='gender', required)
-                    span I decline to answer
+                    input.radio(type='radio', value='{{gender.code}}', ng-model='vm.eeo' +
+                    '.gender',
+                    name='gender', required)
+                    span {{gender.description}}
+                      i.fa.fa-info-circle.fa-fw(ng-if="gender.detail",tooltip='{{gender' +
+                      '.detail}}',
+                      tooltip-class="customClass", tooltip-animation="true", tooltip-placement="right")
     .row
       .col-md-12
         .row
@@ -29,17 +25,13 @@
               .col-md-12.control-group
                 .radio(data-ng-repeat='ethnicity in vm.options.ethnicities')
                   label
-                    input.radio#hispanic(type='radio', value='h', ng-model='vm.eeo.ethnicity',name='ethnicity', required)
+                    input.radio(type='radio', value='{{ethnicity.code}}', ng-model='vm.eeo' +
+                    '.ethnicity',
+                    name='ethnicity', required)
                     span {{ethnicity.description}}
-                    i.fa.fa-info-circle.fa-fw(tooltip='{{ethnicity.detail}}', tooltip-class="customClass", tooltip-animation="true", tooltip-placement="right")
-                .radio
-                  label
-                    input.radio#nothispanic(type='radio', value='n', ng-model='vm.eeo.ethnicity',name='ethnicity', required)
-                    span Not Hispanic or Latino
-                .radio
-                  label
-                    input.radio#decline(type='radio', value='d', ng-model='vm.eeo.ethnicity',name='ethnicity', required)
-                    span I decline to answer
+                    i.fa.fa-info-circle.fa-fw(ng-if="ethnicity.detail",tooltip='{{ethnicity' +
+                    '.detail}}',
+                    tooltip-class="customClass", tooltip-animation="true", tooltip-placement="right")
     .row
       .col-md-12
         .row
@@ -50,7 +42,8 @@
                 label
                   input.checkbox-inline(type="checkbox", ng-change="vm.declineOff()", ng-model=('vm.eeo.race[race.code]'), checklist-value='race.description')
                   span {{race.description}}
-                  i.fa.fa-info-circle.fa-fw(ng-show='race.detail', tooltip='{{race.detail}}', tooltip-class="customClass", tooltip-animation="true", tooltip-placement="right")
+                  i.fa.fa-info-circle.fa-fw(ng-if='race.detail', tooltip='{{race.detail}}',
+                  tooltip-class="customClass", tooltip-animation="true", tooltip-placement="right")
               .radio
                 label
                   input.radio#decline(type='radio', ng-change="vm.declineAnswer(vm.eeo.race)",

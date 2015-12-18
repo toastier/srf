@@ -4,11 +4,13 @@
     .module('applications')
     .controller('ManageApplicationController', ManageApplicationController);
 
-  function ManageApplicationController($stateParams, $modal, resolvedAuth, Messages, Application, Navigation, _) {
+  function ManageApplicationController($stateParams, $modal, resolvedAuth, Messages, Application, Navigation, Eeo, _) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.cancel = Application.listApplications;
-    vm.options = {};
+    vm.options = {
+      ethnicities : Eeo.options.ethnicities
+    };
     vm.changeOpening = changeOpening;
     vm.remove = remove;
     vm.removeFile = removeFile;

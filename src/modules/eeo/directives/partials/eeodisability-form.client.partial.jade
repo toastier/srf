@@ -37,4 +37,5 @@
                                     label
                                         input.radio#decline(type='radio', value='d', ng-model='vm.eeo.disability', name='disability', required)
                                         span I decline to answer
-        du-disability-brief(ng-show="vm.eeo.disability === 'y' && view !== 'interviewee'")
+        du-disability-brief(ng-if="vm.eeo.disability", ng-show="vm.eeo.disability === 'y' && " +
+                "view !== 'interviewee'")
