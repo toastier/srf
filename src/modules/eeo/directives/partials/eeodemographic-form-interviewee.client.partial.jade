@@ -1,6 +1,7 @@
 .col-xs-12
     .row(ng-init="view = 'interviewee'")
         p {{vm}}
+        p {{$parent.vm}}
         ng-form
             eeodemographic-form
 

@@ -17,6 +17,7 @@
     vm.view = view;
     vm.editReviewPhaseCollectiveComments = false;
     vm.editPhoneInterviewPhaseCollectiveComments = false;
+    vm.intervieweeEeo = {};
 
     activate();
 
