@@ -15,10 +15,9 @@
         var vm = this;
         vm.eeoSaved = false;
         vm.eeo = new Eeo();
-        vm.intervieweeEeo = vm.eeo;
         vm.options = Eeo.getOptions();
         console.log($scope.$parent);
-        //$scope.$parent.vm.intervieweeEeo = vm.eeo;
+        $scope.$parent.vm.intervieweeEeo = vm.eeo;
         vm.declineOff = declineOff;
         vm.flagOff = flagOff;
         vm.declineAnswer = declineAnswer;

@@ -18,7 +18,7 @@
     vm.editReviewPhaseCollectiveComments = false;
     vm.editPhoneInterviewPhaseCollectiveComments = false;
     vm.intervieweeEeo = {};
-
+    vm.submitEeo = submitEeo;
     activate();
 
     function activate() {
@@ -177,12 +177,26 @@
           Messages.addMessage('The Application has been updated', 'success');
           vm.editPhoneInterviewPhaseCollectiveComments = false;
           vm.editReviewPhaseCollectiveComments = false;
+          vm.submitEeo();
         })
         .catch(function (err) {
           Messages.addMessage(err.data.message, 'error', 'Problem updating Application');
           getApplication();
         });
 
+    }
+
+    function submitEeo() {
+      vm.intervieweeEeo.applicationId = vm.application._id;
+      vm.intervieweeEeo.reportType = 'interview';
+      Eeo.create(vm.intervieweeEeo)
+          .$promise
+          .then(function (result) {
+            Messages.addMessage('Thank you for submitted your confidential EEO information.');
+          })
+          .catch(function (error) {
+            Messages.addMessage('There was a problem saving the Eeo ' + error.data.message, 'error');
+          });
     }
   }
 })();
