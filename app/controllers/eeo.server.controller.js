@@ -43,8 +43,9 @@ var getErrorMessage = function (err) {
  */
 // TODO use better method to parse out req.body
 exports.create = function(req, res) {
-	console.log('creating EEO record...');
-	req.body.opening = req.application.opening._id;
+
+	var eeoData = {};
+
 	var getPosition = function() {
 		var deferred = Q.defer();
 		Opening.findById(req.application.opening._id,
@@ -58,52 +59,113 @@ exports.create = function(req, res) {
 				});
 		return deferred.promise;
 	}
-	getPosition().then(function (position) {
-		req.body.position = position;
+	var createEeoDemographic = function() {
+		var deferred = Q.defer();
 		var eeoDemographic = new EeoDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
-		var eeoDisability = new EeoDisability(_.omit(req.body, ['ethnicity', 'race', 'veteran', 'vetClass', 'vetDecline']));
-		var eeoVeteran = new EeoVeteran(_.omit(req.body, ['ethnicity', 'race', 'disability']));
-		// TODO refactor this...it works but it's sloppy
 		eeoDemographic.save(function (err) {
 			if (err) {
-				return res.send(400, {
-					// this doesn't work, dumping errorHandler into its own controller
-					message: getErrorMessage(err)
-				});
-			} else {
-				eeoDisability.save(function (err) {
-					if (err) {
-						return res.send(400, {
-							// this doesn't work, dumping errorHandler into its own controller
-							message: getErrorMessage(err)
-						});
-					} else {
-						eeoVeteran.save(function (err) {
-							if (err) {
-								return res.send(400, {
-									// this doesn't work, dumping errorHandler into its own controller
-									message: getErrorMessage(err)
-								});
-							} else {
-								var application = req.application;
-								application = _.extend(application, req.application.body);
-								application.eeoProvided = true;
-								application.save(function (err) {
-									if (err) {
-										return res.send(400, {
-											message: getErrorMessage(err)
-										});
-									} else {
-										res.jsonp((_.merge(eeoDemographic, [eeoDisability, eeoVeteran])));
-									}
-								});
-							}
-						});
-					}
-				});
+				deferred.reject(new Error(err));
+			}
+			else {
+				deferred.resolve(this);
 			}
 		});
-	})
+		return deferred.promise;
+	}
+	var createEeoVeteran = function() {
+		var deferred = Q.defer();
+		if (req.body.veteran) {
+			var eeoVeteran = new EeoVeteran(_.omit(req.body, ['ethnicity', 'race', 'disability']));
+			eeoVeteran.save(function (err) {
+				if (err) {
+					deferred.reject(new Error(err));
+				}
+				else {
+					deferred.resolve(this);
+				}
+			});
+		}
+		return deferred.promise;
+	}
+	var createEeoDisability = function() {
+		var deferred = Q.defer();
+		if (req.body.disability) {
+			var eeoDisability = new EeoDisability(_.omit(req.body, ['ethnicity', 'race', 'veteran', 'vetClass', 'vetDecline']));
+			eeoDisability.save(function (err) {
+				if (err) {
+					deferred.reject(new Error(err));
+				}
+				else {
+					deferred.resolve(this);
+				}
+			});
+		}
+		return deferred.promise;
+	}
+
+
+
+	//getPosition().then(function (position) {
+	//	req.body.position = position;
+		//var eeoDemographic = req.body.gender ? new EeoDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline'])) : {};
+		//var eeoDisability = req.body.disability ? new EeoDisability(_.omit(req.body, ['ethnicity', 'race', 'veteran', 'vetClass', 'vetDecline'])) : {};
+		//var eeoVeteran = req.body.veteran ? new EeoVeteran(_.omit(req.body, ['ethnicity', 'race', 'disability'])) : {};
+		//var eeoDemographic = new EeoDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
+		//var eeoDisability = new EeoDisability(_.omit(req.body, ['ethnicity', 'race', 'veteran', 'vetClass', 'vetDecline']));
+		//var eeoVeteran = new EeoVeteran(_.omit(req.body, ['ethnicity', 'race', 'disability']));
+
+		// TODO refactor this...it works but it's sloppy
+		// TODO Especially since interviewee EEO only consists of Demographic
+		//eeoDemographic.save(function (err) {
+		//	if (err) {
+		//		return res.send(400, {
+		//			// this doesn't work, dumping errorHandler into its own controller
+		//			message: getErrorMessage(err)
+		//		});
+		//	} else {
+	console.log('creating EEO record...');
+	req.body.opening = req.application.opening._id;
+	getPosition().then(function (position) {
+		req.body.position = position;
+	}).then(function() {
+		createEeoDemographic().then(function (data) {
+			_.merge(eeoData, data);
+			createEeoDisability().then(function (data) {
+				_.merge(eeoData, data);
+				createEeoVeteran().then(function (data) {
+					_.merge(eeoData, data);
+					//eeoDisability.save(function (err) {
+					//if (err) {
+					//	return res.send(400, {
+					//		// this doesn't work, dumping errorHandler into its own controller
+					//		message: getErrorMessage(err)
+					//	});
+					//} else {
+					//	eeoVeteran.save(function (err) {
+					//		if (err) {
+					//			return res.send(400, {
+					//				// this doesn't work, dumping errorHandler into its own controller
+					//				message: getErrorMessage(err)
+					//			});
+					//		} else {
+					//			var application = req.application;
+					//			application = _.extend(application, req.application.body);
+					//			application.eeoProvided = true;
+					//			application.save(function (err) {
+					//				if (err) {
+					//					return res.send(400, {
+					//						message: getErrorMessage(err)
+					//					});
+					//				} else {
+										res.jsonp(eeoData);
+									//}
+								})
+							})
+						})
+					});
+				//});
+			//});
+		//});
 };
 
 /**

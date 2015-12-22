@@ -247,7 +247,11 @@ var applicationModel = new Schema({
         default: false
       },
       dateCompleted: Date,
-      surveyResults: Schema.Types.ObjectId
+      surveyResults: Schema.Types.ObjectId,
+      eeoDemographic: {
+        type: Schema.ObjectId,
+        ref: 'EeoDemographic'
+      },
     },
     offer: {
       extended: {
