@@ -176,10 +176,9 @@
     function update() {
       vm.application.isNewApplication = false;
 
-      if (!_.isEmpty(vm.intervieweeEeo)) {
+      if (!_.isEmpty(vm.intervieweeEeo) && !vm.application.onSiteVisitPhase.eeoDemographic) {
         vm.submitEeo()
             .then(function() {
-              console.log('managing...');
               manage();
             });
       }
