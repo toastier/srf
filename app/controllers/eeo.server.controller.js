@@ -85,6 +85,9 @@ exports.create = function(req, res) {
 				}
 			});
 		}
+		else {
+			deferred.resolve(this);
+		}
 		return deferred.promise;
 	}
 	var createEeoDisability = function() {
@@ -100,29 +103,12 @@ exports.create = function(req, res) {
 				}
 			});
 		}
+		else {
+			deferred.resolve(this);
+		}
 		return deferred.promise;
 	}
 
-
-
-	//getPosition().then(function (position) {
-	//	req.body.position = position;
-		//var eeoDemographic = req.body.gender ? new EeoDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline'])) : {};
-		//var eeoDisability = req.body.disability ? new EeoDisability(_.omit(req.body, ['ethnicity', 'race', 'veteran', 'vetClass', 'vetDecline'])) : {};
-		//var eeoVeteran = req.body.veteran ? new EeoVeteran(_.omit(req.body, ['ethnicity', 'race', 'disability'])) : {};
-		//var eeoDemographic = new EeoDemographic(_.omit(req.body, ['disability', 'veteran', 'vetClass', 'vetDecline']));
-		//var eeoDisability = new EeoDisability(_.omit(req.body, ['ethnicity', 'race', 'veteran', 'vetClass', 'vetDecline']));
-		//var eeoVeteran = new EeoVeteran(_.omit(req.body, ['ethnicity', 'race', 'disability']));
-
-		// TODO refactor this...it works but it's sloppy
-		// TODO Especially since interviewee EEO only consists of Demographic
-		//eeoDemographic.save(function (err) {
-		//	if (err) {
-		//		return res.send(400, {
-		//			// this doesn't work, dumping errorHandler into its own controller
-		//			message: getErrorMessage(err)
-		//		});
-		//	} else {
 	console.log('creating EEO record...');
 	req.body.opening = req.application.opening._id;
 	getPosition().then(function (position) {
@@ -134,38 +120,11 @@ exports.create = function(req, res) {
 				_.merge(eeoData, data);
 				createEeoVeteran().then(function (data) {
 					_.merge(eeoData, data);
-					//eeoDisability.save(function (err) {
-					//if (err) {
-					//	return res.send(400, {
-					//		// this doesn't work, dumping errorHandler into its own controller
-					//		message: getErrorMessage(err)
-					//	});
-					//} else {
-					//	eeoVeteran.save(function (err) {
-					//		if (err) {
-					//			return res.send(400, {
-					//				// this doesn't work, dumping errorHandler into its own controller
-					//				message: getErrorMessage(err)
-					//			});
-					//		} else {
-					//			var application = req.application;
-					//			application = _.extend(application, req.application.body);
-					//			application.eeoProvided = true;
-					//			application.save(function (err) {
-					//				if (err) {
-					//					return res.send(400, {
-					//						message: getErrorMessage(err)
-					//					});
-					//				} else {
-										res.jsonp(eeoData);
-									//}
-								})
-							})
-						})
-					});
-				//});
-			//});
-		//});
+					res.jsonp(eeoData);
+				})
+			})
+		})
+	});
 };
 
 /**
