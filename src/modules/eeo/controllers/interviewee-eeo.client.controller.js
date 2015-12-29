@@ -13,15 +13,20 @@
     /* @ngInject */
     function IntervieweeEeoController(Eeo, Application, Messages, $scope) {
         var vm = this;
-        vm.eeoSaved = false;
-        vm.eeo = new Eeo();
+        var parent = $scope.$parent.vm.application;
+        var existingEeo = !!parent.onSiteVisitPhase.eeoDemographic;
+        vm.eeo = new Eeo( {
+            "gender" : existingEeo ? parent.onSiteVisitPhase.eeoDemographic.gender : null,
+            "ethnicity" : existingEeo ? parent.onSiteVisitPhase.eeoDemographic.ethnicity : null,
+            "race" : existingEeo ? parent.onSiteVisitPhase.eeoDemographic.race : null
+        });
         vm.options = Eeo.getOptions();
-        console.log($scope.$parent);
-        $scope.$parent.vm.intervieweeEeo = vm.eeo;
+        vm.applicationId = parent._id;
         vm.declineOff = declineOff;
         vm.flagOff = flagOff;
         vm.declineAnswer = declineAnswer;
         vm.setSelection = setSelection;
+        $scope.$parent.vm.intervieweeEeo = vm.eeo;
 
         function declineOff() {
             for(var race in vm.options.races) {
