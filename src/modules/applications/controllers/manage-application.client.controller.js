@@ -20,6 +20,7 @@
     vm.intervieweeEeo = {};
     vm.getEeo = getEeo;
     vm.submitEeo = submitEeo;
+    vm.updateEeo = updateEeo;
     activate();
 
     function activate() {
@@ -176,11 +177,19 @@
     function update() {
       vm.application.isNewApplication = false;
 
-      if (!_.isEmpty(vm.intervieweeEeo) && !vm.application.onSiteVisitPhase.eeoDemographic) {
-        vm.submitEeo()
-            .then(function() {
-              manage();
-            });
+      if (!_.isEmpty(vm.intervieweeEeo)) {
+        if (!vm.application.onSiteVisitPhase.eeoDemographic) {
+          vm.submitEeo()
+              .then(function () {
+                manage();
+              });
+        }
+        else {
+          vm.updateEeo()
+              .then(function () {
+                manage();
+              });
+        }
       }
       else {
         manage();
@@ -219,7 +228,10 @@
       return deferred.promise;
     }
 
-    function getEeo() {
+    function updateEeo() {
+      var deferred = $q.defer();
+     // TODO add Eeo.update method to EEO server controller
+      return deferred.promise;
     }
 
   }
