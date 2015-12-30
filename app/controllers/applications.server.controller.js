@@ -610,6 +610,8 @@ exports.manage = function (req, res, next) {
           }
           else {
             eeoDemographicDb.race = eeoDemographicLocal.race;
+            eeoDemographicDb.ethnicity = eeoDemographicLocal.ethnicity;
+            eeoDemographicDb.gender = eeoDemographicLocal.gender;
             eeoDemographicDb.save(function (err, result) {
               if (err) {
                 deferred.reject(error);

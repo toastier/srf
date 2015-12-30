@@ -185,10 +185,8 @@
               });
         }
         else {
-          vm.updateEeo()
-              .then(function () {
-                manage();
-              });
+          vm.application.onSiteVisitPhase.eeoDemographic = vm.intervieweeEeo;
+          manage();
         }
       }
       else {
