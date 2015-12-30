@@ -229,7 +229,9 @@
     }
 
     function updateEeo() {
-      
+      var deferred = $q.defer();
+      deferred.resolve(true);
+      return deferred.promise;
     }
 
   }

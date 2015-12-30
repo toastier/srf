@@ -13,6 +13,7 @@ var Applicant = mongoose.model('Applicant');
 var WorksheetField = mongoose.model('WorksheetField');
 var Opening = mongoose.model('Opening');
 var User = mongoose.model('User');
+var EeoDemographic = mongoose.model('EeoDemographic');
 var async = require('async');
 var mime = require('mime-types');
 var Q = require('q');
@@ -597,6 +598,32 @@ exports.manage = function (req, res, next) {
     .catch(function (err) {
       sendResponse(err);
     });
+
+  function updateEeoDemographic (eeoDemographicId) {
+    var deferred = Q.defer();
+    EeoDemographic.findById(eeoDemographicId)
+        .exec(function (err, eeoDemographic) {
+          if (err) {
+            deferred.reject(err);
+          }
+          else {
+            eeoDemographic.save(function (err, result) {
+              if (err) {
+                deferred.reject(error);
+              }
+              if (result) {
+                deferred.resolve(true);
+              } else {
+                error = new Error('A problem Occured when saving the EEO demographic data');
+                error.status = 400;
+                deferred.reject(error);
+              }
+            });
+          }
+        }
+    return deferred.promise;
+  }
+
 
   /**
    * Updates the associated Opening with the information about whether the opening has been filled
