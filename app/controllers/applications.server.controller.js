@@ -600,15 +600,17 @@ exports.manage = function (req, res, next) {
       sendResponse(err);
     });
 
-  function updateEeoDemographic (eeoDemographicId) {
+  function updateEeoDemographic (eeoDemographicLocal) {
     var deferred = Q.defer();
+    var eeoDemographicId = eeoDemographicLocal._id;
     EeoDemographic.findById(eeoDemographicId)
-        .exec(function (err, eeoDemographic) {
+        .exec(function (err, eeoDemographicDb) {
           if (err) {
             deferred.reject(err);
           }
           else {
-            eeoDemographic.save(function (err, result) {
+            eeoDemographicDb.race = eeoDemographicLocal.race;
+            eeoDemographicDb.save(function (err, result) {
               if (err) {
                 deferred.reject(error);
               }
@@ -731,20 +733,21 @@ exports.manage = function (req, res, next) {
       if (err) {
         sendResponse(err);
       } else {
-        if (application.cv || application.coverLetter) {
-          getFiles(application)
-            .then(function (result) {
-              application = result;
-              sendResponse(null, application);
-            })
-            .catch(function (err) {
-              sendResponse(err);
-            });
-        } else {
-          //req.application = application;
-          sendResponse(null, application);
-          updateEeoDemographic(application.onSiteVisitPhase.eeoDemographic.id);
-        }
+        updateEeoDemographic(application.onSiteVisitPhase.eeoDemographic).then(function(application) {
+          if (application.cv || application.coverLetter) {
+            getFiles(application)
+              .then(function (result) {
+                application = result;
+                sendResponse(null, application);
+              })
+              .catch(function (err) {
+                sendResponse(err);
+              });
+          } else {
+            //req.application = application;
+            sendResponse(null, application);
+          }
+        })
       }
     });
   }
