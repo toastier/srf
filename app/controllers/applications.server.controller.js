@@ -166,6 +166,7 @@ exports.applicationByID = function (req, res, next, id) {
     .populate('reviewPhase.reviews.reviewWorksheet.comments.commenter')
     .populate('phoneInterviewPhase.phoneInterviews.interviewer')
     .populate('phoneInterviewPhase.phoneInterviews.phoneInterviewWorksheet.comments.commenter')
+    .populate('onSiteVisitPhase.eeoDemographic')
     .exec(function (err, application) {
 
       if (err) {
@@ -620,7 +621,7 @@ exports.manage = function (req, res, next) {
               }
             });
           }
-        }
+        })
     return deferred.promise;
   }
 
@@ -742,6 +743,7 @@ exports.manage = function (req, res, next) {
         } else {
           //req.application = application;
           sendResponse(null, application);
+          updateEeoDemographic(application.onSiteVisitPhase.eeoDemographic.id);
         }
       }
     });
