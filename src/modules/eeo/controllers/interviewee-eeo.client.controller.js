@@ -15,11 +15,13 @@
         var vm = this;
         var parent = $scope.$parent.vm.application;
         var existingEeo = !!parent.onSiteVisitPhase.eeoDemographic;
-        vm.eeo = new Eeo( {
-            "gender" : existingEeo ? parent.onSiteVisitPhase.eeoDemographic.gender : null,
-            "ethnicity" : existingEeo ? parent.onSiteVisitPhase.eeoDemographic.ethnicity : null,
-            "race" : existingEeo ? parent.onSiteVisitPhase.eeoDemographic.race : null
-        });
+        //vm.eeo = new Eeo( {
+        //    "gender" : existingEeo ? parent.onSiteVisitPhase.eeoDemographic.gender : null,
+        //    "ethnicity" : existingEeo ? parent.onSiteVisitPhase.eeoDemographic.ethnicity : null,
+        //    "race" : existingEeo ? parent.onSiteVisitPhase.eeoDemographic.race : null,
+        //    "_id" : existingEeo ? parent.onSiteVisitPhase.eeoDemographic._id : null
+        //});
+        vm.eeo = existingEeo ? new Eeo(parent.onSiteVisitPhase.eeoDemographic) : new Eeo();
         vm.options = Eeo.getOptions();
         vm.applicationId = parent._id;
         vm.declineOff = declineOff;
