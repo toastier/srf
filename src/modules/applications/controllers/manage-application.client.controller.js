@@ -20,7 +20,7 @@
     vm.intervieweeEeo = {};
     //vm.getEeo = getEeo;
     vm.submitEeo = submitEeo;
-    //vm.updateEeo = updateEeo;
+    vm.updateEeo = updateEeo;
     activate();
 
     function activate() {
@@ -226,6 +226,10 @@
             Messages.addMessage('There was a problem saving the Eeo ' + error.data.message, 'error');
           });
       return deferred.promise;
+    }
+
+    function updateEeo() {
+      
     }
 
   }
