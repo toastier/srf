@@ -1,6 +1,5 @@
 //TODO convert to du pseudo tables
 navigation
-p(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy : 'orderBy'") {{ item }}
 section
     eeo-report-search-criteria
     eeo-report-applicants-hired(data-ng-show="vm.hired.length > 0")
@@ -44,11 +43,11 @@ section
               tr
                 td.col-xs-8 Unknown
                 td.col-xs-4
-                    span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byGender }}
+                    span.pull-right {{ vm.interviewCount - vm.eeoData.totalCounts.byGender }}
               tr
                 td.col-xs-8 TOTAL
                 td.col-xs-4
-                  span.pull-right {{ vm.applicationCount }}
+                  span.pull-right {{ vm.interviewCount }}
     .panel.panel-info
         .panel-heading Hispanic Applicants
         .panel-body
@@ -88,7 +87,7 @@ section
                 td.col-xs-3 TOTAL
                 td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy : " +
                 "'orderBy'")
-                  span.pull-right {{ item.count }}
+                  span.pull-right {{ item.count.self }}
                 td.col-xs-1
                  span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byEthnicity }}
                 td.col-xs-2
@@ -134,7 +133,7 @@ section
                   td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | " +
                   "orderBy : " +
                   "'orderBy'")
-                      span.pull-right {{ item.count }}
+                      span.pull-right {{ item.count.self }}
                   td.col-xs-1
                     span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byRace }}
                   td.col-xs-2
@@ -179,7 +178,7 @@ section
                 td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy " +
                 ": " +
                 "'orderBy'")
-                    span.pull-right {{ item.count }}
+                    span.pull-right {{ item.count.self }}
                 td.col-xs-1
                   span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byDisability }}
                 td.col-xs-2
@@ -240,7 +239,7 @@ section
                       td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | " +
                       "orderBy : " +
                       "'orderBy'")
-                          span.pull-right {{ item.count }}
+                          span.pull-right {{ item.count.self }}
                       td.col-xs-1
                         span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byVeteran }}
                       td.col-xs-2

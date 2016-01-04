@@ -146,7 +146,15 @@
         method: 'GET',
         url: 'applications/countByDate/:dateStart/:dateEnd/:position',
         params: {
-          //position: '@position',
+          dateStart: '@dateStart',
+          dateEnd: '@dateEnd',
+          position: '@position'
+        }
+      },
+      interviewCountByDate: {
+        method: 'GET',
+        url: 'applications/interviewCountByDate/:dateStart/:dateEnd/:position',
+        params: {
           dateStart: '@dateStart',
           dateEnd: '@dateEnd',
           position: '@position'

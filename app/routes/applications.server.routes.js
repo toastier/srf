@@ -47,6 +47,9 @@ module.exports = function (app) {
   app.route('/applications/countByDate/:dateStart/:dateEnd/:position')
       .get(applications.countByDate);
 
+  app.route('/applications/interviewCountByDate/:dateStart/:dateEnd/:position')
+      .get(applications.interviewCountByDate);
+
   app.route('/applications/iAmReviewer')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.iAmReviewer);
 

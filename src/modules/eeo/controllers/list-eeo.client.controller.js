@@ -22,6 +22,7 @@
     vm.rawData = [];
     vm.position = "";
     vm.applicationCount = 0;
+    vm.interviewCount = 0;
     vm.hired = [];
     vm.datePickerStates = {
       dateCloseOpen: false,
@@ -285,8 +286,6 @@
 
     function parseDemographic(result, reportType) {
 
-      // FILTER EEO DATA FOR DEMOGRAPHIC DATA (Gender, Race, Ethnicity)
-
       var demographicData = vm.filterByType(result, 'demographic');
       demographicData = vm.filterByReportType(demographicData, reportType);
       demographicData = vm.filterByPosition(demographicData);
@@ -306,16 +305,6 @@
         };
         vm.eeoData.byGender[gender.code].count[reportType] = genderCount;
       });
-
-      // INTERVIEWEES BY GENDER
-      //vm.eeoData.totalCounts.byGender = demographicData.length;
-      //_.forEach(vm.options.genders, function(gender) {
-      //  var genderCount=_.size(_.filter(demographicData, function(rec) {
-      //    return (rec.gender === gender.code);
-      //  }));
-      //  vm.eeoData.byGender[gender.code] = { "count": genderCount, orderBy: gender.orderBy, "label" : gender.description, "code": gender.code};
-      //});
-
 
       // APPLICANTS BY ETHNICITY x GENDER
       vm.eeoData.totalCounts.byEthnicity = demographicData.length;
@@ -447,6 +436,21 @@
           });
     }
 
+    function getInterviewCount() {
+      var dateStart = new Date(angular.isDate(vm.dateStart) ? vm.dateStart : '1/1/1900');
+      var dateEnd = new Date(angular.isDate(vm.dateEnd) ? (vm.dateEnd).setDate((vm.dateEnd).getDate()+1) : '12/31/2029');
+      var position = (vm.position !== "") ? vm.position : 'all';
+
+      Application.interviewCountByDate({dateStart: dateStart, dateEnd: dateEnd, position: position})
+          .$promise
+          .then(function(results) {
+            vm.interviewCount = results.count;
+          })
+          .catch(function(error) {
+            Messages.addMessage(error.data.message, 'error');
+          });
+    }
+
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
 
@@ -472,6 +476,7 @@
             setupNavigation();
           });
       getApplicationCount();
+      getInterviewCount();
     }
 
     function getValueLists() {

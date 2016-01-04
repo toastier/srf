@@ -130,6 +130,36 @@ exports.countByDate = function (req, res) {
       });
 }
 
+// applications resulting in onsite interviews
+exports.interviewCountByDate = function (req, res) {
+  var query = Application.find();
+  var dateStart = (new Date(req.params.dateStart)).toISOString();
+  var dateEnd = new Date(req.params.dateEnd).toISOString();
+  var position = (req.params.position === 'all') ? 'all' : mongoose.Types.ObjectId(req.params.position);
+  query
+      .populate('opening')
+      .where('dateSubmitted').gte(dateStart)
+      .where('dateSubmitted').lt(dateEnd)
+      .where('onSiteVisitPhase.complete').equals(true)
+      .exec(function (err, docs) {
+        if (position !== 'all') {
+          docs = docs.filter(function(doc){
+            return (doc.opening.position.toString() === position.toString())
+          });
+          var hired = docs.filter(function(doc){
+            return (doc.offer.accepted === true)
+          });
+          console.log (hired);
+        }
+        var data = { 'count' : docs.length, 'hired' : hired };
+        if (err) {
+          sendResponse(err, null, res);
+        } else {
+          sendResponse(null, data, res);
+        }
+      });
+}
+
 
 /**
  * Appends boilerplate mongoose methods and executes a query for a 'listing' style result set
