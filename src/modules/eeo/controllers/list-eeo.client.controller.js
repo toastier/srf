@@ -294,13 +294,27 @@
 
       // APPLICANTS BY GENDER
       vm.eeoData.totalCounts.byGender = demographicData.length;
-      vm.eeoData.byGender[reportType] = {};
       _.forEach(vm.options.genders, function(gender) {
         var genderCount=_.size(_.filter(demographicData, function(rec) {
           return (rec.gender === gender.code);
         }));
-        vm.eeoData.byGender[reportType][gender.code]= { "count": genderCount, orderBy: gender.orderBy, "label" : gender.description, "code": gender.code};
+        vm.eeoData.byGender[gender.code] = vm.eeoData.byGender[gender.code] ? vm.eeoData.byGender[gender.code] : {
+          "count": {},
+          "orderBy": gender.orderBy,
+          "label" : gender.description,
+          "code": gender.code
+        };
+        vm.eeoData.byGender[gender.code].count[reportType] = genderCount;
       });
+
+      // INTERVIEWEES BY GENDER
+      //vm.eeoData.totalCounts.byGender = demographicData.length;
+      //_.forEach(vm.options.genders, function(gender) {
+      //  var genderCount=_.size(_.filter(demographicData, function(rec) {
+      //    return (rec.gender === gender.code);
+      //  }));
+      //  vm.eeoData.byGender[gender.code] = { "count": genderCount, orderBy: gender.orderBy, "label" : gender.description, "code": gender.code};
+      //});
 
 
       // APPLICANTS BY ETHNICITY x GENDER

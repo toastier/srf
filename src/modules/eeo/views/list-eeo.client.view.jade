@@ -1,5 +1,6 @@
 //TODO convert to du pseudo tables
 navigation
+p(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy : 'orderBy'") {{ item }}
 section
     eeo-report-search-criteria
     eeo-report-applicants-hired(data-ng-show="vm.hired.length > 0")
@@ -13,10 +14,10 @@ section
                 th.col-xs-4
                   span.pull-right Count
             tbody
-                  tr(data-ng-repeat="item in vm.eeoData.byGender.self | toArray | orderBy : 'orderBy'")
+              tr(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy : 'orderBy'")
                 td.col-xs-8 {{ item.label }}
                 td.col-xs-4
-                  span.pull-right {{ item.count }}
+                  span.pull-right {{ item.count.self }}
               tr
                 td.col-xs-8 Unknown
                 td.col-xs-4
@@ -35,11 +36,11 @@ section
                 th.col-xs-4
                   span.pull-right Count
             tbody
-              tr(data-ng-repeat="item in vm.eeoData.byGender.interview | toArray | orderBy : " +
+              tr(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy : " +
               "'orderBy'")
                 td.col-xs-8 {{ item.label }}
                 td.col-xs-4
-                  span.pull-right {{ item.count }}
+                  span.pull-right {{ item.count.interview }}
               tr
                 td.col-xs-8 Unknown
                 td.col-xs-4
