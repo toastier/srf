@@ -18,9 +18,7 @@
     vm.editReviewPhaseCollectiveComments = false;
     vm.editPhoneInterviewPhaseCollectiveComments = false;
     vm.intervieweeEeo = {};
-    //vm.getEeo = getEeo;
     vm.submitEeo = submitEeo;
-    vm.updateEeo = updateEeo;
     activate();
 
     function activate() {
@@ -225,12 +223,5 @@
           });
       return deferred.promise;
     }
-
-    function updateEeo() {
-      var deferred = $q.defer();
-      deferred.resolve(true);
-      return deferred.promise;
-    }
-
   }
 })();
