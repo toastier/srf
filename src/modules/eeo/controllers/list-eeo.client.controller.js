@@ -52,6 +52,7 @@
     function extractData() {
       reportDataInit();
       getApplicationCount();
+      getInterviewCount();
       parseDemographic(vm.rawData, 'self');
       parseDemographic(vm.rawData, 'interview');
       parseDisability(vm.rawData);

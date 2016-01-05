@@ -140,7 +140,7 @@ exports.interviewCountByDate = function (req, res) {
       .populate('opening')
       .where('dateSubmitted').gte(dateStart)
       .where('dateSubmitted').lt(dateEnd)
-      .where('onSiteVisitPhase.complete').equals(true)
+      .where('onSiteVisitPhase.eeoDemographic').exists(true)
       .exec(function (err, docs) {
         if (position !== 'all') {
           docs = docs.filter(function(doc){
