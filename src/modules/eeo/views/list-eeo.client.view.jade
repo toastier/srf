@@ -92,7 +92,7 @@ section
                  span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byEthnicity }}
                 td.col-xs-2
                   span.pull-right {{ vm.applicationCount }}
-    panel.panel-info
+    .panel.panel-info
         .panel-heading Interviewed by Hispanic Ethnicity
         .panel-body
           table.table-bordered.table-striped.col-xs-12
@@ -124,18 +124,18 @@ section
                  "'orderBy'")
                     span.pull-right -
                   td.col-xs-1
-                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byEthnicity }}
+                      span.pull-right {{ vm.interviewCount - vm.eeoData.totalCounts.byEthnicity }}
                   td.col-xs-2
-                      span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byEthnicity }}
+                      span.pull-right {{ vm.interviewCount - vm.eeoData.totalCounts.byEthnicity }}
              tr
                 td.col-xs-3 TOTAL
                 td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy : " +
                 "'orderBy'")
                   span.pull-right {{ item.count.self }}
                 td.col-xs-1
-                 span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byEthnicity }}
+                 span.pull-right {{ vm.interviewCount - vm.eeoData.totalCounts.byEthnicity }}
                 td.col-xs-2
-                  span.pull-right {{ vm.applicationCount }}
+                  span.pull-right {{ vm.interviewCount }}
     .panel.panel-info
         .panel-heading Applicants by Race
         .panel-body
@@ -157,11 +157,11 @@ section
                 td.col-xs-2(data-ng-repeat="gender in vm.eeoData.byGender | toArray | " +
                 "orderBy : " +
                 "'orderBy'")
-                  span.pull-right {{ item.counts[gender.code] }}
+                  span.pull-right {{ item.counts[gender.code].self }}
                 td.col-xs-1
                         span.pull-right -
                 td.col-xs-2
-                  span.pull-right {{ item.counts.totalCount }}
+                  span.pull-right {{ item.counts.totalCount.self }}
               tr
                 td.col-xs-3 Unknown
                 td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy " +
@@ -182,6 +182,52 @@ section
                     span.pull-right {{ vm.applicationCount - vm.eeoData.totalCounts.byRace }}
                   td.col-xs-2
                     span.pull-right {{ vm.applicationCount }}
+    .panel.panel-info
+        .panel-heading Interviewed by Race
+        .panel-body
+          table.table-bordered.table-striped.col-xs-12
+            thead
+              tr
+                th.col-xs-3 Race
+                td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy " +
+                ": " +
+                "'orderBy'")
+                  span.pull-right {{ item.label }}
+                th.col-xs-1
+                    span.pull-right Unknown
+                th.col-xs-2
+                  strong.pull-right Total
+            tbody
+              tr(data-ng-repeat="item in vm.eeoData.byRace | toArray | orderBy : 'orderBy'")
+                td.col-xs-3 {{ item.label }}
+                td.col-xs-2(data-ng-repeat="gender in vm.eeoData.byGender | toArray | " +
+                "orderBy : " +
+                "'orderBy'")
+                  span.pull-right {{ item.counts[gender.code].interview }}
+                td.col-xs-1
+                        span.pull-right -
+                td.col-xs-2
+                  span.pull-right {{ item.counts.totalCount.interview }}
+              tr
+                td.col-xs-3 Unknown
+                td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | orderBy " +
+                ": " +
+                "'orderBy'")
+                    span.pull-right -
+                td.col-xs-1
+                  span.pull-right {{ vm.interviewCount - vm.eeoData.totalCounts.byRace }}
+                td.col-xs-2
+                  span.pull-right {{ vm.interviewCount - vm.eeoData.totalCounts.byRace }}
+              tr
+                  td.col-xs-3 TOTAL
+                  td.col-xs-2(data-ng-repeat="item in vm.eeoData.byGender | toArray | " +
+                  "orderBy : " +
+                  "'orderBy'")
+                      span.pull-right {{ item.count.self }}
+                  td.col-xs-1
+                    span.pull-right {{ vm.interviewCount - vm.eeoData.totalCounts.byRace }}
+                  td.col-xs-2
+                    span.pull-right {{ vm.interviewCount }}
     .panel.panel-info
         .panel-heading Disabled Applicants
         .panel-body

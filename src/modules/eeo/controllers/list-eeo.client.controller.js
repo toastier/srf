@@ -298,7 +298,7 @@
         var genderCount=_.size(_.filter(demographicData, function(rec) {
           return (rec.gender === gender.code);
         }));
-        vm.eeoData.byGender[gender.code] = vm.eeoData.byGender[gender.code] ? vm.eeoData.byGender[gender.code] : {
+        vm.eeoData.byGender[gender.code] = vm.eeoData.byGender[gender.code] || {
           "count": {},
           "orderBy": gender.orderBy,
           "label" : gender.description,
@@ -310,8 +310,6 @@
       // APPLICANTS BY ETHNICITY x GENDER
       vm.eeoData.totalCounts.byEthnicity = demographicData.length;
       _.forEach(vm.options.ethnicities, function(ethnicity) {
-        //vm.eeoData.byEthnicity[ethnicity.code] = vm.eeoData.byEthnicity[ethnicity.code] ?
-            //vm.eeoData.byEthnicity[ethnicity.code] : { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : {} }} ;
         vm.eeoData.byEthnicity[ethnicity.code] = vm.eeoData.byEthnicity[ethnicity.code] || { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : {} }} ;
         _.forEach(vm.options.genders, function(gender) {
           var ethnicityCount =_.size(_.filter(demographicData, function(rec) {
@@ -329,13 +327,16 @@
       // APPLICANTS BY RACE x GENDER
       vm.eeoData.totalCounts.byRace = demographicData.length;
       _.forEach(vm.options.races, function(race) {
-        vm.eeoData.byRace[race.code] = {label: race.description, orderBy: race.orderBy, counts: {totalCount: 0}};
+        vm.eeoData.byRace[race.code] = vm.eeoData.byRace[race.code] || {label: race.description, orderBy: race.orderBy, counts: {totalCount: {} }};
         _.forEach(vm.options.genders, function (gender) {
           var raceCount = _.size(_.filter(demographicData, function (rec) {
             return (rec.race[race.code] === true && rec.gender === gender.code);
           }));
-          vm.eeoData.byRace[race.code].counts[gender.code] = raceCount;
-          vm.eeoData.byRace[race.code].counts.totalCount += raceCount;
+          vm.eeoData.byRace[race.code].counts[gender.code] = vm.eeoData.byRace[race.code].counts[gender.code] || {};
+          vm.eeoData.byRace[race.code].counts[gender.code][reportType] = raceCount;
+          vm.eeoData.byRace[race.code].counts.totalCount = vm.eeoData.byRace[race.code].counts.totalCount || {};
+          vm.eeoData.byRace[race.code].counts.totalCount[reportType] = vm.eeoData.byRace[race.code].counts.totalCount[reportType] || 0;
+          vm.eeoData.byRace[race.code].counts.totalCount[reportType] += raceCount;
         });
       });
 
