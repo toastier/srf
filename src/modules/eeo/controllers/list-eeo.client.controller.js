@@ -232,7 +232,10 @@
         byRace: {
           "multiple": {
             "counts": {
-              "totalCount": 0
+              "totalCount": {
+                "self" : 0,
+                "interview" : 0
+              }
             },
             "label": "Multiple",
             "orderBy": 10
@@ -345,8 +348,9 @@
         var raceCount =  _.size(_.filter(demographicData, function (rec) {
           return ((_.size(_.keys(_.pick(rec.race, _.identity))) > 1) && rec.gender === gender.code);
         }));
-        vm.eeoData.byRace.multiple.counts[gender.code] = raceCount;
-        vm.eeoData.byRace.multiple.counts.totalCount += raceCount;
+        vm.eeoData.byRace.multiple.counts[gender.code] = vm.eeoData.byRace.multiple.counts[gender.code] || {};
+        vm.eeoData.byRace.multiple.counts[gender.code][reportType] = raceCount;
+        vm.eeoData.byRace.multiple.counts.totalCount[reportType] += raceCount;
       });
     }
 
