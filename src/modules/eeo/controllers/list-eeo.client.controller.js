@@ -310,13 +310,18 @@
       // APPLICANTS BY ETHNICITY x GENDER
       vm.eeoData.totalCounts.byEthnicity = demographicData.length;
       _.forEach(vm.options.ethnicities, function(ethnicity) {
-        vm.eeoData.byEthnicity[ethnicity.code] = { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : 0 }} ;
+        //vm.eeoData.byEthnicity[ethnicity.code] = vm.eeoData.byEthnicity[ethnicity.code] ?
+            //vm.eeoData.byEthnicity[ethnicity.code] : { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : {} }} ;
+        vm.eeoData.byEthnicity[ethnicity.code] = vm.eeoData.byEthnicity[ethnicity.code] || { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : {} }} ;
         _.forEach(vm.options.genders, function(gender) {
           var ethnicityCount =_.size(_.filter(demographicData, function(rec) {
             return (rec.ethnicity === ethnicity.code && rec.gender === gender.code);
           }));
-          vm.eeoData.byEthnicity[ethnicity.code].counts[gender.code] = ethnicityCount;
-          vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount += ethnicityCount;
+          vm.eeoData.byEthnicity[ethnicity.code].counts[gender.code] = vm.eeoData.byEthnicity[ethnicity.code].counts[gender.code] || {};
+          vm.eeoData.byEthnicity[ethnicity.code].counts[gender.code][reportType] = ethnicityCount;
+          vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount = vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount || {};
+          vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount[reportType] = vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount[reportType] || 0;
+          vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount[reportType] += ethnicityCount;
         });
       });
 
