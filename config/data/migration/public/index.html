@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Migrate Data</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="candidates.json"></script>
+    <script src="xml2json.js"></script>
+
+</head>
+<body>
+<div>
+
+</div>
+</body>
+
+<script type="text/javascript">
+    var xmlFiles = ["tbl_CampusVisits", "tbl_CandidateInformation", "tbl_Comments", "tbl_eval",
+        "tbl_positions", "tbl_RefComments", "tblCandEval_Nov2010", "tblNotes", "tblQualEval"];
+    var jsonData = [];
+
+
+    var x2js = new X2JS();
+
+//    function convertXml2JSon() {
+//        $("#jsonArea").val(JSON.stringify(x2js.xml_str2json($("#xmlArea").val())));
+//    }
+//
+//    function convertJSon2XML() {
+//        $("#xmlArea").val(x2js.json2xml_str($.parseJSON($("#jsonArea").val())));
+//    }
+
+    $("#xmlArea").val("<root><child><textNode>First &amp; Child</textNode></child><child><textNode>Second Child</textNode></child><testAttrs attr1='attr1Value'/></root>");
+
+//    convertXml2JSon();
+//    convertJSon2XML();
+//    $("#convertToJsonBtn").click(convertXml2JSon);
+//    $("#convertToXmlBtn").click(convertJSon2XML);
+    var x = 0;
+
+    var loopXml = function(files) {
+        // call itself
+        getJsonData(files[x],function(){
+            // set x to next item
+            x++;
+            // any more items in array?
+            if(x < files.length) {
+                loopXml(files);
+            }
+        });
+    }
+//for (i = 0; i < xmlFiles.length; i++) {
+//    var count = i;
+//    $.get((xmlFiles[i]+".xml"), function(response) {
+//        xmlData.push({xmlFiles[i]response);
+//    });
+//}
+//    $.get("tbl_CampusVisits.xml", function(response) {
+//        var campusVisits = response;
+//    });
+
+
+    function getJsonData(tablename,callback) {
+        $.get((tablename+".xml"), function(response) {
+            var xml = new XMLSerializer().serializeToString(response);
+            var json = (x2js.xml_str2json(xml)).dataroot[tablename];
+
+//            var jsonData = JSON.parse(JSON.stringify(x2js.xml_str2json(xml)));
+            jsonData.push({ "table" : tablename, "json" : json});
+            callback();
+        });
+    }
+
+    // start 'loop'
+    loopXml(xmlFiles);
+
+</script>
+
+</html>
