@@ -4,75 +4,110 @@
     <meta charset="UTF-8">
     <title>Migrate Data</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script type="text/javascript" src="candidates.json"></script>
     <script src="xml2json.js"></script>
 
 </head>
 <body>
-<div>
+<section style="width: 40%; float: left">
+    <h1>Script Conversion</h1>
+    <button id="conversionScriptBtn">Run Script</button>
+    <div>
+        <textarea id="auto" readonly cols="55" rows="15"></textarea>
+        <div id="lblResponse"></div>
+    </div>
+</section>
+<section style="width: 40%; float: left">
+    <h1>Manual Conversion</h1>
+    <button id="convertToJsonBtn">XML => JSON</button>
+    <button id="convertToXmlBtn">JSON => XML</button>
+    <div>
+        <h4>XML:</h4>
 
-</div>
+        <textarea id="xmlArea" cols="55" rows="15"></textarea>
+    </div>
+    <div>
+        <h4>JSON:</h4>
+
+        <textarea id="jsonArea" cols="55" rows="15"></textarea>
+    </div>
+</section>
 </body>
 
 <script type="text/javascript">
-    var xmlFiles = ["tbl_CampusVisits", "tbl_CandidateInformation", "tbl_Comments", "tbl_eval",
-        "tbl_positions", "tbl_RefComments", "tblCandEval_Nov2010", "tblNotes", "tblQualEval"];
-    var jsonData = [];
-
+    $("#convertToJsonBtn").click(convertXml2JSon);
+    $("#convertToXmlBtn").click(convertJSon2XML);
+    $("#conversionScriptBtn").click(runConversion);
 
     var x2js = new X2JS();
 
-//    function convertXml2JSon() {
-//        $("#jsonArea").val(JSON.stringify(x2js.xml_str2json($("#xmlArea").val())));
-//    }
-//
-//    function convertJSon2XML() {
-//        $("#xmlArea").val(x2js.json2xml_str($.parseJSON($("#jsonArea").val())));
-//    }
-
-    $("#xmlArea").val("<root><child><textNode>First &amp; Child</textNode></child><child><textNode>Second Child</textNode></child><testAttrs attr1='attr1Value'/></root>");
-
-//    convertXml2JSon();
-//    convertJSon2XML();
-//    $("#convertToJsonBtn").click(convertXml2JSon);
-//    $("#convertToXmlBtn").click(convertJSon2XML);
-    var x = 0;
-
-    var loopXml = function(files) {
-        // call itself
-        getJsonData(files[x],function(){
-            // set x to next item
-            x++;
-            // any more items in array?
-            if(x < files.length) {
-                loopXml(files);
-            }
-        });
-    }
-//for (i = 0; i < xmlFiles.length; i++) {
-//    var count = i;
-//    $.get((xmlFiles[i]+".xml"), function(response) {
-//        xmlData.push({xmlFiles[i]response);
-//    });
-//}
-//    $.get("tbl_CampusVisits.xml", function(response) {
-//        var campusVisits = response;
-//    });
-
-
-    function getJsonData(tablename,callback) {
-        $.get((tablename+".xml"), function(response) {
-            var xml = new XMLSerializer().serializeToString(response);
-            var json = (x2js.xml_str2json(xml)).dataroot[tablename];
-
-//            var jsonData = JSON.parse(JSON.stringify(x2js.xml_str2json(xml)));
-            jsonData.push({ "table" : tablename, "json" : json});
-            callback();
-        });
+    function convertXml2JSon() {
+        $("#jsonArea").val(JSON.stringify(x2js.xml_str2json($("#xmlArea").val())));
     }
 
-    // start 'loop'
-    loopXml(xmlFiles);
+    function convertJSon2XML() {
+        $("#xmlArea").val(x2js.json2xml_str($.parseJSON($("#jsonArea").val())));
+    }
+
+    function runConversion() {
+        var xmlFiles = ["tbl_CampusVisits", "tbl_CandidateInformation", "tbl_Comments", "tbl_eval",
+            "tbl_positions", "tbl_RefComments", "tblCandEval_Nov2010", "tblNotes", "tblQualEval"];
+        var jsonData = [];
+
+
+
+        var textarea = $('textarea#auto');
+
+
+        var x = 0;
+
+        var loopXml = function (files) {
+            // call itself
+            getJsonData(files[x], function () {
+                // set x to next item
+                x++;
+                // any more items in array?
+                if (x < files.length) {
+                    loopXml(files);
+                }
+                else {
+                    postData();
+                }
+            });
+        }
+
+
+        function getJsonData(tablename, callback) {
+            $.get((tablename + ".xml"), function (response) {
+                var xml = new XMLSerializer().serializeToString(response);
+                var json = (x2js.xml_str2json(xml)).dataroot[tablename];
+                jsonData.push({"table": tablename, "json": json});
+                $(textarea).append(tablename, " converted\n");
+                callback();
+            });
+        }
+
+        loopXml(xmlFiles);
+
+        function postData(){
+            console.log(jsonData);
+            $.ajax({
+                url: 'http://localhost:3000/receive',
+                // dataType: "jsonp",
+                data: JSON.stringify(jsonData),
+                type: 'POST',
+                jsonpCallback: 'callback', // this is not relevant to the POST anymore
+                success: function (data) {
+                    var ret = jQuery.parseJSON(data);
+                    $('#lblResponse').html(ret.msg);
+                    console.log('Success: ')
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error: ' + error.message);
+                    $('#lblResponse').html('Error connecting to the server.');
+                }
+            });
+        }
+    }
 
 </script>
 
