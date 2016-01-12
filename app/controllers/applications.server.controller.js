@@ -594,7 +594,7 @@ exports.forOpeningForUser = function (req, res, next) {
  * @returns {*}
  */
 exports.hasAuthorization = function (req, res, next) {
-  if ((_.intersection(req.user.roles, ['admin', 'manager']).length) || (req.application.user.toString() === req.user._id)) {
+  if ((_.intersection(req.user.roles, ['admin', 'manager', 'committee member']).length) || (req.application.user.toString() === req.user._id)) {
     next();
   } else {
     var err = new Error('User is not authorized', 403);
