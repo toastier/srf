@@ -92,7 +92,6 @@
             console.log(jsonData);
             $.ajax({
                 url: 'http://localhost:3000/receive',
-                // dataType: "jsonp",
                 data: JSON.stringify(jsonData),
                 type: 'POST',
                 jsonpCallback: 'callback', // this is not relevant to the POST anymore
