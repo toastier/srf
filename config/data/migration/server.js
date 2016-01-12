@@ -15,7 +15,7 @@ app.use('/public', express.static(__dirname + '/public'));
 
 app.use(express.static(__dirname + '/public'));
 
-app.post('/receive', function(request, respond) {
+app.post('/receive', function(request, res) {
     var body = '';
     filePath = __dirname + '/xml2json.json';
     request.on('data', function(data) {
@@ -23,8 +23,8 @@ app.post('/receive', function(request, respond) {
     });
 
     request.on('end', function (){
-        fs.appendFile(filePath, body, function() {
-            respond.end();
+        fs.writeFile(filePath, body, function() {
+            res.send('XML converted to JSON successfully! File: ' + filePath) ;
         });
     });
 });

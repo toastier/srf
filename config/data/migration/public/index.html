@@ -94,11 +94,9 @@
                 url: 'http://localhost:3000/receive',
                 data: JSON.stringify(jsonData),
                 type: 'POST',
-                jsonpCallback: 'callback', // this is not relevant to the POST anymore
                 success: function (data) {
-                    var ret = jQuery.parseJSON(data);
-                    $('#lblResponse').html(ret.msg);
-                    console.log('Success: ')
+                    $('#lblResponse').html(data);
+                    console.log('Success ')
                 },
                 error: function (xhr, status, error) {
                     console.log('Error: ' + error.message);
