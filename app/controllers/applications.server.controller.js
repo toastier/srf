@@ -632,6 +632,10 @@ exports.manage = function (req, res, next) {
 
   function updateEeoDemographic (eeoDemographicLocal) {
     var deferred = Q.defer();
+    if (!eeoDemographicLocal) {
+      deferred.resolve(true);
+      return deferred.promise;
+    }
     var eeoDemographicId = eeoDemographicLocal._id;
     EeoDemographic.findById(eeoDemographicId)
         .exec(function (err, eeoDemographicDb) {
