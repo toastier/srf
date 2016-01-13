@@ -17,7 +17,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.post('/receive', function(request, res) {
     var body = '';
-    filePath = __dirname + '/xml2json.json';
+    filePath = __dirname + '/public/xml2json.json';
     request.on('data', function(data) {
         body += data;
     });
