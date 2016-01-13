@@ -17,7 +17,8 @@
      */
     function ApplicantModel(applicantData) {
       applicantData = applicantData || {
-          name: {}
+          name: {},
+          legacy: false
         };
 
       this.name = {};
@@ -26,6 +27,8 @@
       this.name.middleName = applicantData.name.middleName;
       this.name.honorific = applicantData.name.honorific;
       this.name.suffix = applicantData.name.suffix;
+
+      this.legacy = applicantData.legacy;
 
     }
 
