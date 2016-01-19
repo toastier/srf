@@ -19,7 +19,7 @@
 		if (typeof define === "function" && define.amd) {
 			define([], factory);
 		} else if (typeof exports === "object") {
-			module.exports = factory();
+			module.exports = {"X2JS" :factory()};
 		} else {
 			root.X2JS = factory();
 		}
@@ -571,8 +571,14 @@
 			};
 		}
 	}))
+	
 })()
 
 
-//console.log("xml2Json is: ", xml2Json);
-//module.exports = xml2Json;
+//
+// module.exports = {
+// 	x2Js : function() {
+// 		return new X2JS();
+//
+// 	}
+// }
