@@ -1,3 +1,17 @@
+//tr
+//  th.sort-control(ng-if="!!column.sortable && !column.hidden", ng-repeat="column in vm.collection" +
+//  ".columnDefinitions", ng-class="vm.collection.getSortingClass(column.field) + ' col-md-' + " +
+//  "column.width.md", ng-click="vm" +
+//  ".collection.sortBy(column.field)") {{ column.label }}
+//  th(ng-if="!column.sortable && !column.hidden", ng-repeat="column in vm.collection" +
+//  ".columnDefinitions", ng-class="'col-md-' + column.width.md") {{ column.label }}
 tr
-  th.sort-control(ng-if="!!column.sortable && !column.hidden", ng-repeat="column in vm.collection.columnDefinitions", ng-class="vm.collection.getSortingClass(column.field)", ng-click="vm.collection.sortBy(column.field)") {{ column.label }}
-  th(ng-if="!column.sortable && !column.hidden", ng-repeat="column in vm.collection.columnDefinitions") {{ column.label }}
+  th.sort-control(ng-if="!!column.sortable && !column.hidden", ng-repeat="column in vm.collection" +
+  ".columnDefinitions", ng-class="vm.collection.getSortingClass(column.field) + ' col-md-' + " +
+  "column.width.md", ng-click="vm" +
+  ".collection.sortBy(column.field)") {{ column.label }}
+  th(ng-if="!column.sortable && !column.hidden", ng-repeat="column in vm.collection" +
+  ".columnDefinitions", ng-class="{'hidden-xs': column.width.xs==0} + ' col-md-' + column.width" +
+  ".md") {{ column.label }}
+  //th(ng-if="!column.sortable && !column.hidden", ng-repeat="column in vm.collection" +
+  //".columnDefinitions", ng-class="{'hidden-xs': column.width.xs==0}") {{ column.label }}
