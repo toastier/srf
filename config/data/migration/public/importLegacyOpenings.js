@@ -20,7 +20,8 @@ db.legacy_tbl_positions.find().forEach(function (opening) {
         "position" : getPosition(opening.PositionID),
         "postingLink": [{
             source: "legacy",
-            "url": opening.documentLink
+            "url": opening.documentLink,
+            '_id':  new ObjectId()
         }]
     })
 });

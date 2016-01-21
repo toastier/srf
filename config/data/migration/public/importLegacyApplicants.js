@@ -2,6 +2,9 @@
  * Created by toastie on 1/13/16.
  */
 
+
+
+
 function cap1st(string) {    var lower = string.toLowerCase();
     return lower.charAt(0).toUpperCase() + lower.slice(1);
 }
