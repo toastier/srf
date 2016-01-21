@@ -9,29 +9,30 @@
     vm.user = resolvedAuth;
     vm.allowEdit = allowEdit;
     vm.columnDefinitions = [
-      {field: 'name.honorific', label: 'Hon', width: { xs: 0, md: 1 }, filterable: true, actions: {
-      restrict: vm.allowEdit,
+      {label: 'Actions', width: { sm: 1 }, actions: {
+        restrict: vm.allowEdit,
         actionItems: [
-        {
-          type: 'edit',
-          title: 'Edit Applicant',
-          restrict: vm.allowEdit,
-          attachedTo: 'item',
-          method: 'editApplicant'
-        },
-        {
-          type: 'view',
-          title: 'View Applicant',
-          restrict: vm.allowEdit,
-          attachedTo: 'item',
-          method: 'viewApplicant'
-        }
-      ]
-    }},
-      {field: 'name.firstName', label: 'First Name', width: { md: 2 }, sortable: false, filterable: true},
-      {field: 'name.middleName', label: 'Middle', width: { md: 1 },sortable: false,filterable: false},
-      {field: 'name.lastName', label: 'Last Name', width: { md: 3 }, sortable: false,filterable: true},
-      {field: 'dateCreated', label: 'Created', width: { md: 2 }, format: 'date', sortable: false, filterable: false}
+          {
+            type: 'edit',
+            title: 'Edit Applicant',
+            restrict: vm.allowEdit,
+            attachedTo: 'item',
+            method: 'editApplicant'
+          },
+          {
+            type: 'view',
+            title: 'View Applicant',
+            restrict: vm.allowEdit,
+            attachedTo: 'item',
+            method: 'viewApplicant'
+          }
+        ]
+      }},
+      {field: 'name.honorific', label: 'Hon', width: { xs: 0, sm: 1 }, filterable: true},
+      {field: 'name.firstName', label: 'First Name', width: { sm: 2 }, sortable: false, filterable: true},
+      {field: 'name.middleName', label: 'Middle', width: { sm: 1 },sortable: false,filterable: false},
+      {field: 'name.lastName', label: 'Last Name', width: { sm: 3 }, sortable: false,filterable: true},
+      {field: 'dateCreated', label: 'Created', width: { sm: 2 }, format: 'date', sortable: false, filterable: false}
 
     ];
 

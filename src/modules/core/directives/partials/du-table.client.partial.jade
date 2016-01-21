@@ -3,7 +3,7 @@ table.table.table-striped
   thead(du-sorting-header)
   tbody
     tr(ng-repeat="item in vm.collection.paginated")
-      td(ng-if="!column.hidden", ng-repeat="column in vm.collection.columnDefinitions")
+      td(ng-if="!column.hidden", ng-repeat="column in vm.collection.columnDefinitions",ng-class="[{'hidden-xs': column.width.xs==0}, {'text-center' :!!column.actions}]")
         .icon-group.size-medium(ng-if="column.actions.restrict(item)")
           a.with-icon(
             ng-if="actionItem.restrict()",
@@ -11,7 +11,7 @@ table.table.table-striped
             class="with icon {{ actionItem.type }}",
             ng-click="duTable.callMethod(item, actionItem.method, actionItem.attachedTo)"
           )
-        span(ng-if="!column.format") {{ duTable.getIndex(item, column.field) }}
+        span(ng-if="!column.format && !column.actions") {{ duTable.getIndex(item, column.field) }}
         span(ng-if="column.format === 'summary'")
           span.badge(ng-if="duTable.getIndex(item, 'isNew')") new
           | &nbsp;{{ duTable.getIndex(item, column.field) }}
