@@ -39,9 +39,7 @@
     /** type ColumnDefinition[] **/
     vm.columnDefinitions = [
       {
-        field: 'name',
-        label: 'Position Title',
-        filterable: true,
+        label: 'Actions',
         actions: {
           restrict: vm.allowEdit,
           actionItems: [
@@ -60,16 +58,25 @@
               method: viewPosition  // object reference to the method as it is in the current scope
             }
           ]
-        }},
-      {field: 'details', label: 'Description', format: 'trimmed', filterable: true},
+        },
+        width: { sm: 1}
+      },
+      {
+        field: 'name',
+        label: 'Position Title',
+        filterable: true,
+        width: { sm: 3}
+      },
+      {field: 'details', label: 'Description', format: 'trimmed', filterable: true, width: { sm: 3, xs: 0}},
       {field: 'isActive', label: 'Active', format: 'checkMark',
         filterable: {
           name: 'isActive',
           field: 'isActive',
           matchType: 'trueFalse'
-        }
+        },
+        width: { sm: 1}
       },
-      {field: 'dateCreated', label: 'Created', format: 'date'}
+      {field: 'dateCreated', label: 'Created', format: 'date', width: { sm: 2}}
     ];
 
     var initialSortOrder = ['+name'];
