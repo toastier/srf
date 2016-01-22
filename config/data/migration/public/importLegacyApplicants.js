@@ -5,17 +5,34 @@
 
 
 
-function cap1st(string) {    var lower = string.toLowerCase();
+function cap1st(string) {
+    var lower = string.toLowerCase();
     return lower.charAt(0).toUpperCase() + lower.slice(1);
 }
 
+function parseCredentials(credentials) {
+    var oldCredentials = credentials.split(',');
+    var newCredentials = [];
+    oldCredentials.forEach(function(credential) {
+        newCredentials.push({"credential" : credential.trim()})
+    })
+    return newCredentials;
+}
 
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
+
     db.applicants.insert({
         "legacy": candidate,
         "name": { "firstName" : cap1st(candidate.FName),
             "lastName" : cap1st(candidate.LName)
-        }
+        },
+        "applicantPositions": [{
+            positionName: candidate.CurrentPosition,
+            institution: {
+                institutionName : candidate.CurrentInstitution
+            }
+        }],
+        "credentials" : candidate.Credentials ? parseCredentials(candidate.Credentials) : []
     });
 
 
@@ -24,15 +41,7 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
 
   /*   applicantPositions: [{
         positionName: {type: String},
-        dateExpectedCompletion: {type: Date},
-        note: {type: String},
-        institution: {
-            institutionName: {type: String},
-            city: {type: String},
-            state: {type: String},
-            country: {type: String}
-        }
-    }],
+
         credentials: [{
         credential: {type: String},
         note: {type: String},
