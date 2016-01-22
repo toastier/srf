@@ -19,6 +19,15 @@ function parseCredentials(credentials) {
     return newCredentials;
 }
 
+function parseFocals(focals) {
+    var oldFocals = focals.split(/and|,/);
+    var newFocals = [];
+    oldFocals.forEach(function (focal) {
+        newFocals.push({"focalArea": focal.trim()})
+    })
+    return newFocals;
+}
+
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
 
     db.applicants.insert({
@@ -32,7 +41,8 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
                 institutionName : candidate.CurrentInstitution
             }
         }],
-        "credentials" : candidate.Credentials ? parseCredentials(candidate.Credentials) : []
+        "credentials" : candidate.Credentials ? parseCredentials(candidate.Credentials) : [],
+        "focalAreas" : candidate.FocalArea ? parseFocals(candidate.FocalArea) : []
     });
 
 
@@ -40,14 +50,7 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
 
 
   /*   applicantPositions: [{
-        positionName: {type: String},
 
-        credentials: [{
-        credential: {type: String},
-        note: {type: String},
-        institution: {type: String},
-        year: {type: Number, min: 1920, max: 2030}
-    }],
         focalAreas: [{
         focalArea: {type: String}
     }],
