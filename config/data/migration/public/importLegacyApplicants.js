@@ -28,21 +28,38 @@ function parseFocals(focals) {
     return newFocals;
 }
 
-db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
+function parsePhoneNumbers(candidate) {
+    var newPhones = [];
+    if (candidate.Phone1) {
+        newPhones.push({"phoneNumber" : candidate.Phone1, "primary" : newPhones.length == 0 ? true : false})
+    };
+    if (candidate.Phone2) {
+        newPhones.push({"phoneNumber" : candidate.Phone2, "primary" : newPhones.length == 0 ? true : false})
+    };
+    if (candidate.Phone3) {
+        newPhones.push({"phoneNumber" : candidate.Phone3, "primary" : newPhones.length == 0 ? true : false})
+    };
+    return newPhones;
+}
 
+db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     db.applicants.insert({
         "legacy": candidate,
         "name": { "firstName" : cap1st(candidate.FName),
             "lastName" : cap1st(candidate.LName)
         },
         "applicantPositions": [{
-            positionName: candidate.CurrentPosition,
+            positionName: candidate.CurrentPosition || 'not available',
             institution: {
-                institutionName : candidate.CurrentInstitution
+                institutionName : candidate.CurrentInstitution || 'not available'
             }
         }],
         "credentials" : candidate.Credentials ? parseCredentials(candidate.Credentials) : [],
-        "focalAreas" : candidate.FocalArea ? parseFocals(candidate.FocalArea) : []
+        "focalAreas" : candidate.FocalArea ? parseFocals(candidate.FocalArea) : [],
+        "emailAddresses" : candidate.EmailAddress ?
+            [{ "emailAddress" : candidate.EmailAddress, "primary" : true}] : [],
+        "phoneNumbers" : (candidate.Phone1 || candidate.Phone2 || candidate.Phone3) ?
+            parsePhoneNumbers(candidate) : []
     });
 
 
@@ -51,9 +68,7 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
 
   /*   applicantPositions: [{
 
-        focalAreas: [{
-        focalArea: {type: String}
-    }],
+        focalAreas:
         emailAddresses: [{
         emailAddress: {type: String},
         primary: {type: Boolean},
