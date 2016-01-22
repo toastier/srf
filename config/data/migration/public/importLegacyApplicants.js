@@ -42,6 +42,18 @@ function parsePhoneNumbers(candidate) {
     return newPhones;
 }
 
+function setAddress(candidate) {
+    var newAddress = {
+        "primary" : true,
+        "address1" : candidate.StreetAddress,
+        "city"  : candidate.City,
+        "state" : candidate.State,
+        "postalCode" : candidate.ZipCode
+    };
+    var newAddresses = [newAddress];
+    return newAddresses;
+}
+
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     db.applicants.insert({
         "legacy": candidate,
@@ -59,35 +71,19 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
         "emailAddresses" : candidate.EmailAddress ?
             [{ "emailAddress" : candidate.EmailAddress, "primary" : true}] : [],
         "phoneNumbers" : (candidate.Phone1 || candidate.Phone2 || candidate.Phone3) ?
-            parsePhoneNumbers(candidate) : []
+            parsePhoneNumbers(candidate) : [],
+        "addresses" : (candidate.City || candidate.State || candidate.StreetAddress) ?
+            setAddress(candidate) : [],
     });
 
-
-
-
-
-  /*   applicantPositions: [{
-
-        focalAreas:
-        emailAddresses: [{
-        emailAddress: {type: String},
-        primary: {type: Boolean},
-        note: {type: String}
-    }],
-        phoneNumbers: [{
-        phoneNumber: {type: String},
-        type: {type: String},
-        note: {type: String},
-        primary: {type: Boolean}
-    }],
-        addresses: [{
-        type: {type: String}, //TODO enumList
-        address1: {type: String},
-        address2: {type: String},
-        city: {type: String}, //TODO enumlist
-        state: {type: String}, //TODO enumlist
-        postalCode: {type: String},
-        country: {type: String}, //TODO enumlist
-        primary: {type: Boolean}
-    }], */
+    //    addresses: [{
+    //    type: {type: String}, //TODO enumList
+    //    address1: {type: String},
+    //    address2: {type: String},
+    //    city: {type: String}, //TODO enumlist
+    //    state: {type: String}, //TODO enumlist
+    //    postalCode: {type: String},
+    //    country: {type: String}, //TODO enumlist
+    //    primary: {type: Boolean}
+    //}], */
 })
