@@ -81,3 +81,10 @@
     du-list-applications-smart-component(applicant-id="vm.applicant._id", view-mode="activeForApplicant")
   .col-md-6
     du-list-applications-smart-component(applicant-id="vm.applicant._id", view-mode="inactiveForApplicant")
+.panel.panel-default(ng-if="vm.applicant.legacy")
+  .panel-heading
+    h4 Legacy Data
+  .panel-body
+    div(ng-repeat="(key, value) in vm.applicant.legacy", ng-hide="key == '_id'")
+      du-display-field(field-model="value", field-label="{{key}}",
+      field-columns="4")
