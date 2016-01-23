@@ -75,15 +75,4 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
         "addresses" : (candidate.City || candidate.State || candidate.StreetAddress) ?
             setAddress(candidate) : [],
     });
-
-    //    addresses: [{
-    //    type: {type: String}, //TODO enumList
-    //    address1: {type: String},
-    //    address2: {type: String},
-    //    city: {type: String}, //TODO enumlist
-    //    state: {type: String}, //TODO enumlist
-    //    postalCode: {type: String},
-    //    country: {type: String}, //TODO enumlist
-    //    primary: {type: Boolean}
-    //}], */
 })
