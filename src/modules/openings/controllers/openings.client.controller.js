@@ -45,48 +45,49 @@
 
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
-      {
-        field: 'name',
-        label: 'Opening Title',
-        sortable: true,
-        filterable: true,
-        actions: {
-          restrict: vm.allowView,
+        {label: 'Actions', width: { sm: 1 }, actions: {
+          restrict: vm.allowEdit,
           actionItems: [
             {
               type: 'edit',
               title: 'Edit Opening',
               restrict: vm.allowEdit,
               attachedTo: 'item',
-              method: 'editOpening' // use as string reference to the action as it is attached to the 'item' in the collection and is not available in the current scope
+              method: 'editOpening'
             },
             {
               type: 'view',
               title: 'View Opening',
-              restrict: vm.allowView,
-              attachedTo: 'controller',
-              method: viewOpening  // object reference to the method as it is in the current scope
+              restrict: vm.allowEdit,
+              attachedTo: 'item',
+              method: 'viewOpening'
             }
           ]
         }},
-      {field: 'details', label: 'Description', format: 'trimmed', sortable: true, filterable: true},
-      {field: 'requisitionNumber', label: 'Requisition Number', sortable: true, filterable: true},
-      {field: 'isActive', label: 'Active', format: 'checkMark', sortable: true,
+      { field: 'name',
+        label: 'Opening Title',
+        sortable: true,
+        filterable: true,
+        width: { sm: 2 },
+        },
+      {field: 'details', label: 'Description', format: 'trimmed', sortable: true, filterable: true, width: { sm: 2, xs: 0 }},
+      {field: 'requisitionNumber', label: 'Requisition Number', sortable: true, filterable: true,width: { sm: 1 }},
+      {field: 'isActive', label: 'Active', format: 'checkMark', sortable: true, width: { sm: 1 },
         filterable: {
           name: 'isActive',
           field: 'isActive',
           matchType: 'trueFalse'
         }
       },
-      {field: 'datePosted', label: 'Posting', format: 'date', sortable: true},
-      {field: 'dateStart', label: 'Opening', format: 'date', sortable: true,
+      {field: 'datePosted', label: 'Posting', format: 'date', sortable: true,width: { sm: 1, xs: 0}},
+      {field: 'dateStart', label: 'Opening', format: 'date', sortable: true, width: { sm: 1 },
         filterable: {
           name: 'dateStart',
           field: 'dateStart',
           matchType: 'isDateLessThan'
         }
       },
-      {field: 'dateClose', label: 'Closing', format: 'date', sortable: true,
+      {field: 'dateClose', label: 'Closing', format: 'date', sortable: true, width: { sm: 1 },
         filterable: {
           name: 'dateClose',
           field: 'dateClose',

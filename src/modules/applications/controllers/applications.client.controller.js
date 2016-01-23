@@ -15,7 +15,7 @@
     vm.getApplications = getApplications;
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
-      {field: 'summary', label: 'Summary', sortable: true, filterable: false, format: 'summary', actions: {
+      {label: 'Actions', width: { xs: 1 }, actions: {
         restrict: allowView,
         actionItems: [
           {
@@ -34,13 +34,14 @@
           }
         ]
       }},
-      {field: 'opening.name', hidden: true, label: 'Opening', filterable: true, sortable: false},
-      {field: 'firstName', hidden: true, label: 'First Name', filterable: true, sortable: false},
-      {field: 'lastName', hidden: true, label: 'Last Name', filterable: true, sortable: false},
-      {field: 'status', label: 'Application Status', filterable: true, sortable: true},
-      {field: 'reviewPhase.reviews.reviewer.displayName', label: 'Reviewers', filterable: true, sortable: true},
-      {field: 'dateSubmitted', label: 'Submitted On', filterable: false, sortable: true, format: 'standardDate'},
-      {field: 'isNewApplication', label: 'New?', filterable: false, sortable: true, format: 'checkMark'}
+      {field: 'summary', label: 'Summary', width: { xs: 3 }, sortable: true, filterable: false, format: 'summary'},
+      {field: 'opening.name', hidden: true, label: 'Opening',  filterable: true, sortable: false},
+      {field: 'firstName', hidden: true, label: 'First Name',  filterable: true, sortable: false},
+      {field: 'lastName', hidden: true, label: 'Last Name',  filterable: true, sortable: false},
+      {field: 'status', label: 'Application Status', width: { xs: 1 }, filterable: true, sortable: true},
+      {field: 'reviewPhase.reviews.reviewer.displayName', width: { xs: 2 }, label: 'Reviewers', filterable: true, sortable: true},
+      {field: 'dateSubmitted', label: 'Submitted On', width: { xs: 2 }, filterable: false, sortable: true, format: 'standardDate'},
+      {field: 'isNewApplication', label: 'New?', width: { xs: 1 }, filterable: false, sortable: true, format: 'checkMark'}
     ];
 
     function allowEdit () {

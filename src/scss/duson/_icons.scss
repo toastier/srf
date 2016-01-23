@@ -162,4 +162,8 @@ a, i {
   &.size-medium {
     font-size: 16px;
   }
+  td.text-center &{
+    float: none;
+    margin: -8px -8px;
+  }
 }
