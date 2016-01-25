@@ -9,7 +9,7 @@ db.legacy_tbl_positions.find().forEach(function (opening) {
         "legacy": {
             "positionId" : opening.PositionID
         },
-        "name" : opening.Position ? opening.Position : '',
+        "name" : opening.Position ? opening.Position : 'Unknown',
         "details" : opening.PositionDetails || '',
         "dateCreated" : new Date(),
         "dateRequested" : opening.PostDate ? new Date(opening.PostDate) : '',

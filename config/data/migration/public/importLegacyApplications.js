@@ -4,7 +4,6 @@
 
 
 
-
 function cap1st(string) {
     var lower = string.toLowerCase();
     return lower.charAt(0).toUpperCase() + lower.slice(1);
@@ -45,14 +44,24 @@ function cap1st(string) {
 function getApplicant(candidateId) {
     var doc = db.applicants.findOne({"legacy.CandID" : candidateId});
     var applicantId = doc._id;
+    print('applicantId: ', applicantId);
     return applicantId;
 }
 
-function getOpening(positionId) {
-    var doc = db.applicants.findOne({"legacy.CandID" : candidateId});
-    var applicantId = doc._id;
-    return applicantId;
+function getOpening(candidateId) {
+    var applicantId = getApplicant(candidateId);
+    var legacyCursor = db.applicants.findOne({"_id":applicantId},{"_id":0,"legacy":1});
+    var legacyPositionId = legacyCursor.legacy.PositionID;
+    var opening = db.openings.findOne({"legacy.positionId":legacyPositionId}, {'_id':1});
+    return opening;
+
 }
+//
+//function getOpening(positionId) {
+//    var doc = db.applicants.findOne({"legacy.CandID" : candidateId});
+//    var applicantId = doc._id;
+//    return applicantId;
+//}
 
 
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
@@ -62,7 +71,8 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
             "lastName" : cap1st(candidate.LName)
         },
         "emailAddress" : candidate.EmailAddress || null,
-        "applicant" : getApplicant(candidate.CandID)
+        "applicant" : getApplicant(candidate.CandID),
+        "opening" : getOpening(candidate.CandID)
     });
 })
 
