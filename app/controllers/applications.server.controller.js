@@ -54,8 +54,22 @@ exports.allNotSubmitted = function (req, res) {
  */
 exports.allOpen = function (req, res) {
   var query = Application.find();
+  query
+      .where('legacy').exists(false);
   query = addActiveConditionsToQuery(query, true);
 
+  executeListingQuery(query, res);
+};
+
+/**
+ * Return JSON of Legacy Applications
+ * @param {Object} req
+ * @param {ServerResponse} res
+ */
+exports.allLegacy = function (req, res) {
+  var query = Application.find();
+  query
+      .where('legacy').exists(true);
   executeListingQuery(query, res);
 };
 
@@ -169,7 +183,8 @@ exports.interviewCountByDate = function (req, res) {
  */
 function executeListingQuery(query, res) {
   query
-    .select('honorific firstName middleName lastName opening isNewApplication dateSubmitted' +
+    .select('legacy offer honorific firstName middleName lastName opening isNewApplication' +
+        ' dateSubmitted' +
         ' reviewPhase.reviews.reviewer' + ' reviewPhase.proceedToPhoneInterview' +
         ' phoneInterviewPhase.proceedToOnSite onSiteVisitPhase.complete proceedToReview')
     .sort('-dateCreated')
@@ -909,6 +924,8 @@ function addApplicationStatus(applications, addSummary) {
 
   function addStatus(application) {
     var status = 'Archived';
+
+
     if (application.proceedToReview) {
       status = 'Review Phase';
     }
@@ -947,6 +964,10 @@ function addApplicationStatus(applications, addSummary) {
           status = 'Offer Retracted';
         }
       }
+    }
+
+    if (application._doc.legacy){
+      status = 'Legacy';
     }
 
     application._doc.status = status;

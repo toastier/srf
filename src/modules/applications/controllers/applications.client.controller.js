@@ -98,6 +98,10 @@
           query = Application.allSuccessful();
           viewTitle = 'Successful Applications';
           break;
+        case 'legacy':
+          query = Application.allLegacy();
+          viewTitle = 'Legacy Applications';
+          break;
         default:
           query = Application.allOpen();
           viewTitle = 'Open Applications';

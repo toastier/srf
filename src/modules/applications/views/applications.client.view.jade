@@ -31,6 +31,10 @@ section
         ng-class="{'btn-primary': vm.viewMode === 'notSubmitted'}"
       ) Not Submitted
       button.btn.btn-default(
+        ng-click="vm.getApplications('legacy')",
+        ng-class="{'btn-primary': vm.viewMode === 'legacy'}"
+      ) Legacy
+      button.btn.btn-default(
         ng-click="vm.getApplications('all')",
         ng-class="{'btn-primary': vm.viewMode === 'all'}"
       ) All

@@ -134,6 +134,11 @@
         url: 'applications/allSuccessful',
         isArray: true
       },
+      allLegacy: {
+        method: 'GET',
+        url: 'applications/allLegacy',
+        isArray: true
+      },
       successfulForOpening: {
         method: 'GET',
         url: 'applications/successfulForOpening/:openingId',
