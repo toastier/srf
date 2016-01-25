@@ -44,16 +44,16 @@ function cap1st(string) {
 function getApplicant(candidateId) {
     var doc = db.applicants.findOne({"legacy.CandID" : candidateId});
     var applicantId = doc._id;
-    print('applicantId: ', applicantId);
     return applicantId;
 }
 
 function getOpening(candidateId) {
     var applicantId = getApplicant(candidateId);
     var legacyCursor = db.applicants.findOne({"_id":applicantId},{"_id":0,"legacy":1});
-    var legacyPositionId = legacyCursor.legacy.PositionID;
+    var legacyPositionId = (legacyCursor.legacy.PositionID).toString();
+    print('legacyPositionId: ', legacyPositionId);
     var opening = db.openings.findOne({"legacy.positionId":legacyPositionId}, {'_id':1});
-    return opening;
+    return opening._id;
 
 }
 //

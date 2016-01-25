@@ -955,6 +955,7 @@ function addApplicationStatus(applications, addSummary) {
 function addSummaryToApplication(application) {
   var applicantDisplayName = application.firstName + ' ' + application.lastName;
   application._doc.applicantDisplayName = applicantDisplayName;
+  console.log('Application: ', application);
   application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
   return application;
 }
