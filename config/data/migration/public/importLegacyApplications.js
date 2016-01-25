@@ -67,9 +67,8 @@ function getOpening(candidateId) {
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     db.applications.insert({
         "legacy": true,
-        "name": { "firstName" : cap1st(candidate.FName),
-            "lastName" : cap1st(candidate.LName)
-        },
+        "firstName" : cap1st(candidate.FName),
+        "lastName" : cap1st(candidate.LName),
         "emailAddress" : candidate.EmailAddress || null,
         "applicant" : getApplicant(candidate.CandID),
         "opening" : getOpening(candidate.CandID)

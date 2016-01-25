@@ -59,6 +59,7 @@ exports.allOpen = function (req, res) {
   executeListingQuery(query, res);
 };
 
+
 exports.allReviewPhase = function (req, res) {
   var query = Application.find();
   query = addActiveConditionsToQuery(query, true);
@@ -168,10 +169,13 @@ exports.interviewCountByDate = function (req, res) {
  */
 function executeListingQuery(query, res) {
   query
-    .sort('-postDate')
-    .populate('applicant')
-    .populate('opening')
-    .populate('reviewPhase.reviews.reviewer')
+    .select('honorific firstName middleName lastName isNewApplication dateSubmitted' +
+        ' reviewPhase.reviews.reviewer' + ' reviewPhase.proceedToPhoneInterview' +
+        ' phoneInterviewPhase.proceedToOnSite onSiteVisitPhase.complete')
+    .sort('-dateCreated')
+    .populate({"path" : 'applicant', "select": 'name'})
+    .populate({"path" : 'opening', "select": 'name'})
+    .populate({"path" : 'reviewPhase.reviews.reviewer', "select" : 'displayName'})
     .exec(function (err, applications) {
       if (err) {
         sendResponse(err, null, res);
@@ -859,10 +863,11 @@ exports.iAmPhoneInterviewer = function (req, res) {
  */
 exports.list = function (req, res) {
   Application.find()
-    .sort('-postDate')
-    .populate('applicant')
-    .populate('opening')
-    .populate('reviewPhase.reviews.reviewer')
+    .select('honorific firstName middleName lastName isNewApplication dateSubmitted' +
+        ' proceedToReview reviewPhase phoneInterviewPhase offer')
+    .populate({"path" : 'applicant', "select": 'name'})
+    .populate('opening', 'name')
+    .populate({"path" : 'reviewPhase.reviews.reviewer', "select" : 'displayName'})
     .exec(function (err, applications) {
       if (err) {
         return res.send(400, {
@@ -955,8 +960,7 @@ function addApplicationStatus(applications, addSummary) {
 function addSummaryToApplication(application) {
   var applicantDisplayName = application.firstName + ' ' + application.lastName;
   application._doc.applicantDisplayName = applicantDisplayName;
-  console.log('Application: ', application);
-  application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
+  application._doc.summary = applicantDisplayName + ' for ' + (application.opening ? application.open.name : 'Unknown Opening');
   return application;
 }
 
