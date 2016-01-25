@@ -66,10 +66,13 @@ function getOpening(candidateId) {
 
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     db.applications.insert({
-        "legacy": true,
+        "legacy": {
+            "cv" : candidate.LinkToCV || 'unknown'
+        },
         "firstName" : cap1st(candidate.FName),
         "lastName" : cap1st(candidate.LName),
-        "emailAddress" : candidate.EmailAddress || null,
+        "dateSubmitted" : candidate.DateResumeRecieved,  // [SIC]
+        "emailAddress" : candidate.EmailAddress || 'unknown',
         "applicant" : getApplicant(candidate.CandID),
         "opening" : getOpening(candidate.CandID)
     });

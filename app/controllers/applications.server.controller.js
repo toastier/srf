@@ -169,9 +169,9 @@ exports.interviewCountByDate = function (req, res) {
  */
 function executeListingQuery(query, res) {
   query
-    .select('honorific firstName middleName lastName isNewApplication dateSubmitted' +
+    .select('honorific firstName middleName lastName opening isNewApplication dateSubmitted' +
         ' reviewPhase.reviews.reviewer' + ' reviewPhase.proceedToPhoneInterview' +
-        ' phoneInterviewPhase.proceedToOnSite onSiteVisitPhase.complete')
+        ' phoneInterviewPhase.proceedToOnSite onSiteVisitPhase.complete proceedToReview')
     .sort('-dateCreated')
     .populate({"path" : 'applicant', "select": 'name'})
     .populate({"path" : 'opening', "select": 'name'})
@@ -960,7 +960,7 @@ function addApplicationStatus(applications, addSummary) {
 function addSummaryToApplication(application) {
   var applicantDisplayName = application.firstName + ' ' + application.lastName;
   application._doc.applicantDisplayName = applicantDisplayName;
-  application._doc.summary = applicantDisplayName + ' for ' + (application.opening ? application.open.name : 'Unknown Opening');
+  application._doc.summary = applicantDisplayName + ' for ' + (application.opening ? application.opening.name : 'Unknown Opening');
   return application;
 }
 
