@@ -25,10 +25,9 @@ section
         field-label="Applicant Notes",
         field-columns="12")
         du-display-field(ng-if="vm.application.legacy.notes.application",
-        ng-repeat="applicationNote in vm.application.legacy.notes.application", field-model="vm" +
-        ".parseNote" +
-        "(applicationNote)",
-        field-label="Application Note",
+        ng-repeat="applicationNote in vm.application.legacy.notes.application",
+        field-model="vm.parseNote(applicationNote)",
+        field-label="Application Notes",
         field-columns="12")
   .row
     du-opening-view-smart-component(opening-id="vm.application.opening._id", start-collapsed='true')

@@ -192,6 +192,7 @@
       this.interviewWorksheet = new InterviewWorksheet();
     }
 
+
     /**
      * Methods that are not returned directly, but used by other methods
      * @type {{editThisApplication: Function, viewThisApplication: Function, createApplication: Function}}
@@ -265,6 +266,7 @@
         return this.phoneInterviewPhase.phoneInterviews.length < maxInterviews;
       },
 
+
       uploadFile: function (file, type, applicationId) {
         applicationId = applicationId || $stateParams.applicationId;
         var deferred = $q.defer();
@@ -337,6 +339,14 @@
        */
       manageApplication: function (applicationObject) {
         $state.go('main.manageApplication', {applicationId: applicationObject._id});
+      },
+
+
+      parseNote: function parseNote(applicationNote) {
+        var noteDate = new Date(applicationNote.noteDate);
+        var parsedDate = noteDate.getMonth()+1 + "/" + noteDate.getDate() + "/" + (noteDate.getYear() + 1900);
+        var parsedNote = parsedDate + ': ' + applicationNote.note;
+        return parsedNote;
       }
     };
 

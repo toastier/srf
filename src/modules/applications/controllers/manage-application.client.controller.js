@@ -19,6 +19,7 @@
     vm.editPhoneInterviewPhaseCollectiveComments = false;
     vm.intervieweeEeo = {};
     vm.submitEeo = submitEeo;
+    vm.parseNote = Application.parseNote;
     activate();
 
     function activate() {
@@ -223,5 +224,12 @@
           });
       return deferred.promise;
     }
+
+    //function parseNote(applicationNote) {
+    //  var noteDate = new Date(applicationNote.noteDate);
+    //  var parsedDate = noteDate.getMonth()+1 + "/" + noteDate.getDate() + "/" + (noteDate.getYear() + 1900);
+    //  var parsedNote = parsedDate + ': ' + applicationNote.note;
+    //  return parsedNote;
+    //}
   }
 })();
