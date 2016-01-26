@@ -67,7 +67,8 @@ function getOpening(candidateId) {
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     db.applications.insert({
         "legacy": {
-            "cv" : candidate.LinkToCV || 'unknown'
+            "cv" : candidate.LinkToCV || 'unknown',
+            "notes" : candidate.Notes || 'none'
         },
         "firstName" : cap1st(candidate.FName),
         "lastName" : cap1st(candidate.LName),

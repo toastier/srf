@@ -18,6 +18,10 @@ section
         du-display-field(ng-if="vm.application.legacy.cv", field-model="vm.application.legacy.cv",
         field-label="CV Link",
         field-columns="12")
+        du-display-field(ng-if="vm.application.legacy.notes", field-model="vm.application.legacy" +
+        ".notes",
+        field-label="Applicant Notes",
+        field-columns="12")
   .row
     du-opening-view-smart-component(opening-id="vm.application.opening._id", start-collapsed='true')
     .col-xs-12
