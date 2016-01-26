@@ -9,6 +9,7 @@
     var vm = this;
     vm.user = resolvedAuth;
     vm.manageApplication = manageApplication;
+    vm.parseNote = parseNote;
 
     activate();
 
@@ -44,6 +45,13 @@
         Navigation.actions.addMany(controllerActions); // add the actions to the Navigation service
       }
 
+    }
+
+    function parseNote(applicationNote) {
+      var noteDate = new Date(applicationNote.noteDate);
+      var parsedDate = noteDate.getMonth()+1 + "/" + noteDate.getDate() + "/" + (noteDate.getYear() + 1900);
+      var parsedNote = parsedDate + ': ' + applicationNote.note;
+      return parsedNote;
     }
   }
 })();

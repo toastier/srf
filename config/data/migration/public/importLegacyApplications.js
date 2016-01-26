@@ -63,12 +63,27 @@ function getOpening(candidateId) {
 //    return applicantId;
 //}
 
+function getNotes(candidateId) {
+    var legacyCursor = db.legacy_tblNotes.find({"CandID":candidateId}) || [];
+    print(legacyCursor);
+    applicationNotes = [];
+    legacyCursor.forEach(function (note) {
+        applicationNotes.push(note)
+    });
+    return applicationNotes;
+}
+
+
+
 
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     db.applications.insert({
         "legacy": {
             "cv" : candidate.LinkToCV || 'unknown',
-            "notes" : candidate.Notes || 'none'
+            "notes" : {
+                "applicant": candidate.Notes || 'none',
+                "application": getNotes(candidate.CandID)
+            }
         },
         "firstName" : cap1st(candidate.FName),
         "lastName" : cap1st(candidate.LName),

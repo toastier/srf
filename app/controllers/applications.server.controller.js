@@ -183,7 +183,7 @@ exports.interviewCountByDate = function (req, res) {
  */
 function executeListingQuery(query, res) {
   query
-    .select('legacy offer honorific firstName middleName lastName opening isNewApplication' +
+    .select('legacy.cv offer honorific firstName middleName lastName opening isNewApplication' +
         ' dateSubmitted' +
         ' reviewPhase.reviews.reviewer' + ' reviewPhase.proceedToPhoneInterview' +
         ' phoneInterviewPhase.proceedToOnSite onSiteVisitPhase.complete proceedToReview')
