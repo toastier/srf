@@ -1,5 +1,6 @@
 section
   navigation
+  .label.pull-right.btn-legacy(ng-if="vm.application.legacy") Legacy
   du-application-overview(application="vm.application")
   .row(ng-if="vm.application.onSiteVisitPhase.complete")
     .col-xs-12
@@ -11,6 +12,18 @@ section
     .col-xs-12
       du-grid-file-metadata-view(ng-if="vm.application.cv", heading="Curriculum Vitae", file-metadata="vm.application.cvFileMeta", remove-file-method="vm.removeFile(fileId)", show-remove-option='true')
       du-application-upload-file(ng-if="!vm.application.cv", heading="Curriculum Vitae", upload-method="vm.uploadFile(file, type)", upload-type="cv")
+  .panel.panel-default(ng-if="vm.application.legacy")
+    .panel-heading
+      h4 Legacy Data
+    .panel-body
+      div
+        du-display-field(ng-if="vm.application.legacy.cv", field-model="vm.application.legacy.cv",
+        field-label="CV Link",
+        field-columns="12")
+        du-display-field(ng-if="vm.application.legacy.notes", field-model="vm.application.legacy" +
+        ".notes",
+        field-label="Applicant Notes",
+        field-columns="12")
   .row
     du-opening-view-smart-component(opening-id="vm.application.opening._id", start-collapsed='true')
   h2 Application Workflow
