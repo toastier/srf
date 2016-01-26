@@ -211,7 +211,7 @@ exports.applicationByID = function (req, res, next, id) {
     .populate('applicant')
     .populate('opening')
     .populate('reviewPhase.reviews.reviewer')
-    //@todo make the return of the commenter safe - currently returning tmi
+    //@todo make the return o f the commenter safe - currently returning tmi
     .populate('reviewPhase.reviews.reviewWorksheet.comments.commenter')
     .populate('phoneInterviewPhase.phoneInterviews.interviewer')
     .populate('phoneInterviewPhase.phoneInterviews.phoneInterviewWorksheet.comments.commenter')

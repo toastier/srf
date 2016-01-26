@@ -56,12 +56,7 @@ function getOpening(candidateId) {
     return opening._id;
 
 }
-//
-//function getOpening(positionId) {
-//    var doc = db.applicants.findOne({"legacy.CandID" : candidateId});
-//    var applicantId = doc._id;
-//    return applicantId;
-//}
+
 
 function getNotes(candidateId) {
     var legacyCursor = db.legacy_tblNotes.find({"CandID":candidateId}) || [];
@@ -74,9 +69,20 @@ function getNotes(candidateId) {
 }
 
 
+function getOnSiteVisit(candidateId) {
+    var legacyVisit = db.legacy_tbl_CampusVisits.findOne({"CandID":candidateId}) || null;
+    var applicationVisit = legacyVisit ? {
+        "complete": true,
+        "dateCompleted": new Date(legacyVisit.VisitDate)
+    } : null;
+    return applicationVisit;
+}
+
+
 
 
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
+    var visited = getOnSiteVisit(candidate.CandID);
     db.applications.insert({
         "legacy": {
             "cv" : candidate.LinkToCV || 'unknown',
@@ -90,9 +96,17 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
         "dateSubmitted" : candidate.DateResumeRecieved,  // [SIC]
         "emailAddress" : candidate.EmailAddress || 'unknown',
         "applicant" : getApplicant(candidate.CandID),
-        "opening" : getOpening(candidate.CandID)
+        "opening" : getOpening(candidate.CandID),
+        "onSiteVisitPhase": visited,
+        "proceedToReview:": visited ? true : null,
+        "reviewPhase" : visited ?
+            {"proceedToPhoneInterview" : true } : null,
+        "phoneInterviewPhase" : visited ?
+            {"proceedToOnSite" : true } : null
     });
 })
+
+
 
 //
 //email: {
