@@ -79,6 +79,18 @@ function getOnSiteVisit(candidateId) {
 }
 
 
+function getComments(candidateId) {
+    var legacyCursor = db.legacy_tbl_Comments.find({"CandID":candidateId}) || [];
+    var applicationComments = [];
+    print(legacyCursor);
+    legacyCursor.forEach(function (comment) {
+        var parsedComment = comment.DateOfComment + ": " + comment.CommenterInitials + ": " + comment.Comment;
+        applicationComments.push(parsedComment);
+    });
+    return applicationComments;
+}
+
+
 
 
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
@@ -99,8 +111,12 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
         "opening" : getOpening(candidate.CandID),
         "onSiteVisitPhase": visited,
         "proceedToReview": visited ? true : null,
-        "reviewPhase" : visited ?
-            {"proceedToPhoneInterview" : true } : null,
+        "reviewPhase" : {
+            "committeeComments" : getComments(candidate.CandID),
+            "proceedToPhoneInverview" : visited ? true : null
+        },
+        //"reviewPhase" : visited ?
+        //    {"proceedToPhoneInterview" : true } : null,
         "phoneInterviewPhase" : visited ?
             {"proceedToOnSite" : true } : null
     });
