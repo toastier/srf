@@ -113,12 +113,13 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
         "proceedToReview": visited ? true : null,
         "reviewPhase" : {
             "committeeComments" : getComments(candidate.CandID),
-            "proceedToPhoneInverview" : visited ? true : null
+            "proceedToPhoneInterview" : visited ? true : false
         },
         //"reviewPhase" : visited ?
         //    {"proceedToPhoneInterview" : true } : null,
-        "phoneInterviewPhase" : visited ?
-            {"proceedToOnSite" : true } : null
+        "phoneInterviewPhase" :  {
+            "proceedToOnSite" : visited ? true : false
+        }
     });
 })
 

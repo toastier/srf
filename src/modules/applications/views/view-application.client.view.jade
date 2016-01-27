@@ -34,4 +34,5 @@ section
     .col-xs-12
       du-application-review-phase-smart-component(review-phase="vm.application.reviewPhase", proceed-to-review-phase="{{ vm.application.proceedToReview }}")
     .col-xs-12
-      du-application-phone-interview-phase-smart-component(phone-interview-phase="vm.application.phoneInterviewPhase", proceed-to-phone-interview-phase="{{ vm.application.reviewPhase.proceedToPhoneInterview }}")
+      du-application-phone-interview-phase-smart-component(phone-interview-phase="vm.application" +
+      ".phoneInterviewPhase", proceed-to-phone-interview-phase="{{ vm.application.reviewPhase.proceedToPhoneInterview  }}")
