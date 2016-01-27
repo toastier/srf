@@ -44,14 +44,14 @@ section
         .col-md-4(ng-show="vm.application.proceedToReview && vm.application.reviewPhase.proceedToPhoneInterview")
           label.control-label Proceed to On-Campus Visit?
           du-toggle-switch(toggle-switch-model="vm.application.phoneInterviewPhase.proceedToOnSite")
-  .col-xs-12(ng-if="!vm.application.legacy")
+  .col-xs-12
     .row(ng-if="!!vm.application.proceedToReview")
       h3 Review Phase&nbsp;
         i.fa.fa-plus-circle(ng-show="vm.application.showAddReviewButton()", ng-click="vm.application.addReview()")
       .col-xs-12
         .row.well
           application-review-form
-  .col-xs-12(ng-if="!vm.application.legacy")
+  .col-xs-12
     .row(ng-if="!!vm.application.proceedToReview && !!vm.application.reviewPhase.proceedToPhoneInterview")
       h3 Phone Interview Phase&nbsp;
         i.fa.fa-plus-circle(ng-show="vm.application.showAddPhoneInterviewButton()", ng-click="vm.application.addPhoneInterview()")

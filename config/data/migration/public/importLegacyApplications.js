@@ -9,37 +9,6 @@ function cap1st(string) {
     return lower.charAt(0).toUpperCase() + lower.slice(1);
 }
 
-//function parseCredentials(credentials) {
-//    var oldCredentials = credentials.split(',');
-//    var newCredentials = [];
-//    oldCredentials.forEach(function(credential) {
-//        newCredentials.push({"credential" : credential.trim()})
-//    })
-//    return newCredentials;
-//}
-//
-//function parseFocals(focals) {
-//    var oldFocals = focals.split(/and|,/);
-//    var newFocals = [];
-//    oldFocals.forEach(function (focal) {
-//        newFocals.push({"focalArea": focal.trim()})
-//    })
-//    return newFocals;
-//}
-//
-//function parsePhoneNumbers(candidate) {
-//    var newPhones = [];
-//    if (candidate.Phone1) {
-//        newPhones.push({"phoneNumber" : candidate.Phone1, "primary" : newPhones.length == 0 ? true : false})
-//    };
-//    if (candidate.Phone2) {
-//        newPhones.push({"phoneNumber" : candidate.Phone2, "primary" : newPhones.length == 0 ? true : false})
-//    };
-//    if (candidate.Phone3) {
-//        newPhones.push({"phoneNumber" : candidate.Phone3, "primary" : newPhones.length == 0 ? true : false})
-//    };
-//    return newPhones;
-//}
 
 function getApplicant(candidateId) {
     var doc = db.applicants.findOne({"legacy.CandID" : candidateId});
@@ -81,11 +50,12 @@ function getOnSiteVisit(candidateId) {
 
 function getComments(candidateId) {
     var legacyCursor = db.legacy_tbl_Comments.find({"CandID":candidateId}) || [];
-    var applicationComments = [];
-    print(legacyCursor);
+    var applicationComments = "";
     legacyCursor.forEach(function (comment) {
-        var parsedComment = comment.DateOfComment + ": " + comment.CommenterInitials + ": " + comment.Comment;
-        applicationComments.push(parsedComment);
+        var commentDate = new Date(comment.DateOfComment);
+        var parsedDate = commentDate.getMonth()+1 + "/" + commentDate.getDate() + "/" + (commentDate.getYear() + 1900);
+        var parsedComment =  "<strong>" + parsedDate + " (" + comment.CommenterInitials + ")</strong><br/>"  + comment.Comment + "<p></p>";
+        applicationComments += parsedComment;
     });
     return applicationComments;
 }
@@ -95,6 +65,7 @@ function getComments(candidateId) {
 
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     var visited = getOnSiteVisit(candidate.CandID);
+    var reviewComments = getComments(candidate.CandID);
     db.applications.insert({
         "legacy": {
             "cv" : candidate.LinkToCV || 'unknown',
@@ -110,13 +81,11 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
         "applicant" : getApplicant(candidate.CandID),
         "opening" : getOpening(candidate.CandID),
         "onSiteVisitPhase": visited,
-        "proceedToReview": visited ? true : null,
+        "proceedToReview": reviewComments ? true : false,
         "reviewPhase" : {
-            "committeeComments" : getComments(candidate.CandID),
+            "committeeComments" : reviewComments,
             "proceedToPhoneInterview" : visited ? true : false
         },
-        //"reviewPhase" : visited ?
-        //    {"proceedToPhoneInterview" : true } : null,
         "phoneInterviewPhase" :  {
             "proceedToOnSite" : visited ? true : false
         }
