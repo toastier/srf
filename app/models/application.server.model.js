@@ -66,6 +66,18 @@ var applicationModel = new Schema({
         type: Boolean,
         default: null
       },
+      referenceChecks: [{
+        checkedBy: {
+          type: Schema.ObjectId,
+          ref: 'User'
+        },
+        dateChecked:{
+          type: Date,
+        },
+        referenceText: {
+          type: String
+        }
+      }],
       reviews: [
         {
           reviewer: {

@@ -60,29 +60,50 @@ function getComments(candidateId) {
     return applicationComments;
 }
 
+function getReferenceChecks(candidateId) {
+    var legacyCursor = db.legacy_tbl_RefComments.find({"CandID":candidateId}) || [];
+    var applicationRefComments = [];
+    legacyCursor.forEach(function (comment) {
+        var commentDate = new Date(comment.DateOfCheck);
+        var parsedDate = commentDate.getMonth()+1 + "/" + commentDate.getDate() + "/" + (commentDate.getYear() + 1900);
+        var parsedComment =  {
+            "referenceText" : "<strong>" + " (" + comment.RefCheckInitials + ")</strong><br/>"  + comment.ReferenceText,
+            "dateChecked" : parsedDate
+        };
+        applicationRefComments.push(parsedComment);
+    });
+    return applicationRefComments;
+}
+
 
 
 
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     var visited = getOnSiteVisit(candidate.CandID);
     var reviewComments = getComments(candidate.CandID);
+    var referenceChecks = getReferenceChecks(candidate.CandID);
+    var applicant = getApplicant(candidate.CandID);
+    var opening =  getOpening(candidate.CandID);
+    var applicationNotes = getNotes(candidate.CandID);
+
     db.applications.insert({
         "legacy": {
             "cv" : candidate.LinkToCV || 'unknown',
             "notes" : {
                 "applicant": candidate.Notes || 'none',
-                "application": getNotes(candidate.CandID)
+                "application": applicationNotes
             }
         },
         "firstName" : cap1st(candidate.FName),
         "lastName" : cap1st(candidate.LName),
         "dateSubmitted" : candidate.DateResumeRecieved,  // [SIC]
         "emailAddress" : candidate.EmailAddress || 'unknown',
-        "applicant" : getApplicant(candidate.CandID),
-        "opening" : getOpening(candidate.CandID),
+        "applicant" : applicant,
+        "opening" : opening,
         "onSiteVisitPhase": visited,
         "proceedToReview": reviewComments ? true : false,
         "reviewPhase" : {
+            "referenceChecks" : referenceChecks,
             "committeeComments" : reviewComments,
             "proceedToPhoneInterview" : visited ? true : false
         },
