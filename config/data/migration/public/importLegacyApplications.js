@@ -66,11 +66,8 @@ function getReferenceChecks(candidateId) {
     legacyCursor.forEach(function (comment) {
         var commentDate = new Date(comment.DateOfCheck);
         var parsedDate = commentDate.getMonth()+1 + "/" + commentDate.getDate() + "/" + (commentDate.getYear() + 1900);
-        var parsedComment =  {
-            "referenceText" : "<strong>" + " (" + comment.RefCheckInitials + ")</strong><br/>"  + comment.ReferenceText,
-            "dateChecked" : parsedDate
-        };
-        applicationRefComments.push(parsedComment);
+        var parsedComment = "<strong>" + parsedDate + " (" + comment.RefCheckInitials + ")</strong><br/>"  + comment.ReferenceText + "<p></p>";
+        applicationRefComments += parsedComment;
     });
     return applicationRefComments;
 }

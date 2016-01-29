@@ -10,6 +10,14 @@
             select.form-control(ng-options="committeeMember._id as committeeMember.displayName for committeeMember in reviewPhase.options.committeeMembers", ng-model="review.reviewer._id")
   .row
     ng-form(name="reviewPhase.reviewForm")
+      label.control-label Reference Checks&nbsp;
+        i.fa.fa-edit(ng-if="!vm.editReferenceChecks", ng-click="vm" +
+        ".editReferenceChecks = true")
+      div(ng-show="vm.editReferenceChecks", text-angular, ng-model="vm.application.reviewPhase" +
+      ".referenceChecks")
+      //, ng-value="{{vm.application.reviewPhase.referenceChecks | insertLineBreaks}}
+      div(ng-show="!vm.editReferenceChecks", ng-bind-html="vm.application.reviewPhase" +
+      ".referenceChecks")
       label.control-label Collective Comments on Review Phase&nbsp;
         i.fa.fa-edit(ng-if="!vm.editReviewPhaseCollectiveComments", ng-click="vm.editReviewPhaseCollectiveComments = true")
       div(ng-show="vm.editReviewPhaseCollectiveComments", text-angular, ng-model="vm.application.reviewPhase.committeeComments")

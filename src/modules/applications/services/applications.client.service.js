@@ -347,7 +347,12 @@
         var parsedDate = noteDate.getMonth()+1 + "/" + noteDate.getDate() + "/" + (noteDate.getYear() + 1900);
         var parsedNote = parsedDate + ': ' + applicationNote.note;
         return parsedNote;
-      }
+      },
+
+      //insertLineBreaks: function insertLineBreaks(string) {
+      //  var newString = string.replace("/\\r\n/\\","<br/>");
+      //  return newString;
+      //}
     };
 
     angular.extend(application.prototype, itemMethods);

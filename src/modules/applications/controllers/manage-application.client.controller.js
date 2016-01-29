@@ -15,11 +15,13 @@
     vm.update = update;
     vm.uploadFile = uploadFile;
     vm.view = view;
+    vm.editReferenceChecks = false;
     vm.editReviewPhaseCollectiveComments = false;
     vm.editPhoneInterviewPhaseCollectiveComments = false;
     vm.intervieweeEeo = {};
     vm.submitEeo = submitEeo;
     vm.parseNote = Application.parseNote;
+    vm.insertLineBreaks = Application.insertLineBreaks;
     activate();
 
     function activate() {
@@ -198,6 +200,7 @@
               Messages.addMessage('The Application has been updated', 'success');
               vm.editPhoneInterviewPhaseCollectiveComments = false;
               vm.editReviewPhaseCollectiveComments = false;
+              vm.editReferenceChecks = false;
             })
             .catch(function (err) {
               Messages.addMessage(err.data.message, 'error', 'Problem updating Application');
@@ -225,11 +228,5 @@
       return deferred.promise;
     }
 
-    //function parseNote(applicationNote) {
-    //  var noteDate = new Date(applicationNote.noteDate);
-    //  var parsedDate = noteDate.getMonth()+1 + "/" + noteDate.getDate() + "/" + (noteDate.getYear() + 1900);
-    //  var parsedNote = parsedDate + ': ' + applicationNote.note;
-    //  return parsedNote;
-    //}
   }
 })();
