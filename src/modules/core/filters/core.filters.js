@@ -11,7 +11,6 @@
     .filter('trimmed', trimmed)
     .filter('yesNo', yesNo)
     .filter('yesNoNoDecision', yesNoNoDecision)
-    .filter('insertLineBreaks', insertLineBreaks)
   ;
 
   function standardDate($filter) {
@@ -117,13 +116,6 @@
         return word.charAt(0).toUpperCase() + word.substring(1);
       }
     };
-  }
-
-  function insertLineBreaks() {
-    return function (string) {
-      var newString = string.replace("/\\r\n/\\", "<br/>");
-      return newString;
-    }
   }
 
   function toArray(obj, addKey) {

@@ -349,10 +349,11 @@
         return parsedNote;
       },
 
-      //insertLineBreaks: function insertLineBreaks(string) {
-      //  var newString = string.replace("/\\r\n/\\","<br/>");
-      //  return newString;
-      //}
+      insertLineBreaks: function insertLineBreaks(string) {
+        var newString = string.replace(/\r\n\r\n/g, "</p><p>").replace(/\n\n/g, "</p><p>");
+        newString = newString.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />");
+        return newString;
+      }
     };
 
     angular.extend(application.prototype, itemMethods);
