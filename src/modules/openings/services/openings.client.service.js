@@ -59,7 +59,7 @@
         function PostingLink () {
           return {
             source: source || '',
-            url: url || ''
+            url: url || '',
           };
         }
 

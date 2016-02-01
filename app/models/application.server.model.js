@@ -66,6 +66,20 @@ var applicationModel = new Schema({
         type: Boolean,
         default: null
       },
+      // IDEAL but for sake of simplicity, will use single string as with collective comments
+      //referenceChecks: [{
+      //  checkedBy: {
+      //    type: Schema.ObjectId,
+      //    ref: 'User'
+      //  },
+      //  dateChecked:{
+      //    type: Date,
+      //  },
+      //  referenceText: {
+      //    type: String
+      //  }
+      //}],
+      referenceChecks: String,
       reviews: [
         {
           reviewer: {
@@ -247,7 +261,11 @@ var applicationModel = new Schema({
         default: false
       },
       dateCompleted: Date,
-      surveyResults: Schema.Types.ObjectId
+      surveyResults: Schema.Types.ObjectId,
+      eeoDemographic: {
+        type: Schema.ObjectId,
+        ref: 'EeoDemographic'
+      },
     },
     offer: {
       extended: {

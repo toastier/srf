@@ -1,5 +1,6 @@
 section
   navigation
+  .label.pull-right.btn-legacy(ng-if="vm.application.legacy") Legacy
   du-application-overview(application="vm.application")
   .row(ng-if="vm.application.onSiteVisitPhase.complete")
     .col-xs-12
@@ -46,4 +47,47 @@ section
       .col-xs-12
         .row.well
           du-application-on-site-form
+  .col-xs-12
+    panel.panel-default(ng-if="vm.application.legacy")
+      .panel-heading
+        h4 Legacy Data
+      .panel-body
+        div
+          du-display-field(ng-if="vm.application.legacy.cv", field-model="vm.application.legacy.cv",
+          field-label="CV Link",
+          field-columns="12")
+          du-display-field(ng-if="vm.application.legacy.notes.applicant", field-model="vm" +
+          ".application.legacy" +
+          ".notes.applicant",
+          field-label="Applicant Notes",
+          field-columns="12")
+          du-display-field(ng-if="vm.application.legacy.notes.application",
+          ng-repeat="applicationNote in vm.application.legacy.notes.application", field-model="vm.parseNote(applicationNote)",
+          field-label="Application Notes",
+          field-columns="12")
+        .panel-body
+          div
+            strong(ng-if="vm.application.legacy.evaluations && vm.application.legacy.evaluations !=" +
+            " " +
+            "null") Evaluation Data
+            .panel-body(ng-repeat='evaluation in vm.application.legacy.evaluations')
+              div(ng-repeat="(key, value) in evaluation", ng-hide="key == '_id' || key == 'ExporttoExcel'")
+                du-display-field(field-model="value", field-label="{{key}}",
+                field-columns="4")
+        .panel-body
+          div
+            strong(ng-if="vm.application.legacy.qualitativeEvaluations && vm.application.legacy" +
+            ".qualitativeEvaluations !=" +
+            " " +
+            "null") Qualitative Evaluation Data
+            .panel-body(ng-repeat='evaluation in vm.application.legacy.qualitativeEvaluations')
+              div(ng-repeat="(key, value) in evaluation", ng-hide="key == '_id'")
+                du-display-field(field-model="value", field-label="{{key}}",
+                field-columns="4")
+  .col-xs-12
+    .row(ng-if="!!vm.application.proceedToReview && !!vm.application.reviewPhase.proceedToPhoneInterview && !!vm.application.phoneInterviewPhase.proceedToOnSite")
+      h3 Interviewee EEO Demographic Data
+      .col-xs-12
+        .row.well
+          eeodemographic-form-interviewee(ng-init="view = 'interviewee'")
 

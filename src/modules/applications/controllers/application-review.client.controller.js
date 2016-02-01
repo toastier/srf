@@ -8,6 +8,8 @@
 
     var vm = this;
     vm.user = resolvedAuth;
+    vm.insertLineBreaks = Application.insertLineBreaks;
+
 
     activate();
 

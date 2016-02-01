@@ -60,6 +60,14 @@
   }
 }
 
+.btn-legacy {
+  @include button-variant($duke-white, $duke-orange, darken($duke-orange, 5%));
+  &:after {
+    @include font-awesome-icon-after;
+    content: '\f187';
+  }
+}
+
 .btn-cancel {
   @include button-variant($duke-white, $duke-orange, darken($duke-orange, 5%));
   &:after {

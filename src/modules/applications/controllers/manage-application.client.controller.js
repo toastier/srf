@@ -4,11 +4,10 @@
     .module('applications')
     .controller('ManageApplicationController', ManageApplicationController);
 
-  function ManageApplicationController($stateParams, $modal, resolvedAuth, Messages, Application, Navigation, _) {
+  function ManageApplicationController($stateParams, $modal, $q, resolvedAuth, Messages, Application, Navigation, Eeo, _) {
     var vm = this;
     vm.user = resolvedAuth;
     vm.cancel = Application.listApplications;
-    vm.options = {};
     vm.changeOpening = changeOpening;
     vm.remove = remove;
     vm.removeFile = removeFile;
@@ -16,9 +15,13 @@
     vm.update = update;
     vm.uploadFile = uploadFile;
     vm.view = view;
+    vm.editReferenceChecks = false;
     vm.editReviewPhaseCollectiveComments = false;
     vm.editPhoneInterviewPhaseCollectiveComments = false;
-
+    vm.intervieweeEeo = {};
+    vm.submitEeo = submitEeo;
+    vm.parseNote = Application.parseNote;
+    vm.insertLineBreaks = Application.insertLineBreaks;
     activate();
 
     function activate() {
@@ -58,6 +61,9 @@
           if (!vm.application.submitted) {
             addSubmitApplicationToActions();
           }
+          //if (!!vm.application.proceedToReview && !!vm.application.reviewPhase.proceedToPhoneInterview && !!vm.application.phoneInterviewPhase.proceedToOnSite) {
+          //  getEeo();
+          //}
         })
         .catch(function (err) {
           Messages.addMessage(err.data.message, 'error');
@@ -172,17 +178,55 @@
     function update() {
       vm.application.isNewApplication = false;
 
-      vm.application.$manage()
-        .then(function () {
-          Messages.addMessage('The Application has been updated', 'success');
-          vm.editPhoneInterviewPhaseCollectiveComments = false;
-          vm.editReviewPhaseCollectiveComments = false;
-        })
-        .catch(function (err) {
-          Messages.addMessage(err.data.message, 'error', 'Problem updating Application');
-          getApplication();
-        });
+      if (!_.isEmpty(vm.intervieweeEeo)) {
+        if (!vm.application.onSiteVisitPhase.eeoDemographic) {
+          vm.submitEeo()
+              .then(function () {
+                manage();
+              });
+        }
+        else {
+          vm.application.onSiteVisitPhase.eeoDemographic = vm.intervieweeEeo;
+          manage();
+        }
+      }
+      else {
+        manage();
+      }
+
+      function manage() {
+        vm.application.$manage()
+            .then(function () {
+              Messages.addMessage('The Application has been updated', 'success');
+              vm.editPhoneInterviewPhaseCollectiveComments = false;
+              vm.editReviewPhaseCollectiveComments = false;
+              vm.editReferenceChecks = false;
+            })
+            .catch(function (err) {
+              Messages.addMessage(err.data.message, 'error', 'Problem updating Application');
+              getApplication();
+            });
+      }
 
     }
+
+    function submitEeo() {
+      var deferred = $q.defer();
+      vm.intervieweeEeo.applicationId = vm.application._id;
+      vm.intervieweeEeo.reportType = 'interview';
+      Eeo.create(vm.intervieweeEeo)
+          .$promise
+          .then(function (result) {
+            console.log(result._doc._id);
+            vm.application.onSiteVisitPhase.eeoDemographic = result._doc._id;
+            deferred.resolve(result);
+          })
+          .catch(function (error) {
+            deferred.reject('Cannot create EEO data');
+            Messages.addMessage('There was a problem saving the Eeo ' + error.data.message, 'error');
+          });
+      return deferred.promise;
+    }
+
   }
 })();

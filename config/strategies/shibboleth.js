@@ -11,8 +11,8 @@ module.exports = function() {
     passport.use(new SamlStrategy(
         {
             callbackUrl: config.saml.callbackURL,
-            entryPoint: 'https://openidp.feide.no/simplesaml/saml2/idp/SSOService.php',
-            issuer: 'frs-passport-saml'
+            entryPoint: config.saml.entryPoint,
+            issuer: config.saml.issuer
         },
         function(profile, done) {
             var user = {};

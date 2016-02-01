@@ -3,7 +3,8 @@
     h4 Contact Information
       small.pull-right
         em.text-muted
-          | Added on {{vm.applicant.dateCreated | date:'mediumDate'}}
+          | Added on {{vm.applicant.dateCreated|date:'mediumDate'}}
+      .label.pull-right.btn-legacy(ng-if="vm.applicant.legacy") Legacy
   .panel-body
     du-display-field(field-model="vm.applicant.name.honorific", field-label="Title", field-columns="2")
     du-display-field(field-model="vm.applicant.name.firstName", field-label="First Name", field-columns="3")
@@ -43,7 +44,7 @@
             br
             span {{address.city}},
             span {{address.state}}
-            span {{address.postal_code}}
+            span &nbsp;{{address.postalCode}}
             br
             span {{address.country}}
             br
@@ -80,3 +81,10 @@
     du-list-applications-smart-component(applicant-id="vm.applicant._id", view-mode="activeForApplicant")
   .col-md-6
     du-list-applications-smart-component(applicant-id="vm.applicant._id", view-mode="inactiveForApplicant")
+.panel.panel-default(ng-if="vm.applicant.legacy")
+  .panel-heading
+    h4 Legacy Data
+  .panel-body
+    div(ng-repeat="(key, value) in vm.applicant.legacy", ng-hide="key == '_id'")
+      du-display-field(field-model="value", field-label="{{key}}",
+      field-columns="4")

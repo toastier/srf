@@ -14,7 +14,10 @@
   function eeoForm() {
     return {
       restrict: 'E',
-      templateUrl: 'modules/eeo/directives/partials/eeo-form.client.partial.html'
+      templateUrl: 'modules/eeo/directives/partials/eeo-form.client.partial.html',
+      controller: 'CreateEeoController',
+      controllerAs: 'vm',
+      bindToController: true
     };
   }
 
@@ -24,6 +27,7 @@
       templateUrl: 'modules/eeo/directives/partials/eeodemographic-form.client.partial.html'
     };
   }
+
   function eeoveteranForm() {
     return {
       restrict: 'E',

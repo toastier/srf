@@ -13,6 +13,7 @@ var Applicant = mongoose.model('Applicant');
 var WorksheetField = mongoose.model('WorksheetField');
 var Opening = mongoose.model('Opening');
 var User = mongoose.model('User');
+var EeoDemographic = mongoose.model('EeoDemographic');
 var async = require('async');
 var mime = require('mime-types');
 var Q = require('q');
@@ -53,10 +54,25 @@ exports.allNotSubmitted = function (req, res) {
  */
 exports.allOpen = function (req, res) {
   var query = Application.find();
+  query
+      .where('legacy').exists(false);
   query = addActiveConditionsToQuery(query, true);
 
   executeListingQuery(query, res);
 };
+
+/**
+ * Return JSON of Legacy Applications
+ * @param {Object} req
+ * @param {ServerResponse} res
+ */
+exports.allLegacy = function (req, res) {
+  var query = Application.find();
+  query
+      .where('legacy').exists(true);
+  executeListingQuery(query, res);
+};
+
 
 exports.allReviewPhase = function (req, res) {
   var query = Application.find();
@@ -129,6 +145,36 @@ exports.countByDate = function (req, res) {
       });
 }
 
+// applications resulting in onsite interviews
+exports.interviewCountByDate = function (req, res) {
+  var query = Application.find();
+  var dateStart = (new Date(req.params.dateStart)).toISOString();
+  var dateEnd = new Date(req.params.dateEnd).toISOString();
+  var position = (req.params.position === 'all') ? 'all' : mongoose.Types.ObjectId(req.params.position);
+  query
+      .populate('opening')
+      .where('dateSubmitted').gte(dateStart)
+      .where('dateSubmitted').lt(dateEnd)
+      .where('onSiteVisitPhase.eeoDemographic').exists(true)
+      .exec(function (err, docs) {
+        if (position !== 'all') {
+          docs = docs.filter(function(doc){
+            return (doc.opening.position.toString() === position.toString())
+          });
+          var hired = docs.filter(function(doc){
+            return (doc.offer.accepted === true)
+          });
+          console.log (hired);
+        }
+        var data = { 'count' : docs.length, 'hired' : hired };
+        if (err) {
+          sendResponse(err, null, res);
+        } else {
+          sendResponse(null, data, res);
+        }
+      });
+}
+
 
 /**
  * Appends boilerplate mongoose methods and executes a query for a 'listing' style result set
@@ -137,10 +183,14 @@ exports.countByDate = function (req, res) {
  */
 function executeListingQuery(query, res) {
   query
-    .sort('-postDate')
-    .populate('applicant')
-    .populate('opening')
-    .populate('reviewPhase.reviews.reviewer')
+    .select('legacy.cv offer honorific firstName middleName lastName opening isNewApplication' +
+        ' dateSubmitted' +
+        ' reviewPhase.reviews.reviewer' + ' reviewPhase.proceedToPhoneInterview' +
+        ' phoneInterviewPhase.proceedToOnSite onSiteVisitPhase.complete proceedToReview')
+    .sort('-dateCreated')
+    .populate({"path" : 'applicant', "select": 'name'})
+    .populate({"path" : 'opening', "select": 'name'})
+    .populate({"path" : 'reviewPhase.reviews.reviewer', "select" : 'displayName'})
     .exec(function (err, applications) {
       if (err) {
         sendResponse(err, null, res);
@@ -161,10 +211,11 @@ exports.applicationByID = function (req, res, next, id) {
     .populate('applicant')
     .populate('opening')
     .populate('reviewPhase.reviews.reviewer')
-    //@todo make the return of the commenter safe - currently returning tmi
+    //@todo make the return o f the commenter safe - currently returning tmi
     .populate('reviewPhase.reviews.reviewWorksheet.comments.commenter')
     .populate('phoneInterviewPhase.phoneInterviews.interviewer')
     .populate('phoneInterviewPhase.phoneInterviews.phoneInterviewWorksheet.comments.commenter')
+    .populate('onSiteVisitPhase.eeoDemographic')
     .exec(function (err, application) {
 
       if (err) {
@@ -562,7 +613,7 @@ exports.forOpeningForUser = function (req, res, next) {
  * @returns {*}
  */
 exports.hasAuthorization = function (req, res, next) {
-  if ((_.intersection(req.user.roles, ['admin', 'manager']).length) || (req.application.user.toString() === req.user._id)) {
+  if ((_.intersection(req.user.roles, ['admin', 'manager', 'committee member']).length) || (req.application.user.toString() === req.user._id)) {
     next();
   } else {
     var err = new Error('User is not authorized', 403);
@@ -597,6 +648,40 @@ exports.manage = function (req, res, next) {
     .catch(function (err) {
       sendResponse(err);
     });
+
+  function updateEeoDemographic (eeoDemographicLocal) {
+    var deferred = Q.defer();
+    if (!eeoDemographicLocal) {
+      deferred.resolve(true);
+      return deferred.promise;
+    }
+    var eeoDemographicId = eeoDemographicLocal._id;
+    EeoDemographic.findById(eeoDemographicId)
+        .exec(function (err, eeoDemographicDb) {
+          if (err) {
+            deferred.reject(err);
+          }
+          else {
+            eeoDemographicDb.race = eeoDemographicLocal.race;
+            eeoDemographicDb.ethnicity = eeoDemographicLocal.ethnicity;
+            eeoDemographicDb.gender = eeoDemographicLocal.gender;
+            eeoDemographicDb.save(function (err, result) {
+              if (err) {
+                deferred.reject(error);
+              }
+              if (result) {
+                deferred.resolve(true);
+              } else {
+                error = new Error('A problem Occured when saving the EEO demographic data');
+                error.status = 400;
+                deferred.reject(error);
+              }
+            });
+          }
+        })
+    return deferred.promise;
+  }
+
 
   /**
    * Updates the associated Opening with the information about whether the opening has been filled
@@ -703,19 +788,21 @@ exports.manage = function (req, res, next) {
       if (err) {
         sendResponse(err);
       } else {
-        if (application.cv || application.coverLetter) {
-          getFiles(application)
-            .then(function (result) {
-              application = result;
-              sendResponse(null, application);
-            })
-            .catch(function (err) {
-              sendResponse(err);
-            });
-        } else {
-          //req.application = application;
-          sendResponse(null, application);
-        }
+        updateEeoDemographic(application.onSiteVisitPhase.eeoDemographic).then(function(application) {
+          if (application.cv || application.coverLetter) {
+            getFiles(application)
+              .then(function (result) {
+                application = result;
+                sendResponse(null, application);
+              })
+              .catch(function (err) {
+                sendResponse(err);
+              });
+          } else {
+            //req.application = application;
+            sendResponse(null, application);
+          }
+        })
       }
     });
   }
@@ -791,10 +878,11 @@ exports.iAmPhoneInterviewer = function (req, res) {
  */
 exports.list = function (req, res) {
   Application.find()
-    .sort('-postDate')
-    .populate('applicant')
-    .populate('opening')
-    .populate('reviewPhase.reviews.reviewer')
+    .select('honorific firstName middleName lastName isNewApplication dateSubmitted' +
+        ' proceedToReview reviewPhase phoneInterviewPhase offer')
+    .populate({"path" : 'applicant', "select": 'name'})
+    .populate('opening', 'name')
+    .populate({"path" : 'reviewPhase.reviews.reviewer', "select" : 'displayName'})
     .exec(function (err, applications) {
       if (err) {
         return res.send(400, {
@@ -836,6 +924,8 @@ function addApplicationStatus(applications, addSummary) {
 
   function addStatus(application) {
     var status = 'Archived';
+
+
     if (application.proceedToReview) {
       status = 'Review Phase';
     }
@@ -876,6 +966,10 @@ function addApplicationStatus(applications, addSummary) {
       }
     }
 
+    if (application._doc.legacy){
+      status = 'Legacy';
+    }
+
     application._doc.status = status;
     application = (addSummary) ? addSummaryToApplication(application) : application;
     return application;
@@ -887,7 +981,7 @@ function addApplicationStatus(applications, addSummary) {
 function addSummaryToApplication(application) {
   var applicantDisplayName = application.firstName + ' ' + application.lastName;
   application._doc.applicantDisplayName = applicantDisplayName;
-  application._doc.summary = applicantDisplayName + ' for ' + application.opening.name;
+  application._doc.summary = applicantDisplayName + ' for ' + (application.opening ? application.opening.name : 'Unknown Opening');
   return application;
 }
 

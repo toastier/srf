@@ -14,4 +14,3 @@
         i.fa.fa-edit(ng-if="!vm.editPhoneInterviewPhaseCollectiveComments", ng-click="vm.editPhoneInterviewPhaseCollectiveComments = true")
       div(ng-show="vm.editPhoneInterviewPhaseCollectiveComments", text-angular, ng-model="vm.application.phoneInterviewPhase.committeeComments")
       div(ng-show="!vm.editPhoneInterviewPhaseCollectiveComments", ng-bind-html="vm.application.phoneInterviewPhase.committeeComments")
-  

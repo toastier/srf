@@ -95,21 +95,23 @@ exports.delete = function (req, res) {
   });
 };
 
+
 /**
  * List of Applicants
  */
 exports.list = function (req, res) {
   Applicant.find()
-    .sort('-postDate')
-    .exec(function (err, applicants) {
-    if (err) {
-      return res.send(400, {
-        message: getErrorMessage(err)
+      .select('name dateCreated')
+      .sort('-postDate')
+      .exec(function (err, applicants) {
+        if (err) {
+          return res.send(400, {
+            message: getErrorMessage(err)
+          });
+        } else {
+          res.jsonp(applicants);
+        }
       });
-    } else {
-      res.jsonp(applicants);
-    }
-  });
 };
 
 /**

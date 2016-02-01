@@ -134,6 +134,11 @@
         url: 'applications/allSuccessful',
         isArray: true
       },
+      allLegacy: {
+        method: 'GET',
+        url: 'applications/allLegacy',
+        isArray: true
+      },
       successfulForOpening: {
         method: 'GET',
         url: 'applications/successfulForOpening/:openingId',
@@ -146,7 +151,15 @@
         method: 'GET',
         url: 'applications/countByDate/:dateStart/:dateEnd/:position',
         params: {
-          //position: '@position',
+          dateStart: '@dateStart',
+          dateEnd: '@dateEnd',
+          position: '@position'
+        }
+      },
+      interviewCountByDate: {
+        method: 'GET',
+        url: 'applications/interviewCountByDate/:dateStart/:dateEnd/:position',
+        params: {
           dateStart: '@dateStart',
           dateEnd: '@dateEnd',
           position: '@position'
@@ -178,6 +191,7 @@
       this.interviewer = null;
       this.interviewWorksheet = new InterviewWorksheet();
     }
+
 
     /**
      * Methods that are not returned directly, but used by other methods
@@ -252,6 +266,7 @@
         return this.phoneInterviewPhase.phoneInterviews.length < maxInterviews;
       },
 
+
       uploadFile: function (file, type, applicationId) {
         applicationId = applicationId || $stateParams.applicationId;
         var deferred = $q.defer();
@@ -324,6 +339,20 @@
        */
       manageApplication: function (applicationObject) {
         $state.go('main.manageApplication', {applicationId: applicationObject._id});
+      },
+
+
+      parseNote: function parseNote(applicationNote) {
+        var noteDate = new Date(applicationNote.noteDate);
+        var parsedDate = noteDate.getMonth()+1 + "/" + noteDate.getDate() + "/" + (noteDate.getYear() + 1900);
+        var parsedNote = parsedDate + ': ' + applicationNote.note;
+        return parsedNote;
+      },
+
+      insertLineBreaks: function insertLineBreaks(string) {
+        var newString = string.replace(/\r\n\r\n/g, "</p><p>").replace(/\n\n/g, "</p><p>");
+        newString = newString.replace(/\r\n/g, "<br />").replace(/\n/g, "<br />");
+        return newString;
       }
     };
 

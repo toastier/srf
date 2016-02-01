@@ -10,6 +10,10 @@ var eeoDemographicModel = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Position'
     },
+    reportType: {
+        type: String,
+        enum: ['self', 'interview']
+    },
     gender: {
       type: String, enum: ['f', 'm', 'd']
     },
@@ -43,21 +47,11 @@ var eeoDemographicModel = new Schema({
       type: Date,
       default: Date.now
     }
-    //    ,
-    //toObject: {
-    //    virtuals: true
-    //},
-    //toJSON: {
-    //    virtuals: true
-    //}
   },
   {
     collection: 'eeoDemographic'
   }
 );
-//    .virtual('race.multiple').get(function () {
-//    return ((race.white + race.black + race.pacific + race.native));
-//});
 
 
 var modelName = 'EeoDemographic';

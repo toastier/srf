@@ -9,6 +9,8 @@ module.exports = {
   },
   saml: {
     path: '/auth/saml/callback',
-    callbackURL: 'http://localhost:3000/auth/saml/callback'
+    entryPoint: 'https://duson.onelogin.com/trust/saml2/http-post/sso/503330',
+    callbackURL: 'http://localhost:3000/auth/saml/callback',
+    issuer: 'frs-passport-saml'
   }
 };

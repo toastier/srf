@@ -1,5 +1,13 @@
 section
    navigation
+   .label.pull-right.btn-legacy(ng-if="vm.applicant.legacy") Legacy
    .row
       .col-xs-12
          applicant-form
+   .panel.panel-default(ng-if="vm.applicant.legacy")
+      .panel-heading
+         h4 Legacy Data
+      .panel-body
+         div(ng-repeat="(key, value) in vm.applicant.legacy", ng-hide="key == '_id'")
+            du-display-field(field-model="value", field-label="{{key}}",
+            field-columns="4")

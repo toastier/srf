@@ -19,7 +19,6 @@ var applicantModel = new Schema({
       positionName: {type: String},
       dateExpectedCompletion: {type: Date},
       note: {type: String},
-      //TODO institutions will lookup in another schema
       institution: {
         institutionName: {type: String},
         city: {type: String},

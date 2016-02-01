@@ -9,6 +9,8 @@
     var vm = this;
     vm.user = resolvedAuth;
     vm.manageApplication = manageApplication;
+    vm.parseNote = Application.parseNote;
+    vm.insertLineBreaks = Application.insertLineBreaks;
 
     activate();
 
@@ -45,5 +47,6 @@
       }
 
     }
+
   }
 })();

@@ -9,6 +9,11 @@
           ng-class="{'label-success': vm.reviewPhaseModel.data.proceedToPhoneInterview === true, 'label-warning': vm.reviewPhaseModel.data.proceedToPhoneInterview === false }"
           ) Proceed to Phone Interview: {{ vm.reviewPhaseModel.data.proceedToPhoneInterview | yesNoNoDecision }}
   .panel-body(collapse="vm.isCollapsed")
+    .panel.panel-default(ng-if="vm.reviewPhaseModel.data.referenceChecks")
+      .panel-heading
+        h4 Reference Checks&nbsp;
+      .panel-body
+        div(ng-bind-html="vm.reviewPhaseModel.data.referenceChecks")
     .panel.panel-default(ng-if="vm.reviewPhaseModel.data.committeeComments")
       .panel-heading
         h4 Collective Comments on Review Phase&nbsp;

@@ -35,6 +35,9 @@ module.exports = function (app) {
   app.route('/applications/allSuccessful')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allSuccessful);
 
+  app.route('/applications/allLegacy')
+      .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.allLegacy);
+
   app.route('/applications/createByUser')
     .post(users.requiresLogin, users.hasAuthorization(['user']), applications.createByUser);
 
@@ -46,6 +49,9 @@ module.exports = function (app) {
 
   app.route('/applications/countByDate/:dateStart/:dateEnd/:position')
       .get(applications.countByDate);
+
+  app.route('/applications/interviewCountByDate/:dateStart/:dateEnd/:position')
+      .get(applications.interviewCountByDate);
 
   app.route('/applications/iAmReviewer')
     .get(users.requiresLogin, users.hasAuthorization(['manager', 'admin', 'committee member']), applications.iAmReviewer);

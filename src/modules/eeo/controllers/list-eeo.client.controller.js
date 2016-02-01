@@ -18,26 +18,33 @@
     vm.filterByType = filterByType;
     vm.filterByDate = filterByDate;
     vm.filterByPosition = filterByPosition;
+    vm.filterByReportType = filterByReportType;
     vm.rawData = [];
     vm.position = "";
     vm.applicationCount = 0;
+    vm.interviewCount = 0;
     vm.hired = [];
-    vm.datePickerStates = {dateCloseOpen: false, datePostedOpen: false, dateRequestedOpen: false, dateStartOpen: false};
+    vm.datePickerStates = {
+      dateCloseOpen: false,
+      datePostedOpen: false,
+      dateRequestedOpen: false,
+      dateStartOpen: false
+    };
     vm.toggleDatePicker = toggleDatePicker;
-    vm.options = { };
+    vm.options = {};
     vm.clearFilters = clearFilters;
 
-    function allowView () {
+    function allowView() {
       return true;
     }
 
 
-    function allowEdit () {
+    function allowEdit() {
       return vm.user.hasRole(['admin']);
     }
 
     function raceCount(code, eeoData) {
-      return _.filter(eeoData, function(data) {
+      return _.filter(eeoData, function (data) {
         return (data.race[code] === true)
       }).length;
     }
@@ -45,12 +52,14 @@
     function extractData() {
       reportDataInit();
       getApplicationCount();
-      parseDemographic(vm.rawData, vm.position);
-      parseDisability(vm.rawData, vm.position);
-      parseVeteran(vm.rawData, vm.position);
+      getInterviewCount();
+      parseDemographic(vm.rawData, 'self');
+      parseDemographic(vm.rawData, 'interview');
+      parseDisability(vm.rawData);
+      parseVeteran(vm.rawData);
     }
 
-    function setIsActive (source) {
+    function setIsActive(source) {
       if (source === 'isActiveYes') {
         if (vm.isActiveYes) {
           vm.isActiveNo = false;
@@ -88,17 +97,19 @@
         code: 'black',
         description: 'Black or African American',
         orderBy: 3,
-        detail: 'Having origins in any of the black racial groups of Africa' },
+        detail: 'Having origins in any of the black racial groups of Africa'
+      },
       {
         code: 'pacific',
         description: 'Native Hawaiian or Other Pacific Islander',
         orderBy: 4,
-        detail: 'Having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands' },
+        detail: 'Having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands'
+      },
       {
         code: 'white',
         description: 'White',
         orderBy: 5,
-        detail:'A person having origins in any of the original peoples of Europe, the Middle East, or North Africa'
+        detail: 'A person having origins in any of the original peoples of Europe, the Middle East, or North Africa'
       },
       {
         code: 'other',
@@ -113,24 +124,30 @@
     ];
 
     vm.options.genders = [
-      { code: 'm',
+      {
+        code: 'm',
         orderBy: 2,
-        description: 'Male' },
-      { code: 'f',
+        description: 'Male'
+      },
+      {
+        code: 'f',
         orderBy: 1,
-        description: 'Female' },
-      { code: 'd',
+        description: 'Female'
+      },
+      {
+        code: 'd',
         orderBy: 89,
-        description: 'Declined' }
+        description: 'Declined'
+      }
     ];
 
     vm.options.ethnicities = [
       {
-      code: 'h',
-      description: 'Hispanic or Latino',
+        code: 'h',
+        description: 'Hispanic or Latino',
         orderBy: 1,
-      detail: 'Of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
-    },
+        detail: 'Of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.'
+      },
       {
         code: 'n',
         orderBy: 2,
@@ -143,22 +160,22 @@
       }
     ];
     vm.options.disabilities = [
-        {
+      {
         code: 'y',
-          orderBy: 1,
-          description: 'Yes'
+        orderBy: 1,
+        description: 'Yes'
       },
-        {
-          code: 'n',
-          orderBy: 2,
-          description: 'No'
-        },
-        {
-          code: 'd',
-          orderBy: 89,
-          description: 'Declined to Answer'
-        }
-      ];
+      {
+        code: 'n',
+        orderBy: 2,
+        description: 'No'
+      },
+      {
+        code: 'd',
+        orderBy: 89,
+        description: 'Declined to Answer'
+      }
+    ];
 
     vm.options.veterans = [
       {
@@ -184,14 +201,28 @@
     ];
 
     vm.options.vetClasses = [
-      { code: 'disabled',         orderBy: 1,
-        description: 'Disabled Veteran' },
-      { code: 'recent',         orderBy: 2,
-        description: 'Recently Separated Veteran', detail: 'Discharged or released from active duty within 36 months' },
-      { code: 'active',         orderBy: 3,
-        description: 'Active Duty Wartime or Campaign Badge Veteran', detail: 'Served on active duty in the U.S. military during a war or in a campaign or expedition for which a campaign badge is awarded' },
-      { code: 'medal',         orderBy: 4,
-        description: 'Armed Forces Service Medal Veteran', detail: 'While serving on active duty in the Armed Forces, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.' }
+      {
+        code: 'disabled', orderBy: 1,
+        description: 'Disabled Veteran'
+      },
+      {
+        code: 'recent',
+        orderBy: 2,
+        description: 'Recently Separated Veteran',
+        detail: 'Discharged or released from active duty within 36 months'
+      },
+      {
+        code: 'active',
+        orderBy: 3,
+        description: 'Active Duty Wartime or Campaign Badge Veteran',
+        detail: 'Served on active duty in the U.S. military during a war or in a campaign or expedition for which a campaign badge is awarded'
+      },
+      {
+        code: 'medal',
+        orderBy: 4,
+        description: 'Armed Forces Service Medal Veteran',
+        detail: 'While serving on active duty in the Armed Forces, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.'
+      }
     ];
 
     function reportDataInit() {
@@ -200,11 +231,14 @@
         byEthnicity: {},
         byRace: {
           "multiple": {
-            "counts" : {
-              "totalCount" : 0
+            "counts": {
+              "totalCount": {
+                "self" : 0,
+                "interview" : 0
+              }
             },
-            "label" : "Multiple",
-            "orderBy" : 10
+            "label": "Multiple",
+            "orderBy": 10
           }
         },
         byDisability: {},
@@ -216,21 +250,30 @@
 
     // Filter by EEO data type
     function filterByType(result, dataType) {
-      var typeData = (_.find(result, function(data) {
+      var typeData = (_.find(result, function (data) {
         return (data.type === dataType);
       })).data;
       return typeData;
     }
 
     // Filter for Position
-    function filterByPosition(data){
+    function filterByPosition(data) {
       if (vm.position !== "") {
-        data = _.filter(data, function(rec) {
+        data = _.filter(data, function (rec) {
           return (rec.position === vm.position);
         });
       }
       return data;
     }
+
+    // Filter by EEO reporting type (self vs interview)
+    function filterByReportType(data, rptType) {
+      data = _.filter(data, function (rec) {
+        return (rec.reportType === rptType);
+      });
+      return data;
+    }
+
 
     //TODO add validation for data ranges
     function filterByDate(data) {
@@ -245,11 +288,10 @@
       return data;
     }
 
-    function parseDemographic(result) {
-
-      // FILTER EEO DATA FOR DEMOGRAPHIC DATA (Gender, Race, Ethnicity)
+    function parseDemographic(result, reportType) {
 
       var demographicData = vm.filterByType(result, 'demographic');
+      demographicData = vm.filterByReportType(demographicData, reportType);
       demographicData = vm.filterByPosition(demographicData);
       demographicData = vm.filterByDate(demographicData);
 
@@ -259,20 +301,28 @@
         var genderCount=_.size(_.filter(demographicData, function(rec) {
           return (rec.gender === gender.code);
         }));
-        vm.eeoData.byGender[gender.code] = { "count": genderCount, orderBy: gender.orderBy, "label" : gender.description, "code": gender.code};
+        vm.eeoData.byGender[gender.code] = vm.eeoData.byGender[gender.code] || {
+          "count": {},
+          "orderBy": gender.orderBy,
+          "label" : gender.description,
+          "code": gender.code
+        };
+        vm.eeoData.byGender[gender.code].count[reportType] = genderCount;
       });
-
 
       // APPLICANTS BY ETHNICITY x GENDER
       vm.eeoData.totalCounts.byEthnicity = demographicData.length;
       _.forEach(vm.options.ethnicities, function(ethnicity) {
-        vm.eeoData.byEthnicity[ethnicity.code] = { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : 0 }} ;
+        vm.eeoData.byEthnicity[ethnicity.code] = vm.eeoData.byEthnicity[ethnicity.code] || { label: ethnicity.description, orderBy: ethnicity.orderBy, counts: { totalCount : {} }} ;
         _.forEach(vm.options.genders, function(gender) {
           var ethnicityCount =_.size(_.filter(demographicData, function(rec) {
             return (rec.ethnicity === ethnicity.code && rec.gender === gender.code);
           }));
-          vm.eeoData.byEthnicity[ethnicity.code].counts[gender.code] = ethnicityCount;
-          vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount += ethnicityCount;
+          vm.eeoData.byEthnicity[ethnicity.code].counts[gender.code] = vm.eeoData.byEthnicity[ethnicity.code].counts[gender.code] || {};
+          vm.eeoData.byEthnicity[ethnicity.code].counts[gender.code][reportType] = ethnicityCount;
+          vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount = vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount || {};
+          vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount[reportType] = vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount[reportType] || 0;
+          vm.eeoData.byEthnicity[ethnicity.code].counts.totalCount[reportType] += ethnicityCount;
         });
       });
 
@@ -280,13 +330,16 @@
       // APPLICANTS BY RACE x GENDER
       vm.eeoData.totalCounts.byRace = demographicData.length;
       _.forEach(vm.options.races, function(race) {
-        vm.eeoData.byRace[race.code] = {label: race.description, orderBy: race.orderBy, counts: {totalCount: 0}};
+        vm.eeoData.byRace[race.code] = vm.eeoData.byRace[race.code] || {label: race.description, orderBy: race.orderBy, counts: {totalCount: {} }};
         _.forEach(vm.options.genders, function (gender) {
           var raceCount = _.size(_.filter(demographicData, function (rec) {
             return (rec.race[race.code] === true && rec.gender === gender.code);
           }));
-          vm.eeoData.byRace[race.code].counts[gender.code] = raceCount;
-          vm.eeoData.byRace[race.code].counts.totalCount += raceCount;
+          vm.eeoData.byRace[race.code].counts[gender.code] = vm.eeoData.byRace[race.code].counts[gender.code] || {};
+          vm.eeoData.byRace[race.code].counts[gender.code][reportType] = raceCount;
+          vm.eeoData.byRace[race.code].counts.totalCount = vm.eeoData.byRace[race.code].counts.totalCount || {};
+          vm.eeoData.byRace[race.code].counts.totalCount[reportType] = vm.eeoData.byRace[race.code].counts.totalCount[reportType] || 0;
+          vm.eeoData.byRace[race.code].counts.totalCount[reportType] += raceCount;
         });
       });
 
@@ -295,8 +348,9 @@
         var raceCount =  _.size(_.filter(demographicData, function (rec) {
           return ((_.size(_.keys(_.pick(rec.race, _.identity))) > 1) && rec.gender === gender.code);
         }));
-        vm.eeoData.byRace.multiple.counts[gender.code] = raceCount;
-        vm.eeoData.byRace.multiple.counts.totalCount += raceCount;
+        vm.eeoData.byRace.multiple.counts[gender.code] = vm.eeoData.byRace.multiple.counts[gender.code] || {};
+        vm.eeoData.byRace.multiple.counts[gender.code][reportType] = raceCount;
+        vm.eeoData.byRace.multiple.counts.totalCount[reportType] += raceCount;
       });
     }
 
@@ -393,6 +447,21 @@
           });
     }
 
+    function getInterviewCount() {
+      var dateStart = new Date(angular.isDate(vm.dateStart) ? vm.dateStart : '1/1/1900');
+      var dateEnd = new Date(angular.isDate(vm.dateEnd) ? (vm.dateEnd).setDate((vm.dateEnd).getDate()+1) : '12/31/2029');
+      var position = (vm.position !== "") ? vm.position : 'all';
+
+      Application.interviewCountByDate({dateStart: dateStart, dateEnd: dateEnd, position: position})
+          .$promise
+          .then(function(results) {
+            vm.interviewCount = results.count;
+          })
+          .catch(function(error) {
+            Messages.addMessage(error.data.message, 'error');
+          });
+    }
+
     function setupNavigation() {
       Navigation.clear(); // clear everything in the Navigation
 
@@ -411,12 +480,14 @@
           .then(function (result) {
             vm.rawData = result;
             reportDataInit();
-            parseDemographic(result);
+            parseDemographic(result,'self');
+            parseDemographic(result,'interview');
             parseDisability(result);
             parseVeteran(result);
             setupNavigation();
           });
       getApplicationCount();
+      getInterviewCount();
     }
 
     function getValueLists() {

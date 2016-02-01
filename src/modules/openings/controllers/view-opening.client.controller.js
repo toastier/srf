@@ -100,8 +100,8 @@
         .catch(function(err) {
           Messages.addMessage(err.data.message, 'error', null, 'dev');
         });
-      setupNavigation();
-      getValueLists();
+      //setupNavigation();
+      //getValueLists();
     }
   }
 })();

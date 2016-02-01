@@ -1854,6 +1854,17 @@ button.add-label-spacing {
   }
 }
 
+// REPORT TABLE OVERRIDES
+
+.report-tbl
+  tfoot {
+    background-color: #fafafa;
+    color: #000;
+  }
+  thead {
+    font-weight: bold;
+    background-color: $duke-whisp;
+  }
 
 
 
