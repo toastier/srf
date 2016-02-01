@@ -45,3 +45,13 @@ section
             div(ng-repeat="(key, value) in evaluation", ng-hide="key == '_id' || key == 'ExporttoExcel'")
               du-display-field(field-model="value", field-label="{{key}}",
               field-columns="4")
+      .panel-body
+        div
+          strong(ng-if="vm.application.legacy.qualitativeEvaluations && vm.application.legacy" +
+          ".qualitativeevaluations !=" +
+          " " +
+          "null") Qualitative Evaluation Data
+          .panel-body(ng-repeat='evaluation in vm.application.legacy.qualitativeEvaluations')
+            div(ng-repeat="(key, value) in evaluation", ng-hide="key == '_id'")
+              du-display-field(field-model="value", field-label="{{key}}",
+              field-columns="4")

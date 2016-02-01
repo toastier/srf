@@ -87,6 +87,15 @@ function getEval(candidateId) {
     return evaluations;
 }
 
+function getQualEval(candidateId) {
+    var legacyCursor = db.legacy_tblQualEval.find({"CandID":candidateId}) || [];
+    var evaluations = [];
+    legacyCursor.forEach(function (evaluation) {
+        evaluations.push(evaluation)
+    });
+    return evaluations;
+}
+
 
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     var visited = getOnSiteVisit(candidate.CandID);
@@ -96,6 +105,7 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     var opening =  getOpening(candidate.CandID);
     var applicationNotes = getNotes(candidate.CandID);
     var evaluations = getEval(candidate.CandID);
+    var qualitativeEvaluations = getQualEval(candidate.CandID);
 
     db.applications.insert({
         "legacy": {
@@ -104,7 +114,8 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
                 "applicant": candidate.Notes || 'none',
                 "application": applicationNotes
             },
-            "evaluations" : evaluations
+            "evaluations" : evaluations,
+            "qualitativeEvaluations" : qualitativeEvaluations
         },
         "firstName" : cap1st(candidate.FName),
         "lastName" : cap1st(candidate.LName),
