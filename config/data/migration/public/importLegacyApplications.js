@@ -72,6 +72,11 @@ function getReferenceChecks(candidateId) {
     return applicationRefComments;
 }
 
+function getEval(candidateId) {
+    var evaluation = db.legacy_tbl_eval.findOne({"CandID":candidateId}) || null;
+    return evaluation;
+}
+
 
 
 
@@ -82,6 +87,7 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     var applicant = getApplicant(candidate.CandID);
     var opening =  getOpening(candidate.CandID);
     var applicationNotes = getNotes(candidate.CandID);
+    var evaluation = getEval(candidate.CandID);
 
     db.applications.insert({
         "legacy": {
@@ -89,7 +95,8 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
             "notes" : {
                 "applicant": candidate.Notes || 'none',
                 "application": applicationNotes
-            }
+            },
+            "evaluation" : evaluation
         },
         "firstName" : cap1st(candidate.FName),
         "lastName" : cap1st(candidate.LName),
