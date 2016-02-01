@@ -38,9 +38,10 @@ section
         field-columns="12")
       .panel-body
         div
-          strong(ng-if="vm.application.legacy.evaluation && vm.application.legacy.evaluation != " +
+          strong(ng-if="vm.application.legacy.evaluations && vm.application.legacy.evaluations !=" +
+          " " +
           "null") Evaluation Data
-          .panel-body
-            div(ng-repeat="(key, value) in vm.application.legacy.evaluation", ng-hide="key == '_id'")
+          .panel-body(ng-repeat='evaluation in vm.application.legacy.evaluations')
+            div(ng-repeat="(key, value) in evaluation", ng-hide="key == '_id' || key == 'ExporttoExcel'")
               du-display-field(field-model="value", field-label="{{key}}",
               field-columns="4")

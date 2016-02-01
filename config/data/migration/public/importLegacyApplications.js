@@ -29,8 +29,7 @@ function getOpening(candidateId) {
 
 function getNotes(candidateId) {
     var legacyCursor = db.legacy_tblNotes.find({"CandID":candidateId}) || [];
-    print(legacyCursor);
-    applicationNotes = [];
+    var applicationNotes = [];
     legacyCursor.forEach(function (note) {
         applicationNotes.push(note)
     });
@@ -73,11 +72,20 @@ function getReferenceChecks(candidateId) {
 }
 
 function getEval(candidateId) {
-    var evaluation = db.legacy_tbl_eval.findOne({"CandID":candidateId}) || null;
-    return evaluation;
+    var legacyCursor = db.legacy_tbl_eval.find({"CandID":candidateId}) || [];
+    var evaluations = [];
+    legacyCursor.forEach(function (evaluation) {
+        evaluations.push(evaluation)
+    });
+    if (evaluations.length == 0) {
+        var legacyCursor = db.legacy_tblCandEval_Nov2010.find({"candID":candidateId}) || [];
+        var evaluations = [];
+        legacyCursor.forEach(function (evaluation) {
+            evaluations.push(evaluation)
+        });
+    }
+    return evaluations;
 }
-
-
 
 
 db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
@@ -87,7 +95,7 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
     var applicant = getApplicant(candidate.CandID);
     var opening =  getOpening(candidate.CandID);
     var applicationNotes = getNotes(candidate.CandID);
-    var evaluation = getEval(candidate.CandID);
+    var evaluations = getEval(candidate.CandID);
 
     db.applications.insert({
         "legacy": {
@@ -96,7 +104,7 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
                 "applicant": candidate.Notes || 'none',
                 "application": applicationNotes
             },
-            "evaluation" : evaluation
+            "evaluations" : evaluations
         },
         "firstName" : cap1st(candidate.FName),
         "lastName" : cap1st(candidate.LName),
@@ -115,5 +123,6 @@ db.legacy_tbl_CandidateInformation.find().forEach(function (candidate) {
             "proceedToOnSite" : visited ? true : false
         }
     });
+    print('Inserted for ' + candidate.FName + ' ' + candidate.LName + ' for opening ' + opening);
 })
 
