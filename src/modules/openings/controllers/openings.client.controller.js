@@ -46,7 +46,7 @@
     /** @type ColumnDefinition[] **/
     vm.columnDefinitions = [
         {label: 'Actions', width: { sm: 1 }, actions: {
-          restrict: vm.allowEdit,
+          restrict: vm.allowView,
           actionItems: [
             {
               type: 'edit',
@@ -58,7 +58,7 @@
             {
               type: 'view',
               title: 'View Opening',
-              restrict: vm.allowEdit,
+              restrict: vm.allowView,
               attachedTo: 'item',
               method: 'viewOpening'
             }
